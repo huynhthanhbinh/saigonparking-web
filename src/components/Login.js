@@ -18,7 +18,7 @@ const authService = new AuthServiceClient(gatewayHost)
 
 const Login = () => {
 
-   
+
     const Auth = React.useContext(AuthApi)
     const formik = useFormik({
         initialValues: {
@@ -37,9 +37,9 @@ const Login = () => {
         }),
         onSubmit: values => {
 
-            let tmp =callUserLoginService(values.userName, values.passWord, Auth)
-         
-            
+            let tmp = callUserLoginService(values.userName, values.passWord, Auth)
+
+
         },
     });
 
@@ -50,9 +50,9 @@ const Login = () => {
         request.setUsername(username);
         request.setPassword(password);
         request.setRole(userProto.UserRole.CUSTOMER)
-       
+
         authService.validateUser(request, metadata, (err, res) => {
-    
+
             if (err) {
                 console.log('Lỗi lỗi lỗi ');
                 console.log(err)
@@ -63,11 +63,11 @@ const Login = () => {
                 switch (resType) {
                     case ValidateResponseType.AUTHENTICATED: {
                         console.log("Bon Map Authenticated");
-                        
+
                         Auth.setcheckUserName(username)
                         Auth.setAuth(true)
-                       
-                        
+
+
                         Cookies.set("token", res.getAccesstoken())
                         Cookies.set("checkUserName", username)
                         alert("Authenticated")
@@ -88,7 +88,7 @@ const Login = () => {
                         console.log("Disallowed");
                         break;
                     }
-                    default: { // non-exist
+                    default: {
                         alert("User non-exist")
                         console.log("User non-exist");
                         break;
@@ -135,7 +135,7 @@ const Login = () => {
 
 
             <div style={{ margin: 10 }}>
-                <button style={{ margin: 10 }} type="submit"  >Submit</button>
+                <button style={{ margin: 10 }} type="submit" >Submit</button>
                 <button
                     style={{ margin: 10 }}
                     onClick={formik.handleReset}
