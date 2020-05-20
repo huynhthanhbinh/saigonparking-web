@@ -1,0 +1,205 @@
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import AuthApi from "./Auth/AuthAPI";
+import Cookies from 'js-cookie';
+
+
+import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+import authProto from '../api/Auth_pb';
+const userProto = require('../api/Actor_pb')
+
+
+const gatewayHost = "http://localhost:8338";
+const authService = new AuthServiceClient(gatewayHost)
+
+const callUserRegisterService = (registerUser,Auth) => {
+
+  const metadata = { 'Authorization': 'Bon Map' }
+  const request = new authProto.RegisterRequest();
+  request.setUsername(registerUser.userName);
+  request.setPassword(registerUser.passWord);
+  request.setEmail(registerUser.email);
+  request.setFirstname(registerUser.firstName);
+  request.setLastname(registerUser.lastName);
+  request.setPhone(registerUser.phone);
+  
+
+  authService.registerUser(request, metadata, (err, res) => {
+
+      if (err) {
+          console.log('Lỗi lỗi lỗi ');
+          console.log(err)
+      } else {
+          console.log('BBBBBBBBBBBBBBBBBBBBB');
+          const resType = res.getResponse();
+          const RegisterResponseType = authProto.RegisterResponseType;
+          switch (resType) {
+              case RegisterResponseType.SUCCESS: {
+                  console.log("Bon Map dang ki thanh cong");
+                  
+                  break;
+              }
+              default: { // non-exist
+                  console.log("Bon Map Dang ky khong thanh cong");
+                  break;
+              }
+          }
+      }
+  })
+}
+
+
+const Login = () => {
+
+  const [isPlay, setisPlay] = useState(false);
+  const Auth = React.useContext(AuthApi)
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      userName:'',
+      passWord:'',
+      phone:'',
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .required('Required'),
+      lastName: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
+      userName: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),  
+      passWord: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),
+      phone: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),
+    }),
+    onSubmit: values => {
+      callUserRegisterService(values, Auth)
+ 
+    },
+  });
+
+
+
+  return (
+
+
+
+    <form onSubmit={formik.handleSubmit}>
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="firstName">First Name</label>
+        <input
+          id="firstName"
+          name="firstName"
+          type="text"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.firstName}
+        />
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <div>{formik.errors.firstName}</div>
+        ) : null}
+      </div>
+
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="lastName">Last Name</label>
+        <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.lastName}
+        />
+        {formik.touched.lastName && formik.errors.lastName ? (
+          <div>{formik.errors.lastName}</div>
+        ) : null}
+      </div>
+
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="userName">userName</label>
+        <input
+          id="userName"
+          name="userName"
+          type="text"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.userName}
+        />
+        {formik.touched.userName && formik.errors.userName ? (
+          <div>{formik.errors.userName}</div>
+        ) : null}
+      </div>
+
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="passWord">passWord</label>
+        <input
+          id="passWord"
+          name="passWord"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.passWord}
+        />
+        {formik.touched.passWord && formik.errors.passWord ? (
+          <div>{formik.errors.passWord}</div>
+        ) : null}
+      </div>
+
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="email">Email Address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+      </div>
+      {formik.touched.email && formik.errors.email ? (
+        <div>{formik.errors.email}</div>
+      ) : null}
+      
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="phone">phone</label>
+        <input
+          id="phone"
+          name="phone"
+          type="number"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.phone}
+        />
+        {formik.touched.phone && formik.errors.phone ? (
+          <div>{formik.errors.phone}</div>
+        ) : null}
+      </div>
+
+      <div style={{ margin: 10 }}>
+        <button style={{ margin: 10 }} type="submit"  >Submit</button>
+        <button
+          style={{ margin: 10 }}
+          onClick={formik.handleReset}
+          type="reset"
+        >
+          Reset
+        </button>
+      </div>
+
+
+    </form>
+
+  );
+};
+export default Login;
