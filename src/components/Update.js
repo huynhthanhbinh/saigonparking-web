@@ -19,23 +19,24 @@ const userService = new UserServiceClient(gatewayHost)
 
 // let customerObject;
 
-const Information = () => {
+const Update = () => {
 
 
     const Auth = React.useContext(AuthApi)
     const [tmp, settmp] = React.useState(null)
-    let [customerObject,setCustomerObject] = React.useState()
+    let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
+        const checkUserName = Cookies.get("checkUserName");
         const request = new StringValue()
-        request.setValue(Auth.checkUserName)
+        request.setValue(checkUserName)
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
                 console.log(err)
             } else {
-                
+
                 // user.setRole(res.getUserinfo().getRole())
                 // user.setUsername(res.getUserinfo().getUsername())
                 // user.setPassword(res.getUserinfo().getPassword())
@@ -48,7 +49,7 @@ const Information = () => {
 
                 setCustomerObject(userMapper.toCustomerObject(res))
 
-              
+
 
                 // settmp({
                 //     role: customer.getUserinfo().getRole(),
@@ -71,19 +72,19 @@ const Information = () => {
                 //     lastName: customer.getLastname(),
                 //     phone: customer.getPhone()
                 // })
-                
+
             }
 
         })
 
-       
+
     }
 
     React.useEffect(() => {
 
         getInformationUser(Auth);
 
-    },[])
+    }, [])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -103,15 +104,13 @@ const Information = () => {
 
 
     const ClickLogOut = () => {
-        Auth.setAuth(false)
-        Cookies.remove("checkUserName");
-        Cookies.remove("token");
+       
     }
-    
+
     console.log(customerObject)
     return (
         <>
-            <h1>Your Information</h1>
+            <h1>Update Information</h1>
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
@@ -164,8 +163,32 @@ const Information = () => {
                     //     alert("Update is done");
                     //     setSubmitting(false);
                     // }
-                
+                    const user = new UserProto.User()
+                    const token = 'Bearer ' + Cookies.get("token");
+                    const metadata = { 'Authorization': token }
+                    const request = new UserProto.Customer()
 
+                    user.setRole(customerObject.role)
+                    user.setUsername(customerObject.username)
+                    user.setPassword(values.passWord)
+                    user.setEmail(values.email)
+                    user.setVersion(customerObject.version)
+                    request.setUserinfo(user)
+                    request.setFirstname(values.firstName)
+                    request.setLastname(values.lastName)
+                    request.setPhone(values.phone)
+
+
+                    userService.updateCustomer(request, metadata, (err, res) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+
+                            console.log("Update Binh map thanh cong")
+                            setSubmitting(false);
+                        }
+
+                    })
 
 
                 }}
@@ -177,7 +200,7 @@ const Information = () => {
                             label="Username"
                             name="userName"
                             type="text"
-                            disabled = "disabled"
+                            disabled="disabled"
                         />
                     </div>
 
@@ -227,7 +250,7 @@ const Information = () => {
                     <div style={{ margin: 10 }}>
 
 
-                        <button onClick={ClickLogOut}>Logout</button>
+                        <button onClick={ClickLogOut}>Quay lai</button>
                     </div>
 
                 </Form>
@@ -237,4 +260,4 @@ const Information = () => {
 
 }
 
-export default Information
+export default Update

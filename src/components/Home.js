@@ -7,7 +7,7 @@ import Forgetpassword from './Forgetpassword'
 import Resetpassword from './Resetpassword'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
-
+import Update from './Update'
 import {
     BrowserRouter as Router,
     Switch,
@@ -20,6 +20,7 @@ import {
 function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
+    const [isupdate,setIsupdate] = React.useState("asd")
 
     const readcookie = () => {
         const token = Cookies.get("token");
@@ -35,7 +36,7 @@ function Home() {
     }, [])
 
     return (
-        <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth, }}>
+        <AuthApi.Provider value={{  checkUserName, setcheckUserName, auth, setAuth }}>
             <Router>
 
                 <Links></Links>
@@ -74,16 +75,19 @@ const Routes = () => {
         <Switch>
             <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
             <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
-            <ProtectedRoute path="/Information" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
-            <ProtectedForgetPassword path="/forgetpassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
+            <ProtectedRoute exact path="/profile" auth={Auth.auth}  checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
+            <ProtectedUpdate  path="/profile/update" auth={Auth.auth}  checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
+            <ProtectedForgetPassword path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
             <ProtectedResetPassword path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedResetPassword>
+            
         </Switch>
     )
 }
 const ProtectedRoute = ({ auth, checkUserName, component: Component, ...rest }) => {
 
     return (
-        <Route
+        <Route 
+             
             {...rest}
 
             render={() =>
@@ -100,11 +104,27 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
     var token = url.searchParams.get("token");
     console.log(token)
     return (
-        <Route
+        <Route 
             {...rest}
 
             render={() =>
-                (!auth) ? (<Component />) : (<Redirect to="/Information" />)
+                (!auth) ? (<Component />) : (<Redirect to="/profile" />)
+
+            }
+        />
+
+    )
+}
+
+const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest }) => {
+    return (
+        <Route 
+             
+            {...rest}
+
+            render={() =>
+                // (auth === true) ? (<Component />) : (<Redirect to="/login" />)
+                <Component></Component>
 
             }
         />
@@ -119,7 +139,7 @@ const ProtectedRegister = ({ auth, component: Component, ...rest }) => {
             {...rest}
 
             render={() =>
-                (!auth) ? (<Component />) : (<Redirect to="/Information" />)
+                (!auth) ? (<Component />) : (<Redirect to="/profile" />)
 
             }
         />

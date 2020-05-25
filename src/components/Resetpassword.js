@@ -3,8 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
-import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
-
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
+import {StatusCode} from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
 
@@ -30,15 +30,39 @@ const Resetpassword = () => {
     const [status , setstatus] = React.useState(true)
     var url_string = window.location.href
     var url = new URL(url_string);
-    var token = url.searchParams.get("token");
-    console.log(token)
-   
+    var tmptoken = url.searchParams.get("token");
+    console.log(tmptoken)
+    
+    const callgenerateNewToken = ()=>{
+        const token = 'Bearer ' + tmptoken;
+        const metadata = { 'Authorization': token }
+        const request = new Empty()
+        authService.generateNewToken(request, metadata, (err, res) => {
+            if (err) {
+                console.log(err)
+            } else {
+
+            
+                
+            }
+
+        })
+    }
+    
+    
+    React.useEffect(() => {
+
+        callgenerateNewToken(Auth);
+
+    }, [])
+
+
     return (
     
         <>
         {
             (status === true)?
-            (<h1>Resetpassword {token}</h1>)
+            (<h1>Resetpassword </h1>)
             :
             (<h1>CÓ LỖI XẢY RA </h1>)
         }

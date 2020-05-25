@@ -1,10 +1,10 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import '../css/login.css';
+
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
-
+import {StatusCode} from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
 import {
@@ -58,8 +58,9 @@ const Login = () => {
         authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
-                console.log('Lỗi lỗi lỗi ');
-                console.log(err)
+                if (err.code === StatusCode.UNKNOWN) {
+                    alert("Tai khoan khong ton tai")
+                }
             } else {
                 console.log('BBBBBBBBBBBBBBBBBBBBB');
                 const resType = res.getResponse();
@@ -141,7 +142,7 @@ const Login = () => {
                 <div style={{ margin: 10 }}>
                     <button style={{ margin: 10 }} type="submit" >Submit</button>
 
-                    <Link to="/reset-password">Forget Password</Link>
+                    <Link to="/forgetpassword">Forget Password</Link>
 
                 </div>
 
