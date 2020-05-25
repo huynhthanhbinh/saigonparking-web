@@ -14,11 +14,12 @@ var global = Function('return this')();
 
 var Actor_pb = require('./Actor_pb.js');
 goog.object.extend(proto, Actor_pb);
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+goog.object.extend(proto, google_protobuf_empty_pb);
 var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js');
 goog.object.extend(proto, google_protobuf_wrappers_pb);
+goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse', null, global);
 goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest', null, global);
-goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse', null, global);
-goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType', null, global);
 goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest', null, global);
 goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse', null, global);
 goog.exportSymbol('proto.com.bht.saigonparking.api.grpc.auth.ValidateResponseType', null, global);
@@ -95,16 +96,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse = function(opt_data) {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse, jspb.Message);
+goog.inherits(proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.displayName = 'proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse';
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.displayName = 'proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse';
 }
 
 
@@ -329,7 +330,8 @@ proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.prototype.toObject = 
 proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     response: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    accesstoken: jspb.Message.getFieldWithDefault(msg, 2, "")
+    accesstoken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    refreshtoken: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -374,6 +376,10 @@ proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.deserializeBinaryFrom
       var value = /** @type {string} */ (reader.readString());
       msg.setAccesstoken(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRefreshtoken(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -417,6 +423,13 @@ proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.serializeBinaryToWrit
       f
     );
   }
+  f = message.getRefreshtoken();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -453,6 +466,24 @@ proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.prototype.getAccessto
  */
 proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.prototype.setAccesstoken = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string refreshToken = 3;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.prototype.getRefreshtoken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.prototype.setRefreshtoken = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -752,8 +783,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.toObject(opt_includeInstance, this);
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -762,13 +793,15 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.toObject = 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse} msg The msg instance to transform.
+ * @param {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.toObject = function(includeInstance, msg) {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    response: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    username: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    accesstoken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    refreshtoken: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -782,23 +815,23 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.toObject = function(i
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse}
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse}
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinary = function(bytes) {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse;
-  return proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse;
+  return proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse} msg The message object to deserialize into.
+ * @param {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse}
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse}
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -806,8 +839,16 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinaryFrom
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType} */ (reader.readEnum());
-      msg.setResponse(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUsername(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAccesstoken(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRefreshtoken(value);
       break;
     default:
       reader.skipField();
@@ -822,9 +863,9 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinaryFrom
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.serializeBinary = function() {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.serializeBinaryToWriter(this, writer);
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -832,16 +873,30 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.serializeBi
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse} message
+ * @param {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.serializeBinaryToWriter = function(message, writer) {
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getResponse();
-  if (f !== 0.0) {
-    writer.writeEnum(
+  f = message.getUsername();
+  if (f.length > 0) {
+    writer.writeString(
       1,
+      f
+    );
+  }
+  f = message.getAccesstoken();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getRefreshtoken();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -849,20 +904,56 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.serializeBinaryToWrit
 
 
 /**
- * optional RegisterResponseType response = 1;
- * @return {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType}
+ * optional string username = 1;
+ * @return {string}
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.getResponse = function() {
-  return /** @type {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.getUsername = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType} value
- * @return {!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse} returns this
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} returns this
  */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.setResponse = function(value) {
-  return jspb.Message.setProto3EnumField(this, 1, value);
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.setUsername = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string accessToken = 2;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.getAccesstoken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.setAccesstoken = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string refreshToken = 3;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.getRefreshtoken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.prototype.setRefreshtoken = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -872,17 +963,8 @@ proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.prototype.setResponse
 proto.com.bht.saigonparking.api.grpc.auth.ValidateResponseType = {
   AUTHENTICATED: 0,
   INCORRECT: 1,
-  NON_EXIST: 2,
-  INACTIVATED: 3,
-  DISALLOWED: 4
-};
-
-/**
- * @enum {number}
- */
-proto.com.bht.saigonparking.api.grpc.auth.RegisterResponseType = {
-  SUCCESS: 0,
-  EXISTED: 1
+  INACTIVATED: 2,
+  DISALLOWED: 3
 };
 
 goog.object.extend(exports, proto.com.bht.saigonparking.api.grpc.auth);

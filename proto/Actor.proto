@@ -39,10 +39,67 @@ message ParkingLotEmployee {
     int64 parkingLotId = 2;
 }
 
+message UpdatePasswordRequest {
+    string username = 1;
+    string newPassword = 2;
+}
+
 service UserService {
+
+    /** PRIVATE
+     * use-case: get user by user ID
+     *  + request: user ID
+     *  + response: user object if succeed, otherwise, throw exception */
     rpc getUserById (google.protobuf.Int64Value) returns (User);
+
+    /** PUBLIC
+     * use-case: get user account information (basic information only)
+     *  + request: username
+     *  + response: user object if succeed, otherwise, throw exception */
     rpc getUserByUsername (google.protobuf.StringValue) returns (User);
-    rpc getCustomerById (google.protobuf.Int64Value) returns (Customer);
-    rpc getParkingLotEmployeeById (google.protobuf.Int64Value) returns (ParkingLotEmployee);
+
+    /** PUBLIC
+     * use-case: get customer account information
+     *  + request: customer's username
+     *  + response: customer object if succeed, otherwise, throw exception */
+    rpc getCustomerByUsername (google.protobuf.StringValue) returns (Customer);
+
+    /** PUBLIC
+     * use-case: get employee account information
+     *  + request: employee's username
+     *  + response: employee object if succeed, otherwise, throw exception */
+    rpc getParkingLotEmployeeByUsername (google.protobuf.StringValue) returns (ParkingLotEmployee);
+
+    /** PRIVATE
+     * use-case: user login (will be called be AuthService)
+     *  + request: user ID
+     *  + response: empty value if succeed, otherwise, throw exception */
     rpc updateUserLastSignIn (google.protobuf.Int64Value) returns (google.protobuf.Empty);
+
+    /** PRIVATE
+    * use-case: create user, CUSTOMER type (will be called by AuthService)
+    *  + request: Customer object
+    *  + response: user ID if succeed, otherwise, throw exception */
+    rpc createCustomer (Customer) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC
+    * use-case: update user, CUSTOMER type (will be called by AuthService)
+    *  + request: Customer object
+    *  + response: empty value if succeed, otherwise, throw exception */
+    rpc updateCustomer (Customer) returns (google.protobuf.Empty);
+
+    /** PUBLIC
+     * Update password: 2 use-cases
+     *  1/ forgot password
+     *  2/ change password
+     *
+     * return empty value, if succeed,
+     * otherwise, throw exception */
+    rpc updatePassword (UpdatePasswordRequest) returns (google.protobuf.Empty);
+
+    /** PRIVATE
+     * use-case: activate new account (will be called by AuthService)
+     *  + request: user ID
+     *  + response: empty value if succeed, otherwise, throw exception */
+    rpc activateUser (google.protobuf.Int64Value) returns (google.protobuf.Empty);
 }

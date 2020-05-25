@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthApi from "./Auth/AuthAPI";
-import Cookies from 'js-cookie';
+
 
 
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
-const userProto = require('../api/Actor_pb')
-
 
 const gatewayHost = "http://localhost:8338";
 const authService = new AuthServiceClient(gatewayHost)
@@ -52,7 +50,7 @@ const callUserRegisterService = (registerUser,Auth) => {
 
 const Login = () => {
 
-  const [isPlay, setisPlay] = useState(false);
+ 
   const Auth = React.useContext(AuthApi)
   const formik = useFormik({
     initialValues: {

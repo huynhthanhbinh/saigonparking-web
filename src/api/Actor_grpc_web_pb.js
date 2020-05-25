@@ -208,12 +208,12 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.StringValue,
  *   !proto.com.bht.saigonparking.api.grpc.user.Customer>}
  */
-const methodInfo_UserService_getCustomerById = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_UserService_getCustomerByUsername = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.Customer,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /** @param {!proto.google.protobuf.StringValue} request */
   function(request) {
     return request.serializeBinary();
   },
@@ -222,7 +222,7 @@ const methodInfo_UserService_getCustomerById = new grpc.web.AbstractClientBase.M
 
 
 /**
- * @param {!proto.google.protobuf.Int64Value} request The
+ * @param {!proto.google.protobuf.StringValue} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -231,44 +231,44 @@ const methodInfo_UserService_getCustomerById = new grpc.web.AbstractClientBase.M
  * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.Customer>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getCustomerById =
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getCustomerByUsername =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerById',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerById,
+      methodInfo_UserService_getCustomerByUsername,
       callback);
 };
 
 
 /**
- * @param {!proto.google.protobuf.Int64Value} request The
+ * @param {!proto.google.protobuf.StringValue} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
  * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.Customer>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getCustomerById =
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getCustomerByUsername =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerById',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerById);
+      methodInfo_UserService_getCustomerByUsername);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.StringValue,
  *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
  */
-const methodInfo_UserService_getParkingLotEmployeeById = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_UserService_getParkingLotEmployeeByUsername = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /** @param {!proto.google.protobuf.StringValue} request */
   function(request) {
     return request.serializeBinary();
   },
@@ -277,7 +277,7 @@ const methodInfo_UserService_getParkingLotEmployeeById = new grpc.web.AbstractCl
 
 
 /**
- * @param {!proto.google.protobuf.Int64Value} request The
+ * @param {!proto.google.protobuf.StringValue} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -286,32 +286,32 @@ const methodInfo_UserService_getParkingLotEmployeeById = new grpc.web.AbstractCl
  * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParkingLotEmployeeById =
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParkingLotEmployeeByUsername =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeById,
+      methodInfo_UserService_getParkingLotEmployeeByUsername,
       callback);
 };
 
 
 /**
- * @param {!proto.google.protobuf.Int64Value} request The
+ * @param {!proto.google.protobuf.StringValue} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
  * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getParkingLotEmployeeById =
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getParkingLotEmployeeByUsername =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeById);
+      methodInfo_UserService_getParkingLotEmployeeByUsername);
 };
 
 
@@ -367,6 +367,226 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.upd
       request,
       metadata || {},
       methodInfo_UserService_updateUserLastSignIn);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodInfo_UserService_createCustomer = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.Int64Value,
+  /** @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Int64Value)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Int64Value>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.createCustomer =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/createCustomer',
+      request,
+      metadata || {},
+      methodInfo_UserService_createCustomer,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Int64Value>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.createCustomer =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/createCustomer',
+      request,
+      metadata || {},
+      methodInfo_UserService_createCustomer);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodInfo_UserService_updateCustomer = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_empty_pb.Empty,
+  /** @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.updateCustomer =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/updateCustomer',
+      request,
+      metadata || {},
+      methodInfo_UserService_updateCustomer,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.updateCustomer =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/updateCustomer',
+      request,
+      metadata || {},
+      methodInfo_UserService_updateCustomer);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodInfo_UserService_updatePassword = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_empty_pb.Empty,
+  /** @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.updatePassword =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/updatePassword',
+      request,
+      metadata || {},
+      methodInfo_UserService_updatePassword,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.updatePassword =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/updatePassword',
+      request,
+      metadata || {},
+      methodInfo_UserService_updatePassword);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodInfo_UserService_activateUser = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_empty_pb.Empty,
+  /** @param {!proto.google.protobuf.Int64Value} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.activateUser =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/activateUser',
+      request,
+      metadata || {},
+      methodInfo_UserService_activateUser,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.activateUser =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/activateUser',
+      request,
+      metadata || {},
+      methodInfo_UserService_activateUser);
 };
 
 

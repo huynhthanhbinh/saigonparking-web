@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
 
@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 const gatewayHost = "http://localhost:8338";
 
 const userService = new UserServiceClient(gatewayHost)
-var globalbien;
+
 
 const user = new UserProto.User();
 
@@ -23,7 +23,8 @@ const Information = () => {
     const [tmp, settmp] = React.useState(null)
 
     const getInformationUser = async (Auth) => {
-        const metadata = { 'Authorization': 'Bon Map' }
+        const token = 'Bearer ' + Cookies.get("token");
+        const metadata = { 'Authorization': token }
         const request = new StringValue()
         request.setValue(Auth.checkUserName)
 
@@ -51,11 +52,7 @@ const Information = () => {
 
         getInformationUser(Auth);
 
-    }, [])
-
-
-
-
+    })
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]

@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import '../css/login.css';
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
 
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
+import {
+    BrowserRouter as Router,
+    Link,
+
+} from "react-router-dom";
+
 
 const userProto = require('../api/Actor_pb')
-
 
 const gatewayHost = "http://localhost:8338";
 
@@ -44,14 +50,12 @@ const Login = () => {
     });
 
     const callUserLoginService = (username, password, Auth) => {
-
-        const metadata = { 'Authorization': 'Bon Map' }
         const request = new authProto.ValidateRequest();
         request.setUsername(username);
         request.setPassword(password);
         request.setRole(userProto.UserRole.CUSTOMER)
 
-        authService.validateUser(request, metadata, (err, res) => {
+        authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
                 console.log('Lỗi lỗi lỗi ');
@@ -99,55 +103,51 @@ const Login = () => {
     }
 
     return (
+        <div className="page-container">
+            <form onSubmit={formik.handleSubmit}>
+                <div style={{ margin: 10 }}>
+                    <label htmlFor="userName">USERNAME</label>
+                    <input
+                        className="Name"
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.userName}
+                    />
+                    {formik.touched.userName && formik.errors.userName ? (
+                        <div>{formik.errors.userName}</div>
+                    ) : null}
+                </div>
+
+                <div style={{ margin: 10 }}>
+                    <label htmlFor="passWord">PASSWORD</label>
+                    <input
+
+                        id="passWord"
+                        name="passWord"
+                        type="password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.passWord}
+                    />
+                    {formik.touched.passWord && formik.errors.passWord ? (
+                        <div>{formik.errors.passWord}</div>
+                    ) : null}
+                </div>
 
 
+                <div style={{ margin: 10 }}>
+                    <button style={{ margin: 10 }} type="submit" >Submit</button>
 
-        <form onSubmit={formik.handleSubmit}>
-            <div style={{ margin: 10 }}>
-                <label htmlFor="userName">USERNAME</label>
-                <input
-                    id="userName"
-                    name="userName"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.userName}
-                />
-                {formik.touched.userName && formik.errors.userName ? (
-                    <div>{formik.errors.userName}</div>
-                ) : null}
-            </div>
+                    <Link to="/reset-password">Forget Password</Link>
 
-            <div style={{ margin: 10 }}>
-                <label htmlFor="passWord">PASSWORD</label>
-                <input
-                    id="passWord"
-                    name="passWord"
-                    type="password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.passWord}
-                />
-                {formik.touched.passWord && formik.errors.passWord ? (
-                    <div>{formik.errors.passWord}</div>
-                ) : null}
-            </div>
+                </div>
 
 
-            <div style={{ margin: 10 }}>
-                <button style={{ margin: 10 }} type="submit" >Submit</button>
-                <button
-                    style={{ margin: 10 }}
-                    onClick={formik.handleReset}
-                    type="reset"
-                >
-                    Reset
-        </button>
-            </div>
-
-
-        </form>
-
+            </form>
+        </div>
     );
 };
 export default Login;

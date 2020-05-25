@@ -14,6 +14,8 @@ grpc.web = require('grpc-web');
 
 var Actor_pb = require('./Actor_pb.js')
 
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
+
 var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js')
 const proto = {};
 proto.com = {};
@@ -154,15 +156,15 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.val
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
  *   !proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest,
- *   !proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse>}
+ *   !proto.google.protobuf.StringValue>}
  */
 const methodInfo_AuthService_registerUser = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse,
+  google_protobuf_wrappers_pb.StringValue,
   /** @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest} request */
   function(request) {
     return request.serializeBinary();
   },
-  proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse.deserializeBinary
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
 );
 
 
@@ -171,9 +173,9 @@ const methodInfo_AuthService_registerUser = new grpc.web.AbstractClientBase.Meth
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse)}
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.registerUser =
@@ -192,7 +194,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.registerUs
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.auth.RegisterResponse>}
+ * @return {!Promise<!proto.google.protobuf.StringValue>}
  *     A native promise that resolves to the response
  */
 proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.registerUser =
@@ -202,6 +204,226 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.reg
       request,
       metadata || {},
       methodInfo_AuthService_registerUser);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodInfo_AuthService_sendResetPasswordEmail = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.StringValue,
+  /** @param {!proto.google.protobuf.StringValue} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.sendResetPasswordEmail =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/sendResetPasswordEmail',
+      request,
+      metadata || {},
+      methodInfo_AuthService_sendResetPasswordEmail,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.StringValue>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sendResetPasswordEmail =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/sendResetPasswordEmail',
+      request,
+      metadata || {},
+      methodInfo_AuthService_sendResetPasswordEmail);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodInfo_AuthService_sendActivateAccountEmail = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.StringValue,
+  /** @param {!proto.google.protobuf.StringValue} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.sendActivateAccountEmail =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/sendActivateAccountEmail',
+      request,
+      metadata || {},
+      methodInfo_AuthService_sendActivateAccountEmail,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.StringValue>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sendActivateAccountEmail =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/sendActivateAccountEmail',
+      request,
+      metadata || {},
+      methodInfo_AuthService_sendActivateAccountEmail);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ */
+const methodInfo_AuthService_generateNewToken = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
+  /** @param {!proto.google.protobuf.Empty} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.generateNewToken =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/generateNewToken',
+      request,
+      metadata || {},
+      methodInfo_AuthService_generateNewToken,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.generateNewToken =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/generateNewToken',
+      request,
+      metadata || {},
+      methodInfo_AuthService_generateNewToken);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ */
+const methodInfo_AuthService_activateNewAccount = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
+  /** @param {!proto.google.protobuf.Empty} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.activateNewAccount =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/activateNewAccount',
+      request,
+      metadata || {},
+      methodInfo_AuthService_activateNewAccount,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.activateNewAccount =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.auth.AuthService/activateNewAccount',
+      request,
+      metadata || {},
+      methodInfo_AuthService_activateNewAccount);
 };
 
 
