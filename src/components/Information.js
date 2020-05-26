@@ -106,6 +106,7 @@ const Information = () => {
         Auth.setAuth(false)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
+        localStorage.clear()
     }
     
     console.log(customerObject)

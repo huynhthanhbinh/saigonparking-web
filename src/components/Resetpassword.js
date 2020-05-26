@@ -8,6 +8,13 @@ import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
 
 const gatewayHost = "http://localhost:8338";
 
@@ -19,11 +26,12 @@ const userService = new UserServiceClient(gatewayHost)
 
 // let customerObject;
 let username = localStorage.getItem("username");
+
 const Resetpassword = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [tmp, settmp] = React.useState(null)
+    const [nextpage, setnextpage] = React.useState(true)
     let [customerObject, setCustomerObject] = React.useState()
 
 
@@ -44,15 +52,12 @@ const Resetpassword = () => {
 
 
 
-    const ClickLogOut = () => {
 
-    }
-
-    console.log(customerObject)
+    
     return (
         <>
             <h1>Hi , {username} </h1>
-            {username ? <Formik
+            {username ? (<Formik
                 initialValues={{
 
                     passWord: '',
@@ -73,28 +78,8 @@ const Resetpassword = () => {
                 })}
                 onSubmit={(values, { setSubmitting }) => {
 
-                    // if (values.userName === tmp.username) {
-                    //     alert(" Username is not different before")
-
-                    // }
-                    // else if (values.passWord === tmp.password) {
-                    //     alert(" Password is not different before")
-
-                    // }
-                    // else if (values.email === tmp.email) {
-                    //     alert(" Email is not different before")
-
-                    // }
-                    // else {
-                    //     alert("Update is done");
-                    //     setSubmitting(false);
-                    // }
-
-                    if (values.passWord !== values.confirmpassWord) {
-                        alert("password ")
-                    }
-                    else {
-
+                 
+                        console.log(values.passWord)
 
                         const user = new UserProto.User()
                         const token = 'Bearer ' + Cookies.get("token");
@@ -102,7 +87,7 @@ const Resetpassword = () => {
                         const request = new UserProto.UpdatePasswordRequest()
 
                         request.setUsername(username)
-                        request.setPassword(values.passWord)
+                        request.setNewpassword(values.passWord)
 
                         userService.updatePassword(request, metadata, (err, res) => {
                             if (err) {
@@ -117,7 +102,7 @@ const Resetpassword = () => {
 
                         })
 
-                    }
+                   
                 }}
             >
                 <Form >
@@ -144,11 +129,11 @@ const Resetpassword = () => {
                     <div style={{ margin: 10 }}>
 
 
-                        <button onClick={ClickLogOut}>Quay lai</button>
+                        
                     </div>
 
                 </Form>
-            </Formik> : null}
+            </Formik> ):  (<Redirect to="/forget-password" />)}
         </>
     )
 

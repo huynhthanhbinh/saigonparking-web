@@ -6,7 +6,7 @@ import a from "./images/1.jpg"
 import b from "./images/2.jpg"
 
 export default () => (
-  <Carousel>
+  <Carousel thumnai={false} >
     <div>
       <img alt="" src={a}  />
      

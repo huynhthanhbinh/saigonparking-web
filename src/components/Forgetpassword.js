@@ -28,7 +28,7 @@ const authService = new AuthServiceClient(gatewayHost)
 const Forgetpassword = () => {
     const Auth = React.useContext(AuthApi)
    
-    const [email, setEmail] = React.useState()
+    const [sendemail, setsendemail] = React.useState(true)
     const callResetPassword = (username, Auth) => {
         const request = new StringValue()
         const metadata = {};
@@ -38,8 +38,8 @@ const Forgetpassword = () => {
             if (err) {
                 console.log(err)
             } else {
-                setEmail(res)
-                localStorage.setItem("username", username)
+                setsendemail(false)
+                // localStorage.setItem("username", username)
             }
 
         })
@@ -61,13 +61,14 @@ const Forgetpassword = () => {
         onSubmit: values => {
 
             callResetPassword(values.userName, Auth)
-            // window.sessionStorage.setItem("Bach", "Vu");
+            
 
         },
     });
 
     return (
-        <>
+        <>{
+            (sendemail === true)?(
                 <form onSubmit={formik.handleSubmit}>
                     <div style={{ margin: 10 }}>
                         <label htmlFor="userName">USERNAME</label>
@@ -90,6 +91,10 @@ const Forgetpassword = () => {
                     </div>
 
                 </form>
+            ):
+            (<Redirect to="/" />)
+        }
+                
             
         </>
     );

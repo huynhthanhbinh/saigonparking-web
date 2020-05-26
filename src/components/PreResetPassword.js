@@ -32,7 +32,7 @@ const PreResetPassword = () => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
-    console.log(tmptoken)
+  
 
     const callgenerateNewToken = () => {
         const token = 'Bearer ' + tmptoken;
@@ -55,7 +55,10 @@ const PreResetPassword = () => {
 
     React.useEffect(() => {
      
-        if(username!=null){
+        if(username===null || tmptoken === null ){
+            setstatus(false)
+        }
+        else{
             callgenerateNewToken(Auth);
         }
            
