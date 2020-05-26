@@ -36,14 +36,3 @@
     transform: rotate(360deg);
   }
 }
-@media (max-width: 900px) {
-  .carousel {
-    width:auto;
-    height:auto;
-  }
-}
-.carousel {
-  width:900px;
-  height:550px;
-  margin: auto;
-}

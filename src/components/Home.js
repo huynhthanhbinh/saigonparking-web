@@ -1,6 +1,9 @@
 import React from 'react';
 import '../css/navbar.css';
-import Carousel from './Home/Slider'
+import ControlledCarousel from './Home/Slider'
+
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 
 import Information from "./Information"
 import Login from './Login';
@@ -41,11 +44,19 @@ function Home() {
     return (
         <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
             <Router>
+                <div>
+                    <Links></Links>
+                    <main>
+                        <Container>
+                            <Routes ></Routes>
+                        </Container>
+                    </main>
 
-                <Links></Links>
+                    <footer class="footer">
+                        <Footer></Footer>
+                    </footer>
+                </div>
 
-
-                <Routes ></Routes>
 
             </Router>
         </AuthApi.Provider>
@@ -53,9 +64,38 @@ function Home() {
 
     );
 }
+const Footer = () => {
+    var style = {
+        backgroundColor: "gray",
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+        padding: "20px",
+        position: "fixed",
+        left: "0",
+        bottom: "0",
+        height: "60px",
+        width: "100%",
+    }
+    
+    var phantom = {
+      display: 'block',
+      padding: '20px',
+      height: '60px',
+      width: '100%',
+    }
+    return (
+        <div>
+        
+            <div style={style}>
+                xin chao
+            </div>
+        </div>
+    )
+
+}
 const Links = () => {
     return (
-        <nav>
+        <Navbar>
             <ul>
                 <li>
                     <Link to="/">Home</Link>
@@ -67,7 +107,7 @@ const Links = () => {
                     <Link to="/register">register</Link>
                 </li>
             </ul>
-        </nav>
+        </Navbar>
 
     )
 
@@ -77,7 +117,7 @@ const Routes = () => {
     return (
         <>
             <Switch>
-                <ProtectedHome exact path="/" component={Carousel} auth={Auth.auth}  ></ProtectedHome>
+                <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
                 <ProtectedRoute exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
@@ -86,7 +126,7 @@ const Routes = () => {
                 <ProtectedResetPassword path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
             </Switch>
-            
+
         </>
     )
 }

@@ -31,7 +31,7 @@ const Resetpassword = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [nextpage, setnextpage] = React.useState(true)
+    const [nextpage, setnextpage] = React.useState(false)
     let [customerObject, setCustomerObject] = React.useState()
 
 
@@ -57,7 +57,7 @@ const Resetpassword = () => {
     return (
         <>
             <h1>Hi , {username} </h1>
-            {username ? (<Formik
+            {username && nextpage ? (<Formik
                 initialValues={{
 
                     passWord: '',
@@ -95,8 +95,9 @@ const Resetpassword = () => {
                             } else {
 
                                 console.log("Reset Password thanh cong")
-
+                                
                                 localStorage.removeItem("username");
+                                setnextpage(true)
                                 setSubmitting(false);
                             }
 
@@ -133,7 +134,9 @@ const Resetpassword = () => {
                     </div>
 
                 </Form>
-            </Formik> ):  (<Redirect to="/forget-password" />)}
+            </Formik> ):  
+            (nextpage === true ) ? (<Redirect to="/login" />)
+            :(<Redirect to="/forget-password" />)}
         </>
     )
 

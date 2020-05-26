@@ -40,7 +40,7 @@ const PreResetPassword = () => {
         const request = new Empty()
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                console.log(err)
+                alert("Link khong con kha dung")
                 setstatus(false)
             } else {
 

@@ -53,7 +53,7 @@ const Login = () => {
                       setIsClick(true)
                     }
                     ,
-                    8000
+                    2000
                 );
             }
             else
