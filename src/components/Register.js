@@ -11,7 +11,7 @@ import authProto from '../api/Auth_pb';
 const gatewayHost = "http://localhost:8338";
 const authService = new AuthServiceClient(gatewayHost)
 
-const callUserRegisterService = (registerUser,Auth) => {
+const callUserRegisterService = (registerUser, Auth) => {
 
   const metadata = { 'Authorization': 'Bon Map' }
   const request = new authProto.RegisterRequest();
@@ -21,45 +21,46 @@ const callUserRegisterService = (registerUser,Auth) => {
   request.setFirstname(registerUser.firstName);
   request.setLastname(registerUser.lastName);
   request.setPhone(registerUser.phone);
-  
+
 
   authService.registerUser(request, metadata, (err, res) => {
 
-      if (err) {
-          console.log('Lỗi lỗi lỗi ');
-          console.log(err)
-      } else {
-          console.log('BBBBBBBBBBBBBBBBBBBBB');
-          const resType = res.getResponse();
-          const RegisterResponseType = authProto.RegisterResponseType;
-          switch (resType) {
-              case RegisterResponseType.SUCCESS: {
-                  console.log("Bon Map dang ki thanh cong");
-                  
-                  break;
-              }
-              default: { // non-exist
-                  console.log("Bon Map Dang ky khong thanh cong");
-                  break;
-              }
-          }
+    if (err) {
+      console.log('Lỗi lỗi lỗi ');
+      console.log(err)
+    } else {
+      console.log('BBBBBBBBBBBBBBBBBBBBB');
+      const resType = res.getResponse();
+      const RegisterResponseType = authProto.RegisterResponseType;
+      switch (resType) {
+        case RegisterResponseType.SUCCESS: {
+          console.log("Bon Map dang ki thanh cong");
+
+          break;
+        }
+        default: { // non-exist
+          console.log("Bon Map Dang ky khong thanh cong");
+          break;
+        }
       }
+    }
   })
 }
 
 
 const Login = () => {
 
- 
+
   const Auth = React.useContext(AuthApi)
   const formik = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
-      userName:'',
-      passWord:'',
-      phone:'',
+      userName: '',
+      passWord: '',
+      phone: '',
+      confirmpassWord:''
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -73,17 +74,22 @@ const Login = () => {
         .required('Required'),
       userName: Yup.string()
         .max(20, 'Must be 20 characters or less')
-        .required('Required'),  
+        .required('Required'),
       passWord: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
       phone: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
+      confirmpassWord: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .required('Required')
+        .oneOf([Yup.ref('passWord'), null], 'Passwords must match'),
+
     }),
     onSubmit: values => {
       callUserRegisterService(values, Auth)
- 
+
     },
   });
 
@@ -154,6 +160,22 @@ const Login = () => {
         ) : null}
       </div>
 
+      
+      <div style={{ margin: 10 }}>
+        <label style={{ margin: 20 }} htmlFor="confirmpassWord">confirmpassWord</label>
+        <input
+          id="confirmpassWord"
+          name="confirmpassWord"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.confirmpassWord}
+        />
+        {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
+          <div>{formik.errors.confirmpassWord}</div>
+        ) : null}
+      </div>
+          
       <div style={{ margin: 10 }}>
         <label style={{ margin: 20 }} htmlFor="email">Email Address</label>
         <input
@@ -168,7 +190,7 @@ const Login = () => {
       {formik.touched.email && formik.errors.email ? (
         <div>{formik.errors.email}</div>
       ) : null}
-      
+
       <div style={{ margin: 10 }}>
         <label style={{ margin: 20 }} htmlFor="phone">phone</label>
         <input

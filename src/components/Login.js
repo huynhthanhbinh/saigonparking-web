@@ -26,6 +26,7 @@ const Login = () => {
 
 
     const Auth = React.useContext(AuthApi)
+    const [isClick,setIsClick]  = React.useState(true)
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -42,9 +43,24 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-
-            let tmp = callUserLoginService(values.userName, values.passWord, Auth)
-
+            if(isClick===true)
+            {
+                let tmp = callUserLoginService(values.userName, values.passWord, Auth)
+                setIsClick(false)
+                setTimeout(
+                    function() {
+                      console.log("đã hết 10s submit")
+                      setIsClick(true)
+                    }
+                    ,
+                    8000
+                );
+            }
+            else
+            {
+                console.log("chưa hết thời gian đừng nhấn làm gì cho uổng công")
+            }
+            
 
         },
     });

@@ -1,10 +1,12 @@
 import React from 'react';
 import '../css/navbar.css';
+import Carousel from './Home/Slider'
+
 import Information from "./Information"
 import Login from './Login';
 import Register from './Register';
 import Forgetpassword from './Forgetpassword'
-import Resetpassword from './Resetpassword'
+import PreResetPassword from './PreResetPassword'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import Update from './Update'
@@ -17,10 +19,11 @@ import {
 } from "react-router-dom";
 
 
+
 function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
-    const [isupdate,setIsupdate] = React.useState("asd")
+    const [isupdate, setIsupdate] = React.useState("asd")
 
     const readcookie = () => {
         const token = Cookies.get("token");
@@ -36,7 +39,7 @@ function Home() {
     }, [])
 
     return (
-        <AuthApi.Provider value={{  checkUserName, setcheckUserName, auth, setAuth }}>
+        <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
             <Router>
 
                 <Links></Links>
@@ -72,22 +75,41 @@ const Links = () => {
 const Routes = () => {
     const Auth = React.useContext(AuthApi)
     return (
-        <Switch>
-            <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
-            <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
-            <ProtectedRoute exact path="/profile" auth={Auth.auth}  checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
-            <ProtectedUpdate  path="/profile/update" auth={Auth.auth}  checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
-            <ProtectedForgetPassword path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
-            <ProtectedResetPassword path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedResetPassword>
+        <>
+            <Switch>
+                <ProtectedHome exact path="/" component={Carousel} auth={Auth.auth}  ></ProtectedHome>
+                <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
+                <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
+                <ProtectedRoute exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
+                <ProtectedUpdate path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
+                <ProtectedForgetPassword path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
+                <ProtectedResetPassword path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
+
+            </Switch>
             
-        </Switch>
+        </>
+    )
+}
+const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) => {
+
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                <Component />
+
+            }
+        />
+
     )
 }
 const ProtectedRoute = ({ auth, checkUserName, component: Component, ...rest }) => {
 
     return (
-        <Route 
-             
+        <Route
+
             {...rest}
 
             render={() =>
@@ -104,7 +126,7 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
     var token = url.searchParams.get("token");
     console.log(token)
     return (
-        <Route 
+        <Route
             {...rest}
 
             render={() =>
@@ -118,8 +140,8 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
 
 const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest }) => {
     return (
-        <Route 
-             
+        <Route
+
             {...rest}
 
             render={() =>
@@ -148,7 +170,7 @@ const ProtectedRegister = ({ auth, component: Component, ...rest }) => {
 }
 
 const ProtectedForgetPassword = ({ auth, component: Component, ...rest }) => {
-    
+
     return (
         <Route
             {...rest}
@@ -163,7 +185,7 @@ const ProtectedForgetPassword = ({ auth, component: Component, ...rest }) => {
     )
 }
 const ProtectedResetPassword = ({ auth, component: Component, ...rest }) => {
-    
+
     return (
         <Route
             {...rest}

@@ -39,7 +39,7 @@ const Forgetpassword = () => {
                 console.log(err)
             } else {
                 setEmail(res)
-
+                localStorage.setItem("username", username)
             }
 
         })
