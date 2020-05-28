@@ -19,12 +19,10 @@ import { subDays, startOfToday, format, addDays, getDate } from "date-fns";
 import Cookies from 'js-cookie'
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../api/ParkingLot_pb';
+import  { API_URL } from '../../saigonparking';
 
 const constantDay = new Date("2019-12-19");
-
-const gatewayHost = "http://localhost:8000";
-
-const ParkinglotwebService = new ParkingLotServiceClient(gatewayHost)
+const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const CovidDashboard = (props) => {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ControlledCarousel from './Home/Slider'
 
 import Container from 'react-bootstrap/Container';
@@ -90,9 +89,9 @@ const Footer = () => {
     }
     return (
         <div>
-
+          
             <div style={style}>
-                xin chao
+            Xin chao
             </div>
         </div>
     )
@@ -142,7 +141,7 @@ const Routes = () => {
     )
 }
 const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) => {
-
+    document.title = 'MAP'
     return (
         <Route
 
@@ -158,13 +157,14 @@ const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) =>
 }
 
 const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) => {
-
+    document.title = 'HOME'
     return (
         <Route
 
             {...rest}
 
             render={() =>
+            
                 <Component />
 
             }
@@ -173,7 +173,7 @@ const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) =
     )
 }
 const ProtectedRoute = ({ auth, checkUserName, component: Component, ...rest }) => {
-
+    document.title = 'YOUR INFORMATION'
     return (
         <Route
 
@@ -188,6 +188,7 @@ const ProtectedRoute = ({ auth, checkUserName, component: Component, ...rest }) 
     )
 }
 const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
+    document.title = 'LOGIN'
     var url_string = window.location.href
     var url = new URL(url_string);
     var token = url.searchParams.get("token");
@@ -206,6 +207,7 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
 }
 
 const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'UPDATE'
     return (
         <Route
 
@@ -222,7 +224,7 @@ const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest })
 }
 
 const ProtectedRegister = ({ auth, component: Component, ...rest }) => {
-
+    document.title = 'REGISTER'
     return (
         <Route
             {...rest}
@@ -237,7 +239,7 @@ const ProtectedRegister = ({ auth, component: Component, ...rest }) => {
 }
 
 const ProtectedForgetPassword = ({ auth, component: Component, ...rest }) => {
-
+    document.title = 'FORGETPASSWORD'
     return (
         <Route
             {...rest}
@@ -252,7 +254,7 @@ const ProtectedForgetPassword = ({ auth, component: Component, ...rest }) => {
     )
 }
 const ProtectedResetPassword = ({ auth, component: Component, ...rest }) => {
-
+    document.title = 'RESETPASSWORD'
     return (
         <Route
             {...rest}

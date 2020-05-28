@@ -14,13 +14,10 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
+import  { API_URL } from '../saigonparking';
 
 const userProto = require('../api/Actor_pb')
-
-
-const gatewayHost = "http://localhost:8000";
-
-const authService = new AuthServiceClient(gatewayHost)
+const authService = new AuthServiceClient(API_URL)
 
 
 let username = localStorage.getItem("username");

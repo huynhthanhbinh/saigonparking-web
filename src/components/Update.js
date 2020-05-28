@@ -8,11 +8,9 @@ import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+import  { API_URL } from '../saigonparking';
 
-const gatewayHost = "http://localhost:8000";
-
-const userService = new UserServiceClient(gatewayHost)
-
+const userService = new UserServiceClient(API_URL)
 
 // const customer = new UserProto.Customer();
 // const user = new UserProto.User();

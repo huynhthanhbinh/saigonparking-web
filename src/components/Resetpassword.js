@@ -15,10 +15,9 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
+import  { API_URL } from '../saigonparking';
 
-const gatewayHost = "http://localhost:8000";
-
-const userService = new UserServiceClient(gatewayHost)
+const userService = new UserServiceClient(API_URL)
 
 
 // const customer = new UserProto.Customer();

@@ -2,14 +2,11 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthApi from "./Auth/AuthAPI";
-
-
-
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
+import { API_URL } from '../saigonparking';
 
-const gatewayHost = "http://localhost:8000";
-const authService = new AuthServiceClient(gatewayHost)
+const authService = new AuthServiceClient(API_URL)
 
 const callUserRegisterService = (registerUser, Auth) => {
 
