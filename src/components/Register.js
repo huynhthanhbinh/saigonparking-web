@@ -8,7 +8,7 @@ import AuthApi from "./Auth/AuthAPI";
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
 
-const gatewayHost = "http://localhost:8338";
+const gatewayHost = "http://localhost:8000";
 const authService = new AuthServiceClient(gatewayHost)
 
 const callUserRegisterService = (registerUser, Auth) => {

@@ -1,10 +1,15 @@
 import React from 'react';
-import '../css/navbar.css';
+
 import ControlledCarousel from './Home/Slider'
 
 import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import Navbar from 'react-bootstrap/Navbar'
+import Button from 'react-bootstrap/Button'
+import Nav from 'react-bootstrap/Nav'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 
+import CovidDashboard from './Map/CovidDashboard'
 import Information from "./Information"
 import Login from './Login';
 import Register from './Register';
@@ -76,16 +81,16 @@ const Footer = () => {
         height: "60px",
         width: "100%",
     }
-    
+
     var phantom = {
-      display: 'block',
-      padding: '20px',
-      height: '60px',
-      width: '100%',
+        display: 'block',
+        padding: '20px',
+        height: '60px',
+        width: '100%',
     }
     return (
         <div>
-        
+
             <div style={style}>
                 xin chao
             </div>
@@ -95,19 +100,24 @@ const Footer = () => {
 }
 const Links = () => {
     return (
-        <Navbar>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li style={{ float: "right" }}>
-                    <Link to="/login">Login</Link>
-                </li>
-                <li style={{ float: "right" }}>
-                    <Link to="/register">register</Link>
-                </li>
-            </ul>
-        </Navbar>
+        <>
+            <Navbar bg="dark" variant="dark" style={{marginBottom:"20px"}}>
+                <Navbar.Brand href="/">HOME</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/mymap">MYMAP</Nav.Link>
+
+
+                </Nav>
+                <Form inline>
+                    <Button variant="outline-info" href="/register">REGISTER</Button>
+                    <Button variant="outline-info" href="/login">LOGIN</Button>
+
+                </Form>
+            </Navbar>
+
+
+
+        </>
 
     )
 
@@ -118,6 +128,7 @@ const Routes = () => {
         <>
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
+                <ProtectedMap exact path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
                 <ProtectedRoute exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
@@ -130,6 +141,22 @@ const Routes = () => {
         </>
     )
 }
+const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) => {
+
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                <Component />
+
+            }
+        />
+
+    )
+}
+
 const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) => {
 
     return (

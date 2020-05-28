@@ -16,7 +16,7 @@ import {
 
 const userProto = require('../api/Actor_pb')
 
-const gatewayHost = "http://localhost:8338";
+const gatewayHost = "http://localhost:8000";
 
 const authService = new AuthServiceClient(gatewayHost)
 

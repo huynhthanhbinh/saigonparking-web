@@ -16,7 +16,7 @@ import {
     Redirect
 } from "react-router-dom";
 
-const gatewayHost = "http://localhost:8338";
+const gatewayHost = "http://localhost:8000";
 
 const userService = new UserServiceClient(gatewayHost)
 

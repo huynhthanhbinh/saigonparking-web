@@ -9,7 +9,7 @@ import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 
-const gatewayHost = "http://localhost:8338";
+const gatewayHost = "http://localhost:8000";
 
 const userService = new UserServiceClient(gatewayHost)
 

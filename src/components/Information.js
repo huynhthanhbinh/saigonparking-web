@@ -9,7 +9,7 @@ import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 
-const gatewayHost = "http://localhost:8338";
+const gatewayHost = "http://localhost:8000";
 
 const userService = new UserServiceClient(gatewayHost)
 
@@ -24,7 +24,7 @@ const Information = () => {
 
     const Auth = React.useContext(AuthApi)
     const [tmp, settmp] = React.useState(null)
-    let [customerObject,setCustomerObject] = React.useState()
+    let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
@@ -35,7 +35,7 @@ const Information = () => {
             if (err) {
                 console.log(err)
             } else {
-                
+
                 // user.setRole(res.getUserinfo().getRole())
                 // user.setUsername(res.getUserinfo().getUsername())
                 // user.setPassword(res.getUserinfo().getPassword())
@@ -48,7 +48,7 @@ const Information = () => {
 
                 setCustomerObject(userMapper.toCustomerObject(res))
 
-              
+
 
                 // settmp({
                 //     role: customer.getUserinfo().getRole(),
@@ -71,19 +71,19 @@ const Information = () => {
                 //     lastName: customer.getLastname(),
                 //     phone: customer.getPhone()
                 // })
-                
+
             }
 
         })
 
-       
+
     }
 
     React.useEffect(() => {
 
         getInformationUser(Auth);
 
-    },[])
+    }, [])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -108,7 +108,7 @@ const Information = () => {
         Cookies.remove("token");
         localStorage.clear()
     }
-    
+
     console.log(customerObject)
     return (
         <>
@@ -165,7 +165,7 @@ const Information = () => {
                     //     alert("Update is done");
                     //     setSubmitting(false);
                     // }
-                
+
 
 
 
@@ -178,7 +178,7 @@ const Information = () => {
                             label="Username"
                             name="userName"
                             type="text"
-                            disabled = "disabled"
+                            disabled="disabled"
                         />
                     </div>
 
@@ -227,12 +227,12 @@ const Information = () => {
                     <button type="submit" >Update</button>
                     <div style={{ margin: 10 }}>
 
-
                         <button onClick={ClickLogOut}>Logout</button>
+
                     </div>
 
                 </Form>
-            </Formik> : null}
+            </Formik> : <button onClick={ClickLogOut}>Logout</button>}
         </>
     )
 
