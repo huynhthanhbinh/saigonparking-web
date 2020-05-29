@@ -1,0 +1,15 @@
+version: '3'
+networks:
+  saigonparking-gateway:
+    driver: bridge
+
+services:
+  webserver:
+    image: ${DOCKER_HUB_ID}/webserver:${WEB_SERVER_VERSION}
+    networks:
+      - saigonparking-gateway
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "${WEB_SERVER_HTTP_LOCAL_PORT}:${WEB_SERVER_HTTP_DOCKER_PORT}"
+      - "${WEB_SERVER_HTTP_SSL_LOCAL_PORT}:${WEB_SERVER_HTTP_SSL_DOCKER_PORT}"

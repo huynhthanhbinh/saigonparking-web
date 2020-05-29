@@ -42,7 +42,7 @@
     "build": "react-scripts build",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:dev": "npm run dev",
-    "start:prod": "serve -s build",
+    "start:prod": "npm run dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

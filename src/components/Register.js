@@ -6,6 +6,10 @@ import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
 import { API_URL } from '../saigonparking';
 
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+
 const authService = new AuthServiceClient(API_URL)
 
 const callUserRegisterService = (registerUser, Auth) => {
@@ -57,7 +61,7 @@ const Login = () => {
       userName: '',
       passWord: '',
       phone: '',
-      confirmpassWord:''
+      confirmpassWord: ''
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -97,111 +101,151 @@ const Login = () => {
 
 
     <form onSubmit={formik.handleSubmit}>
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="firstName">First Name</label>
-        <input
-          id="firstName"
-          name="firstName"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.firstName}
-        />
-        {formik.touched.firstName && formik.errors.firstName ? (
-          <div>{formik.errors.firstName}</div>
-        ) : null}
-      </div>
+      <Container>
 
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="lastName">Last Name</label>
-        <input
-          id="lastName"
-          name="lastName"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.lastName}
-        />
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <div>{formik.errors.lastName}</div>
-        ) : null}
-      </div>
+        <Row  style={{ margin: 10 }}>
+          <Col xs={4}><label htmlFor="firstName">First Name</label></Col>
+          <Col xs={4}>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.firstName}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.firstName && formik.errors.firstName ? (
+              <div>{formik.errors.firstName}</div>
+            ) : null}
 
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="userName">userName</label>
-        <input
-          id="userName"
-          name="userName"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.userName}
-        />
-        {formik.touched.userName && formik.errors.userName ? (
-          <div>{formik.errors.userName}</div>
-        ) : null}
-      </div>
+          </Col>
+        </Row>
 
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="passWord">passWord</label>
-        <input
-          id="passWord"
-          name="passWord"
-          type="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.passWord}
-        />
-        {formik.touched.passWord && formik.errors.passWord ? (
-          <div>{formik.errors.passWord}</div>
-        ) : null}
-      </div>
 
-      
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="confirmpassWord">confirmpassWord</label>
-        <input
-          id="confirmpassWord"
-          name="confirmpassWord"
-          type="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.confirmpassWord}
-        />
-        {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
-          <div>{formik.errors.confirmpassWord}</div>
-        ) : null}
-      </div>
-          
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="email">Email Address</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-        />
-      </div>
-      {formik.touched.email && formik.errors.email ? (
-        <div>{formik.errors.email}</div>
-      ) : null}
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="lastName">Last Name</label></Col>
+          <Col xs={4}>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.lastName}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.lastName && formik.errors.lastName ? (
+              <div>{formik.errors.lastName}</div>
+            ) : null}
 
-      <div style={{ margin: 10 }}>
-        <label style={{ margin: 20 }} htmlFor="phone">phone</label>
-        <input
-          id="phone"
-          name="phone"
-          type="number"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.phone}
-        />
-        {formik.touched.phone && formik.errors.phone ? (
-          <div>{formik.errors.phone}</div>
-        ) : null}
-      </div>
+          </Col>
+        </Row>
+              
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="userName">userName</label></Col>
+          <Col xs={4}>
+            <input
+              id="userName"
+              name="userName"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.userName}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.userName && formik.errors.userName ? (
+              <div>{formik.errors.userName}</div>
+            ) : null}
+
+          </Col>
+        </Row>
+
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
+          <Col xs={4}>
+            <input
+              id="passWord"
+              name="passWord"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.passWord}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.passWord && formik.errors.passWord ? (
+              <div>{formik.errors.passWord}</div>
+            ) : null}
+
+          </Col>
+        </Row>
+
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="confirmpassWord">confirmpassWord</label></Col>
+          <Col xs={4}>
+            <input
+              id="confirmpassWord"
+              name="confirmpassWord"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.confirmpassWord}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
+              <div>{formik.errors.confirmpassWord}</div>
+            ) : null}
+
+          </Col>
+        </Row>
+
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="email">email</label></Col>
+          <Col xs={4}>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.email && formik.errors.email ? (
+              <div>{formik.errors.email}</div>
+            ) : null}
+
+          </Col>
+        </Row>
+
+        
+        <Row  style={{ margin: 5 }}>
+          <Col xs={4}><label htmlFor="phone">phone</label></Col>
+          <Col xs={4}>
+            <input
+              id="phone"
+              name="phone"
+              type="phone"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.phone}
+            />
+          </Col>
+          <Col xs={4}>
+            {formik.touched.phone && formik.errors.phone ? (
+              <div>{formik.errors.phone}</div>
+            ) : null}
+
+          </Col>
+        </Row>
+
+      </Container>
 
       <div style={{ margin: 10 }}>
         <button style={{ margin: 10 }} type="submit"  >Submit</button>

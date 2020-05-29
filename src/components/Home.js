@@ -1,6 +1,11 @@
 import React from 'react';
 import ControlledCarousel from './Home/Slider'
 
+
+
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
@@ -89,30 +94,67 @@ const Footer = () => {
     }
     return (
         <div>
-          
+
             <div style={style}>
-            Xin chao
+                Xin chao
             </div>
         </div>
     )
 
 }
 const Links = () => {
+
     return (
         <>
-            <Navbar bg="dark" variant="dark" style={{marginBottom:"20px"}}>
-                <Navbar.Brand href="/">HOME</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="/mymap">MYMAP</Nav.Link>
 
+            <nav>
+                <ul style={{
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
+                    overflow: "hidden",
+                    backgroundColor: "#333"
+                }} >
 
-                </Nav>
-                <Form inline>
-                    <Button variant="outline-info" href="/register">REGISTER</Button>
-                    <Button variant="outline-info" href="/login">LOGIN</Button>
+                    <li style={{ float: "left" }}>
+                        <Link style={{
+                            display: "block",
+                            color: "white",
+                            textAlign: "center",
+                            padding: "14px 16px",
+                            textDecoration: "none"
+                        }} to="/">HOME</Link>
+                    </li>
+                    <li style={{ float: "left" }}>
+                        <Link style={{
+                            display: "block",
+                            color: "white",
+                            textAlign: "center",
+                            padding: "14px 16px",
+                            textDecoration: "none"
+                        }} to="/mymap">MYMAP</Link>
+                    </li>
 
-                </Form>
-            </Navbar>
+                    <li style={{ float: "right" }}>
+                        <Link style={{
+                            display: "block",
+                            color: "white",
+                            textAlign: "center",
+                            padding: "14px 16px",
+                            textDecoration: "none"
+                        }} to="/register">REGISTER</Link>
+                    </li>
+                    <li style={{ float: "right" }}>
+                        <Link style={{
+                            display: "block",
+                            color: "white",
+                            textAlign: "center",
+                            padding: "14px 16px",
+                            textDecoration: "none"
+                        }} to="/login">LOGIN</Link>
+                    </li>
+                </ul>
+            </nav>
 
 
 
@@ -127,7 +169,7 @@ const Routes = () => {
         <>
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
-                <ProtectedMap exact path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
+                <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
                 <ProtectedRoute exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
@@ -164,7 +206,7 @@ const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) =
             {...rest}
 
             render={() =>
-            
+
                 <Component />
 
             }

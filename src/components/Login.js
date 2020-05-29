@@ -4,15 +4,21 @@ import * as Yup from 'yup';
 
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
-import {StatusCode} from 'grpc-web'
+import { StatusCode } from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
+
+
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+
 import {
     BrowserRouter as Router,
     Link,
 
 } from "react-router-dom";
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
 
 const userProto = require('../api/Actor_pb')
 
@@ -24,7 +30,7 @@ const Login = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [isClick,setIsClick]  = React.useState(true)
+    const [isClick, setIsClick] = React.useState(true)
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -41,24 +47,22 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-            if(isClick===true)
-            {
+            if (isClick === true) {
                 let tmp = callUserLoginService(values.userName, values.passWord, Auth)
                 setIsClick(false)
                 setTimeout(
-                    function() {
-                      console.log("đã hết 10s submit")
-                      setIsClick(true)
+                    function () {
+                        console.log("đã hết 10s submit")
+                        setIsClick(true)
                     }
                     ,
                     2000
                 );
             }
-            else
-            {
+            else {
                 console.log("chưa hết thời gian đừng nhấn làm gì cho uổng công")
             }
-            
+
 
         },
     });
@@ -120,37 +124,49 @@ const Login = () => {
     return (
         <div className="page-container">
             <form onSubmit={formik.handleSubmit}>
-                <div style={{ margin: 10 }}>
-                    <label htmlFor="userName">USERNAME</label>
-                    <input
-                        className="Name"
-                        id="userName"
-                        name="userName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.userName}
-                    />
-                    {formik.touched.userName && formik.errors.userName ? (
-                        <div>{formik.errors.userName}</div>
-                    ) : null}
-                </div>
+                <Container>
 
-                <div style={{ margin: 10 }}>
-                    <label htmlFor="passWord">PASSWORD</label>
-                    <input
+                    <Row style={{ margin: 5 }}>
+                        <Col xs={4}><label htmlFor="userName">userName</label></Col>
+                        <Col xs={4}>
+                            <input
+                                id="userName"
+                                name="userName"
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.userName}
+                            />
+                        </Col>
+                        <Col xs={4}>
+                            {formik.touched.userName && formik.errors.userName ? (
+                                <div>{formik.errors.userName}</div>
+                            ) : null}
 
-                        id="passWord"
-                        name="passWord"
-                        type="password"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.passWord}
-                    />
-                    {formik.touched.passWord && formik.errors.passWord ? (
-                        <div>{formik.errors.passWord}</div>
-                    ) : null}
-                </div>
+                        </Col>
+                    </Row>
+
+                    <Row style={{ margin: 5 }}>
+                        <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
+                        <Col xs={4}>
+                            <input
+                                id="passWord"
+                                name="passWord"
+                                type="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.passWord}
+                            />
+                        </Col>
+                        <Col xs={4}>
+                            {formik.touched.passWord && formik.errors.passWord ? (
+                                <div>{formik.errors.passWord}</div>
+                            ) : null}
+
+                        </Col>
+                    </Row>
+
+                </Container>
 
 
                 <div style={{ margin: 10 }}>

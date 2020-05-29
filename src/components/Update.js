@@ -8,7 +8,14 @@ import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
 
 const userService = new UserServiceClient(API_URL)
 
@@ -102,7 +109,7 @@ const Update = () => {
 
 
     const ClickLogOut = () => {
-       
+
     }
 
     console.log(customerObject)
@@ -247,8 +254,11 @@ const Update = () => {
                     <button type="submit" >Update</button>
                     <div style={{ margin: 10 }}>
 
-
-                        <button onClick={ClickLogOut}>Quay lai</button>
+                        <Link to="/profile">
+                            <button type="button">
+                                Back
+                        </button>
+                        </Link>
                     </div>
 
                 </Form>

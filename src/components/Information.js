@@ -8,7 +8,14 @@ import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
 
 const userService = new UserServiceClient(API_URL)
 
@@ -23,6 +30,7 @@ const Information = () => {
 
     const Auth = React.useContext(AuthApi)
     const [tmp, settmp] = React.useState(null)
+    const [nextpage, setnextpage] = React.useState(true)
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
@@ -90,6 +98,7 @@ const Information = () => {
         const [field, meta] = useField(props);
         return (
             <>
+
                 <label htmlFor={props.id || props.name}>{label}</label>
                 <input className="text-input" {...field} {...props} />
                 {meta.touched && meta.error ? (
@@ -147,26 +156,7 @@ const Information = () => {
 
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-
-                    // if (values.userName === tmp.username) {
-                    //     alert(" Username is not different before")
-
-                    // }
-                    // else if (values.passWord === tmp.password) {
-                    //     alert(" Password is not different before")
-
-                    // }
-                    // else if (values.email === tmp.email) {
-                    //     alert(" Email is not different before")
-
-                    // }
-                    // else {
-                    //     alert("Update is done");
-                    //     setSubmitting(false);
-                    // }
-
-
-
+                    setnextpage(false)
 
                 }}
             >
@@ -186,6 +176,7 @@ const Information = () => {
                             label="Password"
                             name="passWord"
                             type="passWord"
+                            disabled="disabled"
                         />
                     </div>
                     <div style={{ margin: 10 }}>
@@ -193,6 +184,7 @@ const Information = () => {
                             label="Email "
                             name="email"
                             type="email"
+                            disabled="disabled"
 
                         />
                     </div>
@@ -202,6 +194,7 @@ const Information = () => {
                             label="First Name"
                             name="firstName"
                             type="text"
+                            disabled="disabled"
 
                         />
                     </div>
@@ -211,6 +204,7 @@ const Information = () => {
                             label="Last Name"
                             name="lastName"
                             type="text"
+                            disabled="disabled"
 
                         />
                     </div>
@@ -219,11 +213,16 @@ const Information = () => {
                             label="Phone"
                             name="phone"
                             type="phone"
+                            disabled="disabled"
 
                         />
                     </div>
 
-                    <button type="submit" >Update</button>
+                    <Link to="/profile/update">
+                        <button type="button">
+                            update your information
+                        </button>
+                    </Link>
                     <div style={{ margin: 10 }}>
 
                         <button onClick={ClickLogOut}>Logout</button>
