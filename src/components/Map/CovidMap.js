@@ -3,7 +3,7 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from "leaflet";
 
 const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklocation }) => {
-    let defaultZoom = 8;
+    let defaultZoom = 15;
     let defaultLat = 10.762887;
     let defaultLng = 106.6800684;
 
@@ -49,6 +49,7 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklo
                     <Popup>
                         <ul >
                             <li>ID: {patient.getId()}</li>
+                            <li>NAME: {patient.getName()}</li>
                             <li>TYPE: {patient.getType()}</li>
                             <li>availableslot: {patient.getAvailableslot()}</li>
                             <li>totalSlot: {patient.getTotalslot()}</li>
@@ -62,6 +63,7 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklo
                     <Popup>
                         <ul >
                             <li>ID: {patient.getId()}</li>
+                            <li>NAME: {patient.getName()}</li>
                             <li>TYPE: {patient.getType()}</li>
                             <li>availableslot: {patient.getAvailableslot()}</li>
                             <li>totalSlot: {patient.getTotalslot()}</li>
@@ -75,6 +77,7 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklo
                     <Popup>
                         <ul >
                             <li>ID: {patient.getId()}</li>
+                            <li>NAME: {patient.getName()}</li>
                             <li>TYPE: {patient.getType()}</li>
                             <li>availableslot: {patient.getAvailableslot()}</li>
                             <li>totalSlot: {patient.getTotalslot()}</li>

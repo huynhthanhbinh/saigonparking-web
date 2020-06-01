@@ -34,20 +34,21 @@ const CovidDashboard = (props) => {
 
     const [checkPage, setcheckPage] = useState(true);
 
-    const [Clicklocation, setClicklocation] = useState(null)
+    const [Clicklocation, setClicklocation] = useState({lat:10.762887,lng:106.6800684})
 
    const fgetClicklocation = (getClicklocation) =>
     {
         console.log(getClicklocation)
-        setClicklocation(Clicklocation)
+        setClicklocation(getClicklocation)
+        
     }
 
     let listPatientSelected = [];
 
     let refs = [];
 
-    let defaultLat = 10.762887;
-    let defaultLng = 106.6800684;
+    // let defaultLat = 10.762887;
+    // let defaultLng = 106.6800684;
 
     let tmp = new ParkinglotProto.ParkingLotResultList();
     let abc = [];
@@ -56,20 +57,13 @@ const CovidDashboard = (props) => {
         const token = 'Bearer ' + Cookies.get("token");
 
         const metadata = { 'Authorization': token }
-        if (Clicklocation === null) {
-            request.setLatitude(defaultLat);
-            request.setLongitude(defaultLng);
-        }
-        else
-        {
-            request.setLatitude(Clicklocation.lat);
-            request.setLongitude(defaultLng.lng);
-        }
-
+      
+        request.setLatitude(Clicklocation.lat);
+        request.setLongitude(Clicklocation.lng);
         request.setRadiustoscan(3)
         request.setNresult(10)
 
-        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
+        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -90,14 +84,14 @@ const CovidDashboard = (props) => {
     }
 
     useEffect(() => {
-
+       
         callParkingLotAPI()
     }, [Clicklocation])
 
     useEffect(() => {
         setScrollList(patients, indexPatientClicked, refs);
     })
-
+    console.log(patients.length)
     refs = patients.reduce((acc, patient, index) => {
         acc[index] = React.createRef();
         return acc;

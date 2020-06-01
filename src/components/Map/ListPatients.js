@@ -9,6 +9,7 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker })
                     onClickItemPatient(patient, index);
                 }} active={index === indexClickedMaker ? true : false}><ul>
                         <li>{patient.getId()}</li>
+                        <li>{patient.getName()}</li>
                         <li>{patient.getAvailableslot()}</li>
                         <li>{patient.getTotalslot()}</li>
                     </ul>
