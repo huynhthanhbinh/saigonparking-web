@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 import CovidGoogleMap from "./CovidGoogleMap";
 import PatientInfo from "./PatientInfo";
-import Container from "react-bootstrap/Container";
 import CovidMap from "./CovidMap";
 import ListPatients from "./ListPatients";
 
@@ -15,13 +15,13 @@ import {
     Redirect
 } from "react-router-dom";
 
-import { subDays, startOfToday, format, addDays, getDate } from "date-fns";
+
 import Cookies from 'js-cookie'
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../api/ParkingLot_pb';
 import  { API_URL } from '../../saigonparking';
 
-const constantDay = new Date("2019-12-19");
+
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
@@ -50,8 +50,8 @@ const CovidDashboard = (props) => {
         const metadata = { 'Authorization': token }
         request.setLatitude(defaultLat);
         request.setLongitude(defaultLng);
-        request.setRadiustoscan(10)
-        request.setNresult(20)
+        request.setRadiustoscan(3)
+        request.setNresult(10)
 
         ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
 

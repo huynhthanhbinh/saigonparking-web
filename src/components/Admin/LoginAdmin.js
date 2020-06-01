@@ -2,11 +2,11 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import AuthApi from "./Auth/AuthAPI";
+import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie';
 import { StatusCode } from 'grpc-web'
-import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
-import authProto from '../api/Auth_pb';
+import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
+import authProto from '../../api/Auth_pb';
 
 
 import Row from "react-bootstrap/Row";
@@ -18,9 +18,9 @@ import {
     Link,
 
 } from "react-router-dom";
-import { API_URL } from '../saigonparking';
+import { API_URL } from '../../saigonparking';
 
-const userProto = require('../api/Actor_pb')
+const userProto = require('../../api/Actor_pb')
 
 const authService = new AuthServiceClient(API_URL)
 
@@ -47,9 +47,23 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-            
+            if (isClick === true) {
                 let tmp = callUserLoginService(values.userName, values.passWord, Auth)
-       
+                setIsClick(false)
+                setTimeout(
+                    function () {
+                        console.log("đã hết 10s submit")
+                        setIsClick(true)
+                    }
+                    ,
+                    2000
+                );
+            }
+            else {
+                console.log("chưa hết thời gian đừng nhấn làm gì cho uổng công")
+            }
+
+
         },
     });
 
@@ -57,7 +71,7 @@ const Login = () => {
         const request = new authProto.ValidateRequest();
         request.setUsername(username);
         request.setPassword(password);
-        request.setRole(userProto.UserRole.CUSTOMER)
+        request.setRole(userProto.UserRole.ADMIN)
 
         authService.validateUser(request, {}, (err, res) => {
 

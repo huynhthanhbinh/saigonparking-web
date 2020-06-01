@@ -12,7 +12,13 @@ import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
-
+import NavDropdown from 'react-bootstrap/NavDropdown'
+//admin
+import LoginAdmin from './Admin/LoginAdmin'
+import Admin from './Admin/Admin'
+import Admingetalluser from './Admin/User/Admingetalluser'
+import Admingetallparkinglot from './Admin/Parkinglot/Admingetallparkinglot'
+//
 import CovidDashboard from './Map/CovidDashboard'
 import Information from "./Information"
 import Login from './Login';
@@ -29,6 +35,7 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
+import auth from '../api/Auth_grpc_web_pb';
 
 
 
@@ -105,61 +112,42 @@ const Footer = () => {
 const Links = () => {
 
     return (
+       
         <>
+       
+            <Navbar bg="dark" expand="lg">
+                <Link to="/">
+                    <Navbar.Brand >HOME</Navbar.Brand>
+                </Link>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Link to="/mymap">
+                            <Nav >MAP</Nav>
+                        </Link>
 
-            <nav>
-                <ul style={{
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
-                    overflow: "hidden",
-                    backgroundColor: "#333"
-                }} >
+                    </Nav>
+                  
+                    <div style={{ marginRight: "50px" }} >
+                        <NavDropdown title="Dropdown" id="basic-nav-dropdown" >
+                            <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+                            <NavDropdown.Item ><Link to="/profile" >INFORMATION</Link></NavDropdown.Item>
+                            <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
 
-                    <li style={{ float: "left" }}>
-                        <Link style={{
-                            display: "block",
-                            color: "white",
-                            textAlign: "center",
-                            padding: "14px 16px",
-                            textDecoration: "none"
-                        }} to="/">HOME</Link>
-                    </li>
-                    <li style={{ float: "left" }}>
-                        <Link style={{
-                            display: "block",
-                            color: "white",
-                            textAlign: "center",
-                            padding: "14px 16px",
-                            textDecoration: "none"
-                        }} to="/mymap">MYMAP</Link>
-                    </li>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                        </NavDropdown>
+                    </div>
 
-                    <li style={{ float: "right" }}>
-                        <Link style={{
-                            display: "block",
-                            color: "white",
-                            textAlign: "center",
-                            padding: "14px 16px",
-                            textDecoration: "none"
-                        }} to="/register">REGISTER</Link>
-                    </li>
-                    <li style={{ float: "right" }}>
-                        <Link style={{
-                            display: "block",
-                            color: "white",
-                            textAlign: "center",
-                            padding: "14px 16px",
-                            textDecoration: "none"
-                        }} to="/login">LOGIN</Link>
-                    </li>
-                </ul>
-            </nav>
-
+                </Navbar.Collapse>
+            </Navbar>
 
 
         </>
-
+    
+    
+       
+    
     )
 
 }
@@ -169,6 +157,8 @@ const Routes = () => {
         <>
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
+                <ProtectedLoginAdmin exact path="/loginadmin" component={LoginAdmin} auth={Auth.auth}  ></ProtectedLoginAdmin>
+                <ProtectedAdmin exact path="/admin" component={Admin} auth={Auth.auth}  ></ProtectedAdmin>
                 <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
@@ -180,6 +170,66 @@ const Routes = () => {
             </Switch>
 
         </>
+    )
+}
+const ProtectedAdmingetalluser = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'ADMIN'
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                (auth === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+
+            }
+        />
+
+    )
+}
+const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'ADMIN'
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                (auth === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+
+            }
+        />
+
+    )
+}
+const ProtectedAdmin = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'ADMIN'
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                // (auth === false) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                <Component></Component>
+            }
+        />
+
+    )
+}
+const ProtectedLoginAdmin = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'ADMIN'
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+                <Component></Component>
+
+            }
+        />
+
     )
 }
 const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) => {
