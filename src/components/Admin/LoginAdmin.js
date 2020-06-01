@@ -47,21 +47,9 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-            if (isClick === true) {
+       
                 let tmp = callUserLoginService(values.userName, values.passWord, Auth)
-                setIsClick(false)
-                setTimeout(
-                    function () {
-                        console.log("đã hết 10s submit")
-                        setIsClick(true)
-                    }
-                    ,
-                    2000
-                );
-            }
-            else {
-                console.log("chưa hết thời gian đừng nhấn làm gì cho uổng công")
-            }
+             
 
 
         },
@@ -89,10 +77,12 @@ const Login = () => {
 
                         Auth.setcheckUserName(username)
                         Auth.setAuth(true)
+                        
 
 
                         Cookies.set("token", res.getAccesstoken())
                         Cookies.set("checkUserName", username)
+                        Cookies.set("isAdmin",1)
                         alert("Authenticated")
                         break;
                     }

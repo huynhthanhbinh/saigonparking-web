@@ -20,13 +20,15 @@ const Admin = () => {
         <Container>
             <Row>
                 <Col xs={6}>
-                    <Link to="/login">
+                    <Link to="/getalluser">
                     <button style={{marginTop:"100px", fontSize:"100px"}} class="blue">USER</button>
                     </Link>
 
                 </Col>
                 <Col xs={6}>
-                <button style={{marginTop:"100px", fontSize:"100px"}} class="blue">PARKING LOT</button>
+                <Link to="/getallparkinglot">
+                    <button style={{marginTop:"100px", fontSize:"100px"}} class="blue">PARKINGLOT</button>
+                    </Link>
                 </Col>
             </Row>
         </Container>

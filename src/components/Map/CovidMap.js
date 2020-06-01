@@ -1,11 +1,13 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from "leaflet";
 
-const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient }) => {
+const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklocation }) => {
     let defaultZoom = 8;
     let defaultLat = 10.762887;
     let defaultLng = 106.6800684;
+
+   const [cLocation , setcLocation] = useState(null)
 
     const BUILDING = new L.Icon({
         iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -31,8 +33,12 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient }) => {
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
     });
+    
 
-    return <Map center={[currentPatient ? currentPatient.getLatitude() : defaultLat, currentPatient ? currentPatient.getLongitude() : defaultLng]} zoom={defaultZoom}>
+    return <Map center={[currentPatient ? currentPatient.getLatitude() : defaultLat, currentPatient ? currentPatient.getLongitude() : defaultLng]} zoom={defaultZoom} onClick={(e)=>{
+      
+        fgetClicklocation(e.latlng)
+    }}>
         <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png   "

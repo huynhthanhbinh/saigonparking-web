@@ -43,13 +43,23 @@ function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
     const [isupdate, setIsupdate] = React.useState("asd")
+    const [isAdmin,setIsAdmin] = React.useState(false);
 
     const readcookie = () => {
         const token = Cookies.get("token");
         const checkUserName = Cookies.get("checkUserName");
+        const isAdmin = Cookies.get("isAdmin");
         if (token && checkUserName) {
             setAuth(true);
             setcheckUserName(checkUserName)
+            if(isAdmin!=null)
+            {
+                setIsAdmin(true)
+            }
+            else
+            {
+                setIsAdmin(false)
+            }
         }
     }
 
@@ -58,7 +68,7 @@ function Home() {
     }, [])
 
     return (
-        <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
+        <AuthApi.Provider value={{ checkUserName, setcheckUserName,isAdmin ,setIsAdmin,  auth, setAuth  }}>
             <Router>
                 <div>
                     <Links></Links>
@@ -130,7 +140,7 @@ const Links = () => {
                   
                     <div style={{ marginRight: "50px" }} >
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown" >
-                            <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+                            <NavDropdown.Item href="/login" >LOGIN</NavDropdown.Item>
                             <NavDropdown.Item ><Link to="/profile" >INFORMATION</Link></NavDropdown.Item>
                             <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
 
@@ -157,8 +167,13 @@ const Routes = () => {
         <>
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
-                <ProtectedLoginAdmin exact path="/loginadmin" component={LoginAdmin} auth={Auth.auth}  ></ProtectedLoginAdmin>
-                <ProtectedAdmin exact path="/admin" component={Admin} auth={Auth.auth}  ></ProtectedAdmin>
+              
+                <ProtectedLoginAdmin  path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedLoginAdmin>
+                <ProtectedAdmin  path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedAdmin>
+                <ProtectedAdmingetallparkinglot  path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetallparkinglot>
+                <ProtectedAdmingetalluser  path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetalluser>
+                
+
                 <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
@@ -172,7 +187,7 @@ const Routes = () => {
         </>
     )
 }
-const ProtectedAdmingetalluser = ({ auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedAdmingetalluser = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -180,14 +195,14 @@ const ProtectedAdmingetalluser = ({ auth, checkUserName, component: Component, .
             {...rest}
 
             render={() =>
-                (auth === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
 
             }
         />
 
     )
 }
-const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedAdmingetallparkinglot = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -195,29 +210,14 @@ const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, component: Compon
             {...rest}
 
             render={() =>
-                (auth === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
-
-            }
-        />
-
-    )
-}
-const ProtectedAdmin = ({ auth, checkUserName, component: Component, ...rest }) => {
-    document.title = 'ADMIN'
-    return (
-        <Route
-
-            {...rest}
-
-            render={() =>
-                // (auth === false) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                // (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
                 <Component></Component>
             }
         />
 
     )
 }
-const ProtectedLoginAdmin = ({ auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedAdmin = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -225,8 +225,22 @@ const ProtectedLoginAdmin = ({ auth, checkUserName, component: Component, ...res
             {...rest}
 
             render={() =>
-                <Component></Component>
+                (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+            }
+        />
 
+    )
+}
+const ProtectedLoginAdmin = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
+    document.title = 'ADMIN'
+    return (
+        <Route
+
+            {...rest}
+
+            render={() =>
+            //  (auth === false && isAdmin === false) ? (<Component />) : (<Redirect to="/admin" />)
+             <Component></Component>
             }
         />
 
@@ -240,7 +254,7 @@ const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) =>
             {...rest}
 
             render={() =>
-                <Component />
+                (auth === true) ? (<Component />) : (<Redirect to="/login" />)
 
             }
         />
@@ -290,7 +304,7 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
             {...rest}
 
             render={() =>
-                (!auth) ? (<Component />) : (<Redirect to="/profile" />)
+                (!auth) ? (<Component />) : (<Redirect to="/mymap" />)
 
             }
         />

@@ -19,7 +19,7 @@ import {
 import Cookies from 'js-cookie'
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../api/ParkingLot_pb';
-import  { API_URL } from '../../saigonparking';
+import { API_URL } from '../../saigonparking';
 
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -34,6 +34,13 @@ const CovidDashboard = (props) => {
 
     const [checkPage, setcheckPage] = useState(true);
 
+    const [Clicklocation, setClicklocation] = useState(null)
+
+   const fgetClicklocation = (getClicklocation) =>
+    {
+        console.log(getClicklocation)
+        setClicklocation(Clicklocation)
+    }
 
     let listPatientSelected = [];
 
@@ -41,6 +48,7 @@ const CovidDashboard = (props) => {
 
     let defaultLat = 10.762887;
     let defaultLng = 106.6800684;
+
     let tmp = new ParkinglotProto.ParkingLotResultList();
     let abc = [];
     const callParkingLotAPI = async () => {
@@ -48,8 +56,16 @@ const CovidDashboard = (props) => {
         const token = 'Bearer ' + Cookies.get("token");
 
         const metadata = { 'Authorization': token }
-        request.setLatitude(defaultLat);
-        request.setLongitude(defaultLng);
+        if (Clicklocation === null) {
+            request.setLatitude(defaultLat);
+            request.setLongitude(defaultLng);
+        }
+        else
+        {
+            request.setLatitude(Clicklocation.lat);
+            request.setLongitude(defaultLng.lng);
+        }
+
         request.setRadiustoscan(3)
         request.setNresult(10)
 
@@ -76,8 +92,7 @@ const CovidDashboard = (props) => {
     useEffect(() => {
 
         callParkingLotAPI()
-    }, []
-    )
+    }, [Clicklocation])
 
     useEffect(() => {
         setScrollList(patients, indexPatientClicked, refs);
@@ -97,7 +112,7 @@ const CovidDashboard = (props) => {
         setIndexPatientClicked(index);
     }
 
-    
+
 
 
     patients.map((patien, index) => {
@@ -106,13 +121,13 @@ const CovidDashboard = (props) => {
 
     })
 
-    return ( (<Container>
+    return ((<Container>
         <Row>
 
-            <Col xs={10}><CovidMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} /></Col>
+            <Col xs={10}><CovidMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} /></Col>
             <Col xs={2}>
                 {currentPatient &&
-                    <PatientInfo id={currentPatient.getId()}  availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()}  />}
+                    <PatientInfo id={currentPatient.getId()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
             </Col>
         </Row>
         <Row>
@@ -120,10 +135,10 @@ const CovidDashboard = (props) => {
                 <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
             </Col>
         </Row>
-       
 
 
-    </Container>)  )
+
+    </Container>))
 };
 
 const setScrollList = (patients, index, refs) => {
