@@ -79,7 +79,7 @@ const Login = () => {
 
                         Cookies.set("token", res.getAccesstoken())
                         Cookies.set("checkUserName", username)
-                        alert("Authenticated")
+                        
                         break;
                     }
                     case ValidateResponseType.INCORRECT: {

@@ -43,7 +43,7 @@ function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
     const [isupdate, setIsupdate] = React.useState("asd")
-    const [isAdmin,setIsAdmin] = React.useState(false);
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
     const readcookie = () => {
         const token = Cookies.get("token");
@@ -52,12 +52,10 @@ function Home() {
         if (token && checkUserName) {
             setAuth(true);
             setcheckUserName(checkUserName)
-            if(isAdmin!=null)
-            {
+            if (isAdmin != null) {
                 setIsAdmin(true)
             }
-            else
-            {
+            else {
                 setIsAdmin(false)
             }
         }
@@ -68,7 +66,7 @@ function Home() {
     }, [])
 
     return (
-        <AuthApi.Provider value={{ checkUserName, setcheckUserName,isAdmin ,setIsAdmin,  auth, setAuth  }}>
+        <AuthApi.Provider value={{ checkUserName, setcheckUserName, isAdmin, setIsAdmin, auth, setAuth }}>
             <Router>
                 <div>
                     <Links></Links>
@@ -120,11 +118,17 @@ const Footer = () => {
 
 }
 const Links = () => {
-
+    const Auth = React.useContext(AuthApi)
+    const ClickLogOut = () => {
+        Auth.setAuth(false)
+        Cookies.remove("checkUserName");
+        Cookies.remove("token");
+        localStorage.clear()
+    }
     return (
-       
+
         <>
-       
+
             <Navbar bg="dark" expand="lg">
                 <Link to="/">
                     <Navbar.Brand >HOME</Navbar.Brand>
@@ -137,15 +141,15 @@ const Links = () => {
                         </Link>
 
                     </Nav>
-                  
+
                     <div style={{ marginRight: "50px" }} >
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown" >
-                            <NavDropdown.Item href="/login" >LOGIN</NavDropdown.Item>
-                            <NavDropdown.Item ><Link to="/profile" >INFORMATION</Link></NavDropdown.Item>
+                            <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+                            <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
                             <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
 
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                            <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
                         </NavDropdown>
                     </div>
 
@@ -154,10 +158,10 @@ const Links = () => {
 
 
         </>
-    
-    
-       
-    
+
+
+
+
     )
 
 }
@@ -167,17 +171,17 @@ const Routes = () => {
         <>
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
-              
-                <ProtectedLoginAdmin  path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedLoginAdmin>
-                <ProtectedAdmin  path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedAdmin>
-                <ProtectedAdmingetallparkinglot  path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetallparkinglot>
-                <ProtectedAdmingetalluser  path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetalluser>
-                
+
+                <ProtectedLoginAdmin path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedLoginAdmin>
+                <ProtectedAdmin path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedAdmin>
+                <ProtectedAdmingetallparkinglot path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetallparkinglot>
+                <ProtectedAdmingetalluser path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetalluser>
+
 
                 <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
                 <ProtectedLogin path="/login" component={Login} auth={Auth.auth}  ></ProtectedLogin>
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
-                <ProtectedRoute exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedRoute>
+                <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
                 <ProtectedUpdate path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
                 <ProtectedForgetPassword path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
                 <ProtectedResetPassword path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
@@ -187,7 +191,7 @@ const Routes = () => {
         </>
     )
 }
-const ProtectedAdmingetalluser = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
+const ProtectedAdmingetalluser = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -202,7 +206,7 @@ const ProtectedAdmingetalluser = ({ auth, checkUserName,isAdmin, component: Comp
 
     )
 }
-const ProtectedAdmingetallparkinglot = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
+const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -217,7 +221,7 @@ const ProtectedAdmingetallparkinglot = ({ auth, checkUserName,isAdmin, component
 
     )
 }
-const ProtectedAdmin = ({ auth, checkUserName,isAdmin, component: Component, ...rest }) => {
+const ProtectedAdmin = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
         <Route
@@ -239,8 +243,8 @@ const ProtectedLoginAdmin = ({ auth, checkUserName, isAdmin, component: Componen
             {...rest}
 
             render={() =>
-            //  (auth === false && isAdmin === false) ? (<Component />) : (<Redirect to="/admin" />)
-             <Component></Component>
+                //  (auth === false && isAdmin === false) ? (<Component />) : (<Redirect to="/admin" />)
+                <Component></Component>
             }
         />
 
@@ -278,7 +282,7 @@ const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) =
 
     )
 }
-const ProtectedRoute = ({ auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedProfile = ({ auth, checkUserName, component: Component, ...rest }) => {
     document.title = 'YOUR INFORMATION'
     return (
         <Route
@@ -298,7 +302,7 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var token = url.searchParams.get("token");
-    console.log(token)
+
     return (
         <Route
             {...rest}
