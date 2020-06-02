@@ -2,6 +2,11 @@ import React from 'react'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
 
+
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+
 import { UserServiceClient } from '../api/Actor_grpc_web_pb';
 import UserProto from '../api/Actor_pb';
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
@@ -97,11 +102,18 @@ const Update = () => {
         const [field, meta] = useField(props);
         return (
             <>
-                <label htmlFor={props.id || props.name}>{label}</label>
-                <input className="text-input" {...field} {...props} />
-                {meta.touched && meta.error ? (
-                    <div className="error">{meta.error}</div>
-                ) : null}
+                <Container>
+                    <Row style={{ margin: 5 }}>
+                        <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
+                        <Col xs={4}> <input className="text-input" {...field} {...props} /></Col>
+                        <Col xs={4}>  {meta.touched && meta.error ? (
+                            <div className="error">{meta.error}</div>
+                        ) : null}</Col>
+                    </Row>
+                </Container>
+
+
+
             </>
         );
     };
@@ -251,13 +263,13 @@ const Update = () => {
                         />
                     </div>
 
-                    <button type="submit" >Update</button>
-                    <div style={{ margin: 10 }}>
 
+                    <div style={{ margin: 10 }}>
+                        <button type="submit" >Update</button>
                         <Link to="/profile">
-                            <button type="button">
+                            <button style={{margin:10}} type="button">
                                 Back
-                        </button>
+                            </button>
                         </Link>
                     </div>
 

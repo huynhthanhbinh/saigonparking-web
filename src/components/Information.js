@@ -2,6 +2,10 @@ import React from 'react'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
 
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+
 import { UserServiceClient } from '../api/Actor_grpc_web_pb';
 import UserProto from '../api/Actor_pb';
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
@@ -64,12 +68,18 @@ const Information = () => {
         const [field, meta] = useField(props);
         return (
             <>
+                <Container>
+                    <Row style={{ margin: 5 }}>
+                        <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
+                        <Col xs={4}> <input className="text-input" {...field} {...props} /></Col>
+                        <Col xs={4}>  {meta.touched && meta.error ? (
+                            <div className="error">{meta.error}</div>
+                        ) : null}</Col>
+                    </Row>
+                </Container>
 
-                <label htmlFor={props.id || props.name}>{label}</label>
-                <input className="text-input" {...field} {...props} />
-                {meta.touched && meta.error ? (
-                    <div className="error">{meta.error}</div>
-                ) : null}
+
+
             </>
         );
     };
@@ -183,15 +193,15 @@ const Information = () => {
 
                         />
                     </div>
-
-                    <Link to="/profile/update">
-                        <button type="button">
-                            update your information
-                        </button>
-                    </Link>
                     <div style={{ margin: 10 }}>
+                        <Link to="/profile/update">
+                            <button type="button">
+                                update your information
+                        </button>
+                        </Link>
 
-                        <button onClick={ClickLogOut}>Logout</button>
+
+                        <button style={{ margin: 10 }} onClick={ClickLogOut}>Logout</button>
 
                     </div>
 

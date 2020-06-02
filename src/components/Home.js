@@ -97,7 +97,7 @@ const Footer = () => {
         position: "fixed",
         left: "0",
         bottom: "0",
-        height: "60px",
+        height: "70px",
         width: "100%",
     }
 
@@ -111,7 +111,19 @@ const Footer = () => {
         <div>
 
             <div style={style}>
-                Xin chao
+                <div class="container-fluid text-center text-md-left">
+                    <div class="row">
+                        <div class="col-md-6 mt-md-0 mt-3">
+                            <h5 class="text-uppercase font-weight-bold">LUÔN LUÔN LẮNG NGHE LÂU LÂU MỚI HIỂU</h5>
+
+                        </div>
+                        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+                             <a href="https://www.facebook.com/profile.php?id=100009196064931"> ParkingMapSaiGon</a>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     )
@@ -125,45 +137,77 @@ const Links = () => {
         Cookies.remove("token");
         localStorage.clear()
     }
-    return (
+    if (Auth.auth === true) {
+        return (
+            <>
+                <Navbar bg="dark" expand="lg">
+                    <Link to="/">
+                        <Navbar.Brand >HOME</Navbar.Brand>
+                    </Link>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Link to="/mymap">
+                                <Nav >MAP</Nav>
+                            </Link>
 
-        <>
+                        </Nav>
 
-            <Navbar bg="dark" expand="lg">
-                <Link to="/">
-                    <Navbar.Brand >HOME</Navbar.Brand>
-                </Link>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Link to="/mymap">
-                            <Nav >MAP</Nav>
-                        </Link>
+                        <div style={{ marginRight: "50px" }} >
+                            <NavDropdown title={
+                                <span className="text-primary my-auto">{Auth.checkUserName}</span>
+                            }
+                                id="nav-dropdown">
 
-                    </Nav>
-
-                    <div style={{ marginRight: "50px" }} >
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown" >
-                            <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
-                            <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
-                            <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
-
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
-                        </NavDropdown>
-                    </div>
-
-                </Navbar.Collapse>
-            </Navbar>
+                                <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
 
 
-        </>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
+                            </NavDropdown>
+                        </div>
 
+                    </Navbar.Collapse>
+                </Navbar>
+            </>
 
+        )
 
+    }
+    else if (Auth.auth == false) {
+        return (
+            <>
+                <Navbar bg="dark" expand="lg">
+                    <Link to="/">
+                        <Navbar.Brand >HOME</Navbar.Brand>
+                    </Link>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Link to="/mymap">
+                                <Nav >MAP</Nav>
+                            </Link>
 
-    )
+                        </Nav>
 
+                        <div style={{ marginRight: "50px" }} >
+                            <NavDropdown title="ĐĂNG NHẬP" id="basic-nav-dropdown" >
+                                <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+
+                                <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
+
+                                <NavDropdown.Divider />
+
+                            </NavDropdown>
+                        </div>
+
+                    </Navbar.Collapse>
+                </Navbar>
+            </>
+
+        )
+
+    }
 }
 const Routes = () => {
     const Auth = React.useContext(AuthApi)
