@@ -53,8 +53,7 @@ const Admingetallparkinglot = () => {
     useEffect(() => {
 
         callParkingLotAPI()
-    }, []
-    )
+    }, [])
     console.log(patients)
     return (
         <div class="card">

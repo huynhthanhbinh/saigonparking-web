@@ -7,7 +7,7 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklo
     let defaultLat = 10.762887;
     let defaultLng = 106.6800684;
 
-   const [cLocation , setcLocation] = useState(null)
+ 
 
     const BUILDING = new L.Icon({
         iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',

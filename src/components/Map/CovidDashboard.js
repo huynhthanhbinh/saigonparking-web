@@ -118,7 +118,8 @@ const CovidDashboard = (props) => {
     return ((<Container>
         <Row>
 
-            <Col xs={10}><CovidMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} /></Col>
+          {(patients.length!=0)?  <Col xs={10}><CovidMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
+          </Col>:null}
             <Col xs={2}>
                 {currentPatient &&
                     <PatientInfo id={currentPatient.getId()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
