@@ -100,11 +100,12 @@ const CovidDashboard = (props) => {
             return acc;
         }, {});
 
-        patients.map((patien, index) => {
+        patients.map((patient, index) => {
 
-            listPatientSelected = listPatientSelected.concat(patien);
+            listPatientSelected = listPatientSelected.concat(patient);
     
         })
+        
     }
 
     const patientMarkerClickedHandler = (patient, index) => {
@@ -116,11 +117,6 @@ const CovidDashboard = (props) => {
         setCurrentPatient(patient);
         setIndexPatientClicked(index);
     }
-
-
-
-    console.log(patients)
-  
 
     return ((<Container>
         <Row>

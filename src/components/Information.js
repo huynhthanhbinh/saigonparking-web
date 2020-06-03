@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 import { UserServiceClient } from '../api/Actor_grpc_web_pb';
-import UserProto from '../api/Actor_pb';
+
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';

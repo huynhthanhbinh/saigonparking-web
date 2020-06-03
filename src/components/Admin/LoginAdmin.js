@@ -77,6 +77,7 @@ const Login = () => {
 
                         Auth.setcheckUserName(username)
                         Auth.setAuth(true)
+                        Auth.setIsAdmin(1)
                         
 
 

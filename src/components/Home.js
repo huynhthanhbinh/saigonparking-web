@@ -43,21 +43,16 @@ function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
     const [isupdate, setIsupdate] = React.useState("asd")
-    const [isAdmin, setIsAdmin] = React.useState(false);
+    const [isAdmin, setIsAdmin] = React.useState(null);
 
     const readcookie = () => {
         const token = Cookies.get("token");
         const checkUserName = Cookies.get("checkUserName");
-        const isAdmin = Cookies.get("isAdmin");
-        if (token && checkUserName) {
+        const isadmin = Cookies.get("isAdmin");
+        if (token && checkUserName && isadmin ) {
             setAuth(true);
             setcheckUserName(checkUserName)
-            if (isAdmin != null) {
-                setIsAdmin(true)
-            }
-            else {
-                setIsAdmin(false)
-            }
+            setIsAdmin(isadmin)
         }
     }
 
@@ -133,8 +128,11 @@ const Links = () => {
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
+        Auth.setIsAdmin(null)
+        Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
+        Cookies.remove("isAdmin");
         localStorage.clear()
     }
     if (Auth.auth === true) {
@@ -216,8 +214,8 @@ const Routes = () => {
             <Switch>
                 <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
 
-                <ProtectedLoginAdmin path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedLoginAdmin>
-                <ProtectedAdmin path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} ></ProtectedAdmin>
+                <ProtectedLoginAdmin path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedLoginAdmin>
+                <ProtectedAdmin path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedAdmin>
                 <ProtectedAdmingetallparkinglot path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetallparkinglot>
                 <ProtectedAdmingetalluser path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetalluser>
 
@@ -273,22 +271,26 @@ const ProtectedAdmin = ({ auth, checkUserName, isAdmin, component: Component, ..
             {...rest}
 
             render={() =>
-                (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                (isAdmin !=null && auth === true && checkUserName !=null ) ? (<Component/>) : (<Redirect to="/loginadmin" />)
             }
         />
 
     )
 }
 const ProtectedLoginAdmin = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
-    document.title = 'ADMIN'
+    document.title = 'LOGIN ADMIN'
+    console.log(isAdmin)
+    console.log(checkUserName)
+    console.log(auth)
     return (
         <Route
 
             {...rest}
-
+           
             render={() =>
-                //  (auth === false && isAdmin === false) ? (<Component />) : (<Redirect to="/admin" />)
-                <Component></Component>
+       
+                 (isAdmin ==='1' && auth === true && checkUserName !=null ) ? (<Redirect to="/admin" />) : (<Component/>)
+             
             }
         />
 

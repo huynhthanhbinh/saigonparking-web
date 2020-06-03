@@ -28,7 +28,7 @@ import mapStyles from "./mapStyles";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  height: "100vh",
+  height: "50vh",
   width: "100%",
 };
 const options = {
@@ -94,7 +94,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {patients.map((patient, index) => {
+        {patients && patients.map((patient, index) => {
           if (patient.getType() === 0) {
             return (<Marker
               key={index}
