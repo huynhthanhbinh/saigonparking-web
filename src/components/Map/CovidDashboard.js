@@ -118,7 +118,7 @@ const CovidDashboard = (props) => {
     return ((<Container>
         <Row>
 
-          {(patients.length!=0)?  <Col xs={10}><CovidMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
+          {(patients.length!=0)?  <Col xs={10}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
           </Col>:null}
             <Col xs={2}>
                 {currentPatient &&
