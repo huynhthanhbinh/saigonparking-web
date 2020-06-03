@@ -28,19 +28,19 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 const CovidDashboard = (props) => {
     const [currentPatient, setCurrentPatient] = useState();
 
-    const [patients, setPatients] = useState([]);
+    // những nơi có sử dụng patients phải check coi khác null không 
+    const [patients, setPatients] = useState(null);
 
     const [indexPatientClicked, setIndexPatientClicked] = useState();
 
     const [checkPage, setcheckPage] = useState(true);
 
-    const [Clicklocation, setClicklocation] = useState({lat:10.762887,lng:106.6800684})
+    const [Clicklocation, setClicklocation] = useState({ lat: 10.762887, lng: 106.6800684 })
 
-   const fgetClicklocation = (getClicklocation) =>
-    {
+    const fgetClicklocation = (getClicklocation) => {
         console.log(getClicklocation)
         setClicklocation(getClicklocation)
-        
+
     }
 
     let listPatientSelected = [];
@@ -57,7 +57,7 @@ const CovidDashboard = (props) => {
         const token = 'Bearer ' + Cookies.get("token");
 
         const metadata = { 'Authorization': token }
-      
+
         request.setLatitude(Clicklocation.lat);
         request.setLongitude(Clicklocation.lng);
         request.setRadiustoscan(3)
@@ -84,18 +84,29 @@ const CovidDashboard = (props) => {
     }
 
     useEffect(() => {
-       
+
         callParkingLotAPI()
     }, [Clicklocation])
 
     useEffect(() => {
-        setScrollList(patients, indexPatientClicked, refs);
+        if (patients != null) {
+            setScrollList(patients, indexPatientClicked, refs);
+        }
+
     })
-    console.log(patients.length)
-    refs = patients.reduce((acc, patient, index) => {
-        acc[index] = React.createRef();
-        return acc;
-    }, {});
+    if (patients != null) {
+        refs = patients.reduce((acc, patient, index) => {
+            acc[index] = React.createRef();
+            return acc;
+        }, {});
+
+        patients.map((patien, index) => {
+
+            listPatientSelected = listPatientSelected.concat(patien);
+    
+        })
+    }
+
     const patientMarkerClickedHandler = (patient, index) => {
         setCurrentPatient(patient);
         setIndexPatientClicked(index);
@@ -108,18 +119,14 @@ const CovidDashboard = (props) => {
 
 
 
-
-    patients.map((patien, index) => {
-
-        listPatientSelected = listPatientSelected.concat(patien);
-
-    })
+    console.log(patients)
+  
 
     return ((<Container>
         <Row>
 
-          {(patients.length!=0)?  <Col xs={10}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
-          </Col>:null}
+            {(patients !=null) ? <Col xs={10}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
+            </Col> : null}
             <Col xs={2}>
                 {currentPatient &&
                     <PatientInfo id={currentPatient.getId()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
@@ -127,8 +134,9 @@ const CovidDashboard = (props) => {
         </Row>
         <Row>
             <Col xs={10}>
-                <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
+            <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
             </Col>
+            
         </Row>
 
 
