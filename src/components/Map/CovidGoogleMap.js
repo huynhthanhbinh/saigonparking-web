@@ -111,7 +111,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               key={`${patient.getLatitude()}-${patient.getLongitude()}`}
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
-                setSelected(patient);
+                onPatientMarkerClicked(patient, index)
               }}
               icon={{
                 url: markerprivate,
@@ -126,7 +126,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               key={`${patient.getLatitude()}-${patient.getLongitude()}`}
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
-                setSelected(patient);
+                onPatientMarkerClicked(patient, index)
               }}
               icon={{
                 url: markerstreet,
