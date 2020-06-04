@@ -7,11 +7,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar'
-import Button from 'react-bootstrap/Button'
-import Nav from 'react-bootstrap/Nav'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
+
+import { Nav, Navbar, NavItem } from "react-bootstrap";
+
+
+
 import NavDropdown from 'react-bootstrap/NavDropdown'
 //admin
 import LoginAdmin from './Admin/LoginAdmin'
@@ -49,7 +49,7 @@ function Home() {
         const token = Cookies.get("token");
         const checkUserName = Cookies.get("checkUserName");
         const isadmin = Cookies.get("isAdmin");
-        if (token && checkUserName && isadmin ) {
+        if (token && checkUserName && isadmin) {
             setAuth(true);
             setcheckUserName(checkUserName)
             setIsAdmin(isadmin)
@@ -216,8 +216,13 @@ const Routes = () => {
 
                 <ProtectedLoginAdmin path="/loginadmin" component={LoginAdmin} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedLoginAdmin>
                 <ProtectedAdmin path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedAdmin>
-                <ProtectedAdmingetallparkinglot path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetallparkinglot>
-                <ProtectedAdmingetalluser path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin}  ></ProtectedAdmingetalluser>
+
+                <ProtectedAdmingetallparkinglot exact path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName}  ></ProtectedAdmingetallparkinglot>
+                <ProtectedAdminupdateparkinglot exact path="/getallparkinglot/update/:parkinglotId" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  checkUserName={Auth.checkUserName} ></ProtectedAdminupdateparkinglot>
+
+
+
+                <ProtectedAdmingetalluser exact path="/getalluser" component={Admingetalluser} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedAdmingetalluser>
 
 
                 <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
@@ -234,14 +239,14 @@ const Routes = () => {
     )
 }
 const ProtectedAdmingetalluser = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
-    document.title = 'ADMIN'
+    document.title = 'ADMIN USER'
     return (
         <Route
 
             {...rest}
 
             render={() =>
-                (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
 
             }
         />
@@ -249,20 +254,42 @@ const ProtectedAdmingetalluser = ({ auth, checkUserName, isAdmin, component: Com
     )
 }
 const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
-    document.title = 'ADMIN'
+    document.title = 'ADMIN PARKING LOT'
     return (
         <Route
 
             {...rest}
 
             render={() =>
-                // (auth === true && isAdmin === true) ? (<Component />) : (<Redirect to="/loginadmin" />)
-                <Component></Component>
+                (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
             }
         />
 
     )
 }
+const ProtectedAdminupdateparkinglot = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
+    document.title = 'UPDATE PARKING LOT'
+    
+    return (
+        <Route
+
+            {...rest}
+
+            render={({ match }) => {
+                const currentId = match.params.parkinglotId;
+                console.log(match)
+                return (
+                    <div>
+                        <h3>Welcome to the {currentId} </h3>
+                    </div>
+                );
+            }
+            }
+        />
+
+    )
+}
+
 const ProtectedAdmin = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
     document.title = 'ADMIN'
     return (
@@ -271,7 +298,7 @@ const ProtectedAdmin = ({ auth, checkUserName, isAdmin, component: Component, ..
             {...rest}
 
             render={() =>
-                (isAdmin !=null && auth === true && checkUserName !=null ) ? (<Component/>) : (<Redirect to="/loginadmin" />)
+                (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
             }
         />
 
@@ -286,11 +313,11 @@ const ProtectedLoginAdmin = ({ auth, checkUserName, isAdmin, component: Componen
         <Route
 
             {...rest}
-           
+
             render={() =>
-       
-                 (isAdmin ==='1' && auth === true && checkUserName !=null ) ? (<Redirect to="/admin" />) : (<Component/>)
-             
+
+                (isAdmin != null && auth === true && checkUserName != null) ? (<Redirect to="/admin" />) : (<Component />)
+
             }
         />
 

@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import Modal from 'react-modal';
+import UpdateModal from './Updateparkinglot'
+import AddModal from './Addparkinglot'
 import {
     BrowserRouter as Router,
     Switch,
@@ -13,9 +16,35 @@ import Cookies from 'js-cookie'
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
-const Admingetallparkinglot = () => {
-    const [patients, setPatients] = useState([]);
 
+const Admingetallparkinglot = () => {
+
+    //config Update modal
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+    function openModal() {
+        setIsOpen(true);
+    }
+   
+    function closeModal() {
+        setIsOpen(false);
+    }
+   
+
+    //config Add modal
+
+    const [modalAddIsOpen, setIsAddOpen] = React.useState(false);
+    function openModalAdd() {
+        setIsAddOpen(true);
+    }
+   
+    function closeModalAdd() {
+        setIsAddOpen(false);
+    }
+
+    //value
+    const [patients, setPatients] = useState([]);
+    const [tmp, settmp] = useState(null)
     let defaultLat = 10.762887;
     let defaultLng = 106.6800684;
     let abc = [];
@@ -34,7 +63,7 @@ const Admingetallparkinglot = () => {
 
             if (err) {
                 console.log(err)
-               
+
             } else {
 
 
@@ -54,10 +83,11 @@ const Admingetallparkinglot = () => {
 
         callParkingLotAPI()
     }, [])
-    console.log(patients)
+    
     return (
         <div class="card">
-            <button onClick="location.href='./QUANLYNV/ADD'" id="addnewlist" type="button" class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"><a class="fas fa-plus"  ></a> Add a new List</button>
+
+            <button onClick={openModalAdd} id="addnewlist" type="button" class="btn btn-success position-absolute" ><a class="fas fa-plus"  ></a> Add a new List</button>
             <table class="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
@@ -73,10 +103,10 @@ const Admingetallparkinglot = () => {
                 <tbody>
 
                     {
-                        patients.map((patient, index) => 
-                            <tr key = {index}>
-                           
-                            
+                        patients.map((patient, index) =>
+                            <tr key={index}>
+
+
                                 <th scope="row" id="IDBIXOA">{patient.getId()}</th>
                                 <td>{patient.getName()}</td>
                                 <td>{patient.getType()}</td>
@@ -85,14 +115,18 @@ const Admingetallparkinglot = () => {
                                 <td>{patient.getAvailableslot()}</td>
                                 <td>{patient.getTotalslot()}</td>
                                 <td>{patient.getDistance()}</td>
-
                                 <td>
                                     <Link class="btn btn-sm btn-primary" to="/login" ><i class="far fa-edit"></i> edit</Link>
                                     <a id="btn-employee-delete" class="btn btn-sm btn-danger" ><i class="fas fa-trash-alt"></i> delete</a>
+                                    <button onClick={() => {
+                                        openModal()
+                                        settmp(patient)
+                                    }
+                                    }>Open Modal</button>
                                 </td>
+                            <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} />
+                            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd}  />
 
-                          
-                            
                             </tr>
                         )
                     }
@@ -104,4 +138,6 @@ const Admingetallparkinglot = () => {
         </div>
     )
 }
+
+
 export default Admingetallparkinglot;
