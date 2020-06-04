@@ -4,8 +4,9 @@ import Modal from 'react-modal';
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+import '../../../css/modal.css'
 
-Modal.setAppElement('body')
+Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     let subtitle;
     const customStyles = {
@@ -15,7 +16,8 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             right: 'auto',
             bottom: 'auto',
             marginRight: '-50%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
+
         }
     };
     function afterOpenModal() {
@@ -52,10 +54,12 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
             <Modal
                 isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
+               
                 onRequestClose={closeModal}
-                style={customStyles}
+
                 contentLabel="Example Modal"
+                className="modal-content"
+                overlayClassName="modal-overlay"
             >
 
                 <h2 ref={_subtitle => (subtitle = _subtitle)}>UPDATE USER</h2>
@@ -65,11 +69,11 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                 <Formik
                     initialValues={{
-                        userName: parkinglot.getName(),
-                        passWord: parkinglot.getName(),
+                        userName: parkinglot.getUsername(),
+                        passWord: parkinglot.getUsername(),
                         email: '',
-                        firstName: parkinglot.getName(),
-                        lastName: parkinglot.getName(),
+                        firstName: parkinglot.getUsername(),
+                        lastName: parkinglot.getUsername(),
                         phone: ''
 
 

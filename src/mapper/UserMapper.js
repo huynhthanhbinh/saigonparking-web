@@ -34,4 +34,13 @@ userMapper.toCustomer = (customerObject) => {
     return customer;
 }
 
+userMapper.toRoleString = (roleNumber) => {
+    switch (roleNumber) {
+        case 1: return "PARKING_LOT_EMPLOYEE"
+        case 2: return "GOVERNMENT_EMPLOYEE"
+        case 3: return "ADMIN"
+        default: return "CUSTOMER"
+    }
+}
+
 export default userMapper;

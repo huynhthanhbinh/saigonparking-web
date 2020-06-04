@@ -135,6 +135,43 @@ const Links = () => {
         Cookies.remove("isAdmin");
         localStorage.clear()
     }
+    if (Auth.auth === true && Auth.isAdmin != null) {
+        return (
+            <>
+                <Navbar bg="dark" expand="lg">
+                    <Link to="/">
+                        <Navbar.Brand >HOME</Navbar.Brand>
+                    </Link>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Link to="/mymap">
+                                <Nav >MAP</Nav>
+                            </Link>
+
+                        </Nav>
+
+                        <div style={{ marginRight: "50px" }} >
+                            <NavDropdown title={
+                                <span className="text-primary my-auto">{Auth.checkUserName}</span>
+                            }
+                                id="nav-dropdown">
+
+                                <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
+                                <NavDropdown.Item ><Link to="/admin" >ADMIN</Link></NavDropdown.Item>
+
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
+                            </NavDropdown>
+                        </div>
+
+                    </Navbar.Collapse>
+                </Navbar>
+            </>
+
+        )
+
+    }
     if (Auth.auth === true) {
         return (
             <>
@@ -246,8 +283,8 @@ const ProtectedAdmingetalluser = ({ auth, checkUserName, isAdmin, component: Com
             {...rest}
 
             render={() =>
-                (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
-
+                // (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                    <Component></Component>
             }
         />
 

@@ -13,6 +13,8 @@ grpc.web = require('grpc-web');
 
 
 var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js')
+
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
 const proto = {};
 proto.com = {};
 proto.com.bht = {};
@@ -90,6 +92,116 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient =
    * @private @const {?Object} Options for the client
    */
   this.options_ = options;
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodInfo_ParkingLotService_countAll = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.Int64Value,
+  /** @param {!proto.google.protobuf.Empty} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Int64Value)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Int64Value>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.countAll =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAll',
+      request,
+      metadata || {},
+      methodInfo_ParkingLotService_countAll,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Int64Value>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.countAll =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAll',
+      request,
+      metadata || {},
+      methodInfo_ParkingLotService_countAll);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse>}
+ */
+const methodInfo_ParkingLotService_getAllParkingLot = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse,
+  /** @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.getAllParkingLot =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getAllParkingLot',
+      request,
+      metadata || {},
+      methodInfo_ParkingLotService_getAllParkingLot,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.getAllParkingLot =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getAllParkingLot',
+      request,
+      metadata || {},
+      methodInfo_ParkingLotService_getAllParkingLot);
 };
 
 

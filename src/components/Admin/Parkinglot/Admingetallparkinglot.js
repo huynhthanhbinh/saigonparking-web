@@ -50,16 +50,15 @@ const Admingetallparkinglot = () => {
     let abc = [];
 
     const callParkingLotAPI = async () => {
-        const request = new ParkinglotProto.ScanningByRadiusRequest();
+        const request = new ParkinglotProto.GetAllParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
 
         const metadata = { 'Authorization': token }
-        request.setLatitude(defaultLat);
-        request.setLongitude(defaultLng);
-        request.setRadiustoscan(10)
-        request.setNresult(20)
+        request.setNrow(8);
+        request.setPagenumber(10);
+       
 
-        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
+        ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -68,7 +67,7 @@ const Admingetallparkinglot = () => {
 
 
 
-                res.getParkinglotresultList().map((parkinglot) => {
+                res.ParkingLot().map((parkinglot) => {
                     abc.push(parkinglot)
 
                 })

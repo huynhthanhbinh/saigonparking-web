@@ -9,15 +9,27 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
-import ParkinglotProto from '../../../api/ParkingLot_pb';
+import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
+import ActorProto from '../../../api/Actor_pb';
 import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie'
-const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
+import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
+import Pagination from "react-js-pagination";
+import userMapper from '../../../mapper/UserMapper';
+const UserService = new UserServiceClient(API_URL)
 
 
 const Admingetalluser = () => {
+    //Pagination
+
+    const [totalUser, settotalUser] = React.useState(0)
+    const [pagenumber, setpagenumber] = React.useState(1)
+    const [nPage, setNPage] = React.useState(0)
+
+    const [users, setuser] = React.useState(null)
+    const [tmp, settmp] = React.useState(null)
 
     //config Update modal
     let subtitle;
@@ -25,11 +37,11 @@ const Admingetalluser = () => {
     function openModal() {
         setIsOpen(true);
     }
-   
+
     function closeModal() {
         setIsOpen(false);
     }
-   
+
 
     //config Add modal
 
@@ -37,43 +49,51 @@ const Admingetalluser = () => {
     function openModalAdd() {
         setIsAddOpen(true);
     }
-   
+
     function closeModalAdd() {
         setIsAddOpen(false);
     }
 
     //value
-    const [patients, setPatients] = useState([]);
-    const [tmp, settmp] = useState(null)
-    let defaultLat = 10.762887;
-    let defaultLng = 106.6800684;
-    let abc = [];
 
-    const callParkingLotAPI = async () => {
-        const request = new ParkinglotProto.ScanningByRadiusRequest();
+
+    const callcountAll = async () => {
+        console.log("vao day")
+        const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
 
         const metadata = { 'Authorization': token }
-        request.setLatitude(defaultLat);
-        request.setLongitude(defaultLng);
-        request.setRadiustoscan(10)
-        request.setNresult(20)
 
-        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
+        UserService.countAll(request, metadata, (err, res) => {
 
             if (err) {
                 console.log(err)
 
             } else {
 
+                settotalUser(res.getValue())
+                setNPage(Math.ceil(res.getValue() / 10))
 
 
-                res.getParkinglotresultList().map((parkinglot) => {
-                    abc.push(parkinglot)
+            }
+        })
+    }
 
-                })
+    const callgetAllUser = async () => {
+        const request = new ActorProto.GetAllUserRequest();
+        const token = 'Bearer ' + Cookies.get("token");
 
-                setPatients(abc)
+        const metadata = { 'Authorization': token }
+        request.setNrow(10);
+        request.setPagenumber(pagenumber);
+        UserService.getAllUser(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err)
+
+            } else {
+
+                setuser(res.getUserList())
 
             }
         })
@@ -81,9 +101,20 @@ const Admingetalluser = () => {
 
     useEffect(() => {
 
-        callParkingLotAPI()
-    }, [])
-    
+        callcountAll()
+    }, [pagenumber])
+
+    useEffect(() => {
+
+        callgetAllUser()
+    }, [pagenumber])
+
+
+    const handlechange = (e) => {
+        setpagenumber(e)
+
+    }
+
     return (
         <div class="card">
 
@@ -92,40 +123,40 @@ const Admingetalluser = () => {
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Full Name</th>
-                        <th scope="col">BirthDay</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Phone </th>
-                        <th scope="col">Salary</th>
+                        <th scope="col">ROLE</th>
+                        <th scope="col">USERNAME</th>
+                        <th scope="col">EMAIL </th>
+                        <th scope="col">ISACTIVATED</th>
+                        <th scope="col">LASTSIGNIN</th>
+
 
                     </tr>
                 </thead>
                 <tbody>
 
                     {
-                        patients.map((patient, index) =>
+                        users && users.map((user, index) =>
                             <tr key={index}>
 
 
-                                <th scope="row" id="IDBIXOA">{patient.getId()}</th>
-                                <td>{patient.getName()}</td>
-                                <td>{patient.getType()}</td>
-                                <td>{patient.getLatitude()}</td>
-                                <td>{patient.getLongitude()}</td>
-                                <td>{patient.getAvailableslot()}</td>
-                                <td>{patient.getTotalslot()}</td>
-                                <td>{patient.getDistance()}</td>
+                                <th scope="row" id="IDBIXOA">{user.getId()}</th>
+                                <td>{userMapper.toRoleString(user.getRole())}</td>
+                                <td>{user.getUsername()}</td>
+                                <td>{user.getEmail()}</td>
+                                <td>{(user.getIsactivated() === true) ? "Yes" : "No"}</td>
+                                <td>{user.getLastsignin()}</td>
+
                                 <td>
                                     <Link class="btn btn-sm btn-primary" to="/login" ><i class="far fa-edit"></i> edit</Link>
                                     <a id="btn-employee-delete" class="btn btn-sm btn-danger" ><i class="fas fa-trash-alt"></i> delete</a>
                                     <button onClick={() => {
                                         openModal()
-                                        settmp(patient)
+                                        settmp(user)
                                     }
                                     }>Open Modal</button>
                                 </td>
-                            <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} />
-                            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd}  />
+                                {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
+                                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
 
                             </tr>
                         )
@@ -134,8 +165,18 @@ const Admingetalluser = () => {
                 </tbody>
 
             </table>
+            {totalUser ?
+                <Pagination
+                    pageRangeDisplayed={10}
+                    activePage={pagenumber}
+                    itemsCountPerPage={10}
+                    totalItemsCount={totalUser}
+                    onChange={handlechange}
+                />
+                : null}
 
         </div>
+
     )
 }
 
