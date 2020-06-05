@@ -71,7 +71,7 @@ function Home() {
                         </Container>
                     </main>
 
-                    {/* <footer class="footer">
+                    {/* <footer className="footer">
                         <Footer></Footer>
                     </footer> */}
                 </div>
@@ -106,13 +106,13 @@ const Footer = () => {
         <div>
 
             <div style={style}>
-                <div class="container-fluid text-center text-md-left">
-                    <div class="row">
-                        <div class="col-md-6 mt-md-0 mt-3">
-                            <h5 class="text-uppercase font-weight-bold">LUÔN LUÔN LẮNG NGHE LÂU LÂU MỚI HIỂU</h5>
+                <div className="container-fluid text-center text-md-left">
+                    <div className="row">
+                        <div className="col-md-6 mt-md-0 mt-3">
+                            <h5 className="text-uppercase font-weight-bold">LUÔN LUÔN LẮNG NGHE LÂU LÂU MỚI HIỂU</h5>
 
                         </div>
-                        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+                        <div className="footer-copyright text-center py-3">© 2020 Copyright:
                              <a href="https://www.facebook.com/profile.php?id=100009196064931"> ParkingMapSaiGon</a>
                         </div>
                     </div>
