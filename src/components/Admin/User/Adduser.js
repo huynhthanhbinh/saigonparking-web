@@ -4,9 +4,10 @@ import Modal from 'react-modal';
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+import '../../../css/modal.css'
 
-Modal.setAppElement('body')
-const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
+Modal.setAppElement(document.getElementById("root"));
+const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
     let subtitle;
     const customStyles = {
         content: {
@@ -15,7 +16,8 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
             right: 'auto',
             bottom: 'auto',
             marginRight: '-50%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
+
         }
     };
     function afterOpenModal() {
@@ -47,15 +49,17 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
         );
     };
 
- 
+
         return (
 
             <Modal
                 isOpen={modalAddIsOpen}
-                onAfterOpen={afterOpenModal}
+               
                 onRequestClose={closeModalAdd}
-                style={customStyles}
+
                 contentLabel="Example Modal"
+                className="modal-content"
+                overlayClassName="modal-overlay"
             >
 
                 <h2 ref={_subtitle => (subtitle = _subtitle)}>ADD USER</h2>
@@ -166,6 +170,11 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
                 <button onClick={closeModalAdd}>close</button>
             </Modal>
         )
+
+  
+
+
+
 
 }
 export default AddModal;

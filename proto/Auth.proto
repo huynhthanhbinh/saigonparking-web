@@ -79,7 +79,7 @@ service AuthService {
     /** PUBLIC
      * use-case: reset password by email, refresh token
      *  + request: empty value (please provide token!)
-     *  + response: new      term access token + new long term refresh token (if refresh token nearly expired)
+     *  + response: new short term access token + new long term refresh token (if refresh token nearly expired)
      *
      * generate new token as soon as user click on the link provided by email:
      * request send to server NEED TO PROVIDE short-term access token via metadata, so that server can know

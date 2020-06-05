@@ -71,9 +71,9 @@ function Home() {
                         </Container>
                     </main>
 
-                    <footer class="footer">
+                    {/* <footer class="footer">
                         <Footer></Footer>
-                    </footer>
+                    </footer> */}
                 </div>
 
 
