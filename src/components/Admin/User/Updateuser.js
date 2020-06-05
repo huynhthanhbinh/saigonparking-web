@@ -49,8 +49,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             </>
         );
     };
-    const [character, setcharacter] = React.useState(null)
-    
+    const [IsUser, setIsUser] = React.useState(null)
+    const [IsCustomer, setIsCustomer] = React.useState(null)
+    const [IsParkingLotEmployee, setIsParkingLotEmployee] = React.useState(null)
+
     const callGetUserById = async () => {
         const request = new Int64Value();
         const token = 'Bearer ' + Cookies.get("token");
@@ -64,7 +66,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 console.log(err)
 
             } else {
-                setcharacter(res)
+                setIsUser(res)
 
 
             }
@@ -83,7 +85,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 console.log(err)
 
             } else {
-                setcharacter(res)
+                setIsCustomer(res)
 
 
             }
@@ -102,7 +104,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 console.log(err)
 
             } else {
-                setcharacter(res)
+                setIsParkingLotEmployee(res)
 
 
             }
@@ -111,40 +113,52 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
 
     useEffect(() => {
-        if (parkinglot.getRole() === 0) {
-            //getCustomer
-            callGetCustomerById()
+        if(modalIsOpen === true)
+        {
+            if (parkinglot.getRole() === 0) {
+                //getCustomer
+                callGetCustomerById()
+            }
+            if (parkinglot.getRole() === 1) {
+                //getParkingLotEmployee
+                callGetParkingLotEmployeeById()
+            }
+            if (parkinglot.getRole() === 2) {
+                //getUser
+                callGetUserById()
+            }
+            if (parkinglot.getRole() === 3) {
+                //getUser
+                callGetUserById()
+            }
         }
-        if (parkinglot.getRole() === 1) {
-            //getParkingLotEmployee
-            callGetParkingLotEmployeeById()
-        }
-        if (parkinglot.getRole() === 2) {
-            //getUser
-            callGetUserById()
-        }
-        if (parkinglot.getRole() === 3) {
-            //getUser
-            callGetUserById()
-        }
+      
 
-        return ()=>{
+        return () => {
+            console.log("xin chao nha ")
+            setIsUser(null)
+            setIsCustomer(null)
+            setIsParkingLotEmployee(null)
+        
            
-            setcharacter(null)
         }
-    }, [parkinglot.getId()])
+    }, [modalIsOpen])
 
-    console.log(character)
+    
 
     if (parkinglot != null) {
         if (parkinglot.getRole() === 0) {
-            
+
             return (
 
                 <Modal
                     isOpen={modalIsOpen}
 
-                    onRequestClose={closeModal}
+                    onRequestClose={()=>{
+                     
+                        closeModal()
+                       
+                    }}
 
                     contentLabel="Example Modal"
                     className="modal-content"
@@ -154,17 +168,17 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     <h2 ref={_subtitle => (subtitle = _subtitle)}>CUSTOMER</h2>
 
 
-                   {(character)? <Formik
+                    {(IsCustomer) ? <Formik
                         initialValues={{
-                            id: character.getUserinfo().getId(),
-                            userName: character.getUserinfo().getUsername(),
-                            passWord: character.getUserinfo().getPassword(),
-                            email: character.getUserinfo().getEmail(),
-                            isActivated: character.getUserinfo().getIsactivated(),
-                            lastSignIn: character.getUserinfo().getLastsignin(),
-                            firstName: character.getFirstname(),
-                            lastName: character.getLastname(),
-                            phone: character.getPhone()
+                            id: IsCustomer.getUserinfo().getId(),
+                            userName: IsCustomer.getUserinfo().getUsername(),
+                            passWord: IsCustomer.getUserinfo().getPassword(),
+                            email: IsCustomer.getUserinfo().getEmail(),
+                            isActivated: IsCustomer.getUserinfo().getIsactivated(),
+                            lastSignIn: IsCustomer.getUserinfo().getLastsignin(),
+                            firstName: IsCustomer.getFirstname(),
+                            lastName: IsCustomer.getLastname(),
+                            phone: IsCustomer.getPhone()
 
 
                         }}
@@ -279,141 +293,380 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             </div>
 
                         </Form>
-                    </Formik> : null }
+                    </Formik> : null}
 
                     <button onClick={closeModal}>close</button>
                 </Modal>
             )
         }
         else if (parkinglot.getRole() === 1) {
-            return <div>PARKING_LOT_EMPLOYEE</div>
+            return (
+
+                <Modal
+                    isOpen={modalIsOpen}
+
+                    onRequestClose={()=>{
+                      
+                        closeModal()
+                       
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+
+                    <h2 ref={_subtitle => (subtitle = _subtitle)}>PARKING LOT EMPLOYEE</h2>
+
+
+                    {(IsParkingLotEmployee) ? <Formik
+                        initialValues={{
+                            id: IsParkingLotEmployee.getUserinfo().getId(),
+                            role: IsParkingLotEmployee.getUserinfo().getRole(),
+                            userName: IsParkingLotEmployee.getUserinfo().getUsername(),
+                            passWord: IsParkingLotEmployee.getUserinfo().getPassword(),
+                            email: IsParkingLotEmployee.getUserinfo().getEmail(),
+                            isActivated: IsParkingLotEmployee.getUserinfo().getIsactivated(),
+                            lastSignIn: IsParkingLotEmployee.getUserinfo().getLastsignin(),
+
+
+
+
+                        }}
+                        validationSchema={Yup.object({
+                            userName: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            role: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            passWord: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            email: Yup.string()
+                                .email('Invalid email address')
+                                .required('Required'),
+
+
+                            isActivated: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            lastSignIn: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+
+
+
+                        })}
+                        onSubmit={(values, { setSubmitting }) => {
+
+                        }}
+                    >
+                        <Form >
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="isActivated"
+                                    name="isActivated"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="lastSignIn"
+                                    name="lastSignIn"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="role"
+                                    name="role"
+                                    type="text"
+
+                                />
+                            </div>
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Username"
+                                    name="userName"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Password"
+                                    name="passWord"
+                                    type="passWord"
+                                />
+                            </div>
+
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Email "
+                                    name="email"
+                                    type="email"
+
+                                />
+                            </div>
+
+                           
+
+
+
+                            <div style={{ margin: 10 }}>
+                                <button type="submit" >Update</button>
+
+                            </div>
+
+                        </Form>
+                    </Formik> : null}
+
+                    <button onClick={closeModal}>close</button>
+                </Modal>
+            )
         }
         else if (parkinglot.getRole() === 2) {
-            return <div>GOVERMENT_EMPLOYEE</div>
+            return (
+
+                <Modal
+                    isOpen={modalIsOpen}
+
+                    onRequestClose={()=>{
+                       
+                        closeModal()
+                       
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+
+                    <h2 ref={_subtitle => (subtitle = _subtitle)}>GOVERMENT_EMPLOYEE</h2>
+
+
+                    {(IsUser) ? <Formik
+                        initialValues={{
+                            id: IsUser.getId(),
+                            userName: IsUser.getUsername(),
+                            passWord: IsUser.getPassword(),
+                            email: IsUser.getEmail(),
+                            isActivated: IsUser.getIsactivated(),
+                            lastSignIn: IsUser.getLastsignin(),
+
+
+
+                        }}
+                        validationSchema={Yup.object({
+                            userName: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            passWord: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            email: Yup.string()
+                                .email('Invalid email address')
+                                .required('Required'),
+
+
+                            isActivated: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            lastSignIn: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+
+
+
+                        })}
+                        onSubmit={(values, { setSubmitting }) => {
+
+                        }}
+                    >
+                        <Form >
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="isActivated"
+                                    name="isActivated"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="lastSignIn"
+                                    name="lastSignIn"
+                                    type="text"
+
+                                />
+                            </div>
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Username"
+                                    name="userName"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Password"
+                                    name="passWord"
+                                    type="passWord"
+                                />
+                            </div>
+
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Email "
+                                    name="email"
+                                    type="email"
+
+                                />
+                            </div>
+
+
+
+
+
+                            <div style={{ margin: 10 }}>
+                                <button type="submit" >Update</button>
+
+                            </div>
+
+                        </Form>
+                    </Formik> : null}
+
+                    <button onClick={closeModal}>close</button>
+                </Modal>
+            )
         }
         else if (parkinglot.getRole() === 3) {
-            return <div>ADMIN</div>
+            return (
+
+                <Modal
+                    isOpen={modalIsOpen}
+
+                    onRequestClose={()=>{
+                       
+                        closeModal()
+                       
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+
+                    <h2 ref={_subtitle => (subtitle = _subtitle)}>ADMIN</h2>
+
+
+                    {(IsUser) ? <Formik
+                        initialValues={{
+                            id: IsUser.getId(),
+                            userName: IsUser.getUsername(),
+                            passWord: IsUser.getPassword(),
+                            email: IsUser.getEmail(),
+                            isActivated: IsUser.getIsactivated(),
+                            lastSignIn: IsUser.getLastsignin(),
+
+
+
+                        }}
+                        validationSchema={Yup.object({
+                            userName: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            passWord: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            email: Yup.string()
+                                .email('Invalid email address')
+                                .required('Required'),
+
+
+                            isActivated: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+                            lastSignIn: Yup.string()
+                                .max(15, 'Must be 15 characters or less')
+                                .required('Required'),
+
+
+
+                        })}
+                        onSubmit={(values, { setSubmitting }) => {
+
+                        }}
+                    >
+                        <Form >
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="isActivated"
+                                    name="isActivated"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="lastSignIn"
+                                    name="lastSignIn"
+                                    type="text"
+
+                                />
+                            </div>
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Username"
+                                    name="userName"
+                                    type="text"
+
+                                />
+                            </div>
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Password"
+                                    name="passWord"
+                                    type="passWord"
+                                />
+                            </div>
+
+
+                            <div style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Email "
+                                    name="email"
+                                    type="email"
+
+                                />
+                            </div>
+
+
+
+
+
+                            <div style={{ margin: 10 }}>
+                                <button type="submit" >Update</button>
+
+                            </div>
+
+                        </Form>
+                    </Formik> : null}
+
+                    <button onClick={closeModal}>close</button>
+                </Modal>
+            )
         }
-        // return (
 
-        //     <Modal
-        //         isOpen={modalIsOpen}
-
-        //         onRequestClose={closeModal}
-
-        //         contentLabel="Example Modal"
-        //         className="modal-content"
-        //         overlayClassName="modal-overlay"
-        //     >
-
-        //         <h2 ref={_subtitle => (subtitle = _subtitle)}>UPDATE USER</h2>
-
-
-
-
-        //         <Formik
-        //             initialValues={{
-        //                 userName: parkinglot.getUsername(),
-        //                 passWord: parkinglot.getUsername(),
-        //                 email: '',
-        //                 firstName: parkinglot.getUsername(),
-        //                 lastName: parkinglot.getUsername(),
-        //                 phone: ''
-
-
-        //             }}
-        //             validationSchema={Yup.object({
-        //                 userName: Yup.string()
-        //                     .max(15, 'Must be 15 characters or less')
-        //                     .required('Required'),
-        //                 passWord: Yup.string()
-        //                     .max(15, 'Must be 15 characters or less')
-        //                     .required('Required'),
-
-        //                 email: Yup.string()
-        //                     .email('Invalid email address')
-        //                     .required('Required'),
-
-        //                 firstName: Yup.string()
-        //                     .max(15, 'Must be 15 characters or less')
-        //                     .required('Required'),
-        //                 lastName: Yup.string()
-        //                     .max(15, 'Must be 15 characters or less')
-        //                     .required('Required'),
-        //                 phone: Yup.string()
-        //                     .max(15, 'Must be 15 characters or less')
-        //                     .required('Required'),
-
-        //             })}
-        //             onSubmit={(values, { setSubmitting }) => {
-
-        //             }}
-        //         >
-        //             <Form >
-
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="Username"
-        //                         name="userName"
-        //                         type="text"
-
-        //                     />
-        //                 </div>
-
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="Password"
-        //                         name="passWord"
-        //                         type="passWord"
-        //                     />
-        //                 </div>
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="Email "
-        //                         name="email"
-        //                         type="email"
-
-        //                     />
-        //                 </div>
-
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="First Name"
-        //                         name="firstName"
-        //                         type="text"
-
-        //                     />
-        //                 </div>
-
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="Last Name"
-        //                         name="lastName"
-        //                         type="text"
-
-        //                     />
-        //                 </div>
-        //                 <div style={{ margin: 10 }}>
-        //                     <MyTextInput
-        //                         label="Phone"
-        //                         name="phone"
-        //                         type="phone"
-
-        //                     />
-        //                 </div>
-
-
-        //                 <div style={{ margin: 10 }}>
-        //                     <button type="submit" >Update</button>
-
-        //                 </div>
-
-        //             </Form>
-        //         </Formik>
-
-        //         <button onClick={closeModal}>close</button>
-        //     </Modal>
-        // )
 
     }
     else {

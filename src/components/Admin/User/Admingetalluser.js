@@ -47,7 +47,7 @@ const Admingetalluser = () => {
 
     const [modalAddIsOpen, setIsAddOpen] = React.useState(false);
     function openModalAdd() {
-        
+
         setIsAddOpen(true);
     }
 
@@ -58,11 +58,48 @@ const Admingetalluser = () => {
     //value
 
     //ACTIVE INACTIVE
-    const [isActive , setisActive] = React.useState(false)
+    const [isActive, setisActive] = React.useState(false)
 
-
-    const callcountAll = async () => {
+    const callactivateUser = async (id) => {
+        const request = new Int64Value();
+        const token = 'Bearer ' + Cookies.get("token");
+        request.setValue(id)
+        const metadata = { 'Authorization': token }
        
+        UserService.activateUser(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err)
+
+            } else {
+                setisActive(!isActive)
+               
+
+
+            }
+        })
+    }
+    const calldeactivateUser = async (id) => {
+        const request = new Int64Value();
+        const token = 'Bearer ' + Cookies.get("token");
+        request.setValue(id)
+        const metadata = { 'Authorization': token }
+      
+        UserService.deactivateUser(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err)
+
+            } else {
+
+                setisActive(!isActive)
+
+
+            }
+        })
+    }
+    const callcountAll = async () => {
+
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
 
@@ -111,7 +148,7 @@ const Admingetalluser = () => {
     useEffect(() => {
 
         callgetAllUser()
-    }, [pagenumber])
+    }, [pagenumber,isActive])
 
 
     const handlechange = (e) => {
@@ -151,10 +188,20 @@ const Admingetalluser = () => {
                                 <td>{user.getLastsignin()}</td>
 
                                 <td>
-                                    <a class="btn btn-sm btn-primary" onClick={()=>{
-                                        setisActive(!isActive)
+                                    <a class="btn btn-sm btn-primary" onClick={() => {
+                                        if(user.getIsactivated() === true)
+                                        {
+                                            calldeactivateUser(user.getId())
+                                           
+                                        }
+                                        else 
+                                        {
+                                            callactivateUser(user.getId())
+                                             
+                                        }
+                                        
 
-                                    }} ><i class="far fa-edit"></i> {(isActive === true) ? "Yes" : "No"}</a>
+                                    }} ><i class="far fa-edit"></i> {(user.getIsactivated()  === true) ? "Yes" : "No"}</a>
                                     <a id="btn-employee-delete" class="btn btn-sm btn-danger" ><i class="fas fa-trash-alt"></i> delete</a>
                                     <button onClick={() => {
                                         settmp(user)
@@ -163,7 +210,7 @@ const Admingetalluser = () => {
                                     }
                                     }>Open Modal</button>
                                 </td>
-                                
+
 
                             </tr>
                         )
@@ -173,7 +220,7 @@ const Admingetalluser = () => {
 
             </table>
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-                                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
+            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalUser ?
                 <Pagination
                     pageRangeDisplayed={10}
