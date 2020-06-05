@@ -49,10 +49,14 @@ function Home() {
         const token = Cookies.get("token");
         const checkUserName = Cookies.get("checkUserName");
         const isadmin = Cookies.get("isAdmin");
-        if (token && checkUserName && isadmin) {
+        if (token && checkUserName ) {
             setAuth(true);
             setcheckUserName(checkUserName)
-            setIsAdmin(isadmin)
+            if(isadmin!=null)
+            {
+                setIsAdmin(isadmin)
+            }
+            
         }
     }
 
@@ -298,7 +302,8 @@ const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, isAdmin, componen
             {...rest}
 
             render={() =>
-                (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                // (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
+                <Component></Component>
             }
         />
 
@@ -412,13 +417,13 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var token = url.searchParams.get("token");
-
+   
     return (
         <Route
             {...rest}
 
             render={() =>
-                (!auth) ? (<Component />) : (<Redirect to="/mymap" />)
+                (auth===false) ? (<Component />) : (<Redirect to="/mymap" />)
 
             }
         />

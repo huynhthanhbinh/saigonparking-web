@@ -135,7 +135,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
       
 
         return () => {
-            console.log("xin chao nha ")
+           
             setIsUser(null)
             setIsCustomer(null)
             setIsParkingLotEmployee(null)

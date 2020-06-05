@@ -12,10 +12,10 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker })
                     <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
                         onClickItemPatient(patient, index);
                     }} active={index === indexClickedMaker ? true : false}><ul>
-                            <li>{patient.getId()}</li>
-                            <li>{patient.getName()}</li>
-                            <li>{patient.getAvailableslot()}</li>
-                            <li>{patient.getTotalslot()}</li>
+                            <li>ID:  {patient.getId()}</li>
+                            <li>NAME:  {patient.getName()}</li>
+                            <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
+                            <li>TOTALSLOT:  {patient.getTotalslot()}</li>
                         </ul>
                     </ListGroup.Item>
                 )

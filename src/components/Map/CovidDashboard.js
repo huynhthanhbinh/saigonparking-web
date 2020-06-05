@@ -125,7 +125,7 @@ const CovidDashboard = (props) => {
             </Col> : null}
             <Col xs={2}>
                 {currentPatient &&
-                    <PatientInfo id={currentPatient.getId()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
+                    <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
             </Col>
         </Row>
         <Row>

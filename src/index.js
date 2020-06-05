@@ -6,9 +6,9 @@ import * as serviceWorker from './serviceWorker';
 require('./mocks');
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <App />
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

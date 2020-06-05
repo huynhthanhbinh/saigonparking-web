@@ -156,11 +156,12 @@ const Admingetalluser = () => {
 
     }
 
+  
     return (
-        <div class="card">
+        <div className="card">
 
-            <button onClick={openModalAdd} id="addnewlist" type="button" class="btn btn-success position-absolute" ><a class="fas fa-plus"  ></a> Add a new List</button>
-            <table class="table table-hover" style={{ marginTop: "50px" }}>
+            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" ><a className="fas fa-plus"  ></a> Add a new List</button>
+            <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -188,7 +189,7 @@ const Admingetalluser = () => {
                                 <td>{user.getLastsignin()}</td>
 
                                 <td>
-                                    <a class="btn btn-sm btn-primary" onClick={() => {
+                                    <a className="btn btn-sm btn-primary" onClick={() => {
                                         if(user.getIsactivated() === true)
                                         {
                                             calldeactivateUser(user.getId())
@@ -201,8 +202,8 @@ const Admingetalluser = () => {
                                         }
                                         
 
-                                    }} ><i class="far fa-edit"></i> {(user.getIsactivated()  === true) ? "Yes" : "No"}</a>
-                                    <a id="btn-employee-delete" class="btn btn-sm btn-danger" ><i class="fas fa-trash-alt"></i> delete</a>
+                                    }} ><i className="far fa-edit"></i> {(user.getIsactivated()  === true) ? "Yes" : "No"}</a>
+                                    <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a>
                                     <button onClick={() => {
                                         settmp(user)
                                         openModal()
