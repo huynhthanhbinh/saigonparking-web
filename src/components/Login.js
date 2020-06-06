@@ -14,8 +14,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 import {
-    BrowserRouter as Router,
-    Link,
+  
+    Link
 
 } from "react-router-dom";
 import { API_URL } from '../saigonparking';
@@ -30,7 +30,7 @@ const Login = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [isClick, setIsClick] = React.useState(true)
+   
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -48,7 +48,7 @@ const Login = () => {
         }),
         onSubmit: values => {
             
-                let tmp = callUserLoginService(values.userName, values.passWord, Auth)
+                callUserLoginService(values.userName, values.passWord, Auth)
        
         },
     });
