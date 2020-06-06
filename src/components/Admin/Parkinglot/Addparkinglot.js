@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Modal from 'react-modal';
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
@@ -9,22 +9,7 @@ import '../../../css/modal.css'
 Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
     let subtitle;
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-
-        }
-    };
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        return subtitle.style.color = '#f00';
-    }
-
+    
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
         // which we can spread on <input> and also replace ErrorMessage entirely.

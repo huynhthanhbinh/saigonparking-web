@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Resetpassword from "./Resetpassword"
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';

@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React from 'react';
 import { Map, TileLayer, Marker, Popup ,withLeaflet } from 'react-leaflet';
 import L from "leaflet";
 import Searchmap from "./Searchmap"

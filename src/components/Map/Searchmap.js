@@ -1,5 +1,5 @@
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import { Map, TileLayer, MapControl } from 'react-leaflet'
+import { MapControl } from 'react-leaflet'
 class Searchmap extends MapControl {
 
     createLeafletElement() {

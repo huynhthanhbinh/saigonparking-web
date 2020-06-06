@@ -14,9 +14,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 import {
-    BrowserRouter as Router,
-    Link,
-
+    Link
 } from "react-router-dom";
 import { API_URL } from '../../saigonparking';
 

@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-modal';
+import React, { useEffect} from 'react'
 import UpdateModal from './Updateparkinglot'
 import AddModal from './Addparkinglot'
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
+    Link
 } from "react-router-dom";
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../../api/ParkingLot_pb';
 import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
-import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -27,7 +21,7 @@ const Admingetallparkinglot = () => {
 
     const [totalParkinglot, settotalParkinglot] = React.useState(0)
     const [pagenumber, setpagenumber] = React.useState(1)
-    const [nPage, setNPage] = React.useState(0)
+    const [setNPage] = React.useState(0)
 
     const [users, setuser] = React.useState(null)
     const [tmp, settmp] = React.useState(null)

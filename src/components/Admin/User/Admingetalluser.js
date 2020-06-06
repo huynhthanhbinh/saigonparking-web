@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-modal';
+import React, { useEffect } from 'react'
 import UpdateModal from './Updateuser'
 import AddModal from './Adduser'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
 import ActorProto from '../../../api/Actor_pb';
 import { API_URL } from '../../../saigonparking';
@@ -26,7 +19,7 @@ const Admingetalluser = () => {
 
     const [totalUser, settotalUser] = React.useState(0)
     const [pagenumber, setpagenumber] = React.useState(1)
-    const [nPage, setNPage] = React.useState(0)
+    const [setNPage] = React.useState(0)
 
     const [users, setuser] = React.useState(null)
     const [tmp, settmp] = React.useState(null)

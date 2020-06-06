@@ -1,30 +1,21 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Modal from 'react-modal';
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import '../../../css/modal.css'
+import '../../../css/modal.css';
 
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
-import ActorProto from '../../../api/Actor_pb';
 import { API_URL } from '../../../saigonparking';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
-import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
-import Pagination from "react-js-pagination";
-import userMapper from '../../../mapper/UserMapper';
+import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
 const UserService = new UserServiceClient(API_URL)
 
 Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     let subtitle;
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        return subtitle.style.color = '#f00';
-    }
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]

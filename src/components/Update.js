@@ -15,11 +15,7 @@ import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
+    Link
 } from "react-router-dom";
 
 const userService = new UserServiceClient(API_URL)
