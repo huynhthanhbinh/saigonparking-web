@@ -2,22 +2,20 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthApi from "./Auth/AuthAPI";
-import Cookies from 'js-cookie';
+
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
-import authProto from '../api/Auth_pb';
+
 
 import {
     BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
+   
     Redirect
 } from "react-router-dom";
 import  { API_URL } from '../saigonparking';
 
-const userProto = require('../api/Actor_pb')
+
 
 const authService = new AuthServiceClient(API_URL)
 

@@ -46,7 +46,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
     libraries,
   });
   // const [markers, setMarkers] = React.useState([]);
-  const [tmp, settmp] = React.useState(null);
+
 
   const onMapClick = React.useCallback((e) => {
 

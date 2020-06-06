@@ -1,14 +1,9 @@
 import React from 'react';
 import ControlledCarousel from './Home/Slider'
 
-
-
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
 import Container from 'react-bootstrap/Container';
 
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 
 
@@ -42,7 +37,7 @@ import auth from '../api/Auth_grpc_web_pb';
 function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
-    const [isupdate, setIsupdate] = React.useState("asd")
+
     const [isAdmin, setIsAdmin] = React.useState(null);
 
     const readcookie = () => {
@@ -213,7 +208,7 @@ const Links = () => {
         )
 
     }
-    else if (Auth.auth == false) {
+    else if (Auth.auth === false) {
         return (
             <>
                 <Navbar bg="dark" expand="lg">

@@ -4,15 +4,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../../css/button.css"
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
+    
     Link,
-    Redirect
+
 } from "react-router-dom";
 
-import hinh1 from "./images/1.jpg"
-import hinh2 from "./images/2.jpg"
 
 const Admin = () => {
    
@@ -21,13 +17,13 @@ const Admin = () => {
             <Row>
                 <Col xs={6}>
                     <Link to="/getalluser">
-                    <button style={{marginTop:"100px", fontSize:"100px"}} class="blue">USER</button>
+                    <button style={{marginTop:"100px", fontSize:"100px"}} className="blue">USER</button>
                     </Link>
 
                 </Col>
                 <Col xs={6}>
                 <Link to="/getallparkinglot">
-                    <button style={{marginTop:"100px", fontSize:"100px"}} class="blue">PARKINGLOT</button>
+                    <button style={{marginTop:"100px", fontSize:"100px"}} className="blue">PARKINGLOT</button>
                     </Link>
                 </Col>
             </Row>

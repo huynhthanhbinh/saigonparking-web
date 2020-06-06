@@ -8,7 +8,7 @@ import '../../../css/modal.css'
 
 Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
-    let subtitle;
+    
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -47,7 +47,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
                 overlayClassName="modal-overlay"
             >
 
-                <h2 ref={_subtitle => (subtitle = _subtitle)}>ADD USER</h2>
+                <h2 >ADD USER</h2>
 
 
 

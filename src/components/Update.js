@@ -29,7 +29,7 @@ const Update = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [tmp, settmp] = React.useState(null)
+  
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
@@ -43,41 +43,12 @@ const Update = () => {
                 console.log(err)
             } else {
 
-                // user.setRole(res.getUserinfo().getRole())
-                // user.setUsername(res.getUserinfo().getUsername())
-                // user.setPassword(res.getUserinfo().getPassword())
-                // user.setEmail(res.getUserinfo().getEmail())
-                // user.setVersion(res.getUserinfo().getVersion())
-                // customer.setUserinfo(user)
-                // customer.setFirstname(res.getFirstname())
-                // customer.setLastname(res.getLastname())
-                // customer.setPhone(res.getPhone())
+              
 
                 setCustomerObject(userMapper.toCustomerObject(res))
 
 
 
-                // settmp({
-                //     role: customer.getUserinfo().getRole(),
-                //     username: customer.getUserinfo().getUsername(),
-                //     password: customer.getUserinfo().getPassword(),
-                //     email: customer.getUserinfo().getEmail(),
-                //     version: customer.getUserinfo().getVersion(),
-                //     firstName: customer.getFirstname(),
-                //     lastName: customer.getLastname(),
-                //     phone: customer.getPhone()
-                // })
-
-                // Auth.setIsupdate({
-                //     role: customer.getUserinfo().getRole(),
-                //     username: customer.getUserinfo().getUsername(),
-                //     password: customer.getUserinfo().getPassword(),
-                //     email: customer.getUserinfo().getEmail(),
-                //     version: customer.getUserinfo().getVersion(),
-                //     firstName: customer.getFirstname(),
-                //     lastName: customer.getLastname(),
-                //     phone: customer.getPhone()
-                // })
 
             }
 

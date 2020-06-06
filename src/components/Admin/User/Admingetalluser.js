@@ -19,13 +19,13 @@ const Admingetalluser = () => {
 
     const [totalUser, settotalUser] = React.useState(0)
     const [pagenumber, setpagenumber] = React.useState(1)
-    const [setNPage] = React.useState(0)
+    // const [setNPage] = React.useState(0)
 
     const [users, setuser] = React.useState(null)
     const [tmp, settmp] = React.useState(null)
 
     //config Update modal
-    let subtitle;
+   
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
         setIsOpen(true);
@@ -91,56 +91,56 @@ const Admingetalluser = () => {
             }
         })
     }
-    const callcountAll = async () => {
+    
 
-        const request = new Empty();
-        const token = 'Bearer ' + Cookies.get("token");
-
-        const metadata = { 'Authorization': token }
-
-        UserService.countAll(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-
-                settotalUser(res.getValue())
-                setNPage(Math.ceil(res.getValue() / 10))
-
-
-            }
-        })
-    }
-
-    const callgetAllUser = async () => {
-        const request = new ActorProto.GetAllUserRequest();
-        const token = 'Bearer ' + Cookies.get("token");
-
-        const metadata = { 'Authorization': token }
-        request.setNrow(10);
-        request.setPagenumber(pagenumber);
-        UserService.getAllUser(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-
-                setuser(res.getUserList())
-
-            }
-        })
-    }
+    
 
     useEffect(() => {
 
-        callcountAll()
+        
+
+            const request = new Empty();
+            const token = 'Bearer ' + Cookies.get("token");
+    
+            const metadata = { 'Authorization': token }
+    
+            UserService.countAll(request, metadata, (err, res) => {
+    
+                if (err) {
+                    console.log(err)
+    
+                } else {
+    
+                    settotalUser(res.getValue())
+                    // setNPage(Math.ceil(res.getValue() / 10))
+    
+    
+                }
+            })
+        
     }, [pagenumber])
 
     useEffect(() => {
 
-        callgetAllUser()
+       
+            const request = new ActorProto.GetAllUserRequest();
+            const token = 'Bearer ' + Cookies.get("token");
+    
+            const metadata = { 'Authorization': token }
+            request.setNrow(10);
+            request.setPagenumber(pagenumber);
+            UserService.getAllUser(request, metadata, (err, res) => {
+    
+                if (err) {
+                    console.log(err)
+    
+                } else {
+    
+                    setuser(res.getUserList())
+    
+                }
+            })
+        
     }, [pagenumber,isActive])
 
 
@@ -153,7 +153,7 @@ const Admingetalluser = () => {
     return (
         <div className="card">
 
-            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" ><a className="fas fa-plus"  ></a> Add a new List</button>
+            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
@@ -182,7 +182,7 @@ const Admingetalluser = () => {
                                 <td>{user.getLastsignin()}</td>
 
                                 <td>
-                                    <a className="btn btn-sm btn-primary" onClick={() => {
+                                    <button className="btn btn-sm btn-primary" onClick={() => {
                                         if(user.getIsactivated() === true)
                                         {
                                             calldeactivateUser(user.getId())
@@ -195,8 +195,8 @@ const Admingetalluser = () => {
                                         }
                                         
 
-                                    }} ><i className="far fa-edit"></i> {(user.getIsactivated()  === true) ? "Yes" : "No"}</a>
-                                    <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a>
+                                    }} > {(user.getIsactivated()  === true) ? "Yes" : "No"}</button>
+                                    <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button>
                                     <button onClick={() => {
                                         settmp(user)
                                         openModal()

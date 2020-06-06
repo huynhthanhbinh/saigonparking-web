@@ -50,7 +50,7 @@ const CovidMap = ({ onPatientMarkerClicked, patients, currentPatient,fgetClicklo
             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png   "
         />
         
-        {patients.map((patient, index) => {
+        {patients && patients.map((patient, index) => {
             if (patient.getType() === 0) {
                 return (<Marker icon={BUILDING} key={index} position={[patient.getLatitude(), patient.getLongitude()]} onClick={() => { onPatientMarkerClicked(patient, index) }}>
                     <Popup>

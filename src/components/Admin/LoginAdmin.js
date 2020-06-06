@@ -28,7 +28,7 @@ const Login = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [isClick, setIsClick] = React.useState(true)
+ 
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -46,7 +46,7 @@ const Login = () => {
         }),
         onSubmit: values => {
        
-                let tmp = callUserLoginService(values.userName, values.passWord, Auth)
+                callUserLoginService(values.userName, values.passWord, Auth)
              
 
 

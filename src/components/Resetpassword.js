@@ -1,18 +1,15 @@
 import React from 'react'
-import AuthApi from "./Auth/AuthAPI";
+
 import Cookies from 'js-cookie'
 
 import { UserServiceClient } from '../api/Actor_grpc_web_pb';
 import UserProto from '../api/Actor_pb';
-import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
-import userMapper from '../mapper/UserMapper'
+
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
+   
+    
     Redirect
 } from "react-router-dom";
 import  { API_URL } from '../saigonparking';
@@ -29,9 +26,9 @@ let username = localStorage.getItem("username");
 const Resetpassword = () => {
 
 
-    const Auth = React.useContext(AuthApi)
+   
     const [nextpage, setnextpage] = React.useState(false)
-    let [customerObject, setCustomerObject] = React.useState()
+    
 
 
     const MyTextInput = ({ label, ...props }) => {
@@ -80,7 +77,7 @@ const Resetpassword = () => {
                  
                         console.log(values.passWord)
 
-                        const user = new UserProto.User()
+                       
                         const token = 'Bearer ' + Cookies.get("token");
                         const metadata = { 'Authorization': token }
                         const request = new UserProto.UpdatePasswordRequest()

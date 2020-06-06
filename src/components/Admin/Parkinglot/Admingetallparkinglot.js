@@ -21,13 +21,13 @@ const Admingetallparkinglot = () => {
 
     const [totalParkinglot, settotalParkinglot] = React.useState(0)
     const [pagenumber, setpagenumber] = React.useState(1)
-    const [setNPage] = React.useState(0)
+    // const [setNPage] = React.useState(0)
 
     const [users, setuser] = React.useState(null)
     const [tmp, settmp] = React.useState(null)
 
     //config Update modal
-    let subtitle;
+    
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
         setIsOpen(true);
@@ -52,56 +52,56 @@ const Admingetallparkinglot = () => {
     //value
 
 
-    const callcountAll = async () => {
-        console.log("vao day")
-        const request = new Empty();
-        const token = 'Bearer ' + Cookies.get("token");
+    
 
-        const metadata = { 'Authorization': token }
-
-        ParkinglotwebService.countAll(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-
-                settotalParkinglot(res.getValue())
-                setNPage(Math.ceil(res.getValue() / 10))
-
-
-            }
-        })
-    }
-
-    const callgetAllParkinglot = async () => {
-        const request = new ParkinglotProto.GetAllParkingLotRequest();
-        const token = 'Bearer ' + Cookies.get("token");
-
-        const metadata = { 'Authorization': token }
-        request.setNrow(10);
-        request.setPagenumber(pagenumber);
-        ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-
-                setuser(res.getParkinglotList())
-
-            }
-        })
-    }
+   
 
     useEffect(() => {
 
-        callcountAll()
+      
+            console.log("vao day")
+            const request = new Empty();
+            const token = 'Bearer ' + Cookies.get("token");
+    
+            const metadata = { 'Authorization': token }
+    
+            ParkinglotwebService.countAll(request, metadata, (err, res) => {
+    
+                if (err) {
+                    console.log(err)
+    
+                } else {
+    
+                    settotalParkinglot(res.getValue())
+                    // setNPage(Math.ceil(res.getValue() / 10))
+    
+    
+                }
+            })
+        
     }, [pagenumber])
 
     useEffect(() => {
 
-        callgetAllParkinglot()
+        
+            const request = new ParkinglotProto.GetAllParkingLotRequest();
+            const token = 'Bearer ' + Cookies.get("token");
+    
+            const metadata = { 'Authorization': token }
+            request.setNrow(10);
+            request.setPagenumber(pagenumber);
+            ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
+    
+                if (err) {
+                    console.log(err)
+    
+                } else {
+    
+                    setuser(res.getParkinglotList())
+    
+                }
+            })
+        
     }, [pagenumber])
 
 
@@ -111,10 +111,10 @@ const Admingetallparkinglot = () => {
     }
 
     return (
-        <div class="card">
+        <div className="card">
 
-            <button onClick={openModalAdd} id="addnewlist" type="button" class="btn btn-success position-absolute" ><a class="fas fa-plus"  ></a> Add a new List</button>
-            <table class="table table-hover" style={{ marginTop: "50px" }}>
+            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
+            <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -149,8 +149,8 @@ const Admingetallparkinglot = () => {
 
 
                                 <td>
-                                    <Link class="btn btn-sm btn-primary" to="/login" ><i class="far fa-edit"></i> edit</Link>
-                                    <a id="btn-employee-delete" class="btn btn-sm btn-danger" ><i class="fas fa-trash-alt"></i> delete</a>
+                                    <Link className="btn btn-sm btn-primary" to="/login" ><i className="far fa-edit"></i> edit</Link>
+                                    {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
                                     <button onClick={() => {
                                         openModal()
                                         settmp(user)

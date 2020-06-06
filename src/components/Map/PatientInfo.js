@@ -3,9 +3,9 @@ import Card from "react-bootstrap/Card";
 
 
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
-import ParkinglotProto from '../../api/ParkingLot_pb';
+
 import { API_URL } from '../../saigonparking';
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
+
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
 import Cookies from 'js-cookie'
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)

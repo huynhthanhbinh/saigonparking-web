@@ -31,8 +31,8 @@ const Information = () => {
 
 
     const Auth = React.useContext(AuthApi)
-    const [tmp, settmp] = React.useState(null)
-    const [nextpage, setnextpage] = React.useState(true)
+   
+   
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
@@ -130,7 +130,7 @@ const Information = () => {
 
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                    setnextpage(false)
+                 
 
                 }}
             >

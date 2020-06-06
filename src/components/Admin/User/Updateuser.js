@@ -15,7 +15,7 @@ const UserService = new UserServiceClient(API_URL)
 
 Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
-    let subtitle;
+  
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -44,98 +44,114 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     const [IsCustomer, setIsCustomer] = React.useState(null)
     const [IsParkingLotEmployee, setIsParkingLotEmployee] = React.useState(null)
 
-    const callGetUserById = async () => {
-        const request = new Int64Value();
-        const token = 'Bearer ' + Cookies.get("token");
-
-        const metadata = { 'Authorization': token }
-        request.setValue(parkinglot.getId());
-
-        UserService.getUserById(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-                setIsUser(res)
 
 
-            }
-        })
-    }
-    const callGetCustomerById = async () => {
-        const request = new Int64Value();
-        const token = 'Bearer ' + Cookies.get("token");
 
-        const metadata = { 'Authorization': token }
-        request.setValue(parkinglot.getId());
-
-        UserService.getCustomerById(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-                setIsCustomer(res)
-
-
-            }
-        })
-    }
-    const callGetParkingLotEmployeeById = async () => {
-        const request = new Int64Value();
-        const token = 'Bearer ' + Cookies.get("token");
-
-        const metadata = { 'Authorization': token }
-        request.setValue(parkinglot.getId());
-
-        UserService.getParkingLotEmployeeById(request, metadata, (err, res) => {
-
-            if (err) {
-                console.log(err)
-
-            } else {
-                setIsParkingLotEmployee(res)
-
-
-            }
-        })
-    }
 
 
     useEffect(() => {
-        if(modalIsOpen === true)
-        {
+        if (modalIsOpen === true) {
             if (parkinglot.getRole() === 0) {
                 //getCustomer
-                callGetCustomerById()
+
+                const request = new Int64Value();
+                const token = 'Bearer ' + Cookies.get("token");
+
+                const metadata = { 'Authorization': token }
+                request.setValue(parkinglot.getId());
+
+                UserService.getCustomerById(request, metadata, (err, res) => {
+
+                    if (err) {
+                        console.log(err)
+
+                    } else {
+                        setIsCustomer(res)
+
+
+                    }
+                })
+
             }
             if (parkinglot.getRole() === 1) {
                 //getParkingLotEmployee
-                callGetParkingLotEmployeeById()
+
+                const request = new Int64Value();
+                const token = 'Bearer ' + Cookies.get("token");
+
+                const metadata = { 'Authorization': token }
+                request.setValue(parkinglot.getId());
+
+                UserService.getParkingLotEmployeeById(request, metadata, (err, res) => {
+
+                    if (err) {
+                        console.log(err)
+
+                    } else {
+                        setIsParkingLotEmployee(res)
+
+
+                    }
+                })
+
             }
             if (parkinglot.getRole() === 2) {
                 //getUser
-                callGetUserById()
+
+                const request = new Int64Value();
+                const token = 'Bearer ' + Cookies.get("token");
+
+                const metadata = { 'Authorization': token }
+                request.setValue(parkinglot.getId());
+
+                UserService.getUserById(request, metadata, (err, res) => {
+
+                    if (err) {
+                        console.log(err)
+
+                    } else {
+                        setIsUser(res)
+
+
+                    }
+                })
+
             }
             if (parkinglot.getRole() === 3) {
                 //getUser
-                callGetUserById()
+
+                const request = new Int64Value();
+                const token = 'Bearer ' + Cookies.get("token");
+
+                const metadata = { 'Authorization': token }
+                request.setValue(parkinglot.getId());
+
+                UserService.getUserById(request, metadata, (err, res) => {
+
+                    if (err) {
+                        console.log(err)
+
+                    } else {
+                        setIsUser(res)
+
+
+                    }
+                })
+
             }
         }
-      
 
         return () => {
-           
+
             setIsUser(null)
             setIsCustomer(null)
             setIsParkingLotEmployee(null)
-        
-           
-        }
-    }, [modalIsOpen])
 
-    
+
+        }
+    }, [modalIsOpen,parkinglot])
+
+
 
     if (parkinglot != null) {
         if (parkinglot.getRole() === 0) {
@@ -145,10 +161,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 <Modal
                     isOpen={modalIsOpen}
 
-                    onRequestClose={()=>{
-                     
+                    onRequestClose={() => {
+
                         closeModal()
-                       
+
                     }}
 
                     contentLabel="Example Modal"
@@ -156,7 +172,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     overlayClassName="modal-overlay"
                 >
 
-                    <h2 ref={_subtitle => (subtitle = _subtitle)}>CUSTOMER</h2>
+                    <h2 >CUSTOMER</h2>
 
 
                     {(IsCustomer) ? <Formik
@@ -296,10 +312,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 <Modal
                     isOpen={modalIsOpen}
 
-                    onRequestClose={()=>{
-                      
+                    onRequestClose={() => {
+
                         closeModal()
-                       
+
                     }}
 
                     contentLabel="Example Modal"
@@ -307,7 +323,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     overlayClassName="modal-overlay"
                 >
 
-                    <h2 ref={_subtitle => (subtitle = _subtitle)}>PARKING LOT EMPLOYEE</h2>
+                    <h2 >PARKING LOT EMPLOYEE</h2>
 
 
                     {(IsParkingLotEmployee) ? <Formik
@@ -405,7 +421,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                 />
                             </div>
 
-                           
+
 
 
 
@@ -427,10 +443,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 <Modal
                     isOpen={modalIsOpen}
 
-                    onRequestClose={()=>{
-                       
+                    onRequestClose={() => {
+
                         closeModal()
-                       
+
                     }}
 
                     contentLabel="Example Modal"
@@ -438,7 +454,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     overlayClassName="modal-overlay"
                 >
 
-                    <h2 ref={_subtitle => (subtitle = _subtitle)}>GOVERMENT_EMPLOYEE</h2>
+                    <h2 >GOVERMENT_EMPLOYEE</h2>
 
 
                     {(IsUser) ? <Formik
@@ -545,10 +561,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 <Modal
                     isOpen={modalIsOpen}
 
-                    onRequestClose={()=>{
-                       
+                    onRequestClose={() => {
+
                         closeModal()
-                       
+
                     }}
 
                     contentLabel="Example Modal"
@@ -556,7 +572,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     overlayClassName="modal-overlay"
                 >
 
-                    <h2 ref={_subtitle => (subtitle = _subtitle)}>ADMIN</h2>
+                    <h2 >ADMIN</h2>
 
 
                     {(IsUser) ? <Formik

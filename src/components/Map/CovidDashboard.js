@@ -4,17 +4,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import CovidGoogleMap from "./CovidGoogleMap";
 import PatientInfo from "./PatientInfo";
-import CovidMap from "./CovidMap";
+
 import ListPatients from "./ListPatients";
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
-
 
 import Cookies from 'js-cookie'
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
@@ -33,7 +24,7 @@ const CovidDashboard = (props) => {
 
     const [indexPatientClicked, setIndexPatientClicked] = useState();
 
-    const [checkPage, setcheckPage] = useState(true);
+
 
     const [Clicklocation, setClicklocation] = useState({ lat: 10.762887, lng: 106.6800684 })
 
@@ -50,7 +41,7 @@ const CovidDashboard = (props) => {
     // let defaultLat = 10.762887;
     // let defaultLng = 106.6800684;
 
-    let tmp = new ParkinglotProto.ParkingLotResultList();
+
     let abc = [];
     const callParkingLotAPI = async () => {
         const request = new ParkinglotProto.ScanningByRadiusRequest();
@@ -67,7 +58,7 @@ const CovidDashboard = (props) => {
 
             if (err) {
                 console.log(err)
-                setcheckPage(false)
+           
             } else {
 
 

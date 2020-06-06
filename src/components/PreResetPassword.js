@@ -3,20 +3,14 @@ import Resetpassword from "./Resetpassword"
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
-import { StatusCode } from 'grpc-web'
+
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
-import authProto from '../api/Auth_pb';
+
 import Container from './Landing'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+
 import  { API_URL } from '../saigonparking';
 
-const userProto = require('../api/Actor_pb')
+
 const authService = new AuthServiceClient(API_URL)
 
 
