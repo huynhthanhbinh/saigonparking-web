@@ -6,7 +6,7 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker })
         return (<div>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
     }
     else {
-        return <ListGroup class="list-group" as="ul">
+        return <ListGroup className="list-group" as="ul">
             {patients && patients.map((patient, index) => {
                 return (
                     <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {

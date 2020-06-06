@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import UpdateModal from './Updateuser'
 import AddModal from './Adduser'
-
+import '../../../css/pagination.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
 import ActorProto from '../../../api/Actor_pb';
 import { API_URL } from '../../../saigonparking';
@@ -25,7 +25,7 @@ const Admingetalluser = () => {
     const [tmp, settmp] = React.useState(null)
 
     //config Update modal
-   
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
         setIsOpen(true);
@@ -58,7 +58,7 @@ const Admingetalluser = () => {
         const token = 'Bearer ' + Cookies.get("token");
         request.setValue(id)
         const metadata = { 'Authorization': token }
-       
+
         UserService.activateUser(request, metadata, (err, res) => {
 
             if (err) {
@@ -66,7 +66,7 @@ const Admingetalluser = () => {
 
             } else {
                 setisActive(!isActive)
-               
+
 
 
             }
@@ -77,7 +77,7 @@ const Admingetalluser = () => {
         const token = 'Bearer ' + Cookies.get("token");
         request.setValue(id)
         const metadata = { 'Authorization': token }
-      
+
         UserService.deactivateUser(request, metadata, (err, res) => {
 
             if (err) {
@@ -91,57 +91,57 @@ const Admingetalluser = () => {
             }
         })
     }
-    
 
-    
+
+
 
     useEffect(() => {
 
-        
 
-            const request = new Empty();
-            const token = 'Bearer ' + Cookies.get("token");
-    
-            const metadata = { 'Authorization': token }
-    
-            UserService.countAll(request, metadata, (err, res) => {
-    
-                if (err) {
-                    console.log(err)
-    
-                } else {
-    
-                    settotalUser(res.getValue())
-                    // setNPage(Math.ceil(res.getValue() / 10))
-    
-    
-                }
-            })
-        
+
+        const request = new Empty();
+        const token = 'Bearer ' + Cookies.get("token");
+
+        const metadata = { 'Authorization': token }
+
+        UserService.countAll(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err)
+
+            } else {
+
+                settotalUser(res.getValue())
+                // setNPage(Math.ceil(res.getValue() / 10))
+
+
+            }
+        })
+
     }, [pagenumber])
 
     useEffect(() => {
 
-       
-            const request = new ActorProto.GetAllUserRequest();
-            const token = 'Bearer ' + Cookies.get("token");
-    
-            const metadata = { 'Authorization': token }
-            request.setNrow(10);
-            request.setPagenumber(pagenumber);
-            UserService.getAllUser(request, metadata, (err, res) => {
-    
-                if (err) {
-                    console.log(err)
-    
-                } else {
-    
-                    setuser(res.getUserList())
-    
-                }
-            })
-        
-    }, [pagenumber,isActive])
+
+        const request = new ActorProto.GetAllUserRequest();
+        const token = 'Bearer ' + Cookies.get("token");
+
+        const metadata = { 'Authorization': token }
+        request.setNrow(10);
+        request.setPagenumber(pagenumber);
+        UserService.getAllUser(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err)
+
+            } else {
+
+                setuser(res.getUserList())
+
+            }
+        })
+
+    }, [pagenumber, isActive])
 
 
     const handlechange = (e) => {
@@ -149,7 +149,7 @@ const Admingetalluser = () => {
 
     }
 
-  
+
     return (
         <div className="card">
 
@@ -183,19 +183,17 @@ const Admingetalluser = () => {
 
                                 <td>
                                     <button className="btn btn-sm btn-primary" onClick={() => {
-                                        if(user.getIsactivated() === true)
-                                        {
+                                        if (user.getIsactivated() === true) {
                                             calldeactivateUser(user.getId())
-                                           
-                                        }
-                                        else 
-                                        {
-                                            callactivateUser(user.getId())
-                                             
-                                        }
-                                        
 
-                                    }} > {(user.getIsactivated()  === true) ? "Yes" : "No"}</button>
+                                        }
+                                        else {
+                                            callactivateUser(user.getId())
+
+                                        }
+
+
+                                    }} > {(user.getIsactivated() === true) ? "Yes" : "No"}</button>
                                     <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button>
                                     <button onClick={() => {
                                         settmp(user)
@@ -217,11 +215,15 @@ const Admingetalluser = () => {
             <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalUser ?
                 <Pagination
+                    
+
                     pageRangeDisplayed={10}
                     activePage={pagenumber}
                     itemsCountPerPage={10}
                     totalItemsCount={totalUser}
                     onChange={handlechange}
+
+
                 />
                 : null}
 

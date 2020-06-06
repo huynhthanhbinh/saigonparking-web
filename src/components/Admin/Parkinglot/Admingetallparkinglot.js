@@ -4,6 +4,7 @@ import AddModal from './Addparkinglot'
 import {
     Link
 } from "react-router-dom";
+import '../../../css/pagination.css'
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../../api/ParkingLot_pb';
 import { API_URL } from '../../../saigonparking';
@@ -11,6 +12,7 @@ import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
+
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
