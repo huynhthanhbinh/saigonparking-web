@@ -131,11 +131,11 @@ const Admingetallparkinglot = () => {
         setpagenumber(e)
 
     }
-  
+ 
     return (
        
         <div className="card">
-             {myError?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+             {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
@@ -190,7 +190,7 @@ const Admingetallparkinglot = () => {
 
             </table>
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-                                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
+            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalParkinglot ?
                 <Pagination
                     pageRangeDisplayed={10}

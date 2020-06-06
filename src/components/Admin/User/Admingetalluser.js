@@ -228,7 +228,7 @@ const Admingetalluser = () => {
                 </tbody>
 
             </table>
-            {myError?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+            {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
             <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />

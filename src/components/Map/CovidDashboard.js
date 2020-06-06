@@ -13,7 +13,7 @@ import ParkinglotProto from '../../api/ParkingLot_pb';
 //modal
 import ModalError from '../Modal/ModalError'
 import Modal from 'react-modal';
-
+import Landing from '../Landing'
 import { API_URL } from '../../saigonparking';
 
 
@@ -71,7 +71,7 @@ const CovidDashboard = (props) => {
         request.setRadiustoscan(3)
         request.setNresult(10)
 
-        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
+        ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
 
             if (err) {
                 console.log(err.message)
@@ -129,11 +129,11 @@ const CovidDashboard = (props) => {
     }
     
     return ((<Container>
-    { myError? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+    { modalErrorIsOpen? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
         <Row>
 
             {(patients !=null) ? <Col xs={10}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
-            </Col> : null}
+            </Col> : <Landing/>}
             <Col xs={2}>
                 {currentPatient &&
                     <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}

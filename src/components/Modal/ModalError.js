@@ -36,6 +36,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError,setmyError }) =
                 overlayClassName="modal-overlay"
             >
                 <h1>KHÔNG CÓ TOKEN</h1>
+                
             </Modal>)
         }
         else if (myError === "SPE#00001") {
