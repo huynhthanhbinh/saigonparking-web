@@ -10,6 +10,10 @@ import ListPatients from "./ListPatients";
 import Cookies from 'js-cookie'
 import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../api/ParkingLot_pb';
+//modal
+import ModalError from '../Modal/ModalError'
+import Modal from 'react-modal';
+
 import { API_URL } from '../../saigonparking';
 
 
@@ -17,6 +21,19 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const CovidDashboard = (props) => {
+    //config Error modal
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError,setmyError] = React.useState(null)
+    function openModalError() {
+        
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+    
+
     const [currentPatient, setCurrentPatient] = useState();
 
     // những nơi có sử dụng patients phải check coi khác null không 
@@ -57,7 +74,9 @@ const CovidDashboard = (props) => {
         ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err)
+                console.log(err.message)
+                setmyError(err.message)
+                openModalError()
            
             } else {
 
@@ -108,8 +127,9 @@ const CovidDashboard = (props) => {
         setCurrentPatient(patient);
         setIndexPatientClicked(index);
     }
-
+    
     return ((<Container>
+    { myError? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
         <Row>
 
             {(patients !=null) ? <Col xs={10}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
@@ -125,10 +145,12 @@ const CovidDashboard = (props) => {
             </Col>
             
         </Row>
+        
 
-
-
-    </Container>))
+        
+    </Container>
+    
+    ))
 };
 
 const setScrollList = (patients, index, refs) => {

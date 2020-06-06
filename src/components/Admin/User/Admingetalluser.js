@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
+//modal
 import UpdateModal from './Updateuser'
 import AddModal from './Adduser'
+import ModalError from '../../Modal/ModalError'
+
 import '../../../css/pagination.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
 import ActorProto from '../../../api/Actor_pb';
@@ -11,6 +14,8 @@ import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
+//modal
+import Modal from 'react-modal';
 const UserService = new UserServiceClient(API_URL)
 
 
@@ -47,7 +52,17 @@ const Admingetalluser = () => {
     function closeModalAdd() {
         setIsAddOpen(false);
     }
+    //config Error modal
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError,setmyError] = React.useState(null)
+    function openModalError() {
 
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
     //value
 
     //ACTIVE INACTIVE
@@ -96,9 +111,7 @@ const Admingetalluser = () => {
 
 
     useEffect(() => {
-
-
-
+        //countAll
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
 
@@ -107,7 +120,9 @@ const Admingetalluser = () => {
         UserService.countAll(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err)
+                console.log(err.message)
+                setmyError(err.message)
+                openModalError()
 
             } else {
 
@@ -122,7 +137,7 @@ const Admingetalluser = () => {
 
     useEffect(() => {
 
-
+        //getAllUser
         const request = new ActorProto.GetAllUserRequest();
         const token = 'Bearer ' + Cookies.get("token");
 
@@ -132,8 +147,10 @@ const Admingetalluser = () => {
         UserService.getAllUser(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err)
-
+                console.log(err.message)
+                setmyError(err.message)
+                openModalError()
+                
             } else {
 
                 setuser(res.getUserList())
@@ -211,6 +228,8 @@ const Admingetalluser = () => {
                 </tbody>
 
             </table>
+            {myError?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+            
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
             <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalUser ?

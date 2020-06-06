@@ -1,6 +1,9 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
+//modal 
 import UpdateModal from './Updateparkinglot'
 import AddModal from './Addparkinglot'
+import ModalError from '../../Modal/ModalError'
+
 import {
     Link
 } from "react-router-dom";
@@ -12,6 +15,7 @@ import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
+
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
@@ -29,7 +33,7 @@ const Admingetallparkinglot = () => {
     const [tmp, settmp] = React.useState(null)
 
     //config Update modal
-    
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
         setIsOpen(true);
@@ -50,60 +54,76 @@ const Admingetallparkinglot = () => {
     function closeModalAdd() {
         setIsAddOpen(false);
     }
+    //config Error modal
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError, setmyError] = React.useState(null)
+    function openModalError() {
+      
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
 
     //value
 
 
-    
 
-   
+
+
 
     useEffect(() => {
 
+
       
-            console.log("vao day")
-            const request = new Empty();
-            const token = 'Bearer ' + Cookies.get("token");
-    
-            const metadata = { 'Authorization': token }
-    
-            ParkinglotwebService.countAll(request, metadata, (err, res) => {
-    
-                if (err) {
-                    console.log(err)
-    
-                } else {
-    
-                    settotalParkinglot(res.getValue())
-                    // setNPage(Math.ceil(res.getValue() / 10))
-    
-    
-                }
-            })
-        
+        const request = new Empty();
+        const token = 'Bearer ' + Cookies.get("token");
+
+        const metadata = { 'Authorization': token }
+
+        ParkinglotwebService.countAll(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err.message)
+                setmyError(err.message)
+                openModalError()
+               
+
+            } else {
+
+                settotalParkinglot(res.getValue())
+                // setNPage(Math.ceil(res.getValue() / 10))
+
+
+            }
+        })
+
     }, [pagenumber])
 
     useEffect(() => {
 
-        
-            const request = new ParkinglotProto.GetAllParkingLotRequest();
-            const token = 'Bearer ' + Cookies.get("token");
-    
-            const metadata = { 'Authorization': token }
-            request.setNrow(10);
-            request.setPagenumber(pagenumber);
-            ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
-    
-                if (err) {
-                    console.log(err)
-    
-                } else {
-    
-                    setuser(res.getParkinglotList())
-    
-                }
-            })
-        
+
+        const request = new ParkinglotProto.GetAllParkingLotRequest();
+        const token = 'Bearer ' + Cookies.get("token");
+
+        const metadata = { 'Authorization': token }
+        request.setNrow(10);
+        request.setPagenumber(pagenumber);
+        ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
+
+            if (err) {
+                console.log(err.message)
+                setmyError(err.message)
+                openModalError()
+
+            } else {
+
+                setuser(res.getParkinglotList())
+
+            }
+        })
+
     }, [pagenumber])
 
 
@@ -111,10 +131,11 @@ const Admingetallparkinglot = () => {
         setpagenumber(e)
 
     }
-
+  
     return (
+       
         <div className="card">
-
+             {myError?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
@@ -159,9 +180,8 @@ const Admingetallparkinglot = () => {
                                     }
                                     }>Open Modal</button>
                                 </td>
-                                {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-                                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
-
+                                
+                              
                             </tr>
                         )
                     }
@@ -169,6 +189,8 @@ const Admingetallparkinglot = () => {
                 </tbody>
 
             </table>
+            {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
+                                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalParkinglot ?
                 <Pagination
                     pageRangeDisplayed={10}
