@@ -132,7 +132,7 @@ const Information = () => {
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-                    passWord: customerObject.password,
+                 
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
@@ -144,9 +144,7 @@ const Information = () => {
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-                    passWord: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
+                  
 
                     email: Yup.string()
                         .email('Invalid email address')
@@ -179,14 +177,7 @@ const Information = () => {
                         />
                     </div>
 
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Password"
-                            name="passWord"
-                            type="passWord"
-                            disabled="disabled"
-                        />
-                    </div>
+                   
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Email "

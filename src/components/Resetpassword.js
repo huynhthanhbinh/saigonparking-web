@@ -13,10 +13,10 @@ import {
     Redirect
 } from "react-router-dom";
 import { API_URL } from '../saigonparking';
+import AuthApi from "./Auth/AuthAPI";
 //modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
-
 const userService = new UserServiceClient(API_URL)
 
 
@@ -27,8 +27,7 @@ const userService = new UserServiceClient(API_URL)
 let username = localStorage.getItem("username");
 
 const Resetpassword = () => {
-
-    //config Error modal
+    //config modal Error
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     function openModalError() {
@@ -40,10 +39,20 @@ const Resetpassword = () => {
         setmodalErrorIsOpen(false);
     }
     //
-
     const [nextpage, setnextpage] = React.useState(false)
 
+    const Auth = React.useContext(AuthApi)
+    const ClickLogOut = () => {
+        Auth.setAuth(false)
+        Auth.setIsAdmin(null)
+        Auth.setcheckUserName(null)
+        Cookies.remove("checkUserName");
+        Cookies.remove("token");
+        Cookies.remove("isAdmin");
+        Cookies.remove("refreshtoken");
 
+        localStorage.clear()
+    }
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -60,15 +69,17 @@ const Resetpassword = () => {
         );
     };
 
-
-
+    if(nextpage===true)
+    {
+        return ( <Redirect to="/login" />)
+    }
 
 
     return (
         <>
-             {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+             { modalErrorIsOpen? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             <h1>Hi , {username} </h1>
-            {username && nextpage ? (<Formik
+            {username ? (<Formik
                 initialValues={{
 
                     passWord: '',
@@ -102,6 +113,7 @@ const Resetpassword = () => {
 
                     userService.updatePassword(request, metadata, (err, res) => {
                         if (err) {
+                            console.log(err.message)
                             if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                                 setmyError('SPE#0000DB')
                             }
@@ -114,10 +126,12 @@ const Resetpassword = () => {
                         } else {
 
                             console.log("Reset Password thanh cong")
-
+                            console.log(res)
                             localStorage.removeItem("username");
-                            setnextpage(true)
+                          
                             setSubmitting(false);
+                            ClickLogOut()
+                            setnextpage(true)
                         }
 
                     })
@@ -153,9 +167,8 @@ const Resetpassword = () => {
                     </div>
 
                 </Form>
-            </Formik>) :
-                (nextpage === true) ? (<Redirect to="/login" />)
-                    : (<Redirect to="/forget-password" />)}
+            </Formik>) : null}
+
         </>
     )
 

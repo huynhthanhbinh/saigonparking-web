@@ -232,7 +232,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                         initialValues={{
                             id: IsCustomer.getUserinfo().getId(),
                             userName: IsCustomer.getUserinfo().getUsername(),
-                            passWord: IsCustomer.getUserinfo().getPassword(),
+                     
                             email: IsCustomer.getUserinfo().getEmail(),
                             isActivated: IsCustomer.getUserinfo().getIsactivated(),
                             lastSignIn: IsCustomer.getUserinfo().getLastsignin(),
@@ -246,9 +246,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             userName: Yup.string()
                                 .max(15, 'Must be 15 characters or less')
                                 .required('Required'),
-                            passWord: Yup.string()
-                                .max(15, 'Must be 15 characters or less')
-                                .required('Required'),
+                         
                             email: Yup.string()
                                 .email('Invalid email address')
                                 .required('Required'),
@@ -302,13 +300,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                                 />
                             </div>
-                            <div style={{ margin: 10 }}>
-                                <MyTextInput
-                                    label="Password"
-                                    name="passWord"
-                                    type="passWord"
-                                />
-                            </div>
+                           
 
 
                             <div style={{ margin: 10 }}>
@@ -384,7 +376,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             id: IsParkingLotEmployee.getUserinfo().getId(),
                             role: IsParkingLotEmployee.getUserinfo().getRole(),
                             userName: IsParkingLotEmployee.getUserinfo().getUsername(),
-                            passWord: IsParkingLotEmployee.getUserinfo().getPassword(),
+                           
                             email: IsParkingLotEmployee.getUserinfo().getEmail(),
                             isActivated: IsParkingLotEmployee.getUserinfo().getIsactivated(),
                             lastSignIn: IsParkingLotEmployee.getUserinfo().getLastsignin(),
@@ -400,9 +392,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             role: Yup.string()
                                 .max(15, 'Must be 15 characters or less')
                                 .required('Required'),
-                            passWord: Yup.string()
-                                .max(15, 'Must be 15 characters or less')
-                                .required('Required'),
+                           
                             email: Yup.string()
                                 .email('Invalid email address')
                                 .required('Required'),
@@ -456,13 +446,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                                 />
                             </div>
-                            <div style={{ margin: 10 }}>
-                                <MyTextInput
-                                    label="Password"
-                                    name="passWord"
-                                    type="passWord"
-                                />
-                            </div>
+                           
 
 
                             <div style={{ margin: 10 }}>
@@ -514,7 +498,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                         initialValues={{
                             id: IsUser.getId(),
                             userName: IsUser.getUsername(),
-                            passWord: IsUser.getPassword(),
+                          
                             email: IsUser.getEmail(),
                             isActivated: IsUser.getIsactivated(),
                             lastSignIn: IsUser.getLastsignin(),
@@ -526,9 +510,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             userName: Yup.string()
                                 .max(15, 'Must be 15 characters or less')
                                 .required('Required'),
-                            passWord: Yup.string()
-                                .max(15, 'Must be 15 characters or less')
-                                .required('Required'),
+                         
                             email: Yup.string()
                                 .email('Invalid email address')
                                 .required('Required'),
@@ -574,13 +556,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                                 />
                             </div>
-                            <div style={{ margin: 10 }}>
-                                <MyTextInput
-                                    label="Password"
-                                    name="passWord"
-                                    type="passWord"
-                                />
-                            </div>
+                           
 
 
                             <div style={{ margin: 10 }}>
@@ -632,7 +608,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                         initialValues={{
                             id: IsUser.getId(),
                             userName: IsUser.getUsername(),
-                            passWord: IsUser.getPassword(),
+                      
                             email: IsUser.getEmail(),
                             isActivated: IsUser.getIsactivated(),
                             lastSignIn: IsUser.getLastsignin(),
@@ -644,9 +620,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             userName: Yup.string()
                                 .max(15, 'Must be 15 characters or less')
                                 .required('Required'),
-                            passWord: Yup.string()
-                                .max(15, 'Must be 15 characters or less')
-                                .required('Required'),
+                         
                             email: Yup.string()
                                 .email('Invalid email address')
                                 .required('Required'),
@@ -692,13 +666,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                                 />
                             </div>
-                            <div style={{ margin: 10 }}>
-                                <MyTextInput
-                                    label="Password"
-                                    name="passWord"
-                                    type="passWord"
-                                />
-                            </div>
+                           
 
 
                             <div style={{ margin: 10 }}>

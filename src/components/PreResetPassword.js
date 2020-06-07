@@ -69,7 +69,7 @@ const PreResetPassword = () => {
 
                     )
                     :
-                    (<h1>CÓ LỖI XẢY RA </h1>)
+                    (<h1>CÓ LỖI XẢY RA , CẦN GỬI LẠI MAIL MỚI </h1>)
             }
 
 

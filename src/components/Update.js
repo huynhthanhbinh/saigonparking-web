@@ -15,7 +15,8 @@ import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
 import {
-    Link
+    Link,
+    Redirect
 } from "react-router-dom";
 //modal Error
 import ModalError from './Modal/ModalError'
@@ -44,6 +45,7 @@ const Update = () => {
     const Auth = React.useContext(AuthApi)
 
     let [customerObject, setCustomerObject] = React.useState()
+    const [nextpage,setnextpage] = React.useState(false)
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
@@ -84,7 +86,7 @@ const Update = () => {
 
         getInformationUser(Auth);
 
-    }, [modalErrorIsOpen])
+    }, [modalErrorIsOpen,nextpage])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -113,8 +115,11 @@ const Update = () => {
     const ClickLogOut = () => {
 
     }
-
-    console.log(customerObject)
+    if(nextpage===true)
+    {
+        return(<Redirect to="/profile" />)
+    }
+  
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
@@ -122,7 +127,7 @@ const Update = () => {
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-                    passWord: customerObject.password,
+                   
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
@@ -134,9 +139,7 @@ const Update = () => {
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-                    passWord: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
+                   
 
                     email: Yup.string()
                         .email('Invalid email address')
@@ -178,7 +181,7 @@ const Update = () => {
 
                     user.setRole(customerObject.role)
                     user.setUsername(customerObject.username)
-                    user.setPassword(values.passWord)
+                  
                     user.setEmail(values.email)
                     user.setVersion(customerObject.version)
                     request.setUserinfo(user)
@@ -200,8 +203,9 @@ const Update = () => {
                             openModalError()
                         } else {
 
-                            console.log("Update Binh map thanh cong")
+                            
                             setSubmitting(false);
+                            setnextpage(true)
                         }
 
                     })
@@ -220,13 +224,7 @@ const Update = () => {
                         />
                     </div>
 
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Password"
-                            name="passWord"
-                            type="passWord"
-                        />
-                    </div>
+                   
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Email "
