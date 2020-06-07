@@ -280,7 +280,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="isActivated"
                                     name="isActivated"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                             <div style={{ margin: 10 }}>
@@ -288,7 +288,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="lastSignIn"
                                     name="lastSignIn"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -297,7 +297,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Username"
                                     name="userName"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                            
@@ -308,7 +308,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Email "
                                     name="email"
                                     type="email"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -317,8 +317,8 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="First Name"
                                     name="firstName"
                                     type="text"
-
-                                />
+                                    disabled="disabled"
+                                />  
                             </div>
 
                             <div style={{ margin: 10 }}>
@@ -326,7 +326,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Last Name"
                                     name="lastName"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                             <div style={{ margin: 10 }}>
@@ -334,15 +334,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Phone"
                                     name="phone"
                                     type="phone"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
 
-                            <div style={{ margin: 10 }}>
+                            {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
 
-                            </div>
+                            </div> */}
 
                         </Form>
                     </Formik> : null}
@@ -418,7 +418,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="isActivated"
                                     name="isActivated"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                             <div style={{ margin: 10 }}>
@@ -426,7 +426,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="lastSignIn"
                                     name="lastSignIn"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                             <div style={{ margin: 10 }}>
@@ -434,7 +434,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="role"
                                     name="role"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -443,7 +443,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Username"
                                     name="userName"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                            
@@ -454,7 +454,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Email "
                                     name="email"
                                     type="email"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -462,10 +462,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
 
 
-                            <div style={{ margin: 10 }}>
+                            {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
 
-                            </div>
+                            </div> */}
 
                         </Form>
                     </Formik> : null}
@@ -536,6 +536,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="isActivated"
                                     name="isActivated"
                                     type="text"
+                                    disabled="disabled"
 
                                 />
                             </div>
@@ -544,6 +545,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="lastSignIn"
                                     name="lastSignIn"
                                     type="text"
+                                    disabled="disabled"
 
                                 />
                             </div>
@@ -553,6 +555,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Username"
                                     name="userName"
                                     type="text"
+                                    disabled="disabled"
 
                                 />
                             </div>
@@ -564,6 +567,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Email "
                                     name="email"
                                     type="email"
+                                    disabled="disabled"
 
                                 />
                             </div>
@@ -572,10 +576,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
 
 
-                            <div style={{ margin: 10 }}>
+                            {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
 
-                            </div>
+                            </div> */}
 
                         </Form>
                     </Formik> : null}
@@ -646,7 +650,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="isActivated"
                                     name="isActivated"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                             <div style={{ margin: 10 }}>
@@ -654,7 +658,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="lastSignIn"
                                     name="lastSignIn"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -663,7 +667,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Username"
                                     name="userName"
                                     type="text"
-
+                                    disabled="disabled"
                                 />
                             </div>
                            
@@ -674,7 +678,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                     label="Email "
                                     name="email"
                                     type="email"
-
+                                    disabled="disabled"
                                 />
                             </div>
 
@@ -682,10 +686,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
 
 
-                            <div style={{ margin: 10 }}>
+                            {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
 
-                            </div>
+                            </div> */}
 
                         </Form>
                     </Formik> : null}

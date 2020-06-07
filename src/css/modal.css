@@ -9,10 +9,10 @@
   
   .modal-content {
     position: absolute;
-    top: calc(50% - 250px - 10px);
+    top: calc(50% - 275px - 10px);
     left: calc(50% - 200px - 10px);
     width: 400px;
-    height: 500px;
+    height: 550px;
     padding: 10px;
     text-align: center;
     border: 0px;

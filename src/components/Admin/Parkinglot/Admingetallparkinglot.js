@@ -14,7 +14,8 @@ import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
-import userMapper from '../../../mapper/UserMapper';
+import parkingLotMapper from '../../../mapper/ParkingLotMapper';
+
 import exceptionHandler from '../../../ExceptionHandling'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -152,8 +153,9 @@ const Admingetallparkinglot = () => {
     return (
        
         <div className="card">
-             {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
-            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
+          
+
+            {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
@@ -173,19 +175,19 @@ const Admingetallparkinglot = () => {
                 <tbody>
 
                     {
-                        users && users.map((user, index) =>
+                        users && users.map((parkingLot, index) =>
                             <tr key={index}>
 
 
-                                <th scope="row" id="IDBIXOA">{user.getId()}</th>
-                                <td>{user.getInformation().getName()}</td>
-                                <td>{userMapper.toRoleString(user.getType())}</td>
-                                <td>{user.getLatitude()}</td>
-                                <td>{user.getLongitude()}</td>
-                                <td>{user.getOpeninghour()}</td>
-                                <td>{user.getClosinghour()}</td>
-                                <td>{user.getAvailableslot()}</td>
-                                <td>{user.getTotalslot()}</td>
+                                <th scope="row" id="IDBIXOA">{parkingLot.getId()}</th>
+                                <td>{parkingLot.getInformation().getName()}</td>
+                                <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>
+                                <td>{parkingLot.getLatitude()}</td>
+                                <td>{parkingLot.getLongitude()}</td>
+                                <td>{parkingLot.getOpeninghour()}</td>
+                                <td>{parkingLot.getClosinghour()}</td>
+                                <td>{parkingLot.getAvailableslot()}</td>
+                                <td>{parkingLot.getTotalslot()}</td>
 
 
                                 <td>
@@ -193,9 +195,9 @@ const Admingetallparkinglot = () => {
                                     {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
                                     <button onClick={() => {
                                         openModal()
-                                        settmp(user)
+                                        settmp(parkingLot)
                                     }
-                                    }>Open Modal</button>
+                                    }>Detail</button>
                                 </td>
                                 
                               
@@ -206,6 +208,7 @@ const Admingetallparkinglot = () => {
                 </tbody>
 
             </table>
+            {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
             <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
             {totalParkinglot ?

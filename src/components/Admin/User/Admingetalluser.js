@@ -189,7 +189,7 @@ const Admingetalluser = () => {
     return (
         <div className="card">
 
-            <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button>
+            {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
                     <tr>
@@ -214,7 +214,7 @@ const Admingetalluser = () => {
                                 <td>{userMapper.toRoleString(user.getRole())}</td>
                                 <td>{user.getUsername()}</td>
                                 <td>{user.getEmail()}</td>
-                                <td>{(user.getIsactivated() === true) ? "Yes" : "No"}</td>
+                                <td>{(user.getIsactivated() === true) ? "Activated" : "Inactivated"}</td>
                                 <td>{user.getLastsignin()}</td>
 
                                 <td>
@@ -229,14 +229,14 @@ const Admingetalluser = () => {
                                         }
 
 
-                                    }} > {(user.getIsactivated() === true) ? "Yes" : "No"}</button>
-                                    <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button>
+                                    }} > {(user.getIsactivated() === true) ? "Activated" : "Inactivated"}</button>
+                                    {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
                                     <button onClick={() => {
                                         settmp(user)
                                         openModal()
 
                                     }
-                                    }>Open Modal</button>
+                                    }>Detail</button>
                                 </td>
 
 
