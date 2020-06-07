@@ -1,32 +1,32 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import AuthApi from "./Auth/AuthAPI";
+import AuthApi from "../Auth/AuthAPI";
 
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 
-import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 
 
 import {
     BrowserRouter as Router,
-   
+
     Redirect
 } from "react-router-dom";
-import  { API_URL } from '../saigonparking';
-//modal Error 
-import '../css/modal.css'
+import { API_URL } from '../../saigonparking';
+//import modal
 
-import ModalActivateAccountError from './ActivateAccount/ModalActivateAccountError'
+import '../../css/modal.css'
 
-
-
+import ModalActivateAccountError from './ModalActivateAccountError'
 const authService = new AuthServiceClient(API_URL)
 
 
 
-const Forgetpassword = () => {
-    //config Error modal
+const ClickActivateAccount = () => {
+    const Auth = React.useContext(AuthApi)
+
+    //config Error 
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError,setmyError] = React.useState(null)
     function openModalError() {
@@ -38,21 +38,22 @@ const Forgetpassword = () => {
         setmodalErrorIsOpen(false);
     }
    
-   
-
+    
+    
     //
-    const Auth = React.useContext(AuthApi)
-   
+
     const [sendemail, setsendemail] = React.useState(true)
-    const callResetPassword = (username, Auth) => {
+
+    const callsendActivateAccount = (username, Auth) => {
         const request = new StringValue()
         const metadata = {};
         request.setValue(username)
-        
-        authService.sendResetPasswordEmail(request, metadata, (err, res) => {
+
+        authService.sendActivateAccountEmail(request, metadata, (err, res) => {
             if (err) {
                 setmyError(err.message)
                 openModalError()
+
             } else {
                 setsendemail(false)
                 localStorage.setItem("username", username)
@@ -60,7 +61,7 @@ const Forgetpassword = () => {
 
         })
     }
-  
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -76,16 +77,18 @@ const Forgetpassword = () => {
         }),
         onSubmit: values => {
 
-            callResetPassword(values.userName, Auth)
-            
+            callsendActivateAccount(values.userName, Auth)
+
 
         },
     });
-
+ 
     return (
         <>{
-            (sendemail === true)?(
+            (sendemail === true) ? (
+                
                 <form onSubmit={formik.handleSubmit}>
+                
                     <div style={{ margin: 10 }}>
                     {modalErrorIsOpen?<ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
                         <label htmlFor="userName">USERNAME</label>
@@ -106,14 +109,15 @@ const Forgetpassword = () => {
                         <button style={{ margin: 10 }} type="submit" >Submit</button>
 
                     </div>
-
+                   
                 </form>
-            ):
-            (<Redirect to="/" />)
+            ) :
+                (<Redirect to="/" />)
         }
-                
-            
+
+
         </>
     );
+    
 };
-export default Forgetpassword;
+export default ClickActivateAccount;

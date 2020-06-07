@@ -14,6 +14,10 @@ import Admin from './Admin/Admin'
 import Admingetalluser from './Admin/User/Admingetalluser'
 import Admingetallparkinglot from './Admin/Parkinglot/Admingetallparkinglot'
 //
+//Activate Account
+import ClickActivateAccount from './ActivateAccount/ClickActivateAccount'
+import PreActivateAccount from './ActivateAccount/PreActivateAccount'
+//
 import CovidDashboard from './Map/CovidDashboard'
 import Information from "./Information"
 import Login from './Login';
@@ -269,8 +273,12 @@ const Routes = () => {
                 <ProtectedRegister path="/register" component={Register} auth={Auth.auth} ></ProtectedRegister>
                 <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
                 <ProtectedUpdate path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
+                
                 <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
                 <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
+
+                <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
+                <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
 
             </Switch>
 
@@ -478,6 +486,36 @@ const ProtectedForgetPassword = ({ auth, component: Component, ...rest }) => {
 }
 const ProtectedResetPassword = ({ auth, component: Component, ...rest }) => {
     document.title = 'RESETPASSWORD'
+    return (
+        <Route
+            {...rest}
+
+            render={() =>
+
+                <Component />
+
+            }
+        />
+
+    )
+}
+const ProtectedClickActivateAccount = ({ auth, component: Component, ...rest }) => {
+    document.title = 'ProtectedClickActivateAccount'
+    return (
+        <Route
+            {...rest}
+
+            render={() =>
+
+                <Component />
+
+            }
+        />
+
+    )
+}
+const ProtectedActivateAccount = ({ auth, component: Component, ...rest }) => {
+    document.title = 'ProtectedActivateAccount'
     return (
         <Route
             {...rest}

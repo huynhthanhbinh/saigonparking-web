@@ -159,7 +159,8 @@ const Login = () => {
                 <div style={{ margin: 10 }}>
                     <button style={{ margin: 10 }} type="submit" >Submit</button>
 
-                    <Link to="/forget-password">Forget Password</Link>
+                    <Link to="/forget-password">FORGOT PASSWORD </Link>
+                    <Link to="/clickactivateaccount">ACTIVATE ACCOUNT </Link>
 
                 </div>
 

@@ -9,50 +9,55 @@ import { API_URL } from '../saigonparking';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-
+import ModalRegister from './Modal/ModalRegister'
 const authService = new AuthServiceClient(API_URL)
 
-const callUserRegisterService = (registerUser, Auth) => {
-
-  const metadata = { 'Authorization': 'Bon Map' }
-  const request = new authProto.RegisterRequest();
-  request.setUsername(registerUser.userName);
-  request.setPassword(registerUser.passWord);
-  request.setEmail(registerUser.email);
-  request.setFirstname(registerUser.firstName);
-  request.setLastname(registerUser.lastName);
-  request.setPhone(registerUser.phone);
 
 
-  authService.registerUser(request, metadata, (err, res) => {
 
-    if (err) {
-      console.log('Lỗi lỗi lỗi ');
-      console.log(err)
-    } else {
-      console.log('BBBBBBBBBBBBBBBBBBBBB');
-      const resType = res.getResponse();
-      const RegisterResponseType = authProto.RegisterResponseType;
-      switch (resType) {
-        case RegisterResponseType.SUCCESS: {
-          console.log("Bon Map dang ki thanh cong");
+const Register = () => {
+  //config Register
+  const [modalRegisterIsOpen, setmodalRegisterIsOpen] = React.useState(false);
+  const [myError, setmyError] = React.useState(null)
+  function openModalRegister() {
 
-          break;
-        }
-        default: { // non-exist
-          console.log("Bon Map Dang ky khong thanh cong");
-          break;
-        }
-      }
-    }
-  })
-}
+    setmodalRegisterIsOpen(true);
+  }
 
-
-const Login = () => {
-
+  function closeModalRegister() {
+    setmodalRegisterIsOpen(false);
+  }
 
   const Auth = React.useContext(AuthApi)
+  const [nextpage, setnextpage] = React.useState(false)
+  const callUserRegisterService = (registerUser, Auth) => {
+
+
+
+    const metadata = { 'Authorization': 'Bon Map' }
+    const request = new authProto.RegisterRequest();
+    request.setUsername(registerUser.userName);
+    request.setPassword(registerUser.passWord);
+    request.setEmail(registerUser.email);
+    request.setFirstname(registerUser.firstName);
+    request.setLastname(registerUser.lastName);
+    request.setPhone(registerUser.phone);
+
+
+    authService.registerUser(request, metadata, (err, res) => {
+
+      if (err) {
+        console.log('Lỗi lỗi lỗi ');
+        console.log(err)
+      } else {
+        console.log('dang ky thanh cong');
+        openModalRegister()
+        setnextpage(true)
+
+      }
+    })
+  }
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -99,168 +104,170 @@ const Login = () => {
   return (
 
 
+    <div>
+      {modalRegisterIsOpen ? <ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister}  /> : null}
+      
+      <form onSubmit={formik.handleSubmit}>
+        <Container>
 
-    <form onSubmit={formik.handleSubmit}>
-      <Container>
+          <Row style={{ margin: 10 }}>
+            <Col xs={4}><label htmlFor="firstName">First Name</label></Col>
+            <Col xs={4}>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.firstName}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.firstName && formik.errors.firstName ? (
+                <div>{formik.errors.firstName}</div>
+              ) : null}
 
-        <Row  style={{ margin: 10 }}>
-          <Col xs={4}><label htmlFor="firstName">First Name</label></Col>
-          <Col xs={4}>
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-
-          </Col>
-        </Row>
+            </Col>
+          </Row>
 
 
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="lastName">Last Name</label></Col>
-          <Col xs={4}>
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.lastName}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.lastName && formik.errors.lastName ? (
-              <div>{formik.errors.lastName}</div>
-            ) : null}
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="lastName">Last Name</label></Col>
+            <Col xs={4}>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.lastName}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.lastName && formik.errors.lastName ? (
+                <div>{formik.errors.lastName}</div>
+              ) : null}
 
-          </Col>
-        </Row>
-              
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="userName">userName</label></Col>
-          <Col xs={4}>
-            <input
-              id="userName"
-              name="userName"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.userName}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.userName && formik.errors.userName ? (
-              <div>{formik.errors.userName}</div>
-            ) : null}
+            </Col>
+          </Row>
 
-          </Col>
-        </Row>
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="userName">userName</label></Col>
+            <Col xs={4}>
+              <input
+                id="userName"
+                name="userName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.userName}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.userName && formik.errors.userName ? (
+                <div>{formik.errors.userName}</div>
+              ) : null}
 
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
-          <Col xs={4}>
-            <input
-              id="passWord"
-              name="passWord"
-              type="password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.passWord}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.passWord && formik.errors.passWord ? (
-              <div>{formik.errors.passWord}</div>
-            ) : null}
+            </Col>
+          </Row>
 
-          </Col>
-        </Row>
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
+            <Col xs={4}>
+              <input
+                id="passWord"
+                name="passWord"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.passWord}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.passWord && formik.errors.passWord ? (
+                <div>{formik.errors.passWord}</div>
+              ) : null}
 
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="confirmpassWord">confirmpassWord</label></Col>
-          <Col xs={4}>
-            <input
-              id="confirmpassWord"
-              name="confirmpassWord"
-              type="password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.confirmpassWord}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
-              <div>{formik.errors.confirmpassWord}</div>
-            ) : null}
+            </Col>
+          </Row>
 
-          </Col>
-        </Row>
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="confirmpassWord">confirmpassWord</label></Col>
+            <Col xs={4}>
+              <input
+                id="confirmpassWord"
+                name="confirmpassWord"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmpassWord}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
+                <div>{formik.errors.confirmpassWord}</div>
+              ) : null}
 
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="email">email</label></Col>
-          <Col xs={4}>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.email && formik.errors.email ? (
-              <div>{formik.errors.email}</div>
-            ) : null}
+            </Col>
+          </Row>
 
-          </Col>
-        </Row>
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="email">email</label></Col>
+            <Col xs={4}>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.email && formik.errors.email ? (
+                <div>{formik.errors.email}</div>
+              ) : null}
 
-        
-        <Row  style={{ margin: 5 }}>
-          <Col xs={4}><label htmlFor="phone">phone</label></Col>
-          <Col xs={4}>
-            <input
-              id="phone"
-              name="phone"
-              type="phone"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.phone}
-            />
-          </Col>
-          <Col xs={4}>
-            {formik.touched.phone && formik.errors.phone ? (
-              <div>{formik.errors.phone}</div>
-            ) : null}
+            </Col>
+          </Row>
 
-          </Col>
-        </Row>
 
-      </Container>
+          <Row style={{ margin: 5 }}>
+            <Col xs={4}><label htmlFor="phone">phone</label></Col>
+            <Col xs={4}>
+              <input
+                id="phone"
+                name="phone"
+                type="phone"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phone}
+              />
+            </Col>
+            <Col xs={4}>
+              {formik.touched.phone && formik.errors.phone ? (
+                <div>{formik.errors.phone}</div>
+              ) : null}
 
-      <div style={{ margin: 10 }}>
-        <button style={{ margin: 10 }} type="submit"  >Submit</button>
-        <button
-          style={{ margin: 10 }}
-          onClick={formik.handleReset}
-          type="reset"
-        >
-          Reset
+            </Col>
+          </Row>
+
+        </Container>
+
+        <div style={{ margin: 10 }}>
+          <button style={{ margin: 10 }} type="submit"  >Submit</button>
+          <button
+            style={{ margin: 10 }}
+            onClick={formik.handleReset}
+            type="reset"
+          >
+            Reset
         </button>
-      </div>
+        </div>
 
 
-    </form>
-
+      </form>
+    </div>
   );
 };
-export default Login;
+export default Register;

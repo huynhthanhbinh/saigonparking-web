@@ -1,14 +1,14 @@
 import React from 'react';
-import Resetpassword from "./Resetpassword"
-import AuthApi from "./Auth/AuthAPI";
+import ActivateAccount from "./ActivateAccount"
+import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
 
-import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 
-import Container from './Landing'
+import Container from '../Landing'
 
-import  { API_URL } from '../saigonparking';
+import  { API_URL } from '../../saigonparking';
 
 
 const authService = new AuthServiceClient(API_URL)
@@ -16,7 +16,7 @@ const authService = new AuthServiceClient(API_URL)
 
 let username = localStorage.getItem("username");
 
-const PreResetPassword = () => {
+const PreActivateAccount = () => {
     const Auth = React.useContext(AuthApi)
     const [status, setstatus] = React.useState(true)
     const [statusmail, setstatusmail] = React.useState(true)
@@ -25,12 +25,13 @@ const PreResetPassword = () => {
     var tmptoken = url.searchParams.get("token");
   
 
-    const callgenerateNewToken = () => {
+    const callactivateNewAccount = () => {
         const token = 'Bearer ' + tmptoken;
         const metadata = { 'Authorization': token }
         const request = new Empty()
-        authService.generateNewToken(request, metadata, (err, res) => {
+        authService.activateNewAccount(request, metadata, (err, res) => {
             if (err) {
+
                 alert("Link khong con kha dung")
                 setstatus(false)
             } else {
@@ -51,7 +52,7 @@ const PreResetPassword = () => {
             setstatus(false)
         }
         else{
-            callgenerateNewToken(Auth);
+            callactivateNewAccount(Auth);
         }
            
 
@@ -66,7 +67,7 @@ const PreResetPassword = () => {
                     (
                         (statusmail === true) ? 
                         <Container ></Container>
-                        : (<Resetpassword />)
+                        : (<ActivateAccount />)
 
                     )
                     :
@@ -77,4 +78,4 @@ const PreResetPassword = () => {
         </>
     );
 };
-export default PreResetPassword;
+export default PreActivateAccount;
