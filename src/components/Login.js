@@ -78,6 +78,7 @@ const Login = () => {
 
 
                         Cookies.set("token", res.getAccesstoken())
+                        Cookies.set("refreshtoken", res.getRefreshtoken())
                         Cookies.set("checkUserName", username)
                         
                         break;

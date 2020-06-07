@@ -11,12 +11,28 @@ import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';
 
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
+//Modal Error
+import ModalError from '../../Modal/ModalError'
+import exceptionHandler from '../../../ExceptionHandling'
+
 const UserService = new UserServiceClient(API_URL)
 
 Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
-  
+    //config Modal Error
 
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError, setmyError] = React.useState(null)
+    function openModalError() {
+
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+
+    //
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
         // which we can spread on <input> and also replace ErrorMessage entirely.
@@ -63,7 +79,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 UserService.getCustomerById(request, metadata, (err, res) => {
 
                     if (err) {
-                        console.log(err)
+                        if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                            setmyError('SPE#0000DB')
+                        }
+                        else {
+                            setmyError(err.message)
+                        }
+
+
+                        openModalError()
 
                     } else {
                         setIsCustomer(res)
@@ -85,7 +109,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 UserService.getParkingLotEmployeeById(request, metadata, (err, res) => {
 
                     if (err) {
-                        console.log(err)
+                        if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                            setmyError('SPE#0000DB')
+                        }
+                        else {
+                            setmyError(err.message)
+                        }
+
+
+                        openModalError()
 
                     } else {
                         setIsParkingLotEmployee(res)
@@ -107,7 +139,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 UserService.getUserById(request, metadata, (err, res) => {
 
                     if (err) {
-                        console.log(err)
+                        if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                            setmyError('SPE#0000DB')
+                        }
+                        else {
+                            setmyError(err.message)
+                        }
+
+
+                        openModalError()
 
                     } else {
                         setIsUser(res)
@@ -129,7 +169,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                 UserService.getUserById(request, metadata, (err, res) => {
 
                     if (err) {
-                        console.log(err)
+                        if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                            setmyError('SPE#0000DB')
+                        }
+                        else {
+                            setmyError(err.message)
+                        }
+
+
+                        openModalError()
 
                     } else {
                         setIsUser(res)
@@ -149,10 +197,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
 
         }
-    }, [modalIsOpen,parkinglot])
+    }, [modalIsOpen, parkinglot,modalErrorIsOpen])
 
 
-
+    if(modalErrorIsOpen===true)
+    {
+        return (
+        <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />
+        )
+    }
     if (parkinglot != null) {
         if (parkinglot.getRole() === 0) {
 
@@ -610,7 +663,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
                         })}
                         onSubmit={(values, { setSubmitting }) => {
-
+                                    
                         }}
                     >
                         <Form >

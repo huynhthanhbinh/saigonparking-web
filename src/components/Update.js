@@ -17,7 +17,10 @@ import { API_URL } from '../saigonparking';
 import {
     Link
 } from "react-router-dom";
-
+//modal Error
+import ModalError from './Modal/ModalError'
+import exceptionHandler from '../ExceptionHandling'
+//
 const userService = new UserServiceClient(API_URL)
 
 // const customer = new UserProto.Customer();
@@ -26,10 +29,20 @@ const userService = new UserServiceClient(API_URL)
 // let customerObject;
 
 const Update = () => {
+    //config Error modal
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError, setmyError] = React.useState(null)
+    function openModalError() {
 
+        setmodalErrorIsOpen(true);
+    }
 
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+    //
     const Auth = React.useContext(AuthApi)
-  
+
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
@@ -40,10 +53,20 @@ const Update = () => {
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-                console.log(err)
+                
+                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                    setmyError('SPE#0000DB')
+                }
+                else {
+                    setmyError(err.message)
+                }
+
+
+                openModalError()
+
             } else {
 
-              
+
 
                 setCustomerObject(userMapper.toCustomerObject(res))
 
@@ -61,7 +84,7 @@ const Update = () => {
 
         getInformationUser(Auth);
 
-    }, [])
+    }, [modalErrorIsOpen])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -94,6 +117,7 @@ const Update = () => {
     console.log(customerObject)
     return (
         <>
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
             <h1>Update Information</h1>
             {customerObject ? <Formik
                 initialValues={{
@@ -234,7 +258,7 @@ const Update = () => {
                     <div style={{ margin: 10 }}>
                         <button type="submit" >Update</button>
                         <Link to="/profile">
-                            <button style={{margin:10}} type="button">
+                            <button style={{ margin: 10 }} type="button">
                                 Back
                             </button>
                         </Link>

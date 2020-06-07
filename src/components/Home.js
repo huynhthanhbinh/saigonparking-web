@@ -42,16 +42,17 @@ function Home() {
 
     const readcookie = () => {
         const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+
         const checkUserName = Cookies.get("checkUserName");
         const isadmin = Cookies.get("isAdmin");
-        if (token && checkUserName ) {
+        if (token && checkUserName && refreshtoken) {
             setAuth(true);
             setcheckUserName(checkUserName)
-            if(isadmin!=null)
-            {
+            if (isadmin != null) {
                 setIsAdmin(isadmin)
             }
-            
+
         }
     }
 
@@ -132,6 +133,8 @@ const Links = () => {
         Cookies.remove("checkUserName");
         Cookies.remove("token");
         Cookies.remove("isAdmin");
+        Cookies.remove("refreshtoken");
+        
         localStorage.clear()
     }
     if (Auth.auth === true && Auth.isAdmin != null) {
@@ -226,9 +229,9 @@ const Links = () => {
 
                         <div style={{ marginRight: "50px" }} >
                             <NavDropdown title="ĐĂNG NHẬP" id="basic-nav-dropdown" >
-                                <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
-
-                                <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
+                                <Link to="/login" >LOGIN</Link>
+                                <hr />
+                                <Link to="/register" >REGISTER</Link>
 
                                 <NavDropdown.Divider />
 
@@ -254,7 +257,7 @@ const Routes = () => {
                 <ProtectedAdmin path="/admin" component={Admin} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedAdmin>
 
                 <ProtectedAdmingetallparkinglot exact path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName}  ></ProtectedAdmingetallparkinglot>
-                <ProtectedAdminupdateparkinglot exact path="/getallparkinglot/update/:parkinglotId" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin}  checkUserName={Auth.checkUserName} ></ProtectedAdminupdateparkinglot>
+                <ProtectedAdminupdateparkinglot exact path="/getallparkinglot/update/:parkinglotId" component={Admingetallparkinglot} auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} ></ProtectedAdminupdateparkinglot>
 
 
 
@@ -283,7 +286,7 @@ const ProtectedAdmingetalluser = ({ auth, checkUserName, isAdmin, component: Com
 
             render={() =>
                 // (isAdmin != null && auth === true && checkUserName != null) ? (<Component />) : (<Redirect to="/loginadmin" />)
-                    <Component></Component>
+                <Component></Component>
             }
         />
 
@@ -306,7 +309,7 @@ const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, isAdmin, componen
 }
 const ProtectedAdminupdateparkinglot = ({ auth, checkUserName, isAdmin, component: Component, ...rest }) => {
     document.title = 'UPDATE PARKING LOT'
-    
+
     return (
         <Route
 
@@ -412,13 +415,13 @@ const ProtectedLogin = ({ auth, component: Component, ...rest }) => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var token = url.searchParams.get("token");
-   
+
     return (
         <Route
             {...rest}
 
             render={() =>
-                (auth===false) ? (<Component />) : (<Redirect to="/mymap" />)
+                (auth === false) ? (<Component />) : (<Redirect to="/mymap" />)
 
             }
         />

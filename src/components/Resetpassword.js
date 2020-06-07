@@ -8,11 +8,14 @@ import UserProto from '../api/Actor_pb';
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import {
-   
-    
+
+
     Redirect
 } from "react-router-dom";
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
+//modal Error
+import ModalError from './Modal/ModalError'
+import exceptionHandler from '../ExceptionHandling'
 
 const userService = new UserServiceClient(API_URL)
 
@@ -25,10 +28,21 @@ let username = localStorage.getItem("username");
 
 const Resetpassword = () => {
 
+    //config Error modal
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError, setmyError] = React.useState(null)
+    function openModalError() {
 
-   
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+    //
+
     const [nextpage, setnextpage] = React.useState(false)
-    
+
 
 
     const MyTextInput = ({ label, ...props }) => {
@@ -49,9 +63,10 @@ const Resetpassword = () => {
 
 
 
-    
+
     return (
         <>
+             {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             <h1>Hi , {username} </h1>
             {username && nextpage ? (<Formik
                 initialValues={{
@@ -74,32 +89,40 @@ const Resetpassword = () => {
                 })}
                 onSubmit={(values, { setSubmitting }) => {
 
-                 
-                        console.log(values.passWord)
 
-                       
-                        const token = 'Bearer ' + Cookies.get("token");
-                        const metadata = { 'Authorization': token }
-                        const request = new UserProto.UpdatePasswordRequest()
+                    console.log(values.passWord)
 
-                        request.setUsername(username)
-                        request.setNewpassword(values.passWord)
 
-                        userService.updatePassword(request, metadata, (err, res) => {
-                            if (err) {
-                                console.log(err)
-                            } else {
+                    const token = 'Bearer ' + Cookies.get("token");
+                    const metadata = { 'Authorization': token }
+                    const request = new UserProto.UpdatePasswordRequest()
 
-                                console.log("Reset Password thanh cong")
-                                
-                                localStorage.removeItem("username");
-                                setnextpage(true)
-                                setSubmitting(false);
+                    request.setUsername(username)
+                    request.setNewpassword(values.passWord)
+
+                    userService.updatePassword(request, metadata, (err, res) => {
+                        if (err) {
+                            if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                                setmyError('SPE#0000DB')
+                            }
+                            else {
+                                setmyError(err.message)
                             }
 
-                        })
 
-                   
+                            openModalError()
+                        } else {
+
+                            console.log("Reset Password thanh cong")
+
+                            localStorage.removeItem("username");
+                            setnextpage(true)
+                            setSubmitting(false);
+                        }
+
+                    })
+
+
                 }}
             >
                 <Form >
@@ -126,13 +149,13 @@ const Resetpassword = () => {
                     <div style={{ margin: 10 }}>
 
 
-                        
+
                     </div>
 
                 </Form>
-            </Formik> ):  
-            (nextpage === true ) ? (<Redirect to="/login" />)
-            :(<Redirect to="/forget-password" />)}
+            </Formik>) :
+                (nextpage === true) ? (<Redirect to="/login" />)
+                    : (<Redirect to="/forget-password" />)}
         </>
     )
 

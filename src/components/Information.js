@@ -18,6 +18,9 @@ import {
     Link,
   
 } from "react-router-dom";
+//  modal Error
+import ModalError from './Modal/ModalError'
+import exceptionHandler from '../ExceptionHandling'
 
 const userService = new UserServiceClient(API_URL)
 
@@ -28,7 +31,20 @@ const userService = new UserServiceClient(API_URL)
 // let customerObject;
 
 const Information = () => {
+    //config Modal Error
 
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError,setmyError] = React.useState(null)
+    function openModalError() {
+
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+
+    //
 
     const Auth = React.useContext(AuthApi)
    
@@ -42,7 +58,17 @@ const Information = () => {
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-                console.log(err)
+                  if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
+                openModalError()
             } else {
 
                 setCustomerObject(userMapper.toCustomerObject(res))
@@ -58,7 +84,7 @@ const Information = () => {
 
         getInformationUser(Auth);
 
-    }, [])
+    }, [modalErrorIsOpen])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -66,6 +92,7 @@ const Information = () => {
         const [field, meta] = useField(props);
         return (
             <>
+              {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
                 <Container>
                     <Row style={{ margin: 5 }}>
                         <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
@@ -86,8 +113,13 @@ const Information = () => {
 
     const ClickLogOut = () => {
         Auth.setAuth(false)
+        Auth.setIsAdmin(null)
+        Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
+        Cookies.remove("isAdmin");
+        Cookies.remove("refreshtoken");
+        
         localStorage.clear()
     }
 

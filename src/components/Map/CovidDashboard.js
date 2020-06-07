@@ -15,7 +15,7 @@ import ModalError from '../Modal/ModalError'
 import Modal from 'react-modal';
 import Landing from '../Landing'
 import { API_URL } from '../../saigonparking';
-
+import exceptionHandler from '../../ExceptionHandling'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
@@ -75,7 +75,16 @@ const CovidDashboard = (props) => {
 
             if (err) {
                 console.log(err.message)
-                setmyError(err.message)
+                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
                 openModalError()
            
             } else {
@@ -96,7 +105,7 @@ const CovidDashboard = (props) => {
     useEffect(() => {
 
         callParkingLotAPI()
-    }, [Clicklocation])
+    }, [Clicklocation,modalErrorIsOpen])
 
     useEffect(() => {
         if (patients != null) {

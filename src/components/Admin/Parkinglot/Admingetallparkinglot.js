@@ -15,7 +15,7 @@ import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
-
+import exceptionHandler from '../../../ExceptionHandling'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
@@ -85,8 +85,16 @@ const Admingetallparkinglot = () => {
         ParkinglotwebService.countAll(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err.message)
-                setmyError(err.message)
+                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
                 openModalError()
                
 
@@ -99,7 +107,7 @@ const Admingetallparkinglot = () => {
             }
         })
 
-    }, [pagenumber])
+    }, [pagenumber,modalErrorIsOpen])
 
     useEffect(() => {
 
@@ -113,8 +121,17 @@ const Admingetallparkinglot = () => {
         ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err.message)
-                setmyError(err.message)
+
+                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
                 openModalError()
 
             } else {
@@ -124,7 +141,7 @@ const Admingetallparkinglot = () => {
             }
         })
 
-    }, [pagenumber])
+    }, [pagenumber,modalErrorIsOpen])
 
 
     const handlechange = (e) => {

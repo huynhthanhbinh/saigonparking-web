@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 //modal
 import UpdateModal from './Updateuser'
 import AddModal from './Adduser'
+//modal Error
 import ModalError from '../../Modal/ModalError'
+import exceptionHandler from '../../../ExceptionHandling'
 
 import '../../../css/pagination.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
@@ -16,6 +18,7 @@ import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
 //modal
 import Modal from 'react-modal';
+
 const UserService = new UserServiceClient(API_URL)
 
 
@@ -120,8 +123,16 @@ const Admingetalluser = () => {
         UserService.countAll(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err.message)
-                setmyError(err.message)
+                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
                 openModalError()
 
             } else {
@@ -133,7 +144,7 @@ const Admingetalluser = () => {
             }
         })
 
-    }, [pagenumber])
+    }, [pagenumber,modalErrorIsOpen])
 
     useEffect(() => {
 
@@ -147,18 +158,26 @@ const Admingetalluser = () => {
         UserService.getAllUser(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err.message)
-                setmyError(err.message)
+                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
+                {
+                    setmyError('SPE#0000DB')
+                }
+                else
+                {
+                    setmyError(err.message)
+                }
+                
+
                 openModalError()
                 
             } else {
-
+                
                 setuser(res.getUserList())
 
             }
         })
 
-    }, [pagenumber, isActive])
+    }, [pagenumber, isActive,modalErrorIsOpen])
 
 
     const handlechange = (e) => {
