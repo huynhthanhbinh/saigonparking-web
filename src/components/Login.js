@@ -14,11 +14,15 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 import {
-  
+
     Link
 
 } from "react-router-dom";
 import { API_URL } from '../saigonparking';
+//import modal login
+import ModalErrorLogin from './Modal/ModalErrorLogin'
+
+
 
 const userProto = require('../api/Actor_pb')
 
@@ -27,10 +31,21 @@ const authService = new AuthServiceClient(API_URL)
 
 
 const Login = () => {
+    //config modal Error login
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError,setmyError] = React.useState(null)
+    function openModalError() {
+        
+        setmodalErrorIsOpen(true);
+    }
 
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+    //
 
     const Auth = React.useContext(AuthApi)
-   
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -47,9 +62,9 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-            
-                callUserLoginService(values.userName, values.passWord, Auth)
-       
+
+            callUserLoginService(values.userName, values.passWord, Auth)
+
         },
     });
 
@@ -62,54 +77,28 @@ const Login = () => {
         authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
-                if (err.code === StatusCode.UNKNOWN) {
-                    alert("Tai khoan khong ton tai")
-                }
+                
+                /** Xu ly error login 8 11 12 13*/
+                setmyError(err.message)
+                openModalError()
+                
             } else {
                 console.log('BBBBBBBBBBBBBBBBBBBBB');
-                const resType = res.getResponse();
-                const ValidateResponseType = authProto.ValidateResponseType;
-                switch (resType) {
-                    case ValidateResponseType.AUTHENTICATED: {
-                        console.log("Bon Map Authenticated");
+                console.log("Bon Map Authenticated");
 
-                        Auth.setcheckUserName(username)
-                        Auth.setAuth(true)
+                Auth.setcheckUserName(username)
+                Auth.setAuth(true)
 
-
-                        Cookies.set("token", res.getAccesstoken())
-                        Cookies.set("refreshtoken", res.getRefreshtoken())
-                        Cookies.set("checkUserName", username)
-                        
-                        break;
-                    }
-                    case ValidateResponseType.INCORRECT: {
-                        alert("Incorrect Username or Password")
-                        console.log("Incorrect Username or Password");
-                        break;
-                    }
-                    case ValidateResponseType.INACTIVATED: {
-                        alert(" Inactivated")
-                        console.log(" Inactivated");
-                        break;
-                    }
-                    case ValidateResponseType.DISALLOWED: {
-                        alert("Disallowed")
-                        console.log("Disallowed");
-                        break;
-                    }
-                    default: {
-                        alert("User non-exist")
-                        console.log("User non-exist");
-                        break;
-                    }
-                }
+                Cookies.set("token", res.getAccesstoken())
+                Cookies.set("refreshtoken", res.getRefreshtoken())
+                Cookies.set("checkUserName", username)
             }
         })
     }
 
     return (
         <div className="page-container">
+         { modalErrorIsOpen? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
             <form onSubmit={formik.handleSubmit}>
                 <Container>
 

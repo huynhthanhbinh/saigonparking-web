@@ -17,6 +17,8 @@ import {
     Link
 } from "react-router-dom";
 import { API_URL } from '../../saigonparking';
+//import modal login
+import ModalErrorLogin from '../Modal/ModalErrorLogin'
 
 const userProto = require('../../api/Actor_pb')
 
@@ -25,10 +27,22 @@ const authService = new AuthServiceClient(API_URL)
 
 
 const Login = () => {
+    //config modal Error login
+    const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
+    const [myError,setmyError] = React.useState(null)
+    function openModalError() {
+        
+        setmodalErrorIsOpen(true);
+    }
+
+    function closeModalError() {
+        setmodalErrorIsOpen(false);
+    }
+    //
 
 
     const Auth = React.useContext(AuthApi)
- 
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -45,9 +59,9 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-       
-                callUserLoginService(values.userName, values.passWord, Auth)
-             
+
+            callUserLoginService(values.userName, values.passWord, Auth)
+
 
 
         },
@@ -62,57 +76,31 @@ const Login = () => {
         authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
-                if (err.code === StatusCode.UNKNOWN) {
-                    alert("Tai khoan khong ton tai")
-                }
+
+                /** Xy ly error login */
+                setmyError(err.message)
+                openModalError()
+
             } else {
                 console.log('BBBBBBBBBBBBBBBBBBBBB');
-                const resType = res.getResponse();
-                const ValidateResponseType = authProto.ValidateResponseType;
-                switch (resType) {
-                    case ValidateResponseType.AUTHENTICATED: {
-                        console.log("Bon Map Authenticated");
+                console.log("Bon Map Authenticated");
 
-                        Auth.setcheckUserName(username)
-                        Auth.setAuth(true)
-                        Auth.setIsAdmin(1)
-                        
+                Auth.setcheckUserName(username)
+                Auth.setAuth(true)
+                Auth.setIsAdmin(1)
 
-
-                        Cookies.set("token", res.getAccesstoken())
-                        Cookies.set("refreshtoken", res.getRefreshtoken())
-                        Cookies.set("checkUserName", username)
-                        Cookies.set("isAdmin",1)
-                        alert("Authenticated")
-                        break;
-                    }
-                    case ValidateResponseType.INCORRECT: {
-                        alert("Incorrect Username or Password")
-                        console.log("Incorrect Username or Password");
-                        break;
-                    }
-                    case ValidateResponseType.INACTIVATED: {
-                        alert(" Inactivated")
-                        console.log(" Inactivated");
-                        break;
-                    }
-                    case ValidateResponseType.DISALLOWED: {
-                        alert("Disallowed")
-                        console.log("Disallowed");
-                        break;
-                    }
-                    default: {
-                        alert("User non-exist")
-                        console.log("User non-exist");
-                        break;
-                    }
-                }
+                Cookies.set("token", res.getAccesstoken())
+                Cookies.set("refreshtoken", res.getRefreshtoken())
+                Cookies.set("checkUserName", username)
+                Cookies.set("isAdmin", 1)
             }
         })
     }
 
     return (
         <div className="page-container">
+         { modalErrorIsOpen? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+           
             <form onSubmit={formik.handleSubmit}>
                 <Container>
 

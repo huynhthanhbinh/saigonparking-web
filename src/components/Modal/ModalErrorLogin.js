@@ -14,7 +14,7 @@ import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 
 Modal.setAppElement(document.getElementById("root"));
-const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
+const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     // const [loi,setloi]=React.useState(null)
     // React.useEffect(()=>{
     //     if(modalErrorIsOpen===true)
@@ -43,7 +43,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
 
     if (myError != null) {
 
-        if (myError === "SPE#00005") { /** KHÔNG CÓ TOKEN */
+        if (myError === "SPE#00008") { /** KHÔNG CÓ TOKEN */
             return (
 
                 <Modal
@@ -60,7 +60,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                     className="modal-content"
                     overlayClassName="modal-overlay"
                 >
-                    <h1>KHÔNG CÓ TOKEN</h1>
+                    <h1>TÀI KHOẢN KHÔNG TỒN TẠI</h1>
 
                     <button onClick={() => {
                         closeModalError()
@@ -74,6 +74,100 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
 
             )
         }
+        if (myError === "SPE#00011") { /** KHÔNG CÓ TOKEN */
+            return (
+
+                <Modal
+                    isOpen={modalErrorIsOpen}
+
+                    onRequestClose={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+                    <h1>TÀI KHOẢN CHƯA KÍCH HOẠT</h1>
+
+                    <button onClick={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}>ĐĂNG NHẬP LẠI</button>
+
+
+                </Modal>
+
+            )
+        }
+        if (myError === "SPE#00012") { /** KHÔNG CÓ TOKEN */
+            return (
+
+                <Modal
+                    isOpen={modalErrorIsOpen}
+
+                    onRequestClose={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+                    <h1>BẠN KHÔNG CÓ QUYỀN ĐĂNG NHẬP TRANG NÀY</h1>
+
+                    <button onClick={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}>ĐĂNG NHẬP LẠI</button>
+
+
+                </Modal>
+
+            )
+        }
+        if (myError === "SPE#00013") { /** KHÔNG CÓ TOKEN */
+            return (
+
+                <Modal
+                    isOpen={modalErrorIsOpen}
+
+                    onRequestClose={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}
+
+                    contentLabel="Example Modal"
+                    className="modal-content"
+                    overlayClassName="modal-overlay"
+                >
+                    <h1>SAI MẬT KHẨU</h1>
+
+                    <button onClick={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}>ĐĂNG NHẬP LẠI</button>
+
+
+                </Modal>
+
+            )
+        }
+       
         
 
     }
@@ -84,5 +178,5 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
 
 
 }
-export default ModalError;
+export default ModalErrorLogin;
 
