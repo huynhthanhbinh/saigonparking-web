@@ -55,7 +55,7 @@ const Forgetpassword = () => {
                 openModalError()
             } else {
                 setsendemail(false)
-                localStorage.setItem("username", username)
+             
             }
 
         })

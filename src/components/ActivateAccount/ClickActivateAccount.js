@@ -56,7 +56,7 @@ const ClickActivateAccount = () => {
 
             } else {
                 setsendemail(false)
-                localStorage.setItem("username", username)
+                
             }
 
         })

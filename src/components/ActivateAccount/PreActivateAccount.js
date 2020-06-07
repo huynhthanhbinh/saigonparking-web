@@ -14,7 +14,7 @@ import  { API_URL } from '../../saigonparking';
 const authService = new AuthServiceClient(API_URL)
 
 
-let username = localStorage.getItem("username");
+
 
 const PreActivateAccount = () => {
     const Auth = React.useContext(AuthApi)
@@ -48,7 +48,7 @@ const PreActivateAccount = () => {
 
     React.useEffect(() => {
      
-        if(username===null || tmptoken === null ){
+        if(tmptoken === null ){
             setstatus(false)
         }
         else{

@@ -24,8 +24,7 @@ const userService = new UserServiceClient(API_URL)
 // const user = new UserProto.User();
 
 // let customerObject;
-let username = localStorage.getItem("username");
-
+let username = Cookies.get("checkUserName");
 const Resetpassword = () => {
     //config modal Error
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
