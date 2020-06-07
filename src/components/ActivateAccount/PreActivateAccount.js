@@ -8,7 +8,7 @@ import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 
 import Container from '../Landing'
 
-import  { API_URL } from '../../saigonparking';
+import { API_URL } from '../../saigonparking';
 
 
 const authService = new AuthServiceClient(API_URL)
@@ -23,7 +23,7 @@ const PreActivateAccount = () => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
-  
+
 
     const callactivateNewAccount = () => {
         const token = 'Bearer ' + tmptoken;
@@ -37,6 +37,8 @@ const PreActivateAccount = () => {
             } else {
 
                 setstatusmail(false)
+                Auth.setcheckUserName(res.getUsername())
+                Auth.setAuth(true)
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", res.getUsername())
@@ -47,14 +49,14 @@ const PreActivateAccount = () => {
 
 
     React.useEffect(() => {
-     
-        if(tmptoken === null ){
+
+        if (tmptoken === null) {
             setstatus(false)
         }
-        else{
+        else {
             callactivateNewAccount(Auth);
         }
-           
+
 
     }, [])
 
@@ -65,9 +67,9 @@ const PreActivateAccount = () => {
             {
                 (status === true) ?
                     (
-                        (statusmail === true) ? 
-                        <Container ></Container>
-                        : (<ActivateAccount />)
+                        (statusmail === true) ?
+                            <Container ></Container>
+                            : (<ActivateAccount />)
 
                     )
                     :

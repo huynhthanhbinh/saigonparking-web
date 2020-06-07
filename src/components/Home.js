@@ -274,8 +274,8 @@ const Routes = () => {
                 <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
                 <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} isAdmin={Auth.isAdmin} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
-                <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
-                <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
+                <ProtectedClickActivateAccount exact path="/clickactivateaccount" isAdmin={Auth.isAdmin} auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
+                <ProtectedActivateAccount exact path="/activate-account" isAdmin={Auth.isAdmin}  auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
 
             </Switch>
 
@@ -476,6 +476,7 @@ const ProtectedResetPassword = ({isAdmin,checkUserName, auth, component: Compone
 }
 const ProtectedClickActivateAccount = ({isAdmin,checkUserName, auth, component: Component, ...rest }) => {
     document.title = 'ProtectedClickActivateAccount'
+ 
     return (
         <Route
             {...rest}
