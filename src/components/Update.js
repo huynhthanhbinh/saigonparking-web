@@ -53,7 +53,7 @@ const Update = () => {
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-                
+
                 if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
@@ -189,7 +189,15 @@ const Update = () => {
 
                     userService.updateCustomer(request, metadata, (err, res) => {
                         if (err) {
-                            console.log(err)
+                            if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                                setmyError('SPE#0000DB')
+                            }
+                            else {
+                                setmyError(err.message)
+                            }
+
+
+                            openModalError()
                         } else {
 
                             console.log("Update Binh map thanh cong")

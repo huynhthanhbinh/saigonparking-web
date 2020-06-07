@@ -126,6 +126,8 @@ const Information = () => {
     console.log(customerObject)
     return (
         <>
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+            
             <h1>Your Information</h1>
             {customerObject ? <Formik
                 initialValues={{
