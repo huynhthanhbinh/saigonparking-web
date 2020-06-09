@@ -8,7 +8,8 @@ import sessionStorage from 'sessionstorage'
 import { StatusCode } from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
-
+//import CSS
+import '../css/login1.css'
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -34,9 +35,9 @@ const authService = new AuthServiceClient(API_URL)
 const Login = () => {
     //config modal Error login
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
-    const [myError,setmyError] = React.useState(null)
+    const [myError, setmyError] = React.useState(null)
     function openModalError() {
-        
+
         setmodalErrorIsOpen(true);
     }
 
@@ -78,17 +79,17 @@ const Login = () => {
         authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
-                
+
                 /** Xu ly error login 8 11 12 13*/
                 setmyError(err.message)
                 openModalError()
-                
+
             } else {
                 console.log('BBBBBBBBBBBBBBBBBBBBB');
                 console.log("Bon Map Authenticated");
                 Auth.setAuth(true)
-                
-               
+
+
 
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
@@ -100,63 +101,68 @@ const Login = () => {
 
     return (
         <div className="page-container">
-         { modalErrorIsOpen? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
-            <form onSubmit={formik.handleSubmit}>
-                <Container>
-
-                    <Row style={{ margin: 5 }}>
-                        <Col xs={4}><label htmlFor="userName">userName</label></Col>
-                        <Col xs={4}>
-                            <input
-                                id="userName"
-                                name="userName"
-                                type="text"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.userName}
-                            />
-                        </Col>
-                        <Col xs={4}>
-                            {formik.touched.userName && formik.errors.userName ? (
-                                <div>{formik.errors.userName}</div>
-                            ) : null}
-
-                        </Col>
-                    </Row>
-
-                    <Row style={{ margin: 5 }}>
-                        <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
-                        <Col xs={4}>
-                            <input
-                                id="passWord"
-                                name="passWord"
-                                type="password"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.passWord}
-                            />
-                        </Col>
-                        <Col xs={4}>
-                            {formik.touched.passWord && formik.errors.passWord ? (
-                                <div>{formik.errors.passWord}</div>
-                            ) : null}
-
-                        </Col>
-                    </Row>
-
-                </Container>
+            {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+            <Container>
+                <form onSubmit={formik.handleSubmit}>
 
 
-                <div style={{ margin: 10 }}>
-                    <button style={{ margin: 10 }} type="submit" >Submit</button>
 
-                    <Link to="/forget-password">FORGOT PASSWORD </Link>
-                    <Link to="/clickactivateaccount">ACTIVATE ACCOUNT </Link>
+                    <label htmlFor="userName">USERNAME</label>
 
-                </div>
+                    <input
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.userName}
+                    />
 
 
-            </form>
+                    {formik.touched.userName && formik.errors.userName ? (
+                        <div style={{ margin: 10, color: "yellow" }} >{formik.errors.userName}</div>
+                    ) : null}
+
+
+
+
+                    <label htmlFor="passWord">PASSWORD</label>
+
+                    <input
+                        id="passWord"
+                        name="passWord"
+                        type="password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.passWord}
+                    />
+
+                    {formik.touched.passWord && formik.errors.passWord ? (
+                        <div style={{ margin: 10, color: "yellow" }} >{formik.errors.passWord}</div>
+                    ) : null}
+
+
+
+
+                    <div style={{ margin: 10 }}>
+                        <button style={{ margin: 10 }} type="submit" >Submit</button>
+
+                        <Link style={{ color: 'cyan' }} to="/forget-password">Forget Password</Link>
+                        
+
+                    </div>
+                    
+                    <div style={{ margin: 10 }}>
+                       
+
+                        <Link style={{ color: 'cyan' }} to="/clickactivateaccount">Activate Account</Link>
+                        
+
+                    </div>
+
+                </form>
+            </Container>
+
         </div>
     );
 };

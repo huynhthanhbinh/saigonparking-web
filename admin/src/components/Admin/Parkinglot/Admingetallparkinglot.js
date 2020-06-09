@@ -61,7 +61,7 @@ const Admingetallparkinglot = () => {
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     function openModalError() {
-      
+
         setmodalErrorIsOpen(true);
     }
 
@@ -79,7 +79,7 @@ const Admingetallparkinglot = () => {
     useEffect(() => {
 
 
-      
+
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
 
@@ -88,18 +88,16 @@ const Admingetallparkinglot = () => {
         ParkinglotwebService.countAll(request, metadata, (err, res) => {
 
             if (err) {
-                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
-                {
+                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
-                else
-                {
+                else {
                     setmyError(err.message)
                 }
-                
+
 
                 openModalError()
-               
+
 
             } else {
 
@@ -110,7 +108,7 @@ const Admingetallparkinglot = () => {
             }
         })
 
-    }, [pagenumber,modalErrorIsOpen])
+    }, [pagenumber, modalErrorIsOpen])
 
     useEffect(() => {
 
@@ -125,15 +123,13 @@ const Admingetallparkinglot = () => {
 
             if (err) {
 
-                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
-                {
+                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
-                else
-                {
+                else {
                     setmyError(err.message)
                 }
-                
+
 
                 openModalError()
 
@@ -144,18 +140,18 @@ const Admingetallparkinglot = () => {
             }
         })
 
-    }, [pagenumber,modalErrorIsOpen])
+    }, [pagenumber, modalErrorIsOpen])
 
 
     const handlechange = (e) => {
         setpagenumber(e)
 
     }
- 
+
     return (
-       
+
         <div className="card">
-          
+
 
             {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
             <table className="table table-hover" style={{ marginTop: "50px" }}>
@@ -164,7 +160,7 @@ const Admingetallparkinglot = () => {
                         <th scope="col">ID</th>
                         <th scope="col">NAME</th>
                         <th scope="col">TYPE</th>
-                  
+
                         <th scope="col">OPENING </th>
                         <th scope="col">CLOSING </th>
                         <th scope="col">AVAILABILITY</th>
@@ -183,7 +179,7 @@ const Admingetallparkinglot = () => {
                                 <th scope="row" id="IDBIXOA">{parkingLot.getId()}</th>
                                 <td>{parkingLot.getInformation().getName()}</td>
                                 <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>
-                               
+
                                 <td>{parkingLot.getOpeninghour()}</td>
                                 <td>{parkingLot.getClosinghour()}</td>
                                 <td>{parkingLot.getAvailableslot()}</td>
@@ -191,17 +187,22 @@ const Admingetallparkinglot = () => {
 
 
                                 <td>
-                                    
+
                                     {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
-                                    <button style={{backgroundColor:"blue",border:"0px"}} className="buttonparkinglotuser" onClick={() => {
-                                        openModal()
+                                    <button style={{ backgroundColor: "blue", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
                                         settmp(parkingLot)
+                                        openModal()
+                                        
                                     }
                                     }>DETAIL</button>
-                                    <button style={{backgroundColor:"red",border:"0px"}} className="buttonparkinglotuser"><i className="far fa-edit"></i> DELETE</button>
+                                    <button style={{ backgroundColor: "red", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
+                                        settmp(parkingLot)
+                                        openModalAdd()
+                                        
+                                    }}> DELETE</button>
                                 </td>
-                                
-                              
+
+
                             </tr>
                         )
                     }
@@ -209,9 +210,9 @@ const Admingetallparkinglot = () => {
                 </tbody>
 
             </table>
-            {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
             {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
+            {tmp ?<AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} />:null}
             {totalParkinglot ?
                 <Pagination
                     pageRangeDisplayed={10}

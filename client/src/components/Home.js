@@ -5,7 +5,8 @@ import Container from 'react-bootstrap/Container';
 
 import { Nav, Navbar } from "react-bootstrap";
 
-
+//CSS
+import styled from 'styled-components';
 
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
@@ -62,17 +63,10 @@ function Home() {
         <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName }}>
 
             <Router>
-
                 <Links />
-
                 <Container>
-                    <Routes ></Routes>
+                    <Routes></Routes>
                 </Container>
-
-
-
-
-
 
             </Router>
         </AuthApi.Provider>
@@ -124,17 +118,19 @@ const Footer = () => {
 const Links = () => {
     const Styles = styled.div`
     .navbar {
-      background-color: #222;
+      background-color: rgb(52,116,116);
+      
     }
   
     a, .navbar-brand, .navbar-nav .nav-link {
-      color: #bbb;
+      color: white;
   
       &:hover {
-        color: white;
+        color: yellow;
       }
     }
   `;
+
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -142,15 +138,17 @@ const Links = () => {
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-        Cookies.remove("refreshtoken");
-        sessionStorage.clear();
 
+        Cookies.remove("refreshtoken");
+
+        localStorage.clear()
     }
-    console.log(Auth)
+
     if (Auth.auth === true) {
         return (
             <Styles>
-                <Navbar bg="dark" expand="lg">
+
+                <Navbar expand="lg">
                     <Link to="/">
                         <Navbar.Brand >HOME</Navbar.Brand>
                     </Link>
@@ -164,7 +162,7 @@ const Links = () => {
                         </Nav>
 
                         <div style={{ marginRight: "50px" }} >
-                            <NavDropdown title="THÔNG TIN" id="basic-nav-dropdown" >
+                            <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
 
                                 <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
 
@@ -176,7 +174,7 @@ const Links = () => {
 
                     </Navbar.Collapse>
                 </Navbar>
-            </Styles>
+            </Styles >
 
         )
 
@@ -184,7 +182,7 @@ const Links = () => {
     else if (Auth.auth === false) {
         return (
             <Styles>
-                <Navbar bg="dark" expand="lg">
+                <Navbar expand="lg">
                     <Link to="/">
                         <Navbar.Brand >HOME</Navbar.Brand>
                     </Link>
@@ -199,19 +197,18 @@ const Links = () => {
 
                         <div style={{ marginRight: "50px" }} >
                             <NavDropdown title="ĐĂNG NHẬP" id="basic-nav-dropdown" >
-                                <Link to="/login" >LOGIN</Link>
-                                <hr />
-                                <Link to="/register" >REGISTER</Link>
+
+                                <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+                                <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
 
                                 <NavDropdown.Divider />
-
+                            
                             </NavDropdown>
                         </div>
 
                     </Navbar.Collapse>
                 </Navbar>
-            </Styles>
-
+            </Styles >
         )
 
     }
@@ -227,7 +224,7 @@ const Routes = () => {
 
             <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>
-            <ProtectedRegister exact path="/register" component={LoginWithGoogle} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
+            <ProtectedRegister exact path="/register" component={Register} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
             <ProtectedUpdate exact path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
 

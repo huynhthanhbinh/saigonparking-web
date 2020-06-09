@@ -102,7 +102,7 @@ const CovidDashboard = (props) => {
            
             } else {
 
-
+                console.log("check check")
 
                 res.getParkinglotresultList().map((parkinglot) => {
                     abc.push(parkinglot)
@@ -119,6 +119,7 @@ const CovidDashboard = (props) => {
 
         callParkingLotAPI()
     }, [Clicklocation,flat])
+
 
     useEffect(() => {
         if (patients != null) {

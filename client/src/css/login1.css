@@ -1,9 +1,11 @@
 body {
-    background:url(https://preview.ibb.co/g6MVS9/gg.png);
+    background: url('../components/Home/images/background.jpg') rgba(52, 116, 116, 0.6);
     font-family:'PT Sans',Helvetica, Arial, sans-serif;
-    color:#fff;
+    /* color:#fff; */
        background-repeat: no-repeat;
        background-size:cover;
+       background-blend-mode: multiply;
+       min-height: 100%;
     }
     
     .page-container {
@@ -17,12 +19,14 @@ body {
         text-align:center;
     }
     
-    form {
+    .page-container form {
     position:relative;
     width:305px;
-    margin:15px auto 0 auto;
+    margin:15px auto 20px auto;
     text-align:center;
-    
+    background-color: rgb(52,116,116);
+    border: 2px solid;
+    border-radius:10px;
     }
     
     input {
@@ -70,7 +74,7 @@ body {
     
     button {
     cursor:pointer;
-    width:300px;
+    width:260px;
     height:44px;
     margin-top:25px;
     padding:0;
@@ -125,29 +129,19 @@ body {
         border: 0px solid #ef4300;
     }
     
-    
-    
-    .navbar {
-        overflow: hidden;
-        background-color: #333;
-        font-family: Arial;
+    .dropdown-menu {
+        background-color: rgb(52,116,116);
+        border: 0px;
     }
+    .navbar a:hover, .dropdown:hover .dropbtn {background-color: rgb(52,116,116)}
     
-    .navbar a {float: left;font-size: 16px;color: white;text-align: center;padding: 14px 16px;text-decoration: none;}
     
-    .dropdown {float: left;overflow: hidden;}
     
-    .dropdown .dropbtn {font-size: 16px;border: none;outline: none;color: white;padding: 14px 16px;background-color: inherit;}
     
-    .navbar a:hover, .dropdown:hover .dropbtn {background-color: red}
+
     
-    .dropdown-content {display: none;position: absolute;background-color: #f9f9f9;width: 160px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);z-index: 1;}
-    
-    .dropdown-content a {float: none;color: black;padding: 12px 16px;text-decoration: none;display: block;text-align: left;}
-    
-    .dropdown-content a:hover {background-color: #ddd;}
-    
-    .dropdown:hover .dropdown-content {display: block;}
+
+
     
     
     

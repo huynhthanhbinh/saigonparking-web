@@ -11,8 +11,7 @@ import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import authProto from '../../api/Auth_pb';
 
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 import Container from "react-bootstrap/Container";
 
 import {

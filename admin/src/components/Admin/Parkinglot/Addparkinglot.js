@@ -5,158 +5,91 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import '../../../css/modal.css'
+//import 
+import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
+import ParkinglotProto from '../../../api/ParkingLot_pb';
+import { API_URL } from '../../../saigonparking';
+import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
+import Cookies from 'js-cookie';
+//Notification 
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
+
+
+const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 Modal.setAppElement(document.getElementById("root"));
-const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
-  
-    
-    const MyTextInput = ({ label, ...props }) => {
-        // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-        // which we can spread on <input> and also replace ErrorMessage entirely.
-        const [field, meta] = useField(props);
-        return (
-            <>
-                <Container>
-                    <Row style={{ margin: 5 }}>
-                        <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
-                        <Col xs={4}> <input className="text-input" {...field} {...props} /></Col>
-
-                    </Row>
-                    <Row>  {meta.touched && meta.error ? (
-                        <div className="error">{meta.error}</div>
-                    ) : null}
-                    </Row>
-                </Container>
-
-
-
-            </>
-        );
+const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
+    //config notification
+    const createNotification = (type) => {
+            switch (type) {
+                case 'info':
+                    NotificationManager.info('Info message');
+                    break;
+                case 'success':
+                    NotificationManager.success('Success message', 'Title here');
+                    break;
+                case 'warning':
+                    NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+                    break;
+                case 'error':
+                    
+                    NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                        alert('callback');
+                    });
+                    break;
+            }
+      
     };
 
+    const calldeleteParkingLotById = () => {
+        const request = new Int64Value();
+        const token = 'Bearer ' + Cookies.get("token");
 
-        return (
+        const metadata = { 'Authorization': token }
+        request.setValue(parkinglot.getId())
+        ParkinglotwebService.deleteParkingLotById(request, metadata, (err, res) => {
+
+            if (err) {
+               
+
+
+            } else {
+
+               
+
+
+            }
+        })
+    }
+
+
+    return (
+        <div>
+
 
             <Modal
                 isOpen={modalAddIsOpen}
-               
+
                 onRequestClose={closeModalAdd}
 
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
-
-                <h2 >ADD PARKINGLOT</h2>
-
+                <h2>BẠN CÓ CHẮC MUỐN XÓA BÃI XE {parkinglot.getId()}</h2>
 
 
-
-                <Formik
-                    initialValues={{
-                        userName: '',
-                        passWord: '',
-                        email: '',
-                        firstName: '',
-                        lastName: '',
-                        phone: ''
-
-
-                    }}
-                    validationSchema={Yup.object({
-                        userName: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-                        passWord: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-
-                        email: Yup.string()
-                            .email('Invalid email address')
-                            .required('Required'),
-
-                        firstName: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-                        lastName: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-                        phone: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-
-                    })}
-                    onSubmit={(values, { setSubmitting }) => {
-
-                    }}
-                >
-                    <Form >
-
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="Username"
-                                name="userName"
-                                type="text"
-                             
-                            />
-                        </div>
-
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="Password"
-                                name="passWord"
-                                type="passWord"
-                            />
-                        </div>
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="Email "
-                                name="email"
-                                type="email"
-
-                            />
-                        </div>
-
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="First Name"
-                                name="firstName"
-                                type="text"
-
-                            />
-                        </div>
-
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="Last Name"
-                                name="lastName"
-                                type="text"
-
-                            />
-                        </div>
-                        <div style={{ margin: 10 }}>
-                            <MyTextInput
-                                label="Phone"
-                                name="phone"
-                                type="phone"
-
-                            />
-                        </div>
-
-
-                        <div style={{ margin: 10 }}>
-                            <button type="submit" >Update</button>
-
-                        </div>
-
-                    </Form>
-                </Formik>
-
-                <button onClick={closeModalAdd}>close</button>
+                <button onClick={()=>{
+                    createNotification('success')
+                }}>YES</button>
+                <button onClick={closeModalAdd}>NO</button>
             </Modal>
-        )
+            <NotificationContainer />
+        </div>
+    )
 
-  
+
 
 
 

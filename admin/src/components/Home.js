@@ -62,7 +62,7 @@ function Home() {
 
     React.useEffect(() => {
         readcookie()
-    }, [])
+    })
     console.log(auth)
     return (
         <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
@@ -152,7 +152,7 @@ const Links = () => {
         return (
             <Styles>
 
-                <Navbar  expand="lg">
+                <Navbar expand="lg">
                     <Link to="/">
                         <Navbar.Brand >HOME</Navbar.Brand>
                     </Link>
@@ -186,7 +186,7 @@ const Links = () => {
     else if (Auth.auth === false) {
         return (
             <Styles>
-                <Navbar  expand="lg">
+                <Navbar expand="lg">
                     <Link to="/">
                         <Navbar.Brand >HOME</Navbar.Brand>
                     </Link>
@@ -220,32 +220,30 @@ const Routes = () => {
 
     const ProtectedAdmingetalluser = ({ auth, checkUserName, component: Component, ...rest }) => {
         document.title = 'ADMIN USER'
-        return (
-            <Route
 
-                {...rest}
-
-                render={() =>
-                    (auth === true) ? (<Component />) : (<Redirect to="/login" />)
-
-                }
-            />
-
-        )
+        const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+        const Username = Cookies.get("checkUserName");
+        if (token && refreshtoken && Username) {
+            return (<Component />)
+        }
+        else {
+            return (<Redirect to="/login" />)
+        }
     }
     const ProtectedAdmingetallparkinglot = ({ auth, checkUserName, component: Component, ...rest }) => {
         document.title = 'ADMIN PARKING LOT'
-        return (
-            <Route
+        const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+        const Username = Cookies.get("checkUserName");
+        if (token && refreshtoken && Username) {
+            return (<Component />)
+        }
+        else {
+            return (<Redirect to="/login" />)
+        }
 
-                {...rest}
 
-                render={() =>
-                    (auth === true) ? (<Component />) : (<Redirect to="/login" />)
-                }
-            />
-
-        )
     }
 
     const ProtectedAdmin = ({ auth, checkUserName, component: Component, ...rest }) => {
@@ -298,19 +296,16 @@ const Routes = () => {
 
     const ProtectedProfile = ({ auth, checkUserName, component: Component, ...rest }) => {
         document.title = 'YOUR INFORMATION'
-        return (
-            <Route
-
-                {...rest}
-
-                render={() =>
-                    (auth === true) ? (<Component />) : (<Redirect to="/login" />)
-
-
-                }
-            />
-
-        )
+        document.title = 'ADMIN PARKING LOT'
+        const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+        const Username = Cookies.get("checkUserName");
+        if (token && refreshtoken && Username) {
+            return (<Component />)
+        }
+        else {
+            return (<Redirect to="/login" />)
+        }
     }
 
 
