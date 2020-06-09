@@ -27,7 +27,7 @@ const Register = () => {
         NotificationManager.info('Info message');
         break;
       case 'success':
-        NotificationManager.success('XÓA THÀNH CÔNG ' , 'Title here');
+        NotificationManager.success('ĐÃ GỬI EMAIL KÍCH HOẠT ĐẾN '+errortype , 'ĐĂNG KÝ THÀNH CÔNG');
         break;
       case 'warning':
         NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -79,11 +79,12 @@ const Register = () => {
       if (err) {
         // console.log('Lỗi lỗi lỗi ');
         // console.log(err)
-        console.log(err.message)
+      
         createNotification('error',err.message)
 
       } else {
         // console.log('dang ky thanh cong');
+        createNotification('success',registerUser.email)
         openModalRegister()
         setnextpage(true)
 
