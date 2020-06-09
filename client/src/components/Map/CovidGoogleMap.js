@@ -36,13 +36,13 @@ const options = {
   zoomControl: true,
 };
 const center = {
-  lat: 10.674521327633887,
-  lng: 106.56699299940351,
+  lat: 10.762887,
+  lng: 106.6800684,
 };
 
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
+    googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
     libraries,
   });
   // const [markers, setMarkers] = React.useState([]);

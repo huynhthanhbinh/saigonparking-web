@@ -13,6 +13,7 @@ import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
+import sessionStorage from 'sessionstorage' 
 import {
    
     Link,
@@ -113,14 +114,14 @@ const Information = () => {
 
     const ClickLogOut = () => {
         Auth.setAuth(false)
-        Auth.setIsAdmin(null)
+     
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-        Cookies.remove("isAdmin");
+    
         Cookies.remove("refreshtoken");
         
-        localStorage.clear()
+        sessionStorage.clear();
     }
 
     console.log(customerObject)

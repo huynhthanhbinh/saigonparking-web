@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import { API_URL } from '../saigonparking';
 import AuthApi from "./Auth/AuthAPI";
+import sessionStorage from 'sessionstorage' 
 //modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
@@ -43,14 +44,14 @@ const Resetpassword = () => {
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-        Auth.setIsAdmin(null)
+       
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-        Cookies.remove("isAdmin");
+        
         Cookies.remove("refreshtoken");
 
-        localStorage.clear()
+        sessionStorage.clear();
     }
 
     const MyTextInput = ({ label, ...props }) => {

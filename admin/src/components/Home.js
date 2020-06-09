@@ -36,7 +36,7 @@ import {
     Redirect
 } from "react-router-dom";
 import auth from '../api/Auth_grpc_web_pb';
-
+import sessionStorage from 'sessionstorage' 
 
 
 function Home() {
@@ -145,7 +145,7 @@ const Links = () => {
 
         Cookies.remove("refreshtoken");
 
-        localStorage.clear()
+        sessionStorage.clear()
     }
 
     if (Auth.auth === true) {

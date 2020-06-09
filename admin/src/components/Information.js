@@ -117,7 +117,7 @@ const Information = () => {
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-        Cookies.remove("isAdmin");
+        
         Cookies.remove("refreshtoken");
         
         sessionStorage.clear()

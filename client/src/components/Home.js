@@ -141,7 +141,7 @@ const Links = () => {
 
         Cookies.remove("refreshtoken");
 
-        localStorage.clear()
+        sessionStorage.clear();
     }
 
     if (Auth.auth === true) {

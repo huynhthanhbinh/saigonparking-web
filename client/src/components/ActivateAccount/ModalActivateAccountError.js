@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
+import sessionStorage from 'sessionstorage' 
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
@@ -31,14 +32,14 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-        Auth.setIsAdmin(null)
+    
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-        Cookies.remove("isAdmin");
+      
         Cookies.remove("refreshtoken");
 
-        localStorage.clear()
+        sessionStorage.clear();
     }
 
     if (myError != null) {
