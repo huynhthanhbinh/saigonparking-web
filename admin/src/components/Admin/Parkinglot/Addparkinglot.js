@@ -15,28 +15,91 @@ import Cookies from 'js-cookie';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-
+//import Exception handling
+import ExceptionHandling from '../../../ExceptionHandling'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
     //config notification
-    const createNotification = (type) => {
+    const createNotification = (type,errortype) => {
             switch (type) {
                 case 'info':
                     NotificationManager.info('Info message');
                     break;
                 case 'success':
-                    NotificationManager.success('Success message', 'Title here');
+                    NotificationManager.success('XÓA THÀNH CÔNG '+parkinglot.getId(), 'Title here');
                     break;
                 case 'warning':
                     NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
                     break;
                 case 'error':
-                    
-                    NotificationManager.error('Error message', 'Click me!', 5000, () => {
-                        alert('callback');
-                    });
+                    if(errortype==='SPE#00001')
+                    {
+                        // cấp token với refresh token mới 
+                        if(ExceptionHandling.handleAccessTokenExpired(errortype)===true)
+                        {
+                            NotificationManager.success('BẠN ĐƯỢC TOKEN MỚI', 'Success');
+                        }
+                        else
+                        {
+                            NotificationManager.error("BẠN HAY ĐĂNG NHẬP LẠI", 'Error!', 5000, () => {
+                                alert('callback');
+                            });
+                        }
+                        
+                       
+                    }
+                    else if(errortype==='SPE#00002' )
+                    {
+                        NotificationManager.error("ĐỪNG GIẢ CHỮ KÝ NỮA", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00003' )
+                    {
+                        NotificationManager.error("TOKEN FORMAT SAI", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00004' )
+                    {
+                        NotificationManager.error("KHÔNG THỂ GIẢ MÃ TOKEN", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00005' )
+                    {
+                        NotificationManager.error("THIẾU TOKEN", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00006' )
+                    {
+                        NotificationManager.error("TOKEN SAI", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00008' )
+                    {
+                        NotificationManager.error("BÃI XE KHÔNG TỒN TẠI", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00009' )
+                    {
+                        NotificationManager.error("KHÔNG THỂ XÓA DO RÀNG BUỘC DỮ LIỆU", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+                    else if(errortype==='SPE#00015' )
+                    {
+                        NotificationManager.error("BẠN KHÔNG THỂ THỰC HIỆN CHỨC NĂNG NÀY VÌ KHÔNG PHẢI ADMIN", 'Error!', 5000, () => {
+                            alert('callback');
+                        });
+                    }
+
+                   
                     break;
             }
       
@@ -51,12 +114,12 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
         ParkinglotwebService.deleteParkingLotById(request, metadata, (err, res) => {
 
             if (err) {
-               
-
+                
+                createNotification('error',err.message)
 
             } else {
 
-               
+                createNotification('success','')
 
 
             }
@@ -81,7 +144,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
 
 
                 <button onClick={()=>{
-                    createNotification('success')
+                    calldeleteParkingLotById()
                 }}>YES</button>
                 <button onClick={closeModalAdd}>NO</button>
             </Modal>

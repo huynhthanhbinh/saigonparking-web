@@ -140,7 +140,7 @@ const Admingetallparkinglot = () => {
             }
         })
 
-    }, [pagenumber, modalErrorIsOpen])
+    }, [pagenumber, modalErrorIsOpen,modalAddIsOpen])
 
 
     const handlechange = (e) => {
