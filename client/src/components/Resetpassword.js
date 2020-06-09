@@ -15,9 +15,12 @@ import {
 import { API_URL } from '../saigonparking';
 import AuthApi from "./Auth/AuthAPI";
 import sessionstorage from 'sessionstorage' 
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 //modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
+
 const userService = new UserServiceClient(API_URL)
 
 
@@ -25,8 +28,34 @@ const userService = new UserServiceClient(API_URL)
 // const user = new UserProto.User();
 
 // let customerObject;
-let username = Cookies.get("checkUserName");
-const Resetpassword = () => {
+
+const Resetpassword = ({username}) => {
+      //config notification
+  const createNotification = (type, errortype) => {
+    switch (type) {
+      case 'info':
+        NotificationManager.info('Info message');
+        break;
+      case 'success':
+        NotificationManager.success('ĐÃ CẬP NHẬT MẬT KHẨU CHO  '+ username , 'CẬP NHẬT MẬT KHẨU THÀNH CÔNG');
+        break;
+      case 'warning':
+        NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+        break;
+      case 'error':
+        if (errortype === 'SPE#00009') {
+          console.log(errortype)
+          NotificationManager.error("USERNAME HOẶC EMAIL ĐÃ TỒN TẠI", 'Error!', 5000, () => {
+            alert('callback');
+          });
+
+
+        }
+        break;
+    }
+
+  };
+
     //config modal Error
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
@@ -43,8 +72,9 @@ const Resetpassword = () => {
 
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
+        
         Auth.setAuth(false)
-       
+        Auth.setforgetpass(false)
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
@@ -78,8 +108,7 @@ const Resetpassword = () => {
     return (
         <>
              { modalErrorIsOpen? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
-            <h1>Hi , {username} </h1>
-            {username ? (<Formik
+             (<Formik
                 initialValues={{
 
                     passWord: '',
@@ -112,8 +141,9 @@ const Resetpassword = () => {
                     request.setNewpassword(values.passWord)
 
                     userService.updatePassword(request, metadata, (err, res) => {
+                     
                         if (err) {
-                            // console.log(err.message)
+                           
                             if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                                 setmyError('SPE#0000DB')
                             }
@@ -127,11 +157,11 @@ const Resetpassword = () => {
 
                             // console.log("Reset Password thanh cong")
                             // console.log(res)
-                            localStorage.removeItem("username");
-                          
+                            
+                            createNotification('success',username)
                             setSubmitting(false);
-                            ClickLogOut()
-                            setnextpage(true)
+                            Auth.setAuth(true)
+                            
                         }
 
                     })
@@ -167,8 +197,8 @@ const Resetpassword = () => {
                     </div>
 
                 </Form>
-            </Formik>) : null}
-
+            </Formik>) 
+            <NotificationContainer />
         </>
     )
 

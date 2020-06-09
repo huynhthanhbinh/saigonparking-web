@@ -32,7 +32,7 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-    
+        Auth.setforgetpass(false)
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");

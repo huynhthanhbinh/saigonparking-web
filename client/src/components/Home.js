@@ -17,6 +17,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import ClickActivateAccount from './ActivateAccount/ClickActivateAccount'
 import PreActivateAccount from './ActivateAccount/PreActivateAccount'
 //
+import Resetpassword from './Resetpassword'
+
 import LoginWithGoogle from './LoginWithGoogle'
 import CovidDashboard from './Map/CovidDashboard'
 import Information from "./Information"
@@ -42,7 +44,7 @@ import auth from '../api/Auth_grpc_web_pb';
 function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
-
+    const [forgetpass,setforgetpass] = React.useState(false)
 
     const readcookie = async () => {
         const token = Cookies.get("token");
@@ -62,7 +64,7 @@ function Home() {
     })
 
     return (
-        <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName }}>
+        <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName , forgetpass,setforgetpass }}>
 
             <Router>
                 <Links />
@@ -136,7 +138,7 @@ const Links = () => {
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-
+        Auth.setforgetpass(false)
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
@@ -146,7 +148,7 @@ const Links = () => {
         sessionstorage.clear();
     }
 
-    if (Auth.auth === true) {
+    if (Auth.auth === true || Auth.forgetpass === true) {
         return (
             <Styles>
 
@@ -167,7 +169,7 @@ const Links = () => {
                             <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
 
                                 <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
-
+                                <NavDropdown.Item ><Link to="/profile/changepassword" >CHANGEPASSWORD</Link></NavDropdown.Item>
 
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
@@ -181,7 +183,7 @@ const Links = () => {
         )
 
     }
-    else if (Auth.auth === false) {
+    else if (Auth.auth === false ) {
         return (
             <Styles>
                 <Navbar expand="lg">
@@ -227,11 +229,13 @@ const Routes = () => {
             <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>
             <ProtectedRegister exact path="/register" component={Register} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
+            
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
             <ProtectedUpdate exact path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
+            <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
 
             <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
-            <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
+            <ProtectedResetPassword exact path="/reset-password" forgetpass={Auth.forgetpass} auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
             <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
             <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
@@ -306,6 +310,45 @@ const ProtectedHome = ({ auth, checkUserName, component: Component, ...rest }) =
         />
 
     )
+}
+const ProtectedChangePassword = ({ auth, checkUserName, component: Component, ...rest }) => {
+    document.title = 'CHANGE YOURPASSWORD'
+
+    const token = Cookies.get("token");
+    const refreshtoken = Cookies.get("refreshtoken");
+    const Username = Cookies.get("checkUserName");
+
+    if (token && Username && refreshtoken) {
+        return (
+            <Route
+
+                {...rest}
+
+                render={() =>
+                    (<Component />)
+
+
+                }
+            />
+        )
+
+    }
+    else {
+        return (
+            <Route
+
+                {...rest}
+
+                render={() =>
+                    <Redirect to="/login" />
+
+
+                }
+            />
+        )
+
+    }
+
 }
 const ProtectedProfile = ({ auth, checkUserName, component: Component, ...rest }) => {
     document.title = 'YOUR INFORMATION'
@@ -436,8 +479,9 @@ const ProtectedForgetPassword = ({ checkUserName, auth, component: Component, ..
 
     )
 }
-const ProtectedResetPassword = ({ checkUserName, auth, component: Component, ...rest }) => {
+const ProtectedResetPassword = ({ forgetpass,checkUserName, auth, component: Component, ...rest }) => {
     document.title = 'RESETPASSWORD'
+  
     return (
         <Route
             {...rest}
