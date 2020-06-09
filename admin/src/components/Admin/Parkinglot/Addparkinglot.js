@@ -104,7 +104,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
             }
       
     };
-
+    
     const calldeleteParkingLotById = () => {
         const request = new Int64Value();
         const token = 'Bearer ' + Cookies.get("token");

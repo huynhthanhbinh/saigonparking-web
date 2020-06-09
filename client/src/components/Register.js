@@ -10,12 +10,40 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import ModalRegister from './Modal/ModalRegister'
+//notification
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+
 const authService = new AuthServiceClient(API_URL)
 
 
 
 
 const Register = () => {
+  //config notification
+  const createNotification = (type, errortype) => {
+    switch (type) {
+      case 'info':
+        NotificationManager.info('Info message');
+        break;
+      case 'success':
+        NotificationManager.success('XÓA THÀNH CÔNG ' , 'Title here');
+        break;
+      case 'warning':
+        NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+        break;
+      case 'error':
+        if (errortype === 'SPE#00001') {
+          NotificationManager.error("BẠN HAY ĐĂNG NHẬP LẠI", 'Error!', 5000, () => {
+            alert('callback');
+          });
+
+
+        }
+        break;
+    }
+
+  };
+
   //config Register
   const [modalRegisterIsOpen, setmodalRegisterIsOpen] = React.useState(false);
   const [myError, setmyError] = React.useState(null)
@@ -49,6 +77,8 @@ const Register = () => {
       if (err) {
         // console.log('Lỗi lỗi lỗi ');
         // console.log(err)
+        
+
       } else {
         // console.log('dang ky thanh cong');
         openModalRegister()
@@ -105,8 +135,8 @@ const Register = () => {
 
 
     <div>
-      {modalRegisterIsOpen ? <ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister}  /> : null}
-      
+      {modalRegisterIsOpen ? <ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister} /> : null}
+
       <form onSubmit={formik.handleSubmit}>
         <Container>
 
