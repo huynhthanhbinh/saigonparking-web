@@ -123,7 +123,7 @@ const Information = () => {
         sessionstorage.clear()
     }
 
-    console.log(customerObject)
+    // console.log(customerObject)
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}

@@ -101,7 +101,7 @@ const Resetpassword = () => {
                 onSubmit={(values, { setSubmitting }) => {
 
 
-                    console.log(values.passWord)
+                    // console.log(values.passWord)
 
 
                     const token = 'Bearer ' + Cookies.get("token");
@@ -113,7 +113,7 @@ const Resetpassword = () => {
 
                     userService.updatePassword(request, metadata, (err, res) => {
                         if (err) {
-                            console.log(err.message)
+                            // console.log(err.message)
                             if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                                 setmyError('SPE#0000DB')
                             }
@@ -125,8 +125,8 @@ const Resetpassword = () => {
                             openModalError()
                         } else {
 
-                            console.log("Reset Password thanh cong")
-                            console.log(res)
+                            // console.log("Reset Password thanh cong")
+                            // console.log(res)
                             localStorage.removeItem("username");
                           
                             setSubmitting(false);

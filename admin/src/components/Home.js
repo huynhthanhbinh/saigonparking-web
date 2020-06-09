@@ -63,7 +63,7 @@ function Home() {
     React.useEffect(() => {
         readcookie()
     })
-    console.log(auth)
+    // console.log(auth)
     return (
         <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
             <Router>

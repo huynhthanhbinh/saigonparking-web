@@ -46,7 +46,7 @@ const CovidDashboard = (props) => {
     const [Clicklocation, setClicklocation] = useState({ lat: 10.762887, lng: 106.6800684 })
 
     const fgetClicklocation = (getClicklocation) => {
-        console.log(getClicklocation)
+        // console.log(getClicklocation)
         setClicklocation(getClicklocation)
 
     }
@@ -74,7 +74,7 @@ const CovidDashboard = (props) => {
         ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err.message)
+                // console.log(err.message)
                 if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
                 {
                     setmyError('SPE#0000DB')

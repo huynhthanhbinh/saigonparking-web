@@ -43,7 +43,7 @@ exceptionHandler.handleAccessTokenExpired = (errCode) => { /** != Auth Service *
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
                 }
-                console.log("accesstoken mới")
+                // console.log("accesstoken mới")
                 return true
             }
         })

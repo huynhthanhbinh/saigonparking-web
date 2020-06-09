@@ -82,7 +82,7 @@ const Admingetalluser = () => {
         UserService.activateUser(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err)
+                // console.log(err)
 
             } else {
                 setisActive(!isActive)
@@ -101,7 +101,7 @@ const Admingetalluser = () => {
         UserService.deactivateUser(request, metadata, (err, res) => {
 
             if (err) {
-                console.log(err)
+                // console.log(err)
 
             } else {
 

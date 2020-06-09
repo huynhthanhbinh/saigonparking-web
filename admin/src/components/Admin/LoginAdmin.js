@@ -83,8 +83,8 @@ const Login = () => {
                 openModalError()
 
             } else {
-                console.log('BBBBBBBBBBBBBBBBBBBBB');
-                console.log("Bon Map Authenticated");
+                // console.log('BBBBBBBBBBBBBBBBBBBBB');
+                // console.log("Bon Map Authenticated");
 
                 Auth.setcheckUserName(username)
                 Auth.setAuth(true)
