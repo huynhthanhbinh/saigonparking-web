@@ -21,7 +21,7 @@ import {
 //  modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
-
+import sessionstorage from 'sessionstorage' 
 const userService = new UserServiceClient(API_URL)
 
 
@@ -120,7 +120,7 @@ const Information = () => {
         
         Cookies.remove("refreshtoken");
         
-        sessionStorage.clear()
+        sessionstorage.clear()
     }
 
     console.log(customerObject)

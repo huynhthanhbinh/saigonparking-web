@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import sessionStorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage' 
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {

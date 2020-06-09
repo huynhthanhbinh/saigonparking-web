@@ -11,8 +11,9 @@ import {
     Redirect
 } from "react-router-dom";
 import AuthApi from "../Auth/AuthAPI";
+import sessionstorage from 'sessionstorage' 
 import Cookies from 'js-cookie'
-import sessionStorage from 'sessionstorage' 
+
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {

@@ -182,7 +182,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
         fgetClicklocation({ lat: lat, lng: lng })
 
       } catch (error) {
-        console.log(" Error: ", error);
+        // console.log(" Error: ", error);
       }
     };
 

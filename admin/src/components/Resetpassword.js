@@ -16,7 +16,7 @@ import { API_URL } from '../saigonparking';
 import AuthApi from "./Auth/AuthAPI";
 //modal Error
 import ModalError from './Modal/ModalError'
-import sessionStorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage' 
 import exceptionHandler from '../ExceptionHandling'
 const userService = new UserServiceClient(API_URL)
 
@@ -51,7 +51,7 @@ const Resetpassword = () => {
         
         Cookies.remove("refreshtoken");
 
-        sessionStorage.clear()
+        sessionstorage.clear()
     }
 
     const MyTextInput = ({ label, ...props }) => {

@@ -45,7 +45,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
     ParkinglotwebService.getParkingLotById(request, metadata, (err, res) => {
       if (err) {
 
-        console.log(err.message)
+        // console.log(err.message)
         if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
           setmyError('SPE#0000DB')
         }

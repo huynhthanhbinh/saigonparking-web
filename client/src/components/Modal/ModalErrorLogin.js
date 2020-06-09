@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import sessionStorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage' 
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
@@ -39,7 +39,7 @@ const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyErro
       
         Cookies.remove("refreshtoken");
         
-        sessionStorage.clear();
+        sessionstorage.clear();
     }
 
     if (myError != null) {

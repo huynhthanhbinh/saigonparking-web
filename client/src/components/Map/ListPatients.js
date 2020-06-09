@@ -3,7 +3,7 @@ import { ListGroup } from 'react-bootstrap';
 
 const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker }) => {
     if (patients.length === 0) {
-        return (<div>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
+        return (<div style={{color:"yellow"}}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
     }
     else {
         return <ListGroup className="list-group" as="ul">

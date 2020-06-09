@@ -13,7 +13,7 @@ import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
-import sessionStorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage' 
 import {
    
     Link,
@@ -121,10 +121,10 @@ const Information = () => {
     
         Cookies.remove("refreshtoken");
         
-        sessionStorage.clear();
+        sessionstorage.clear();
     }
 
-    console.log(customerObject)
+    // console.log(customerObject)
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}

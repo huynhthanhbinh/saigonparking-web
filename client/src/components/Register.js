@@ -47,10 +47,10 @@ const Register = () => {
     authService.registerUser(request, metadata, (err, res) => {
 
       if (err) {
-        console.log('Lỗi lỗi lỗi ');
-        console.log(err)
+        // console.log('Lỗi lỗi lỗi ');
+        // console.log(err)
       } else {
-        console.log('dang ky thanh cong');
+        // console.log('dang ky thanh cong');
         openModalRegister()
         setnextpage(true)
 

@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie';
-import sessionStorage from 'sessionstorage'
+import sessionstorage from 'sessionstorage'
 import { StatusCode } from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
@@ -85,8 +85,8 @@ const Login = () => {
                 openModalError()
 
             } else {
-                console.log('BBBBBBBBBBBBBBBBBBBBB');
-                console.log("Bon Map Authenticated");
+                // console.log('BBBBBBBBBBBBBBBBBBBBB');
+                // console.log("Bon Map Authenticated");
                 Auth.setAuth(true)
 
 
@@ -94,7 +94,7 @@ const Login = () => {
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", username)
-                sessionStorage.setItem('checkUserName', username)
+                sessionstorage.setItem('checkUserName', username)
             }
         })
     }

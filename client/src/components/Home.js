@@ -32,7 +32,7 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import sessionStorage from 'sessionstorage'
+import sessionstorage from 'sessionstorage'
 import auth from '../api/Auth_grpc_web_pb';
 
 
@@ -141,7 +141,7 @@ const Links = () => {
 
         Cookies.remove("refreshtoken");
 
-        sessionStorage.clear();
+        sessionstorage.clear();
     }
 
     if (Auth.auth === true) {
@@ -155,7 +155,7 @@ const Links = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Link to="/mymap">
+                            <Link to="/parkingmap">
                                 <Nav >MAP</Nav>
                             </Link>
 
@@ -189,7 +189,7 @@ const Links = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Link to="/mymap">
+                            <Link to="/parkingmap">
                                 <Nav >MAP</Nav>
                             </Link>
 
@@ -222,7 +222,7 @@ const Routes = () => {
             <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
 
 
-            <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
+            <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>
             <ProtectedRegister exact path="/register" component={Register} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
@@ -323,7 +323,7 @@ const ProtectedLogin = ({ checkUserName, auth, component: Component, ...rest }) 
             {...rest}
 
             render={() =>
-                (auth === true) ? (<Redirect to="/mymap" />) : (<Component />)
+                (auth === true) ? (<Redirect to="/parkingmap" />) : (<Component />)
 
 
             }

@@ -6,7 +6,7 @@ import { GoogleLogin } from "react-google-login";
 
 function LoginWithGoogle() {
   const responseGoogle = response => {
-    console.log(response);
+    // console.log(response);
   };
 
   return (

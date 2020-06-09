@@ -36,7 +36,7 @@ import {
     Redirect
 } from "react-router-dom";
 import auth from '../api/Auth_grpc_web_pb';
-import sessionStorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage' 
 
 
 function Home() {
@@ -145,7 +145,7 @@ const Links = () => {
 
         Cookies.remove("refreshtoken");
 
-        sessionStorage.clear()
+        sessionstorage.clear()
     }
 
     if (Auth.auth === true) {
@@ -159,7 +159,7 @@ const Links = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Link to="/mymap">
+                            <Link to="/parkingmap">
                                 <Nav >MAP</Nav>
                             </Link>
 
@@ -193,7 +193,7 @@ const Links = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Link to="/mymap">
+                            <Link to="/parkingmap">
                                 <Nav >MAP</Nav>
                             </Link>
 
@@ -404,7 +404,7 @@ const Routes = () => {
             <ProtectedAdmingetalluser exact path="/getalluser" component={Admingetalluser} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedAdmingetalluser>
 
 
-            <ProtectedMap path="/mymap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
+            <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
 
 
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
