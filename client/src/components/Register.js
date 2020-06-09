@@ -11,6 +11,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import ModalRegister from './Modal/ModalRegister'
 //notification
+import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 const authService = new AuthServiceClient(API_URL)
@@ -32,8 +33,9 @@ const Register = () => {
         NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
         break;
       case 'error':
-        if (errortype === 'SPE#00001') {
-          NotificationManager.error("BẠN HAY ĐĂNG NHẬP LẠI", 'Error!', 5000, () => {
+        if (errortype === 'SPE#00009') {
+          console.log(errortype)
+          NotificationManager.error("USERNAME HOẶC EMAIL ĐÃ TỒN TẠI", 'Error!', 5000, () => {
             alert('callback');
           });
 
@@ -77,7 +79,8 @@ const Register = () => {
       if (err) {
         // console.log('Lỗi lỗi lỗi ');
         // console.log(err)
-        
+        console.log(err.message)
+        createNotification('error',err.message)
 
       } else {
         // console.log('dang ky thanh cong');
@@ -297,6 +300,7 @@ const Register = () => {
 
 
       </form>
+      <NotificationContainer />
     </div>
   );
 };

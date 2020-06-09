@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import { Nav, Navbar } from "react-bootstrap";
 //css
 import styled from 'styled-components';
-
+import '../css/Error404.css'
 
 import NavDropdown from 'react-bootstrap/NavDropdown'
 //admin
@@ -36,7 +36,7 @@ import {
     Redirect
 } from "react-router-dom";
 import auth from '../api/Auth_grpc_web_pb';
-import sessionstorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage'
 
 
 function Home() {
@@ -218,6 +218,36 @@ const Links = () => {
 const Routes = () => {
     const Auth = React.useContext(AuthApi)
 
+    const ProtectedError404 = () => {
+        document.title = 'ERROR404'
+
+        window.onload = function () {
+            document.querySelector('.cont_principal')
+                .className = "cont_principal cont_error_active";
+        }
+
+        return (
+            <Route
+
+
+                render={() =>
+                    (
+                        <div className="cont_principal">
+                            <div class="cont_error">
+                                <h2 className="Binh">Saigon Parking Service</h2>
+                                <h1 className="Binh">Oops</h1>
+                                <p className="Binh">The page you're looking for isn't here.</p>
+                            </div>
+                            <div class="cont_aura_1"></div>
+                            <div class="cont_aura_2"></div>
+                        </div>
+                    )
+
+                }
+            />
+
+        )
+    }
     const ProtectedAdmingetalluser = ({ auth, checkUserName, component: Component, ...rest }) => {
         document.title = 'ADMIN USER'
 
@@ -416,6 +446,9 @@ const Routes = () => {
             <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
             <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
 
+
+            <ProtectedError404 exact path="/404" />
+            <Redirect from="*" to="/404" />
         </Switch>
 
 

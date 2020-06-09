@@ -16,3 +16,8 @@ code {
   height: 400px;
   width: 100%;
 }
+
+.container {
+  width: 100%;
+  min-width: 100%;
+}
