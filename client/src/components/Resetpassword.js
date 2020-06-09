@@ -137,7 +137,7 @@ const Resetpassword = ({username}) => {
                     const metadata = { 'Authorization': token }
                     const request = new UserProto.UpdatePasswordRequest()
 
-                    request.setUsername(username)
+                    request.setUsername( Cookies.get("checkUserName"))
                     request.setNewpassword(values.passWord)
 
                     userService.updatePassword(request, metadata, (err, res) => {
@@ -160,7 +160,7 @@ const Resetpassword = ({username}) => {
                             
                             createNotification('success',username)
                             setSubmitting(false);
-                            Auth.setAuth(true)
+                           
                             
                         }
 
