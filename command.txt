@@ -1,3 +1,9 @@
+protoc -I=. Auth.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. Actor.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
-docker build --rm -f Dockerfile -t saigonparkingmap/webserver:v1.0.3 .
+protoc -I=. ParkingLot.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
+
+docker build --rm -f web_dev.Dockerfile -t saigonparkingmap/webserver:dev .
+docker build --rm -f web_prod.Dockerfile -t saigonparkingmap/webserver:v1.0.3 .
+
+docker push saigonparkingmap/webserver:dev
 docker push saigonparkingmap/webserver:v1.0.3

@@ -1,13 +1,13 @@
 version: '3'
 networks:
-  saigonparking-gateway:
+  saigonparking-web:
     driver: bridge
 
 services:
   webserver:
     image: ${DOCKER_HUB_ID}/webserver:${WEB_SERVER_VERSION}
     networks:
-      - saigonparking-gateway
+      - saigonparking-web
     environment:
       TZ: ${TIMEZONE}
     ports:
