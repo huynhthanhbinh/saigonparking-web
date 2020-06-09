@@ -6,14 +6,17 @@ import AuthApi from "./Auth/AuthAPI";
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+//notification
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 
 import {
     BrowserRouter as Router,
-   
+
     Redirect
 } from "react-router-dom";
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
 //modal Error 
 import '../css/modal.css'
 
@@ -26,9 +29,35 @@ const authService = new AuthServiceClient(API_URL)
 
 
 const Forgetpassword = () => {
+    //config notification
+    const createNotification = (type, errortype) => {
+        switch (type) {
+            case 'info':
+                NotificationManager.info('Info message');
+                break;
+            case 'success':
+                NotificationManager.success('ĐÃ GỬI EMAIL KÍCH HOẠT ĐẾN ' + errortype, 'GỬI EMAIL THÀNH CÔNG');
+                break;
+            case 'warning':
+                NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+                break;
+            case 'error':
+                if (errortype === 'SPE#00009') {
+                    console.log(errortype)
+                    NotificationManager.error("USERNAME HOẶC EMAIL ĐÃ TỒN TẠI", 'Error!', 5000, () => {
+                        alert('callback');
+                    });
+
+
+                }
+                break;
+        }
+
+    };
+
     //config Error modal
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
-    const [myError,setmyError] = React.useState(null)
+    const [myError, setmyError] = React.useState(null)
     function openModalError() {
 
         setmodalErrorIsOpen(true);
@@ -37,30 +66,30 @@ const Forgetpassword = () => {
     function closeModalError() {
         setmodalErrorIsOpen(false);
     }
-   
-   
+
+
 
     //
     const Auth = React.useContext(AuthApi)
-   
+
     const [sendemail, setsendemail] = React.useState(true)
     const callResetPassword = (username, Auth) => {
         const request = new StringValue()
         const metadata = {};
         request.setValue(username)
-        
+
         authService.sendResetPasswordEmail(request, metadata, (err, res) => {
             if (err) {
                 setmyError(err.message)
                 openModalError()
             } else {
-                setsendemail(false)
-             
+                
+                createNotification('success',res.getValue())
             }
 
         })
     }
-  
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -77,17 +106,17 @@ const Forgetpassword = () => {
         onSubmit: values => {
 
             callResetPassword(values.userName, Auth)
-            
+
 
         },
     });
 
     return (
-        <>{
-            (sendemail === true)?(
+        <>
+            
                 <form onSubmit={formik.handleSubmit}>
                     <div style={{ margin: 10 }}>
-                    {modalErrorIsOpen?<ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+                        {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                         <label htmlFor="userName">USERNAME</label>
                         <input
                             id="userName"
@@ -108,11 +137,10 @@ const Forgetpassword = () => {
                     </div>
 
                 </form>
-            ):
-            (<Redirect to="/" />)
-        }
-                
             
+        
+
+            <NotificationContainer />
         </>
     );
 };

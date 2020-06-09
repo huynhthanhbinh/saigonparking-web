@@ -84,7 +84,7 @@ const Register = () => {
 
       } else {
         // console.log('dang ky thanh cong');
-        createNotification('success',registerUser.email)
+        createNotification('success',res.getValue())
         openModalRegister()
         setnextpage(true)
 
