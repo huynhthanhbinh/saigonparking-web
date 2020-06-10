@@ -3,7 +3,7 @@ TC001. Sign in username & password correct -PASSED
 TC002. Sign in user not found - PASSED
 TC003. Sign in password incorrect - PASSED
 TC004. Sign in wrong role - PASSED
-TC005. Sign in user not activated - ĐỂ SAU
+TC005. Sign in user not activated - PASSED
 TC006. View user list (pagination) - PASSED
 TC007. View user information - PASSED
 TC008. Activate/ Deactivate user - PASSED
