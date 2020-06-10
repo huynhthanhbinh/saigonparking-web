@@ -1,0 +1,19 @@
+TC000. 404 NOT FOUND - PASSED
+TC001. Sign in username & password correct -PASSED 
+TC002. Sign in user not found - PASSED
+TC003. Sign in password incorrect - PASSED
+TC004. Sign in wrong role - PASSED
+TC005. Sign in user not activated - ĐỂ SAU
+TC006. View user list (pagination) - PASSED
+TC007. View user information - PASSED
+TC008. Activate/ Deactivate user - PASSED
+TC009. View parking-lot list (pagination) - PASSED
+TC010. View parking-lot information - PASSED
+TC011. Delete 1 parking lot - PASSED
+TC012. Update admin password, already signed in, username match token - ĐỂ SAU 
+TC013. Update admin password, already signed in, username not match token - ĐỂ SAU
+TC014. View map - PASSED
+TC015. View parking-lot information by click list item - PASSED
+TC016. View parking-lot information by click map marker - PASSED
+TC017. Search parking-lot by region, region has parking-lot - PASSED 
+TC018. Search parking-lot by region, region has no parking-lot - PASSED

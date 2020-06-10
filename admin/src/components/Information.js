@@ -194,11 +194,7 @@ const Information = () => {
                     
                
                     <div style={{ margin: 10 }}>
-                        <Link to="/profile/update">
-                            <button type="button">
-                                update your information
-                        </button>
-                        </Link>
+                        
 
 
                         <button style={{ margin: 10 }} onClick={ClickLogOut}>Logout</button>
