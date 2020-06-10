@@ -1,9 +1,20 @@
+<<< GENERATE API JS FROM PROTO FILES >>>
 protoc -I=. Auth.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. Actor.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. ParkingLot.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 
+<<< BUILD WEB AS DEV MODE >>>
+remove build folder inside admin module and client module
+cd into, change API URL in src/saigonparking.js and build admin module as dev mode: npm run build-dev
+cd into, change API URL in src/saigonparking.js and build client module as dev mode: npm run build-dev
+cd into root folder
 docker build --rm -f web_dev.Dockerfile -t saigonparkingmap/webserver:dev .
-docker build --rm -f web_prod.Dockerfile -t saigonparkingmap/webserver:v1.0.3 .
-
 docker push saigonparkingmap/webserver:dev
+
+<<< BUILD WEB AS PRODUCTION MODE >>>
+remove build folder inside admin module and client module
+cd into, change API URL in src/saigonparking.js and build admin module as produciton mode: npm run build
+cd into, change API URL in src/saigonparking.js and build client module as production mode: npm run build
+cd into root folder
+docker build --rm -f web_prod.Dockerfile -t saigonparkingmap/webserver:v1.0.3 .
 docker push saigonparkingmap/webserver:v1.0.3
