@@ -37,7 +37,7 @@ const Resetpassword = ({username}) => {
         NotificationManager.info('Info message');
         break;
       case 'success':
-        NotificationManager.success('ĐÃ CẬP NHẬT MẬT KHẨU CHO  '+ username , 'CẬP NHẬT MẬT KHẨU THÀNH CÔNG');
+        NotificationManager.success('ĐÃ CẬP NHẬT MẬT KHẨU CHO  '+ errortype , 'CẬP NHẬT MẬT KHẨU THÀNH CÔNG');
         break;
       case 'warning':
         NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -108,7 +108,7 @@ const Resetpassword = ({username}) => {
     return (
         <>
              { modalErrorIsOpen? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
-             (<Formik
+             <Formik
                 initialValues={{
 
                     passWord: '',
@@ -158,7 +158,7 @@ const Resetpassword = ({username}) => {
                             // console.log("Reset Password thanh cong")
                             // console.log(res)
                             
-                            createNotification('success',username)
+                            createNotification('success',Cookies.get("checkUserName"))
                             setSubmitting(false);
                            
                             
@@ -197,7 +197,7 @@ const Resetpassword = ({username}) => {
                     </div>
 
                 </Form>
-            </Formik>) 
+            </Formik>
             <NotificationContainer />
         </>
     )

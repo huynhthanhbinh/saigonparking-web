@@ -226,7 +226,7 @@ const Routes = () => {
             <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
 
 
-            <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap>
+            <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth} forgetpass={Auth.forgetpass} ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>
             <ProtectedRegister exact path="/register" component={Register} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
             
@@ -279,7 +279,7 @@ const ProtectedError404 = () => {
     )
 }
 
-const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedMap = ({forgetpass, auth, checkUserName, component: Component, ...rest }) => {
     document.title = 'MAP'
     return (
         <Route
@@ -287,7 +287,7 @@ const ProtectedMap = ({ auth, checkUserName, component: Component, ...rest }) =>
             {...rest}
 
             render={() =>
-                (auth === true) ? (<Component />) : (<Redirect to="/login" />)
+                (auth === true || forgetpass === true ) ? (<Component />) : (<Redirect to="/login" />)
 
             }
         />

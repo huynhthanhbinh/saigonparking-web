@@ -180,7 +180,7 @@ const Update = () => {
                     const request = new UserProto.Customer()
 
                     user.setRole(customerObject.role)
-                    user.setUsername(customerObject.username)
+                    user.setUsername(Cookies.get("checkUserName"))
                   
                     user.setEmail(values.email)
                     user.setVersion(customerObject.version)

@@ -1,0 +1,27 @@
+TC000. 404 NOT FOUND - PASSED
+TC001. Sign in username & password correct - PASSED
+TC002. Sign in user not found - PASSED
+TC003. Sign in password incorrect - PASSED
+TC004. Sign in wrong role - PASSED
+TC005. Sign in user not activated - PASSED
+TC006. Sign up email and username not existed - PASSED
+TC007. Sign up email or username existed - PASSED
+TC008. Send activate account email, user not activated, token not expired - PASSED
+TC009. Send activate account email, user not activated, token expired - PASSED
+TC010. Send activate account email, user already activated - PASSED
+TC011. Send activate account email, user not found - PASSED
+TC012. Send reset password email, user already activated, token not expired - PASSED
+TC013. Send reset password email, user already activated, token expired - PASSED
+TC014. Send reset password email, user not activated - PASSED
+TC015. Send reset password email, user not found - PASSED
+TC016. View user information, username match token - PASSED
+TC017. View user information, username not match token - PASSED
+TC018. Update user information, username match token - PASSED
+TC019. Update user information, username not match token - PASSED
+TC020. Update user password, already signed in, username match token - PASSED
+TC021. Update user password, already signed in, username not match token - PASSED
+TC022. View map - PASSED
+TC023. View parking-lot information by click list item - PASSED
+TC024. View parking-lot information by click map marker - PASSED
+TC025. Search parking-lot by region, region has parking-lot - PASSED
+TC026. Search parking-lot by region, region has no parking-lot - PASSED
