@@ -10,8 +10,8 @@ TC008. Activate/ Deactivate user - PASSED
 TC009. View parking-lot list (pagination) - PASSED
 TC010. View parking-lot information - PASSED
 TC011. Delete 1 parking lot - PASSED
-TC012. Update admin password, already signed in, username match token - ĐỂ SAU 
-TC013. Update admin password, already signed in, username not match token - ĐỂ SAU
+TC012. Update admin password, already signed in, username match token - PASSED
+TC013. Update admin password, already signed in, username not match token - PASSED
 TC014. View map - PASSED
 TC015. View parking-lot information by click list item - PASSED
 TC016. View parking-lot information by click map marker - PASSED

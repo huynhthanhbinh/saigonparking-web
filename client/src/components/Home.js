@@ -233,7 +233,7 @@ const Routes = () => {
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
             <ProtectedUpdate exact path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
             <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
-
+            
             <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
             <ProtectedResetPassword exact path="/reset-password" forgetpass={Auth.forgetpass} auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 

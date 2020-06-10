@@ -11,6 +11,7 @@ import '../css/Error404.css'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 //admin
 import LoginAdmin from './Admin/LoginAdmin'
+import Resetpassword from './Resetpassword'
 import Admin from './Admin/Admin'
 import Admingetalluser from './Admin/User/Admingetalluser'
 import Admingetallparkinglot from './Admin/Parkinglot/Admingetallparkinglot'
@@ -169,6 +170,7 @@ const Links = () => {
                             <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
 
                                 <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
+                                <NavDropdown.Item ><Link to="/profile/changepassword" >CHANGEPASSWORD</Link></NavDropdown.Item>
                                 <NavDropdown.Item ><Link to="/" >ADMIN</Link></NavDropdown.Item>
 
                                 <NavDropdown.Divider />
@@ -420,6 +422,45 @@ const Routes = () => {
 
         )
     }
+    const ProtectedChangePassword = ({ auth, checkUserName, component: Component, ...rest }) => {
+        document.title = 'CHANGE YOURPASSWORD'
+    
+        const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+        const Username = Cookies.get("checkUserName");
+    
+        if (token && Username && refreshtoken) {
+            return (
+                <Route
+    
+                    {...rest}
+    
+                    render={() =>
+                        (<Component />)
+    
+    
+                    }
+                />
+            )
+    
+        }
+        else {
+            return (
+                <Route
+    
+                    {...rest}
+    
+                    render={() =>
+                        <Redirect to="/login" />
+    
+    
+                    }
+                />
+            )
+    
+        }
+    
+    }
 
     return (
 
@@ -438,8 +479,8 @@ const Routes = () => {
 
 
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
-            <ProtectedUpdate exact path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
-
+            <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
+            
             <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
             <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
