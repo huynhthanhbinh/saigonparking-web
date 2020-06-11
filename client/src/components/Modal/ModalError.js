@@ -108,7 +108,12 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
             return (<Modal
                 isOpen={modalErrorIsOpen}
 
-                onRequestClose={closeModalError}
+                onRequestClose={() => {
+                        closeModalError()
+
+                        ClickLogOut()
+
+                    }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
