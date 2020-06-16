@@ -21,6 +21,11 @@ import {
 //modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
+//Kiem tra va xuly loi Error00001
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
+import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+import sessionstorage from 'sessionstorage'
+const authService = new AuthServiceClient(API_URL)
 //
 const userService = new UserServiceClient(API_URL)
 
@@ -42,10 +47,50 @@ const Update = () => {
         setmodalErrorIsOpen(false);
     }
     //
+    //xử lý lỗi error0001 cấp accestoken mới
+    const [flat, setflat] = React.useState(false)
+    const xulyerrorSPE00001 = () => {
+        const refreshtoken = Cookies.get('refreshtoken')
+        const token = 'Bearer ' + refreshtoken;
+        const metadata = { 'Authorization': token }
+        const request = new Empty()
+
+        authService.generateNewToken(request, metadata, (err, res) => {
+            if (err) {
+                if (err.message === 'SPE#00001') {
+                    Cookies.remove("checkUserName");
+                    Cookies.remove("token");
+
+                    Cookies.remove("refreshtoken");
+
+                    sessionstorage.clear()
+                }
+
+
+            } else {
+
+                if (res.getRefreshtoken() === '') {
+                    /** luu access token */
+                    Cookies.set("token", res.getAccesstoken())
+                    console.log("accesstoken mới")
+                    setflat(!flat)
+
+                } else {
+                    /** luu new access token + new refresh token */
+                    Cookies.set("token", res.getAccesstoken())
+                    Cookies.set("refreshtoken", res.getRefreshtoken())
+                }
+
+
+            }
+        })
+
+    }
+    //
     const Auth = React.useContext(AuthApi)
 
     let [customerObject, setCustomerObject] = React.useState()
-    const [nextpage,setnextpage] = React.useState(false)
+    const [nextpage, setnextpage] = React.useState(false)
     const getInformationUser = async (Auth) => {
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
@@ -56,16 +101,13 @@ const Update = () => {
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
 
-                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
-                    setmyError('SPE#0000DB')
+                if (err.message === 'SPE#00001') {
+                    xulyerrorSPE00001()
                 }
                 else {
                     setmyError(err.message)
+                    openModalError()
                 }
-
-
-                openModalError()
-
             } else {
 
 
@@ -86,7 +128,7 @@ const Update = () => {
 
         getInformationUser(Auth);
 
-    }, [modalErrorIsOpen,nextpage])
+    }, [flat, nextpage])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -115,11 +157,10 @@ const Update = () => {
     const ClickLogOut = () => {
 
     }
-    if(nextpage===true)
-    {
-        return(<Redirect to="/profile" />)
+    if (nextpage === true) {
+        return (<Redirect to="/profile" />)
     }
-  
+
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
@@ -127,7 +168,7 @@ const Update = () => {
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-                   
+
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
@@ -139,7 +180,7 @@ const Update = () => {
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-                   
+
 
                     email: Yup.string()
                         .email('Invalid email address')
@@ -181,7 +222,7 @@ const Update = () => {
 
                     user.setRole(customerObject.role)
                     user.setUsername(Cookies.get("checkUserName"))
-                  
+
                     user.setEmail(values.email)
                     user.setVersion(customerObject.version)
                     request.setUserinfo(user)
@@ -203,7 +244,7 @@ const Update = () => {
                             openModalError()
                         } else {
 
-                            
+
                             setSubmitting(false);
                             setnextpage(true)
                         }
@@ -224,7 +265,7 @@ const Update = () => {
                         />
                     </div>
 
-                   
+
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Email "

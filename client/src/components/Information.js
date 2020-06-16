@@ -13,15 +13,20 @@ import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
-import sessionstorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage'
 import {
-   
+
     Link,
-  
+
 } from "react-router-dom";
 //  modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
+//Kiem tra va xuly loi Error00001
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
+import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
+
+const authService = new AuthServiceClient(API_URL)
 
 const userService = new UserServiceClient(API_URL)
 
@@ -35,7 +40,7 @@ const Information = () => {
     //config Modal Error
 
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
-    const [myError,setmyError] = React.useState(null)
+    const [myError, setmyError] = React.useState(null)
     function openModalError() {
 
         setmodalErrorIsOpen(true);
@@ -46,10 +51,51 @@ const Information = () => {
     }
 
     //
+    //xử lý lỗi error0001 cấp accestoken mới
+    const [flat, setflat] = React.useState(false)
+    const xulyerrorSPE00001 = () => {
+        const refreshtoken = Cookies.get('refreshtoken')
+        const token = 'Bearer ' + refreshtoken;
+        const metadata = { 'Authorization': token }
+        const request = new Empty()
+
+        authService.generateNewToken(request, metadata, (err, res) => {
+            if (err) {
+                if (err.message === 'SPE#00001') {
+                    Cookies.remove("checkUserName");
+                    Cookies.remove("token");
+
+                    Cookies.remove("refreshtoken");
+
+                    sessionstorage.clear()
+                }
+
+
+            } else {
+
+                if (res.getRefreshtoken() === '') {
+                    /** luu access token */
+                    Cookies.set("token", res.getAccesstoken())
+                    console.log("accesstoken mới")
+                    setflat(!flat)
+
+                } else {
+                    /** luu new access token + new refresh token */
+                    Cookies.set("token", res.getAccesstoken())
+                    Cookies.set("refreshtoken", res.getRefreshtoken())
+                }
+
+
+            }
+        })
+
+    }
+
+    //
 
     const Auth = React.useContext(AuthApi)
-   
-   
+
+
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async () => {
         const token = 'Bearer ' + Cookies.get("token");
@@ -59,17 +105,13 @@ const Information = () => {
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-                  if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
-                {
-                    setmyError('SPE#0000DB')
+                if (err.message === 'SPE#00001') {
+                    xulyerrorSPE00001()
                 }
-                else
-                {
+                else {
                     setmyError(err.message)
+                    openModalError()
                 }
-                
-
-                openModalError()
             } else {
 
                 setCustomerObject(userMapper.toCustomerObject(res))
@@ -85,7 +127,7 @@ const Information = () => {
 
         getInformationUser();
 
-    }, [modalErrorIsOpen])
+    }, [flat])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -93,7 +135,7 @@ const Information = () => {
         const [field, meta] = useField(props);
         return (
             <>
-              {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                 <Container>
                     <Row style={{ margin: 5 }}>
                         <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
@@ -118,9 +160,9 @@ const Information = () => {
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-    
+
         Cookies.remove("refreshtoken");
-        
+
         sessionstorage.clear();
     }
 
@@ -128,12 +170,12 @@ const Information = () => {
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            
+
             <h1>Your Information</h1>
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-                 
+
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
@@ -145,7 +187,7 @@ const Information = () => {
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-                  
+
 
                     email: Yup.string()
                         .email('Invalid email address')
@@ -163,7 +205,7 @@ const Information = () => {
 
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                 
+
 
                 }}
             >
@@ -178,7 +220,7 @@ const Information = () => {
                         />
                     </div>
 
-                   
+
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Email "

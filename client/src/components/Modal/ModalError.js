@@ -12,7 +12,8 @@ import {
 } from "react-router-dom";
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import sessionstorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage'
+import exceptionHandler from '../../ExceptionHandling'
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
@@ -38,7 +39,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         Cookies.remove("token");
         Cookies.remove("isAdmin");
         Cookies.remove("refreshtoken");
-        
+
         sessionstorage.clear();
     }
 
@@ -85,11 +86,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -97,11 +98,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
             >
                 <h1> REFRESHTOKEN HẾT HẠN </h1>
                 <button onClick={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}>ĐĂNG NHẬP LẠI</button>
+                }}>ĐĂNG NHẬP LẠI</button>
             </Modal>)
         }
         else if (myError === "SPE#00000") {
@@ -109,11 +110,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -127,11 +128,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -145,11 +146,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -163,11 +164,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -181,11 +182,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -199,11 +200,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -217,11 +218,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
@@ -235,11 +236,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 isOpen={modalErrorIsOpen}
 
                 onRequestClose={() => {
-                        closeModalError()
+                    closeModalError()
 
-                        ClickLogOut()
+                    ClickLogOut()
 
-                    }}
+                }}
 
                 contentLabel="Example Modal"
                 className="modal-content"
