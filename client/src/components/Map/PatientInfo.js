@@ -15,12 +15,6 @@ import StarRatings from "react-star-ratings";
 import exceptionHandler from '../../ExceptionHandling'
 //modal Error
 import ModalError from '../Modal/ModalError'
-// bắt lỗi error0001 cấp accesctoken mới
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
-import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
-import sessionstorage from 'sessionstorage'
-const authService = new AuthServiceClient(API_URL)
-
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
@@ -41,47 +35,6 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
     setmodalErrorIsOpen(false);
   }
   //
-  //xử lý lỗi error0001 cấp accestoken mới
-  const [flat, setflat] = React.useState(false)
-  const xulyerrorSPE00001 = () => {
-    const refreshtoken = Cookies.get('refreshtoken')
-    const token = 'Bearer ' + refreshtoken;
-    const metadata = { 'Authorization': token }
-    const request = new Empty()
-
-    authService.generateNewToken(request, metadata, (err, res) => {
-      if (err) {
-        if (err.message === 'SPE#00001') {
-          Cookies.remove("checkUserName");
-          Cookies.remove("token");
-
-          Cookies.remove("refreshtoken");
-
-          sessionstorage.clear()
-        }
-
-
-      } else {
-
-        if (res.getRefreshtoken() === '') {
-          /** luu access token */
-          Cookies.set("token", res.getAccesstoken())
-          console.log("accesstoken mới")
-          setflat(!flat)
-
-        } else {
-          /** luu new access token + new refresh token */
-          Cookies.set("token", res.getAccesstoken())
-          Cookies.set("refreshtoken", res.getRefreshtoken())
-        }
-
-
-      }
-    })
-
-  }
-
-  //
 
   const callgetParkingLotById = (parkinglotid) => {
     const request = new Int64Value();
@@ -92,13 +45,16 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
     ParkinglotwebService.getParkingLotById(request, metadata, (err, res) => {
       if (err) {
 
-        if (err.message === 'SPE#00001') {
-          xulyerrorSPE00001()
+        // console.log(err.message)
+        if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+          setmyError('SPE#0000DB')
         }
         else {
           setmyError(err.message)
-          openModalError()
         }
+
+
+        openModalError()
 
       } else {
 
@@ -109,7 +65,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
   useEffect(() => {
     callgetParkingLotById(id)
-  }, [id, flat])
+  }, [id, modalErrorIsOpen])
 
   return <div class="info-card">
     {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
@@ -119,16 +75,16 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
         <Card.Title>ID: {id}</Card.Title>
         <Card.Text>
           <img style={{ width: '88%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
-
-          <StarRatings
-            rating={parkinglot.getInformation().getRatingaverage()}
-            starRatedColor="rgb(56,112,112)"
-            starDimension="20px"
-            starSpacing="2px"
-            numberOfStars={5}
-            name="rating"
-          />
-
+        
+            <StarRatings
+              rating={parkinglot.getInformation().getRatingaverage()}
+              starRatedColor="rgb(56,112,112)"
+              starDimension="20px"
+              starSpacing="2px"
+              numberOfStars={5}
+              name="rating"
+            />
+         
           <li>NAME: {parkinglot.getInformation().getName()}</li>
           <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
           <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
