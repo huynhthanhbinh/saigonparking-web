@@ -29,25 +29,26 @@ exceptionHandler.handleAccessTokenExpired = (errCode) => { /** != Auth Service *
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
                 exceptionHandler.handleRefreshTokenExpired(err.message)
-                return false
+
 
             } else {
 
                 if (res.getRefreshtoken() === '') {
                     /** luu access token */
                     Cookies.set("token", res.getAccesstoken())
-                    // console.log("accesstoken mới")
+                    console.log("accesstoken mới")
 
                 } else {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
                 }
-              
-                return true
+
+
             }
         })
     }
+    return false
 
 }
 
@@ -59,7 +60,7 @@ exceptionHandler.handleRefreshTokenExpired = (errCode) => {
         Cookies.remove("token");
         Cookies.remove("isAdmin");
         Cookies.remove("refreshtoken");
-        
+
         localStorage.clear()
     }
 }

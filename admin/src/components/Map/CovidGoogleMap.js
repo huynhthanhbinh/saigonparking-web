@@ -8,7 +8,7 @@ import {
   GoogleMap,
   useLoadScript,
   Marker,
- 
+
 } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -42,7 +42,7 @@ const center = {
 
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
+    googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
     libraries,
   });
   // const [markers, setMarkers] = React.useState([]);
@@ -61,19 +61,19 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 
   const panTo = React.useCallback(({ lat, lng }) => {
-   
+
     mapRef.current.panTo({ lat, lng });
 
     mapRef.current.setZoom(15);
-   
+
   }, []);
 
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
   return (
-  
-  
+
+
     <div>
       <h1>
         PARKINGMAP
@@ -147,9 +147,9 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
       </GoogleMap>
     </div>
-   
+
   );
-  
+
 
   function Search({ panTo }) {
     const {
