@@ -10,7 +10,7 @@ import "google/protobuf/empty.proto";
 enum ParkingLotType {
     BUILDING = 0;
     PRIVATE = 1;
-    STREETttttt = 2;
+    STREET = 2;
 }
 
 message ParkingLotResult {
