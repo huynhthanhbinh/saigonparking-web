@@ -3570,7 +3570,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.DeleteParkingLotNotification.pro
 proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotType = {
   BUILDING: 0,
   PRIVATE: 1,
-  STREET: 2
+  STREETTTTTT: 2
 };
 
 goog.object.extend(exports, proto.com.bht.saigonparking.api.grpc.parkinglot);
