@@ -7,6 +7,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 
 
+/* eslint-disable */
+// @ts-nocheck
+
+
 
 const grpc = {};
 grpc.web = require('grpc-web');
@@ -48,16 +52,6 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
 
 
@@ -84,17 +78,29 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse>}
+ */
+const methodDescriptor_AuthService_validateUser = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/validateUser',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest,
+  proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse.deserializeBinary
+);
 
 
 /**
@@ -105,7 +111,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient =
  */
 const methodInfo_AuthService_validateUser = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.auth.ValidateResponse,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.auth.ValidateRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -129,7 +138,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.validateUs
       '/com.bht.saigonparking.api.grpc.auth.AuthService/validateUser',
       request,
       metadata || {},
-      methodInfo_AuthService_validateUser,
+      methodDescriptor_AuthService_validateUser,
       callback);
 };
 
@@ -148,8 +157,30 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.val
       '/com.bht.saigonparking.api.grpc.auth.AuthService/validateUser',
       request,
       metadata || {},
-      methodInfo_AuthService_validateUser);
+      methodDescriptor_AuthService_validateUser);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodDescriptor_AuthService_registerUser = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/registerUser',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest,
+  google_protobuf_wrappers_pb.StringValue,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
 
 
 /**
@@ -160,7 +191,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.val
  */
 const methodInfo_AuthService_registerUser = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.StringValue,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.auth.RegisterRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -184,7 +218,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.registerUs
       '/com.bht.saigonparking.api.grpc.auth.AuthService/registerUser',
       request,
       metadata || {},
-      methodInfo_AuthService_registerUser,
+      methodDescriptor_AuthService_registerUser,
       callback);
 };
 
@@ -203,8 +237,30 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.reg
       '/com.bht.saigonparking.api.grpc.auth.AuthService/registerUser',
       request,
       metadata || {},
-      methodInfo_AuthService_registerUser);
+      methodDescriptor_AuthService_registerUser);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodDescriptor_AuthService_sendResetPasswordEmail = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/sendResetPasswordEmail',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  google_protobuf_wrappers_pb.StringValue,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
 
 
 /**
@@ -215,7 +271,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.reg
  */
 const methodInfo_AuthService_sendResetPasswordEmail = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.StringValue,
-  /** @param {!proto.google.protobuf.StringValue} request */
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -239,7 +298,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.sendResetP
       '/com.bht.saigonparking.api.grpc.auth.AuthService/sendResetPasswordEmail',
       request,
       metadata || {},
-      methodInfo_AuthService_sendResetPasswordEmail,
+      methodDescriptor_AuthService_sendResetPasswordEmail,
       callback);
 };
 
@@ -258,8 +317,30 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sen
       '/com.bht.saigonparking.api.grpc.auth.AuthService/sendResetPasswordEmail',
       request,
       metadata || {},
-      methodInfo_AuthService_sendResetPasswordEmail);
+      methodDescriptor_AuthService_sendResetPasswordEmail);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodDescriptor_AuthService_sendActivateAccountEmail = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/sendActivateAccountEmail',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  google_protobuf_wrappers_pb.StringValue,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
 
 
 /**
@@ -270,7 +351,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sen
  */
 const methodInfo_AuthService_sendActivateAccountEmail = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.StringValue,
-  /** @param {!proto.google.protobuf.StringValue} request */
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -294,7 +378,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.sendActiva
       '/com.bht.saigonparking.api.grpc.auth.AuthService/sendActivateAccountEmail',
       request,
       metadata || {},
-      methodInfo_AuthService_sendActivateAccountEmail,
+      methodDescriptor_AuthService_sendActivateAccountEmail,
       callback);
 };
 
@@ -313,8 +397,30 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sen
       '/com.bht.saigonparking.api.grpc.auth.AuthService/sendActivateAccountEmail',
       request,
       metadata || {},
-      methodInfo_AuthService_sendActivateAccountEmail);
+      methodDescriptor_AuthService_sendActivateAccountEmail);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ */
+const methodDescriptor_AuthService_generateNewToken = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/generateNewToken',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinary
+);
 
 
 /**
@@ -325,7 +431,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.sen
  */
 const methodInfo_AuthService_generateNewToken = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
-  /** @param {!proto.google.protobuf.Empty} request */
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -349,7 +458,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.generateNe
       '/com.bht.saigonparking.api.grpc.auth.AuthService/generateNewToken',
       request,
       metadata || {},
-      methodInfo_AuthService_generateNewToken,
+      methodDescriptor_AuthService_generateNewToken,
       callback);
 };
 
@@ -368,8 +477,30 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.gen
       '/com.bht.saigonparking.api.grpc.auth.AuthService/generateNewToken',
       request,
       metadata || {},
-      methodInfo_AuthService_generateNewToken);
+      methodDescriptor_AuthService_generateNewToken);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse>}
+ */
+const methodDescriptor_AuthService_activateNewAccount = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.auth.AuthService/activateNewAccount',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse.deserializeBinary
+);
 
 
 /**
@@ -380,7 +511,10 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.gen
  */
 const methodInfo_AuthService_activateNewAccount = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.auth.RefreshTokenResponse,
-  /** @param {!proto.google.protobuf.Empty} request */
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -404,7 +538,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServiceClient.prototype.activateNe
       '/com.bht.saigonparking.api.grpc.auth.AuthService/activateNewAccount',
       request,
       metadata || {},
-      methodInfo_AuthService_activateNewAccount,
+      methodDescriptor_AuthService_activateNewAccount,
       callback);
 };
 
@@ -423,7 +557,7 @@ proto.com.bht.saigonparking.api.grpc.auth.AuthServicePromiseClient.prototype.act
       '/com.bht.saigonparking.api.grpc.auth.AuthService/activateNewAccount',
       request,
       metadata || {},
-      methodInfo_AuthService_activateNewAccount);
+      methodDescriptor_AuthService_activateNewAccount);
 };
 
 
