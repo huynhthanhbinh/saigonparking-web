@@ -7,6 +7,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 
 
+/* eslint-disable */
+// @ts-nocheck
+
+
 
 const grpc = {};
 grpc.web = require('grpc-web');
@@ -46,16 +50,6 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
 
 
@@ -82,17 +76,29 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodDescriptor_UserService_countAll = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  google_protobuf_wrappers_pb.Int64Value,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
 
 
 /**
@@ -103,7 +109,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient =
  */
 const methodInfo_UserService_countAll = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.Int64Value,
-  /** @param {!proto.google.protobuf.Empty} request */
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -127,7 +136,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.countAll =
       '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
       request,
       metadata || {},
-      methodInfo_UserService_countAll,
+      methodDescriptor_UserService_countAll,
       callback);
 };
 
@@ -146,8 +155,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.cou
       '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
       request,
       metadata || {},
-      methodInfo_UserService_countAll);
+      methodDescriptor_UserService_countAll);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.user.GetAllUserRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.user.GetAllUserResponse>}
+ */
+const methodDescriptor_UserService_getAllUser = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getAllUser',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.user.GetAllUserRequest,
+  proto.com.bht.saigonparking.api.grpc.user.GetAllUserResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.GetAllUserRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.GetAllUserResponse.deserializeBinary
+);
 
 
 /**
@@ -158,7 +189,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.cou
  */
 const methodInfo_UserService_getAllUser = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.GetAllUserResponse,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.user.GetAllUserRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.GetAllUserRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -182,7 +216,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getAllUser
       '/com.bht.saigonparking.api.grpc.user.UserService/getAllUser',
       request,
       metadata || {},
-      methodInfo_UserService_getAllUser,
+      methodDescriptor_UserService_getAllUser,
       callback);
 };
 
@@ -201,8 +235,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getAllUser',
       request,
       metadata || {},
-      methodInfo_UserService_getAllUser);
+      methodDescriptor_UserService_getAllUser);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.User>}
+ */
+const methodDescriptor_UserService_getUserById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getUserById',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.user.User,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.User.deserializeBinary
+);
 
 
 /**
@@ -213,7 +269,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getUserById = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.User,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -237,7 +296,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getUserByI
       '/com.bht.saigonparking.api.grpc.user.UserService/getUserById',
       request,
       metadata || {},
-      methodInfo_UserService_getUserById,
+      methodDescriptor_UserService_getUserById,
       callback);
 };
 
@@ -256,8 +315,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getUserById',
       request,
       metadata || {},
-      methodInfo_UserService_getUserById);
+      methodDescriptor_UserService_getUserById);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.com.bht.saigonparking.api.grpc.user.User>}
+ */
+const methodDescriptor_UserService_getUserByUsername = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getUserByUsername',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  proto.com.bht.saigonparking.api.grpc.user.User,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.User.deserializeBinary
+);
 
 
 /**
@@ -268,7 +349,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getUserByUsername = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.User,
-  /** @param {!proto.google.protobuf.StringValue} request */
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -292,7 +376,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getUserByU
       '/com.bht.saigonparking.api.grpc.user.UserService/getUserByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getUserByUsername,
+      methodDescriptor_UserService_getUserByUsername,
       callback);
 };
 
@@ -311,8 +395,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getUserByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getUserByUsername);
+      methodDescriptor_UserService_getUserByUsername);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer>}
+ */
+const methodDescriptor_UserService_getCustomerById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerById',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.user.Customer,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.Customer.deserializeBinary
+);
 
 
 /**
@@ -323,7 +429,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getCustomerById = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.Customer,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -347,7 +456,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getCustome
       '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerById',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerById,
+      methodDescriptor_UserService_getCustomerById,
       callback);
 };
 
@@ -366,8 +475,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerById',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerById);
+      methodDescriptor_UserService_getCustomerById);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer>}
+ */
+const methodDescriptor_UserService_getCustomerByUsername = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerByUsername',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  proto.com.bht.saigonparking.api.grpc.user.Customer,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.Customer.deserializeBinary
+);
 
 
 /**
@@ -378,7 +509,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getCustomerByUsername = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.Customer,
-  /** @param {!proto.google.protobuf.StringValue} request */
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -402,7 +536,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getCustome
       '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerByUsername,
+      methodDescriptor_UserService_getCustomerByUsername,
       callback);
 };
 
@@ -421,8 +555,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getCustomerByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getCustomerByUsername);
+      methodDescriptor_UserService_getCustomerByUsername);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
+ */
+const methodDescriptor_UserService_getParkingLotEmployeeById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
+);
 
 
 /**
@@ -433,7 +589,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getParkingLotEmployeeById = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -457,7 +616,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParking
       '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeById,
+      methodDescriptor_UserService_getParkingLotEmployeeById,
       callback);
 };
 
@@ -476,8 +635,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeById);
+      methodDescriptor_UserService_getParkingLotEmployeeById);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
+ */
+const methodDescriptor_UserService_getParkingLotEmployeeByUsername = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
+);
 
 
 /**
@@ -488,7 +669,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_getParkingLotEmployeeByUsername = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
-  /** @param {!proto.google.protobuf.StringValue} request */
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -512,7 +696,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParking
       '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeByUsername,
+      methodDescriptor_UserService_getParkingLotEmployeeByUsername,
       callback);
 };
 
@@ -531,8 +715,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
       '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
       request,
       metadata || {},
-      methodInfo_UserService_getParkingLotEmployeeByUsername);
+      methodDescriptor_UserService_getParkingLotEmployeeByUsername);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodDescriptor_UserService_createCustomer = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/createCustomer',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.user.Customer,
+  google_protobuf_wrappers_pb.Int64Value,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
 
 
 /**
@@ -543,7 +749,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
  */
 const methodInfo_UserService_createCustomer = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.Int64Value,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -567,7 +776,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.createCust
       '/com.bht.saigonparking.api.grpc.user.UserService/createCustomer',
       request,
       metadata || {},
-      methodInfo_UserService_createCustomer,
+      methodDescriptor_UserService_createCustomer,
       callback);
 };
 
@@ -586,8 +795,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.cre
       '/com.bht.saigonparking.api.grpc.user.UserService/createCustomer',
       request,
       metadata || {},
-      methodInfo_UserService_createCustomer);
+      methodDescriptor_UserService_createCustomer);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.user.Customer,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_UserService_updateCustomer = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/updateCustomer',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.user.Customer,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
 
 
 /**
@@ -598,7 +829,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.cre
  */
 const methodInfo_UserService_updateCustomer = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_empty_pb.Empty,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.Customer} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -622,7 +856,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.updateCust
       '/com.bht.saigonparking.api.grpc.user.UserService/updateCustomer',
       request,
       metadata || {},
-      methodInfo_UserService_updateCustomer,
+      methodDescriptor_UserService_updateCustomer,
       callback);
 };
 
@@ -641,8 +875,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.upd
       '/com.bht.saigonparking.api.grpc.user.UserService/updateCustomer',
       request,
       metadata || {},
-      methodInfo_UserService_updateCustomer);
+      methodDescriptor_UserService_updateCustomer);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_UserService_updatePassword = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/updatePassword',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
 
 
 /**
@@ -653,7 +909,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.upd
  */
 const methodInfo_UserService_updatePassword = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_empty_pb.Empty,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.UpdatePasswordRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -677,7 +936,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.updatePass
       '/com.bht.saigonparking.api.grpc.user.UserService/updatePassword',
       request,
       metadata || {},
-      methodInfo_UserService_updatePassword,
+      methodDescriptor_UserService_updatePassword,
       callback);
 };
 
@@ -696,8 +955,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.upd
       '/com.bht.saigonparking.api.grpc.user.UserService/updatePassword',
       request,
       metadata || {},
-      methodInfo_UserService_updatePassword);
+      methodDescriptor_UserService_updatePassword);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_UserService_activateUser = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/activateUser',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
 
 
 /**
@@ -708,7 +989,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.upd
  */
 const methodInfo_UserService_activateUser = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_empty_pb.Empty,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -732,7 +1016,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.activateUs
       '/com.bht.saigonparking.api.grpc.user.UserService/activateUser',
       request,
       metadata || {},
-      methodInfo_UserService_activateUser,
+      methodDescriptor_UserService_activateUser,
       callback);
 };
 
@@ -751,8 +1035,30 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.act
       '/com.bht.saigonparking.api.grpc.user.UserService/activateUser',
       request,
       metadata || {},
-      methodInfo_UserService_activateUser);
+      methodDescriptor_UserService_activateUser);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_UserService_deactivateUser = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/deactivateUser',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
 
 
 /**
@@ -763,7 +1069,10 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.act
  */
 const methodInfo_UserService_deactivateUser = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_empty_pb.Empty,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -787,7 +1096,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.deactivate
       '/com.bht.saigonparking.api.grpc.user.UserService/deactivateUser',
       request,
       metadata || {},
-      methodInfo_UserService_deactivateUser,
+      methodDescriptor_UserService_deactivateUser,
       callback);
 };
 
@@ -806,7 +1115,7 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.dea
       '/com.bht.saigonparking.api.grpc.user.UserService/deactivateUser',
       request,
       metadata || {},
-      methodInfo_UserService_deactivateUser);
+      methodDescriptor_UserService_deactivateUser);
 };
 
 

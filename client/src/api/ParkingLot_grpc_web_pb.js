@@ -7,6 +7,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 
 
+/* eslint-disable */
+// @ts-nocheck
+
+
 
 const grpc = {};
 grpc.web = require('grpc-web');
@@ -46,16 +50,6 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
 
 
@@ -82,17 +76,29 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient =
    */
   this.hostname_ = hostname;
 
-  /**
-   * @private @const {?Object} The credentials to be used to connect
-   *    to the server
-   */
-  this.credentials_ = credentials;
-
-  /**
-   * @private @const {?Object} Options for the client
-   */
-  this.options_ = options;
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodDescriptor_ParkingLotService_countAll = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAll',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  google_protobuf_wrappers_pb.Int64Value,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
 
 
 /**
@@ -103,7 +109,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient =
  */
 const methodInfo_ParkingLotService_countAll = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.Int64Value,
-  /** @param {!proto.google.protobuf.Empty} request */
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -127,7 +136,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAll',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_countAll,
+      methodDescriptor_ParkingLotService_countAll,
       callback);
 };
 
@@ -146,8 +155,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAll',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_countAll);
+      methodDescriptor_ParkingLotService_countAll);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse>}
+ */
+const methodDescriptor_ParkingLotService_getAllParkingLot = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getAllParkingLot',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse.deserializeBinary
+);
 
 
 /**
@@ -158,7 +189,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_getAllParkingLot = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotResponse,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.GetAllParkingLotRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -182,7 +216,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getAllParkingLot',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getAllParkingLot,
+      methodDescriptor_ParkingLotService_getAllParkingLot,
       callback);
 };
 
@@ -201,8 +235,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getAllParkingLot',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getAllParkingLot);
+      methodDescriptor_ParkingLotService_getAllParkingLot);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotLimit>}
+ */
+const methodDescriptor_ParkingLotService_checkLimit = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkLimit',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotLimit,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotLimit.deserializeBinary
+);
 
 
 /**
@@ -213,7 +269,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_checkLimit = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotLimit,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -237,7 +296,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkLimit',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkLimit,
+      methodDescriptor_ParkingLotService_checkLimit,
       callback);
 };
 
@@ -256,8 +315,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkLimit',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkLimit);
+      methodDescriptor_ParkingLotService_checkLimit);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.BoolValue>}
+ */
+const methodDescriptor_ParkingLotService_checkAvailability = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkAvailability',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  google_protobuf_wrappers_pb.BoolValue,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.BoolValue.deserializeBinary
+);
 
 
 /**
@@ -268,7 +349,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_checkAvailability = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.BoolValue,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -292,7 +376,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkAvailability',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkAvailability,
+      methodDescriptor_ParkingLotService_checkAvailability,
       callback);
 };
 
@@ -311,8 +395,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkAvailability',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkAvailability);
+      methodDescriptor_ParkingLotService_checkAvailability);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList>}
+ */
+const methodDescriptor_ParkingLotService_checkUnavailability = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkUnavailability',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList.deserializeBinary
+);
 
 
 /**
@@ -323,7 +429,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_checkUnavailability = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotIdList} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -347,7 +456,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkUnavailability',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkUnavailability,
+      methodDescriptor_ParkingLotService_checkUnavailability,
       callback);
 };
 
@@ -366,8 +475,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/checkUnavailability',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_checkUnavailability);
+      methodDescriptor_ParkingLotService_checkUnavailability);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLot>}
+ */
+const methodDescriptor_ParkingLotService_getParkingLotById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotById',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLot,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLot.deserializeBinary
+);
 
 
 /**
@@ -378,7 +509,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_getParkingLotById = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLot,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -402,7 +536,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotById',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getParkingLotById,
+      methodDescriptor_ParkingLotService_getParkingLotById,
       callback);
 };
 
@@ -421,8 +555,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotById',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getParkingLotById);
+      methodDescriptor_ParkingLotService_getParkingLotById);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList>}
+ */
+const methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithName',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList.deserializeBinary
+);
 
 
 /**
@@ -433,7 +589,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -457,7 +616,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithName',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName,
+      methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName,
       callback);
 };
 
@@ -476,8 +635,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithName',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName);
+      methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithName);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList>}
+ */
+const methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithoutName',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList.deserializeBinary
+);
 
 
 /**
@@ -488,7 +669,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName = new grpc.web.AbstractClientBase.MethodInfo(
   proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotResultList,
-  /** @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request */
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.ScanningByRadiusRequest} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -512,7 +696,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithoutName',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName,
+      methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName,
       callback);
 };
 
@@ -531,8 +715,30 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getTopParkingLotInRegionOrderByDistanceWithoutName',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName);
+      methodDescriptor_ParkingLotService_getTopParkingLotInRegionOrderByDistanceWithoutName);
 };
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_ParkingLotService_deleteParkingLotById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/deleteParkingLotById',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
 
 
 /**
@@ -543,7 +749,10 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
  */
 const methodInfo_ParkingLotService_deleteParkingLotById = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_empty_pb.Empty,
-  /** @param {!proto.google.protobuf.Int64Value} request */
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
   function(request) {
     return request.serializeBinary();
   },
@@ -567,7 +776,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/deleteParkingLotById',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_deleteParkingLotById,
+      methodDescriptor_ParkingLotService_deleteParkingLotById,
       callback);
 };
 
@@ -586,7 +795,7 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/deleteParkingLotById',
       request,
       metadata || {},
-      methodInfo_ParkingLotService_deleteParkingLotById);
+      methodDescriptor_ParkingLotService_deleteParkingLotById);
 };
 
 

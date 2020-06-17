@@ -1,6 +1,6 @@
 <<< GENERATE API JS FROM PROTO FILES >>>
-protoc -I=. Auth.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. Actor.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
+protoc -I=. Auth.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. ParkingLot.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 
 <<< BUILD WEB AS DEV MODE >>>
