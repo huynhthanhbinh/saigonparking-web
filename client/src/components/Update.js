@@ -21,6 +21,7 @@ import {
 //modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
+//
 //Kiem tra va xuly loi Error00001
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
@@ -100,7 +101,6 @@ const Update = () => {
 
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-
                 if (err.message === 'SPE#00001') {
                     xulyerrorSPE00001()
                 }
@@ -108,6 +108,7 @@ const Update = () => {
                     setmyError(err.message)
                     openModalError()
                 }
+
             } else {
 
 
@@ -128,7 +129,7 @@ const Update = () => {
 
         getInformationUser(Auth);
 
-    }, [flat, nextpage])
+    }, [flat])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -163,6 +164,7 @@ const Update = () => {
 
     return (
         <>
+
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
             <h1>Update Information</h1>
             {customerObject ? <Formik
@@ -233,15 +235,13 @@ const Update = () => {
 
                     userService.updateCustomer(request, metadata, (err, res) => {
                         if (err) {
-                            if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
-                                setmyError('SPE#0000DB')
+                            if (err.message === 'SPE#00001') {
+                                xulyerrorSPE00001()
                             }
                             else {
                                 setmyError(err.message)
+                                openModalError()
                             }
-
-
-                            openModalError()
                         } else {
 
 

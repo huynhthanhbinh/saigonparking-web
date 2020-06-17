@@ -146,7 +146,7 @@ const Resetpassword = ({ username }) => {
     };
 
     if (nextpage === true) {
-        return (<Redirect to="/login" />)
+        return (<Redirect to="/profile" />)
     }
 
 
@@ -202,6 +202,7 @@ const Resetpassword = ({ username }) => {
                             // console.log(res)
 
                             createNotification('success', Cookies.get("checkUserName"))
+                            setnextpage(true)
                             setSubmitting(false);
 
 
