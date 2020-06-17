@@ -20,6 +20,8 @@ import exceptionHandler from '../../ExceptionHandling'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
+//SLIDE DRAWER
+import SideMenu from './drawer'
 const authService = new AuthServiceClient(API_URL)
 
 
@@ -107,7 +109,7 @@ const CovidDashboard = (props) => {
         })
 
     }
-    
+
     useEffect(() => {
 
 
@@ -187,6 +189,15 @@ const CovidDashboard = (props) => {
         setCurrentPatient(patient);
         setIndexPatientClicked(index);
     }
+    const data = [
+        { name: "user", url: "/private/loans" },
+        { name: "files upload", url: "/private/cards" },
+        { name: "route", url: "/private/deposits" },
+        { name: "timetable", url: "/private/services" },
+        { name: "road book", url: "/private/services" },
+        { name: "social", url: "/private/services" },
+        { name: "settings", url: "/private/services" }
+    ];
 
     return ((<Container>
         {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
@@ -200,6 +211,9 @@ const CovidDashboard = (props) => {
             </Col>
         </Row>
         <Row>
+            <Col xs={9}>
+                {patients && <SideMenu overlayColor="#transparent" data={patients} width={200} />}
+            </Col>
             <Col xs={9}>
                 <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
             </Col>
