@@ -16,7 +16,6 @@ import {
 import { API_URL } from '../../saigonparking';
 //import modal
 
-import '../../css/modal.css'
 
 import ModalActivateAccountError from './ModalActivateAccountError'
 const authService = new AuthServiceClient(API_URL)

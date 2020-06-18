@@ -1,13 +1,12 @@
 
 import React, { useEffect } from 'react'
 import Card from "react-bootstrap/Card";
-import Modal from 'react-modal';
+import { Button, Modal } from 'semantic-ui-react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 //
 import '../../../css/formparkinguser.css'
-import '../../../css/modal.css';
 
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import { API_URL } from '../../../saigonparking';
@@ -28,7 +27,6 @@ import defaultimageparkinglot from './images/plot.jpg'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
-Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     //config Modal Error
 
@@ -134,7 +132,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
         return (
 
             <Modal
-                isOpen={modalIsOpen}
+                open={modalIsOpen}
 
                 onRequestClose={() => {
 

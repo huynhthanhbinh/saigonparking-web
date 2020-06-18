@@ -1,8 +1,7 @@
 
 import React from 'react'
-import Modal from 'react-modal';
 import Landing from '../Landing'
-import '../../css/modal.css';
+import { Button, Modal } from 'semantic-ui-react'
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,7 +13,6 @@ import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage' 
 
-Modal.setAppElement(document.getElementById("root"));
 const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     // const [loi,setloi]=React.useState(null)
     // React.useEffect(()=>{
@@ -32,7 +30,6 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-      
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");

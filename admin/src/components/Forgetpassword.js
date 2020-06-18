@@ -15,7 +15,6 @@ import {
 } from "react-router-dom";
 import  { API_URL } from '../saigonparking';
 //modal Error 
-import '../css/modal.css'
 
 import ModalActivateAccountError from './ActivateAccount/ModalActivateAccountError'
 

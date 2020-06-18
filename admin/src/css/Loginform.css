@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    background: url("../components/Admin/images/car1.jpg");
+    overflow: hidden;
+    background-size: cover;
+}
+
+.Surface {
+    height: 140px;
+    width: 500%;
+    background: url("../components/Admin/images/car2.png");
+    display: block;
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    background-repeat: repeat-x;
+    animation: moveRight 6s linear infinite;
+}
+
+.Car {
+    height: 70px;
+    width: 270px;
+    background: url("../components/Admin/images/car4.png");
+    position: absolute;
+    bottom: 5%;
+    left: 24%;
+    animation: suppension 0.3s linear infinite;
+}
+
+@keyframes moveRight {
+    100% {
+        transform: translateX(-2950px);
+    }
+}
+
+@keyframes suppension {
+    100% {
+        transform: translateY(-1px);
+    }
+    50% {
+        transform: translateY(2px);
+    }
+    0% {
+        transform: translateY(-1px);
+    }
+}
+
+@keyframes change2 {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.MainLogin {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial;
+}
+
+.containerForm {
+    position: relative;
+    width: 450px;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
+}
+
+.containerForm::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.containerForm::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #ff0047, #6eff00);
+    pointer-events: none;
+    animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        filter: blur(60px) hue-rotate(0deg);
+    }
+    100% {
+        filter: blur(60px) hue-rotate(360deg);
+    }
+}
+
+.form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.form h2 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-size: 35px;
+}
+
+.form input {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form .inputBox input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    font-size: 18px;
+    color: #fff;
+    padding: 5px 0;
+    font-family: Arial;
+}
+
+::placeholder {
+    color: #eee;
+}
+
+.form .inputBox input[disabled="disabled"] {
+    background: rgb(116, 116, 116);
+    color: #000;
+    border: none;
+    font-weight: 900;
+    max-width: 100px;
+    cursor: pointer;
+}
+
+.form .inputBox input[type="submit"] {
+    background: #fff;
+    color: #000;
+    border: none;
+    font-weight: 900;
+    max-width: 100px;
+    cursor: pointer;
+}

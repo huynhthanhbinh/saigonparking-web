@@ -1,12 +1,10 @@
 
 import React from 'react'
-import Modal from 'react-modal';
+import { Button, Modal } from 'semantic-ui-react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import '../../../css/modal.css'
 
-Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
     
 
@@ -38,7 +36,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
         return (
 
             <Modal
-                isOpen={modalAddIsOpen}
+                open={modalAddIsOpen}
                
                 onRequestClose={closeModalAdd}
 

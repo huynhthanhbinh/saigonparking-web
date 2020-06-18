@@ -70,7 +70,7 @@ function Home() {
             <Router>
                 <Links />
                 <Container>
-                    <Routes></Routes>
+                    <Routes />
                 </Container>
 
             </Router>
@@ -187,32 +187,7 @@ const Links = () => {
     }
     else if (Auth.auth === false) {
         return (
-            <Styles>
-                <Navbar expand="lg">
-                    <Link to="/">
-                        <Navbar.Brand >HOME</Navbar.Brand>
-                    </Link>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Link to="/parkingmap">
-                                <Nav >MAP</Nav>
-                            </Link>
-
-                        </Nav>
-
-                        <div style={{ marginRight: "50px" }} >
-                            <Nav className="mr-auto">
-                                <Link to="/login">
-                                    <Nav >LOGIN</Nav>
-                                </Link>
-
-                            </Nav>
-                        </div>
-
-                    </Navbar.Collapse>
-                </Navbar>
-            </Styles >
+            <></>
         )
 
     }
@@ -424,42 +399,42 @@ const Routes = () => {
     }
     const ProtectedChangePassword = ({ auth, checkUserName, component: Component, ...rest }) => {
         document.title = 'CHANGE YOURPASSWORD'
-    
+
         const token = Cookies.get("token");
         const refreshtoken = Cookies.get("refreshtoken");
         const Username = Cookies.get("checkUserName");
-    
+
         if (token && Username && refreshtoken) {
             return (
                 <Route
-    
+
                     {...rest}
-    
+
                     render={() =>
                         (<Component />)
-    
-    
+
+
                     }
                 />
             )
-    
+
         }
         else {
             return (
                 <Route
-    
+
                     {...rest}
-    
+
                     render={() =>
                         <Redirect to="/login" />
-    
-    
+
+
                     }
                 />
             )
-    
+
         }
-    
+
     }
 
     return (
@@ -480,7 +455,7 @@ const Routes = () => {
 
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
             <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
-            
+
             <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
             <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 

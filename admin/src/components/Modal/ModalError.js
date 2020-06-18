@@ -1,8 +1,7 @@
 
 import React from 'react'
-import Modal from 'react-modal';
 import Landing from '../Landing'
-import '../../css/modal.css';
+import { Button, Modal } from 'semantic-ui-react'
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,8 +13,6 @@ import AuthApi from "../Auth/AuthAPI";
 import sessionstorage from 'sessionstorage' 
 import Cookies from 'js-cookie'
 
-
-Modal.setAppElement(document.getElementById("root"));
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     // const [loi,setloi]=React.useState(null)
     // React.useEffect(()=>{
@@ -33,7 +30,6 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
-       
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
@@ -49,7 +45,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
             return (
 
                 <Modal
-                    isOpen={modalErrorIsOpen}
+                    open={modalErrorIsOpen}
 
                     onRequestClose={() => {
                         closeModalError()
@@ -79,7 +75,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         else if (myError === "SPE#00001") {
 
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={closeModalError}
 
@@ -93,7 +89,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         else if (myError === "SPE#0000DB") {
 
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -117,7 +113,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00000") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -135,7 +131,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00002") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -153,7 +149,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00003") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -171,7 +167,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00004") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -189,7 +185,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00006") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -207,7 +203,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00007") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -225,7 +221,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00008") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()
@@ -243,7 +239,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         }
         else if (myError === "SPE#00014") {
             return (<Modal
-                isOpen={modalErrorIsOpen}
+                open={modalErrorIsOpen}
 
                 onRequestClose={() => {
                         closeModalError()

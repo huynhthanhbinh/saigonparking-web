@@ -1,10 +1,9 @@
 
 import React from 'react'
-import Modal from 'react-modal';
+import { Button, Modal } from 'semantic-ui-react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import '../../../css/modal.css'
 //import 
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import ParkinglotProto from '../../../api/ParkingLot_pb';
@@ -19,7 +18,6 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import ExceptionHandling from '../../../ExceptionHandling'
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
-Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
     //config notification
     const createNotification = (type,errortype) => {
@@ -132,7 +130,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
 
 
             <Modal
-                isOpen={modalAddIsOpen}
+                open={modalAddIsOpen}
 
                 onRequestClose={closeModalAdd}
 

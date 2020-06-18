@@ -2,14 +2,14 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import '../../css/login1.css'
+import { Button } from 'semantic-ui-react'
+import '../../css/Loginform.css'
 
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie';
 import { StatusCode } from 'grpc-web'
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import authProto from '../../api/Auth_pb';
-
 
 
 import Container from "react-bootstrap/Container";
@@ -31,6 +31,7 @@ const Login = () => {
     //config modal Error login
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
+    const [isLoading, setIsLoading] = React.useState(false)
     function openModalError() {
 
         setmodalErrorIsOpen(true);
@@ -60,11 +61,8 @@ const Login = () => {
 
         }),
         onSubmit: values => {
-
+            setIsLoading(true)
             callUserLoginService(values.userName, values.passWord, Auth)
-
-
-
         },
     });
 
@@ -77,19 +75,15 @@ const Login = () => {
         authService.validateUser(request, {}, (err, res) => {
 
             if (err) {
-
                 /** Xy ly error login */
                 setmyError(err.message)
                 openModalError()
+                setIsLoading(false)
 
             } else {
-                // console.log('BBBBBBBBBBBBBBBBBBBBB');
-                // console.log("Bon Map Authenticated");
-
                 Auth.setcheckUserName(username)
                 Auth.setAuth(true)
-
-
+                //set cookies when success
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", username)
@@ -99,61 +93,57 @@ const Login = () => {
     }
 
     return (
-        <div className="page-container">
-            {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <Container>
-                <form onSubmit={formik.handleSubmit}>
+        <section>
+            <div className="Surface"></div>
+            <div className="Car"></div>
+            <div className="MainLogin">
+                <div className="page-container">
+                    {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                    <Container className="containerForm" >
+                        <div className="form" >
+                            <h2>Admin</h2>
+                            <form onSubmit={formik.handleSubmit}>
+                                <div className="inputBox">
+                                    <input
+                                        id="userName"
+                                        name="userName"
+                                        type="text"
+                                        placeholder="User Name"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.userName}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                {formik.touched.userName && formik.errors.userName ? (
+                                    <div style={{ color: "yellow" }} >{formik.errors.userName}</div>
+                                ) : null}
 
+                                <div className="inputBox">
+                                    <input
+                                        placeholder="Password"
+                                        id="passWord"
+                                        name="passWord"
+                                        type="password"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.passWord}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                {formik.touched.passWord && formik.errors.passWord ? (
+                                    <div style={{ color: "yellow" }} >{formik.errors.passWord}</div>
+                                ) : null}
 
-            
-                    <label htmlFor="userName">USERNAME</label>
-
-                    <input
-                        id="userName"
-                        name="userName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.userName}
-                    />
-
-
-                    {formik.touched.userName && formik.errors.userName ? (
-                        <div style={{ margin: 10 ,color:"yellow" }} >{formik.errors.userName}</div>
-                    ) : null}
-
-
-
-
-                    <label htmlFor="passWord">PASSWORD</label>
-
-                    <input
-                        id="passWord"
-                        name="passWord"
-                        type="password"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.passWord}
-                    />
-
-                    {formik.touched.passWord && formik.errors.passWord ? (
-                        <div style={{ margin: 10 ,color:"yellow" }} >{formik.errors.passWord}</div>
-                    ) : null}
-
-
-
-
-                    <div style={{ margin: 10 }}>
-                        <button style={{ margin: 10 }} type="submit" >Submit</button>
-
-                       
-
-                    </div>
-
-                </form>
-            </Container>
-
-        </div>
+                                <div className="inputBox">
+                                    <input type="submit" value="Login"></input>
+                                </div>
+                            </form>
+                        </div>
+                    </Container>
+                </div>
+            </div>
+        </section>
     );
 };
 export default Login;

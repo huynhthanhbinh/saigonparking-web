@@ -1,11 +1,10 @@
 
 import React, { useEffect } from 'react'
-import Modal from 'react-modal';
+import { Button, Modal } from 'semantic-ui-react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 //CSS
-import '../../../css/modal.css';
 import '../../../css/formparkinguser.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
 import { API_URL } from '../../../saigonparking';
@@ -18,7 +17,6 @@ import exceptionHandler from '../../../ExceptionHandling'
 
 const UserService = new UserServiceClient(API_URL)
 
-Modal.setAppElement(document.getElementById("root"));
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     //config Modal Error
 
@@ -213,7 +211,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             return (
 
                 <Modal
-                    isOpen={modalIsOpen}
+                    open={modalIsOpen}
 
                     onRequestClose={() => {
 
@@ -356,7 +354,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             return (
 
                 <Modal
-                    isOpen={modalIsOpen}
+                    open={modalIsOpen}
 
                     onRequestClose={() => {
 
@@ -479,7 +477,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             return (
 
                 <Modal
-                    isOpen={modalIsOpen}
+                    open={modalIsOpen}
 
                     onRequestClose={() => {
 
@@ -593,7 +591,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
             return (
 
                 <Modal
-                    isOpen={modalIsOpen}
+                    open={modalIsOpen}
 
                     onRequestClose={() => {
 
