@@ -193,15 +193,7 @@ const CovidDashboard = (props) => {
         setCurrentPatient(patient);
         setIndexPatientClicked(index);
     }
-    const data = [
-        { name: "user", url: "/private/loans" },
-        { name: "files upload", url: "/private/cards" },
-        { name: "route", url: "/private/deposits" },
-        { name: "timetable", url: "/private/services" },
-        { name: "road book", url: "/private/services" },
-        { name: "social", url: "/private/services" },
-        { name: "settings", url: "/private/services" }
-    ];
+
 
     return ((
         <SetClick.Provider value={{ switchLP, setswitchLP }}>

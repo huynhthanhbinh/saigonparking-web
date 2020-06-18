@@ -102,58 +102,103 @@ export const SideMenu = ({
             }
         }
     });
+    if (abc.switchLP === false) {
+        return (
+            <SidekickWrapper>
+                <SidekickOverlay overlayColor={overlayColor} />
 
-    return (
-        <SidekickWrapper>
-            <SidekickOverlay overlayColor={overlayColor} />
-
-            <StyledSideMenu
-                ref={node}
-                {...handler}
-                width={width}
-                style={{
-                    transform: interpolate(
-                        [x, delta],
-                        (x, delta) => `translateX(${Math.min(0, x + delta)}px)`
-                    )
-                }}
-            >
-                <MenuHandler
-                    onClick={() => {
-                        if (xDelta !== 0) {
-                            // prevent click if dragging
-                            return;
-                        }
-
-                        setActive(!active);
-                    }}
+                <StyledSideMenu
+                    ref={node}
+                    {...handler}
+                    width={width}
                     style={{
-                        color: menuHandlerStyle.color,
-                        transform: menuHandlerStyle.x.interpolate(v => `translateX(${v}%)`)
+                        transform: interpolate(
+                            [x, delta],
+                            (x, delta) => `translateX(${Math.min(0, x + delta)}px)`
+                        )
                     }}
                 >
-                    {active ? <Open /> : <Close />}
-                </MenuHandler>
-                {abc.switchLP === false ? <ListGroup className="list-group" as="ul">
-                    {data && data.map((patient, index) => {
-                        return (
-                            <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
-                                onClickItemPatient(patient, index);
-                            }} active={index === indexClickedMaker ? true : false}><ul>
-                                    <li>ID:  {patient.getId()}</li>
-                                    <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
-                                    <li>TOTALSLOT:  {patient.getTotalslot()}</li>
-                                </ul>
-                            </ListGroup.Item>
+                    <MenuHandler
+                        onClick={() => {
+                            if (xDelta !== 0) {
+                                // prevent click if dragging
+                                return;
+                            }
+
+                            setActive(!active);
+                        }}
+                        style={{
+                            color: menuHandlerStyle.color,
+                            transform: menuHandlerStyle.x.interpolate(v => `translateX(${v}%)`)
+                        }}
+                    >
+                        {active ? <Open /> : <Close />}
+                    </MenuHandler>
+                    {data.length !== 0 ? <ListGroup className="list-group" as="ul">
+                        {data && data.map((patient, index) => {
+                            return (
+                                <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
+                                    onClickItemPatient(patient, index);
+                                    abc.setswitchLP(true)
+                                }} active={index === indexClickedMaker ? true : false}><ul>
+                                        <li>ID:  {patient.getId()}</li>
+                                        <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
+                                        <li>TOTALSLOT:  {patient.getTotalslot()}</li>
+                                    </ul>
+                                </ListGroup.Item>
+                            )
+                        })
+                        }
+                    </ListGroup> : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
+
+                </StyledSideMenu>
+            </SidekickWrapper>
+        );
+    }
+    else {
+        return (
+            <SidekickWrapper>
+                <SidekickOverlay overlayColor={overlayColor} />
+
+                <StyledSideMenu
+                    ref={node}
+                    {...handler}
+                    width={width}
+                    style={{
+                        transform: interpolate(
+                            [x, delta],
+                            (x, delta) => `translateX(${Math.min(0, x + delta)}px)`
                         )
-                    })
+                    }}
+                >
+                    <MenuHandler
+                        onClick={() => {
+                            if (xDelta !== 0) {
+                                // prevent click if dragging
+                                return;
+                            }
+
+                            setActive(!active);
+                        }}
+                        style={{
+                            color: menuHandlerStyle.color,
+                            transform: menuHandlerStyle.x.interpolate(v => `translateX(${v}%)`)
+                        }}
+                    >
+                        {active ? <Open /> : <Close />}
+                    </MenuHandler>
+
+                    {currentPatient &&
+
+                        <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
+
+
                     }
-                </ListGroup> : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
-                {currentPatient &&
-                    <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
-            </StyledSideMenu>
-        </SidekickWrapper>
-    );
+                </StyledSideMenu>
+            </SidekickWrapper>
+        );
+    }
+
 };
 
 const StyledList = styled.div`

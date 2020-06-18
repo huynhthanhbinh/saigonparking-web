@@ -68,7 +68,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
     mapRef.current.setZoom(15);
 
   }, []);
-  // check Switch ListPa and PatientInfo
+  // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
   const abc = React.useContext(SetClick)
 
 
@@ -103,6 +103,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
+                abc.setswitchLP(true)
               }}
               icon={{
                 url: markerbuilding,
@@ -135,6 +136,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
+                abc.setswitchLP(true)
               }}
               icon={{
                 url: markerstreet,

@@ -15,6 +15,10 @@ import StarRatings from "react-star-ratings";
 import exceptionHandler from '../../ExceptionHandling'
 //modal Error
 import ModalError from '../Modal/ModalError'
+//
+//React Context ConTextMap SetClick
+import SetClick from './ConTextMap/SetClick'
+//
 // bắt lỗi error0001 cấp accesctoken mới
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
@@ -26,6 +30,8 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
+  // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
+  const abc = React.useContext(SetClick)
 
   const [parkinglot, setparkinglot] = React.useState(null)
 
@@ -142,6 +148,9 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
         </Card.Text>
       </Card.Body>
+      <button onClick={() => {
+        abc.setswitchLP(false)
+      }}>BACK</button>
     </Card> : null}
   </div>
 };
