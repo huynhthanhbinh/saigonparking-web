@@ -58,10 +58,21 @@
 }
 
 .list-group {
-  max-height: 300px;
-  margin-bottom: 10px;
+  max-height: 85%;
+  margin-bottom: 0px;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+
+  position: absolute;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  align-content: stretch;
+  width: 100%;
+}
+.buttonDrawer{
+  
 }
 .info-card {
   max-height: 300px;

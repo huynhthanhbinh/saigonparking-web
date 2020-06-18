@@ -203,18 +203,18 @@ const CovidDashboard = (props) => {
 
                     {(patients != null) ? <Col xs={9}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
                     </Col> : <Landing />}
-                    <Col xs={3}>
+                    {/* <Col xs={3}>
                         {currentPatient &&
                             <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
-                    </Col>
+                    </Col> */}
                 </Row>
                 <Row>
                     <Col xs={9}>
                         {patients && <SideMenu overlayColor="#transparent" width={400} data={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />}
                     </Col>
-                    <Col xs={9}>
+                    {/* <Col xs={9}>
                         <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
-                    </Col>
+                    </Col> */}
 
                 </Row>
 
