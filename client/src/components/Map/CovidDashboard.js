@@ -22,6 +22,8 @@ import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
 //SLIDE DRAWER
 import SideMenu from './drawer'
+//import ReactContext SetClick
+import SetClick from './ConTextMap/SetClick'
 const authService = new AuthServiceClient(API_URL)
 
 
@@ -29,6 +31,8 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const CovidDashboard = (props) => {
+    //set up state switch page ListPatients and PatientInfo 
+    const [switchLP, setswitchLP] = React.useState(false)
     //config Error modal
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
@@ -199,31 +203,33 @@ const CovidDashboard = (props) => {
         { name: "settings", url: "/private/services" }
     ];
 
-    return ((<Container>
-        {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-        <Row>
+    return ((
+        <SetClick.Provider value={{ switchLP, setswitchLP }}>
+            <Container>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                <Row>
 
-            {(patients != null) ? <Col xs={9}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
-            </Col> : <Landing />}
-            <Col xs={3}>
-                {currentPatient &&
-                    <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
-            </Col>
-        </Row>
-        <Row>
-            <Col xs={9}>
-                {patients && <SideMenu overlayColor="#transparent" data={patients} width={200} />}
-            </Col>
-            <Col xs={9}>
-                <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
-            </Col>
+                    {(patients != null) ? <Col xs={9}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
+                    </Col> : <Landing />}
+                    <Col xs={3}>
+                        {currentPatient &&
+                            <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={9}>
+                        {patients && <SideMenu overlayColor="#transparent" width={400} data={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />}
+                    </Col>
+                    <Col xs={9}>
+                        <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
+                    </Col>
 
-        </Row>
+                </Row>
 
 
 
-    </Container>
-
+            </Container>
+        </SetClick.Provider>
     ))
 };
 

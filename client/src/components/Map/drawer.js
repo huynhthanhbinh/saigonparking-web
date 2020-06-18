@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+
 import styled from "styled-components";
 import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
-
+import { ListGroup } from 'react-bootstrap';
+import PatientInfo from "./PatientInfo";
+//React Context ConTextMap SetClick
+import SetClick from './ConTextMap/SetClick'
 const Close = props => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -43,19 +46,23 @@ const Open = props => (
 export const SideMenu = ({
     overlayColor = "transparent",
     width = 200,
-    data
+    data,
+    onClickItemPatient, refs, indexClickedMaker, currentPatient
 }) => {
     const node = useRef(null);
 
     const handleClick = event => {
-        if (node.current.contains(event.target)) {
-            return;
-        }
-        setActive(false);
+        // xử lý khi bấm ra ngoài thì đóng popup
+        // if (node.current.contains(event.target)) {
+        //     return;
+        // }
+        // setActive(false);
     };
 
     // set the active state (true by default)
     const [active, setActive] = useState(true);
+    // check Switch ListPa and PatientInfo
+    const abc = React.useContext(SetClick)
 
     // use react-with-gestures hook
     const [handler, { xDelta, down }] = useGesture();
@@ -127,11 +134,23 @@ export const SideMenu = ({
                 >
                     {active ? <Open /> : <Close />}
                 </MenuHandler>
-                <StyledList>
-                    {data.map((item, index) => (
-                        <StyledListItem key={index}>{item.getId()}</StyledListItem>
-                    ))}
-                </StyledList>
+                {abc.switchLP === false ? <ListGroup className="list-group" as="ul">
+                    {data && data.map((patient, index) => {
+                        return (
+                            <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
+                                onClickItemPatient(patient, index);
+                            }} active={index === indexClickedMaker ? true : false}><ul>
+                                    <li>ID:  {patient.getId()}</li>
+                                    <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
+                                    <li>TOTALSLOT:  {patient.getTotalslot()}</li>
+                                </ul>
+                            </ListGroup.Item>
+                        )
+                    })
+                    }
+                </ListGroup> : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
+                {currentPatient &&
+                    <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
             </StyledSideMenu>
         </SidekickWrapper>
     );
@@ -163,7 +182,7 @@ const SidekickWrapper = styled.div`
   z-index: ${9999};
  
 `;
-//xử lý đè
+//xử lý đè lên màn hình chính
 const SidekickOverlay = styled.div`
 
   ${'' /* position: absolute;

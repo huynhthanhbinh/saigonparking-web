@@ -3,7 +3,8 @@ import React from "react";
 import markerbuilding from "./icon/markerbuilding.png"
 import markerprivate from "./icon/markerprivate.png"
 import markerstreet from "./icon/markerstreet.png"
-
+//React Context ConTextMap SetClick
+import SetClick from './ConTextMap/SetClick'
 import {
   GoogleMap,
   useLoadScript,
@@ -67,6 +68,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
     mapRef.current.setZoom(15);
 
   }, []);
+  // check Switch ListPa and PatientInfo
+  const abc = React.useContext(SetClick)
 
 
   if (loadError) return "Error";
@@ -116,6 +119,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
+                abc.setswitchLP(true)
               }}
               icon={{
                 url: markerprivate,

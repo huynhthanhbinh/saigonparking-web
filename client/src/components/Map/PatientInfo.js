@@ -111,23 +111,24 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
     callgetParkingLotById(id)
   }, [id, flat])
 
-  return <div class="info-card">
+  return <div className="info-card">
     {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-    {parkinglot ? <Card style={{ width: '18rem' }}>
+    {parkinglot ? <Card style={{ width: '25rem' }}>
       <Card.Header><h2>Thông tin chi tiết bãi xe</h2></Card.Header>
       <Card.Body>
         <Card.Title>ID: {id}</Card.Title>
+        <StarRatings
+          rating={parkinglot.getInformation().getRatingaverage()}
+          starRatedColor="rgb(56,112,112)"
+          starDimension="20px"
+          starSpacing="2px"
+          numberOfStars={5}
+          name="rating"
+        />
         <Card.Text>
           <img style={{ width: '88%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
 
-          <StarRatings
-            rating={parkinglot.getInformation().getRatingaverage()}
-            starRatedColor="rgb(56,112,112)"
-            starDimension="20px"
-            starSpacing="2px"
-            numberOfStars={5}
-            name="rating"
-          />
+
 
           <li>NAME: {parkinglot.getInformation().getName()}</li>
           <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
