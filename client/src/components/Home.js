@@ -71,6 +71,7 @@ function Home() {
                 <Container>
                     <Routes></Routes>
                 </Container>
+                <Footer />
 
             </Router>
         </AuthApi.Provider>
