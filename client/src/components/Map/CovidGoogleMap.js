@@ -103,7 +103,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP(true)
+                abc.setswitchLP({ LiPa: true, BinhLuan: false })
               }}
               icon={{
                 url: markerbuilding,
@@ -120,7 +120,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP(true)
+                abc.setswitchLP({ LiPa: true, BinhLuan: false })
               }}
               icon={{
                 url: markerprivate,
@@ -136,7 +136,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP(true)
+                abc.setswitchLP({ LiPa: true, BinhLuan: false })
               }}
               icon={{
                 url: markerstreet,

@@ -149,7 +149,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
         </Card.Text>
       </Card.Body>
       <button onClick={() => {
-        abc.setswitchLP(false)
+        abc.setswitchLP({ LiPa: false, BinhLuan: false })
       }}>BACK</button>
     </Card> : null}
   </div>

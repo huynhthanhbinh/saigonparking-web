@@ -17,7 +17,7 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker })
                 return (
                     <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
                         onClickItemPatient(patient, index);
-                        abc.setswitchLP(true)
+                        abc.setswitchLP({ LiPa: true, BinhLuan: false })
                     }} active={index === indexClickedMaker ? true : false}><ul>
                             <li>ID:  {patient.getId()}</li>
                             <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>

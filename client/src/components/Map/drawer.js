@@ -5,6 +5,7 @@ import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
 import { ListGroup } from 'react-bootstrap';
 import PatientInfo from "./PatientInfo";
+import ListPatients from "./ListPatients";
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
 const Close = props => (
@@ -102,7 +103,7 @@ export const SideMenu = ({
             }
         }
     });
-    if (abc.switchLP === false) {
+    if (abc.switchLP.LiPa === false && abc.switchLP.BinhLuan === false) {
         return (
             <SidekickWrapper>
                 <SidekickOverlay overlayColor={overlayColor} />
@@ -134,28 +135,14 @@ export const SideMenu = ({
                     >
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
-                    {data.length !== 0 ? <ListGroup className="list-group" as="ul">
-                        {data && data.map((patient, index) => {
-                            return (
-                                <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
-                                    onClickItemPatient(patient, index);
-                                    abc.setswitchLP(true)
-                                }} active={index === indexClickedMaker ? true : false}><ul>
-                                        <li>ID:  {patient.getId()}</li>
-                                        <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
-                                        <li>TOTALSLOT:  {patient.getTotalslot()}</li>
-                                    </ul>
-                                </ListGroup.Item>
-                            )
-                        })
-                        }
-                    </ListGroup> : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
+                    {data.length !== 0 ? <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
+                        : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
 
                 </StyledSideMenu>
             </SidekickWrapper>
         );
     }
-    else {
+    else if (abc.switchLP.LiPa === true && abc.switchLP.BinhLuan === false) {
         return (
             <SidekickWrapper>
                 <SidekickOverlay overlayColor={overlayColor} />

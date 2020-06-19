@@ -32,7 +32,7 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 const CovidDashboard = (props) => {
     //set up state switch page ListPatients and PatientInfo 
-    const [switchLP, setswitchLP] = React.useState(false)
+    const [switchLP, setswitchLP] = React.useState({ LiPa: false, BinhLuan: false })
     //config Error modal
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
