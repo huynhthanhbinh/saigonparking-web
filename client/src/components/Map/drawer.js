@@ -4,8 +4,10 @@ import styled from "styled-components";
 import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
 import { ListGroup } from 'react-bootstrap';
+//IMPORT COMPONENT
 import PatientInfo from "./PatientInfo";
 import ListPatients from "./ListPatients";
+import CommentRating from "./CommentRating"
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
 const Close = props => (
@@ -176,9 +178,55 @@ export const SideMenu = ({
                     </MenuHandler>
 
                     {currentPatient &&
+                        <div>
+                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM TẤT CẢ BÌNH LUẬN</button>
+                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>THÔNG TIN BÃI XE</button>
+                            <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
+                        </div>
 
-                        <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
+                    }
+                </StyledSideMenu>
+            </SidekickWrapper>
+        );
+    }
+    else if (abc.switchLP.LiPa === true && abc.switchLP.BinhLuan === true) {
+        return (
+            <SidekickWrapper>
+                <SidekickOverlay overlayColor={overlayColor} />
 
+                <StyledSideMenu
+                    ref={node}
+                    {...handler}
+                    width={width}
+                    style={{
+                        transform: interpolate(
+                            [x, delta],
+                            (x, delta) => `translateX(${Math.min(0, x + delta)}px)`
+                        )
+                    }}
+                >
+                    <MenuHandler
+                        onClick={() => {
+                            if (xDelta !== 0) {
+                                // prevent click if dragging
+                                return;
+                            }
+
+                            setActive(!active);
+                        }}
+                        style={{
+                            color: menuHandlerStyle.color,
+                            transform: menuHandlerStyle.x.interpolate(v => `translateX(${v}%)`)
+                        }}
+                    >
+                        {active ? <Open /> : <Close />}
+                    </MenuHandler>
+                    {currentPatient &&
+                        <div>
+                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM TẤT CẢ BÌNH LUẬN</button>
+                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>THÔNG TIN BÃI XE</button>
+                            <CommentRating id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
+                        </div>
 
                     }
                 </StyledSideMenu>
