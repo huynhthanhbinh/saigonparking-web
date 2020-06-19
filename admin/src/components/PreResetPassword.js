@@ -22,7 +22,6 @@ const PreResetPassword = () => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
-  
 
     const callgenerateNewToken = () => {
         const token = 'Bearer ' + tmptoken;
@@ -33,32 +32,23 @@ const PreResetPassword = () => {
                 alert("Link khong con kha dung")
                 setstatus(false)
             } else {
-
                 setstatusmail(false)
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", res.getUsername())
             }
-
         })
     }
 
-
     React.useEffect(() => {
-     
         if(tmptoken === null ){
             setstatus(false)
         }
         else{
             callgenerateNewToken(Auth);
         }
-           
-
-    }, [])
-
-
+    }, [tmptoken, callgenerateNewToken, Auth])
     return (
-
         <>
             {
                 (status === true) ?
@@ -66,13 +56,10 @@ const PreResetPassword = () => {
                         (statusmail === true) ? 
                         <Container ></Container>
                         : (<Resetpassword />)
-
                     )
                     :
                     (<h1>CÓ LỖI XẢY RA , CẦN GỬI LẠI MAIL MỚI </h1>)
             }
-
-
         </>
     );
 };

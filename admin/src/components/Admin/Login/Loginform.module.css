@@ -1,0 +1,379 @@
+:local(.section) {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background: url("../images/car1.jpg");
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+}
+
+.Surface {
+    height: 140px;
+    width: 500%;
+    background: url("../images/car2.png");
+    display: block;
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    background-repeat: repeat-x;
+    animation: moveRight 6s linear infinite;
+}
+
+.Car {
+    height: 70px;
+    width: 270px;
+    background: url("../images/car4.png");
+    position: absolute;
+    bottom: 5%;
+    left: 24%;
+    animation: suppension 0.3s linear infinite;
+}
+
+@keyframes moveRight {
+    100% {
+        transform: translateX(-2950px);
+    }
+}
+
+@keyframes suppension {
+    100% {
+        transform: translateY(-1px);
+    }
+    50% {
+        transform: translateY(2px);
+    }
+    0% {
+        transform: translateY(-1px);
+    }
+}
+
+@keyframes change2 {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.MainLogin {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial;
+    -webkit-animation: fadein 2s;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s;
+    /* Firefox < 16 */
+    -ms-animation: fadein 2s;
+    /* Internet Explorer */
+    -o-animation: fadein 2s;
+    /* Opera < 12.1 */
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Firefox < 16 */
+
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Safari, Chrome and Opera > 12.1 */
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Internet Explorer */
+
+@-ms-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Opera < 12.1 */
+
+@-o-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.containerForm {
+    position: relative;
+    width: 450px;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
+}
+
+.containerForm .spanH {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.containerForm .spanH::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #fff;
+    filter: blur(3px);
+    transform: scaleX(0);
+    animation: loader 2s linear infinite
+}
+
+.containerForm .spanVL {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.containerForm .spanVL::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: #fff;
+    filter: blur(3px);
+    transform: scaleY(0);
+    animation: loader2 2s linear infinite
+}
+
+.containerForm .spanVL::before {
+    animation-delay: 1.5s;
+}
+
+.containerForm .spanVR {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.containerForm .spanVR::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background: #fff;
+    filter: blur(3px);
+    transform: scaleY(0);
+    animation: loader3 2s linear infinite
+}
+
+.containerForm .spanVR::before {
+    animation-delay: 0.5s;
+}
+
+.containerForm .spanH:nth-child(1) {
+    transform: rotate(0deg);
+}
+
+.containerForm .spanH:nth-child(2) {
+    transform: rotate(180deg);
+}
+
+.containerForm .spanH:nth-child(1)::before {
+    animation-delay: 0s;
+}
+
+.containerForm .spanH:nth-child(2)::before {
+    animation-delay: 1s;
+}
+
+@keyframes loader {
+    0% {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+    25% {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    25.00001% {
+        transform-origin: right;
+    }
+    50%,
+    100% {
+        transform: scaleX(0);
+        transform-origin: right;
+    }
+}
+
+@keyframes loader2 {
+    0% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+    25% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+    25.00001% {
+        transform-origin: top;
+    }
+    50%,
+    100% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+}
+
+@keyframes loader3 {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+    25% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+    25.00001% {
+        transform-origin: bottom;
+    }
+    50%,
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+.containerForm::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.containerForm::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #ff0047, #6eff00);
+    pointer-events: none;
+    animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        filter: blur(60px) hue-rotate(0deg);
+    }
+    100% {
+        filter: blur(60px) hue-rotate(360deg);
+    }
+}
+
+.form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.form h2 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-size: 35px;
+}
+
+.form input {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form .inputBox input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    font-size: 18px;
+    color: #fff;
+    padding: 5px 0;
+    font-family: Arial;
+}
+
+::placeholder {
+    color: #eee;
+}
+
+.form .inputBox input[type=""] {
+    background: rgb(107, 107, 107);
+    color: rgb(0, 0, 0);
+    border: none;
+    font-weight: 900;
+    max-width: 100px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.form .inputBox input[type="submit"] {
+    background: #fff;
+    color: #000;
+    border: none;
+    font-weight: 900;
+    max-width: 100px;
+    cursor: pointer;
+}

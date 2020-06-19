@@ -20,9 +20,9 @@ const PreActivateAccount = () => {
     const Auth = React.useContext(AuthApi)
     const [status, setstatus] = React.useState(true)
     const [statusmail, setstatusmail] = React.useState(true)
-    var url_string = window.location.href
-    var url = new URL(url_string);
-    var tmptoken = url.searchParams.get("token");
+    let url_string = window.location.href
+    let url = new URL(url_string);
+    let tmptoken = url.searchParams.get("token");
 
 
     const callactivateNewAccount = () => {
@@ -49,16 +49,13 @@ const PreActivateAccount = () => {
 
 
     React.useEffect(() => {
-
         if (tmptoken === null) {
             setstatus(false)
         }
         else {
             callactivateNewAccount(Auth);
         }
-
-
-    }, [])
+    }, [Auth, callactivateNewAccount, tmptoken])
 
 
     return (

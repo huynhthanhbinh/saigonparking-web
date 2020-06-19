@@ -78,8 +78,6 @@ const Admingetallparkinglot = () => {
 
     useEffect(() => {
 
-
-
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
 

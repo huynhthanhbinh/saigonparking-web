@@ -1,37 +1,28 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { Button } from 'semantic-ui-react'
-import '../../css/Loginform.css'
-
-import AuthApi from "../Auth/AuthAPI";
+import styles from './Loginform.module.css'
+import AuthApi from "../../Auth/AuthAPI";
 import Cookies from 'js-cookie';
-import { StatusCode } from 'grpc-web'
-import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
-import authProto from '../../api/Auth_pb';
-
-
+import { AuthServiceClient } from '../../../api/Auth_grpc_web_pb';
+import authProto from '../../../api/Auth_pb';
 import Container from "react-bootstrap/Container";
-
-import {
-    Link
-} from "react-router-dom";
-import { API_URL } from '../../saigonparking';
+import { API_URL } from '../../../saigonparking';
 //import modal login
-import ModalErrorLogin from '../Modal/ModalErrorLogin'
+import ModalErrorLogin from '../../Modal/ModalErrorLogin'
 
-const userProto = require('../../api/Actor_pb')
+const userProto = require('../../../api/Actor_pb')
 
 const authService = new AuthServiceClient(API_URL)
-
-
 
 const Login = () => {
     //config modal Error login
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     const [isLoading, setIsLoading] = React.useState(false)
+    const Auth = React.useContext(AuthApi)
+    const [typeButton, setTypeButton] = React.useState("submit")
+
     function openModalError() {
 
         setmodalErrorIsOpen(true);
@@ -40,10 +31,6 @@ const Login = () => {
     function closeModalError() {
         setmodalErrorIsOpen(false);
     }
-    //
-
-
-    const Auth = React.useContext(AuthApi)
 
     const formik = useFormik({
         initialValues: {
@@ -61,6 +48,7 @@ const Login = () => {
 
         }),
         onSubmit: values => {
+            setTypeButton("")
             setIsLoading(true)
             callUserLoginService(values.userName, values.passWord, Auth)
         },
@@ -79,6 +67,7 @@ const Login = () => {
                 setmyError(err.message)
                 openModalError()
                 setIsLoading(false)
+                setTypeButton("submit")
 
             } else {
                 Auth.setcheckUserName(username)
@@ -93,17 +82,24 @@ const Login = () => {
     }
 
     return (
-        <section>
-            <div className="Surface"></div>
-            <div className="Car"></div>
-            <div className="MainLogin">
-                <div className="page-container">
+        <section className={styles.section}>
+            <div className={styles.Surface}></div>
+            <div className={styles.Car}></div>
+            <div className={styles.MainLogin}>
+                <div className={styles.pagecontainer}>
                     {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                    <Container className="containerForm" >
-                        <div className="form" >
+                    <Container className={styles.containerForm} >
+                        {isLoading ? <>
+                            <span className={styles.spanH}></span>
+                            <span className={styles.spanH}></span>
+                            <span className={styles.spanVL}></span>
+                            <span className={styles.spanVR}></span>
+                        </> : <></>
+                        }
+                        <div className={styles.form} >
                             <h2>Admin</h2>
                             <form onSubmit={formik.handleSubmit}>
-                                <div className="inputBox">
+                                <div className={styles.inputBox}>
                                     <input
                                         id="userName"
                                         name="userName"
@@ -119,7 +115,7 @@ const Login = () => {
                                     <div style={{ color: "yellow" }} >{formik.errors.userName}</div>
                                 ) : null}
 
-                                <div className="inputBox">
+                                <div className={styles.inputBox}>
                                     <input
                                         placeholder="Password"
                                         id="passWord"
@@ -135,8 +131,8 @@ const Login = () => {
                                     <div style={{ color: "yellow" }} >{formik.errors.passWord}</div>
                                 ) : null}
 
-                                <div className="inputBox">
-                                    <input type="submit" value="Login"></input>
+                                <div className={styles.inputBox}>
+                                    <input type={typeButton} disabled={isLoading} value="Login"></input>
                                 </div>
                             </form>
                         </div>

@@ -1,22 +1,13 @@
 import React from 'react'
-
 import Cookies from 'js-cookie'
-
 import { UserServiceClient } from '../../api/Actor_grpc_web_pb';
-import UserProto from '../../api/Actor_pb';
-
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
 import {
-
-    Link,
     Redirect
 } from "react-router-dom";
 import  { API_URL } from '../../saigonparking';
 import AuthApi from "../Auth/AuthAPI";
 //modal Error
 import ModalError from '../Modal/ModalError'
-import exceptionHandler from '../../ExceptionHandling'
 const userService = new UserServiceClient(API_URL)
 
 
@@ -42,15 +33,10 @@ const ActivateAccount = () => {
     const [nextpage, setnextpage] = React.useState(false)
 
     const Auth = React.useContext(AuthApi)
- 
-
-
     if(nextpage===true)
     {
         return ( <Redirect to="/profile" />)
     }
-
-
     return (
         <>
             
