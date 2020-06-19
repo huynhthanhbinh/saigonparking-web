@@ -40,7 +40,7 @@ const center = {
   lat: 10.762887,
   lng: 106.6800684,
 };
-
+var myVar;
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
@@ -48,11 +48,23 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
   });
   // const [markers, setMarkers] = React.useState([]);
 
+  /**
+   * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
+   */
+  const onMouseUp = React.useCallback((e) => {
+    myVar = setTimeout(function () {
+      console.log(e.latLng.lat())
+      fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() })
+    }, 2000);
 
-  const onMapClick = React.useCallback((e) => {
+  }, []);
+  /**
+   * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
+   */
+  const onMouseDown = React.useCallback((e) => {
+    console.log("Click vao map")
+    clearTimeout(myVar);
 
-
-    fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() })
   }, []);
 
   const mapRef = React.useRef();
@@ -93,7 +105,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
         zoom={15}
         center={center}
         options={options}
-        onClick={onMapClick}
+        onMouseUp={onMouseUp}
+        onMouseDown={onMouseDown}
         onLoad={onMapLoad}
       >
         {patients && patients.map((patient, index) => {
