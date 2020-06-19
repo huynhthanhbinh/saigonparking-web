@@ -22,6 +22,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = React.useState(false)
     const Auth = React.useContext(AuthApi)
     const [typeButton, setTypeButton] = React.useState("submit")
+    const [enter, setEnter] = React.useState(false)
 
     function openModalError() {
 
@@ -81,65 +82,95 @@ const Login = () => {
         })
     }
 
+    const handleEnter = () => {
+        setEnter(true)
+    }
+
     return (
-        <section className={styles.section}>
-            <div className={styles.Surface}></div>
-            <div className={styles.Car}></div>
-            <div className={styles.MainLogin}>
-                <div className={styles.pagecontainer}>
-                    {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                    <Container className={styles.containerForm} >
-                        {isLoading ? <>
-                            <span className={styles.spanH}></span>
-                            <span className={styles.spanH}></span>
-                            <span className={styles.spanVL}></span>
-                            <span className={styles.spanVR}></span>
-                        </> : <></>
-                        }
-                        <div className={styles.form} >
-                            <h2>Admin</h2>
-                            <form onSubmit={formik.handleSubmit}>
-                                <div className={styles.inputBox}>
-                                    <input
-                                        id="userName"
-                                        name="userName"
-                                        type="text"
-                                        placeholder="User Name"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.userName}
-                                        autoComplete="off"
-                                    />
-                                </div>
-                                {formik.touched.userName && formik.errors.userName ? (
-                                    <div style={{ color: "yellow" }} >{formik.errors.userName}</div>
-                                ) : null}
+        <>
+            <section className={styles.section}>
+                <div className={styles.Surface}></div>
+                <div className={styles.Car}></div>
 
-                                <div className={styles.inputBox}>
-                                    <input
-                                        placeholder="Password"
-                                        id="passWord"
-                                        name="passWord"
-                                        type="password"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.passWord}
-                                        autoComplete="off"
-                                    />
-                                </div>
-                                {formik.touched.passWord && formik.errors.passWord ? (
-                                    <div style={{ color: "yellow" }} >{formik.errors.passWord}</div>
-                                ) : null}
+                {enter ? <div className={styles.MainLogin}>
+                    <div className={styles.pagecontainer}>
+                        {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                        <Container className={styles.containerForm} >
+                            {isLoading ? <>
+                                <span className={styles.spanH}></span>
+                                <span className={styles.spanH}></span>
+                                <span className={styles.spanVL}></span>
+                                <span className={styles.spanVR}></span>
+                            </> : <></>
+                            }
+                            <div className={styles.form} >
+                                <h2>Admin</h2>
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className={styles.inputBox}>
+                                        <input
+                                            id="userName"
+                                            name="userName"
+                                            type="text"
+                                            placeholder="User Name"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.userName}
+                                            autoComplete="off"
+                                        />
+                                    </div>
+                                    {formik.touched.userName && formik.errors.userName ? (
+                                        <div style={{ color: "yellow" }} >{formik.errors.userName}</div>
+                                    ) : null}
 
-                                <div className={styles.inputBox}>
-                                    <input type={typeButton} disabled={isLoading} value="Login"></input>
-                                </div>
-                            </form>
-                        </div>
-                    </Container>
+                                    <div className={styles.inputBox}>
+                                        <input
+                                            placeholder="Password"
+                                            id="passWord"
+                                            name="passWord"
+                                            type="password"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.passWord}
+                                            autoComplete="off"
+                                        />
+                                    </div>
+                                    {formik.touched.passWord && formik.errors.passWord ? (
+                                        <div style={{ color: "yellow" }} >{formik.errors.passWord}</div>
+                                    ) : null}
+
+                                    <div className={styles.inputBox}>
+                                        <input type={typeButton} disabled={isLoading} value="Login"></input>
+                                    </div>
+                                </form>
+                            </div>
+                        </Container>
+                    </div>
+                </div> : <></>}
+                
+                {enter ? <></> : 
+                    <div className={styles.welcomsection}>
+                    <div className={styles.contenwrap}>
+                        <ul className={styles.flytext}>
+                            <li>S</li>
+                            <li>A</li>
+                            <li>I</li>
+                            <li>G</li>
+                            <li>O</li>
+                            <li>N</li>
+                            <li>P</li>
+                            <li>A</li>
+                            <li>R</li>
+                            <li>K</li>
+                            <li>I</li>
+                            <li>N</li>
+                            <li>G</li>
+                        </ul>
+                        <a href='# ' onClick={handleEnter} className={styles.enterbutton}>ENTER</a>
+                    </div>
                 </div>
-            </div>
-        </section>
+                }
+            </section>
+        </>
     );
 };
 export default Login;
