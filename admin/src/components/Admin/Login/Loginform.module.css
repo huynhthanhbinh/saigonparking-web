@@ -78,7 +78,7 @@
     /* Internet Explorer */
     -o-animation: fadein 2s;
     /* Opera < 12.1 */
-    animation: fadein 2s;
+    animation: fadein 1s;
 }
 
 @keyframes fadein {
@@ -142,7 +142,7 @@
     position: relative;
     width: 450px;
     min-height: 300px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(241, 241, 241);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
 }
 
@@ -326,7 +326,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    padding: 40px;
+    padding: 30px;
     box-sizing: border-box;
     z-index: 1;
 }

@@ -115,7 +115,7 @@ const Links = () => {
     }
 
     a, .navbar-brand, .navbar-nav .nav-link {
-        color: white;
+        color: black;
         &:hover {
         color: black;
     }
@@ -165,10 +165,6 @@ const Routes = () => {
     //Page Error 404
     const ProtectedError404 = ({component: Component}) => {
         document.title = 'ERROR404'
-        window.onload = function () {
-            document.querySelector('.cont_principal')
-                .className = "cont_principal cont_error_active";
-        }
         return (<Component />)
     }
 
@@ -359,7 +355,7 @@ const Routes = () => {
 
             <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
 
-            <ProtectedError404 exact path="/404"component={Page404} />
+            <ProtectedError404 exact path="/404" component={Page404} />
 
             <Redirect from="*" to="/404" />
         </Switch>

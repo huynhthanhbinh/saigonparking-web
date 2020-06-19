@@ -1,14 +1,7 @@
 
 import React from 'react'
 import Landing from '../Landing'
-import { Button, Modal } from 'semantic-ui-react'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+import { Modal } from 'semantic-ui-react'
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage' 
