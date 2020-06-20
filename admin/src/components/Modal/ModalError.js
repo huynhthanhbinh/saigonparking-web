@@ -8,6 +8,8 @@ import {
 import AuthApi from "../Auth/AuthAPI";
 import sessionstorage from 'sessionstorage'
 import Cookies from 'js-cookie'
+import styles from './Modal.module.css'
+import {ReactComponent as IconError} from '../Admin/svg/error.svg';
 
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
@@ -40,7 +42,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
             case "SPE#00002":
                 return 'ĐỪNG SỬA TOKEN NỮA NHA';
             case "SPE#00003":
-                return 'TOKEN SAI FORMAT';
+                return 'TOKEN SAI';
             case "SPE#00004":
                 return 'KHÔNG THỂ GIẢI MÃ TOKEN';
             case "SPE#00006":
@@ -55,6 +57,8 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 return 'KHÔNG CÓ TOKEN';
             case "SPE#0000DB":
                 return 'REFRESHTOKEN HẾT HẠN';
+            default:
+                return myError;
         }
     }
 
@@ -65,14 +69,19 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                     style={{ height: 'auto', position: 'relative' }}
                     open={true}
                     onClose={() => {
-                        closeModalError()
                         ClickLogOut()
+                        closeModalError()
                     }}
                     size={'small'}
                 >
                     <Modal.Header>Error</Modal.Header>
                     <Modal.Content>
-                        <h1>{CodeError(myError)}</h1>
+                        <div className={styles.container}>
+                            <div className={`${styles.icon} ${styles.error}`}>
+                                <IconError />
+                            </div>
+                        </div>
+                        <h1 className={styles.h1Modal}>{CodeError(myError)}</h1>
                     </Modal.Content>
                     <Modal.Actions>
                         {(myError === "SPE#00005" || myError === "SPE#0000DB") ? <ButtonReLogin /> : <></>}

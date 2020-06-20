@@ -1,12 +1,12 @@
 
 import React from 'react'
-import { Button, Modal } from 'semantic-ui-react'
-import { Row, Col, Container } from 'react-bootstrap'
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
+import { Modal } from 'semantic-ui-react'
+// import { Row, Col, Container } from 'react-bootstrap'
+// import { Formik, Form, useField } from 'formik';
+// import * as Yup from 'yup';
 //import 
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
-import ParkinglotProto from '../../../api/ParkingLot_pb';
+// import ParkinglotProto from '../../../api/ParkingLot_pb';
 import { API_URL } from '../../../saigonparking';
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
 import Cookies from 'js-cookie';
@@ -45,8 +45,6 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
                                 alert('callback');
                             });
                         }
-                        
-                       
                     }
                     else if(errortype==='SPE#00002' )
                     {
@@ -96,51 +94,36 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
                             alert('callback');
                         });
                     }
-
-                   
                     break;
+                default:
+                    return
             }
-      
     };
     
     const calldeleteParkingLotById = () => {
         const request = new Int64Value();
         const token = 'Bearer ' + Cookies.get("token");
-
         const metadata = { 'Authorization': token }
         request.setValue(parkinglot.getId())
         ParkinglotwebService.deleteParkingLotById(request, metadata, (err, res) => {
-
             if (err) {
-                
                 createNotification('error',err.message)
-
             } else {
-
                 createNotification('success','')
-
-
             }
         })
     }
 
-
     return (
         <div>
-
-
             <Modal
                 open={modalAddIsOpen}
-
                 onRequestClose={closeModalAdd}
-
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
                 <h2>BẠN CÓ CHẮC MUỐN XÓA BÃI XE {parkinglot.getId()}</h2>
-
-
                 <button onClick={()=>{
                     calldeleteParkingLotById()
                 }}>YES</button>
@@ -149,12 +132,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd, parkinglot }) => {
             <NotificationContainer />
         </div>
     )
-
-
-
-
-
-
 }
+
 export default AddModal;
 

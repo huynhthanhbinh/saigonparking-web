@@ -1,10 +1,9 @@
 
 import React, { useEffect } from 'react'
 import Card from "react-bootstrap/Card";
-import { Button, Modal } from 'semantic-ui-react'
-import { Row, Col, Container } from 'react-bootstrap'
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
+import { Modal } from 'semantic-ui-react'
+// import { Row, Col, Container } from 'react-bootstrap'
+// import { useField } from 'formik';
 //
 import '../../../css/formparkinguser.css'
 
@@ -42,29 +41,26 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     }
 
     //
-    const MyTextInput = ({ label, ...props }) => {
-        // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-        // which we can spread on <input> and also replace ErrorMessage entirely.
-        const [field, meta] = useField(props);
-        return (
-            <>
-                <Container>
-                    <Row style={{ margin: 5 }}>
-                        <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
-                        <Col xs={4}> <input className="inputparkinglotuser" {...field} {...props} /></Col>
+    // const MyTextInput = ({ label, ...props }) => {
+    //     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+    //     // which we can spread on <input> and also replace ErrorMessage entirely.
+    //     const [field, meta] = useField(props);
+    //     return (
+    //         <>
+    //             <Container>
+    //                 <Row style={{ margin: 5 }}>
+    //                     <Col xs={4}> <label htmlFor={props.id || props.name}>{label}</label></Col>
+    //                     <Col xs={4}> <input className="inputparkinglotuser" {...field} {...props} /></Col>
 
-                    </Row>
-                    <Row>  {meta.touched && meta.error ? (
-                        <div className="error">{meta.error}</div>
-                    ) : null}
-                    </Row>
-                </Container>
-
-
-
-            </>
-        );
-    };
+    //                 </Row>
+    //                 <Row>  {meta.touched && meta.error ? (
+    //                     <div className="error">{meta.error}</div>
+    //                 ) : null}
+    //                 </Row>
+    //             </Container>
+    //         </>
+    //     );
+    // };
 
     const [IsParking, setIsParking] = React.useState(null)
 
@@ -87,7 +83,6 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
 
             ParkinglotwebService.getParkingLotById(request, metadata, (err, res) => {
                 if (err) {
-
                     // console.log(err.message)
                     if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                         setmyError('SPE#0000DB')
@@ -95,31 +90,16 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     else {
                         setmyError(err.message)
                     }
-
-
                     openModalError()
-
                 } else {
-
                     setIsParking(res)
                 }
             })
-
-
-
-
         }
-
         return () => {
-
-
             setIsParking(null)
-
-
-
         }
     }, [modalIsOpen, parkinglot, modalErrorIsOpen])
-
 
     if (modalErrorIsOpen === true) {
         return (
@@ -128,30 +108,22 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     }
     if (parkinglot != null) {
 
-
         return (
-
             <Modal
                 open={modalIsOpen}
-
                 onRequestClose={() => {
-
                     closeModal()
-
                 }}
-
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
 
                 {IsParking ? <Card >
-
                     <Card.Body>
                         <Card.Title>ID: {IsParking.getId()}</Card.Title>
                         <Card.Text>
-                            <img style={{ width: '88%' }} src={(IsParking.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${IsParking.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
-
+                            <img style={{ width: '88%' }} src={(IsParking.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${IsParking.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} alt=''/>
                             <StarRatings
                                 rating={IsParking.getInformation().getRatingaverage()}
                                 starRatedColor="rgb(56,112,112)"
@@ -160,7 +132,6 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                                 numberOfStars={5}
                                 name="rating"
                             />
-
                             <li>NAME: {IsParking.getInformation().getName()}</li>
                             <li>ADDRESS: {IsParking.getInformation().getAddress()}</li>
                             <li>PHONE: {IsParking.getInformation().getPhone()}</li>
@@ -169,12 +140,9 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                             <li>CLOSE: {IsParking.getClosinghour()}</li>
                             <li>AVAILABLESLOT: {IsParking.getAvailableslot()}</li>
                             <li>TOTALSLOT: {IsParking.getTotalslot()}</li>
-
-
                         </Card.Text>
                     </Card.Body>
                 </Card> : null}
-
 
                 <button className="buttonparkinglotuser" onClick={closeModal}>close</button>
             </Modal>

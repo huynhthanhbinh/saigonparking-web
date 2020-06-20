@@ -18,8 +18,6 @@ import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
 import Pagination from "react-js-pagination";
 import userMapper from '../../../mapper/UserMapper';
-//modal
-import Modal from 'react-modal';
 
 const UserService = new UserServiceClient(API_URL)
 
@@ -49,10 +47,9 @@ const Admingetalluser = () => {
     //config Add modal
 
     const [modalAddIsOpen, setIsAddOpen] = React.useState(false);
-    function openModalAdd() {
-
-        setIsAddOpen(true);
-    }
+    // function openModalAdd() {
+    //     setIsAddOpen(true);
+    // }
 
     function closeModalAdd() {
         setIsAddOpen(false);
@@ -69,7 +66,6 @@ const Admingetalluser = () => {
         setmodalErrorIsOpen(false);
     }
     //value
-
     //ACTIVE INACTIVE
     const [isActive, setisActive] = React.useState(false)
 
@@ -80,50 +76,35 @@ const Admingetalluser = () => {
         const metadata = { 'Authorization': token }
 
         UserService.activateUser(request, metadata, (err, res) => {
-
             if (err) {
                 // console.log(err)
-
             } else {
                 setisActive(!isActive)
-
-
-
             }
         })
     }
+
     const calldeactivateUser = async (id) => {
         const request = new Int64Value();
         const token = 'Bearer ' + Cookies.get("token");
         request.setValue(id)
         const metadata = { 'Authorization': token }
-
         UserService.deactivateUser(request, metadata, (err, res) => {
-
             if (err) {
                 // console.log(err)
-
             } else {
-
                 setisActive(!isActive)
-
-
             }
         })
     }
-
-
-
 
     useEffect(() => {
         //countAll
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
-
         const metadata = { 'Authorization': token }
 
         UserService.countAll(request, metadata, (err, res) => {
-
             if (err) {
                 if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
                 {
@@ -133,27 +114,18 @@ const Admingetalluser = () => {
                 {
                     setmyError(err.message)
                 }
-                
-
                 openModalError()
-
             } else {
-
                 settotalUser(res.getValue())
                 // setNPage(Math.ceil(res.getValue() / 10))
-
-
             }
         })
-
     }, [pagenumber,modalErrorIsOpen])
 
     useEffect(() => {
-
         //getAllUser
         const request = new ActorProto.GetAllUserRequest();
         const token = 'Bearer ' + Cookies.get("token");
-
         const metadata = { 'Authorization': token }
         request.setNrow(10);
         request.setPagenumber(pagenumber);
@@ -168,29 +140,19 @@ const Admingetalluser = () => {
                 {
                     setmyError(err.message)
                 }
-                
-
                 openModalError()
-                
             } else {
-                
                 setuser(res.getUserList())
-
             }
         })
-
     }, [pagenumber, isActive,modalErrorIsOpen])
-
 
     const handlechange = (e) => {
         setpagenumber(e)
-
     }
-
 
     return (
         <div className="card">
-
             {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
             <table className="table table-hover" style={{ marginTop: "50px" }}>
                 <thead>
@@ -199,26 +161,18 @@ const Admingetalluser = () => {
                         <th scope="col">ROLE</th>
                         <th scope="col">USERNAME</th>
                         <th scope="col">EMAIL </th>
-                      
                         <th scope="col">LASTSIGNIN</th>
-
-
                     </tr>
                 </thead>
                 <tbody>
-
                     {
                         users && users.map((user, index) =>
                             <tr key={index}>
-
-
                                 <th scope="row" id="IDBIXOA">{user.getId()}</th>
                                 <td>{userMapper.toRoleString(user.getRole())}</td>
                                 <td>{user.getUsername()}</td>
                                 <td>{user.getEmail()}</td>
-                             
                                 <td>{user.getLastsignin()}</td>
-
                                 <td>
                                     <button className="buttonparkinglotuser" onClick={() => {
                                         if (user.getIsactivated() === true) {

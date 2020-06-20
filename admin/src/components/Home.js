@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import ControlledCarousel from './Home/Slider'
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { Nav, Navbar } from "react-bootstrap";
@@ -21,12 +20,10 @@ import ClickActivateAccount from './ActivateAccount/ClickActivateAccount'
 import PreActivateAccount from './ActivateAccount/PreActivateAccount'
 //
 import Information from "./Information"
-
 import Forgetpassword from './Forgetpassword'
 import PreResetPassword from './PreResetPassword'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import Update from './Update'
 import {
     BrowserRouter as Router,
     Switch,
@@ -34,7 +31,6 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import auth from '../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
 
 
@@ -69,45 +65,7 @@ function Home() {
 
     );
 }
-const Footer = () => {
-    var style = {
-        backgroundColor: "gray",
-        borderTop: "1px solid #E7E7E7",
-        textAlign: "center",
-        padding: "20px",
-        position: "fixed",
-        left: "0",
-        bottom: "0",
-        height: "70px",
-        width: "100%",
-    }
 
-    var phantom = {
-        display: 'block',
-        padding: '20px',
-        height: '60px',
-        width: '100%',
-    }
-    return (
-        <div>
-            <div style={style}>
-                <div className="container-fluid text-center text-md-left">
-                    <div className="row">
-                        <div className="col-md-6 mt-md-0 mt-3">
-                            <h5 className="text-uppercase font-weight-bold">LUÔN LUÔN LẮNG NGHE LÂU LÂU MỚI HIỂU</h5>
-                        </div>
-                        <div className="footer-copyright text-center py-3">© 2020 Copyright:
-                            <a href="https://www.facebook.com/profile.php?id=100009196064931"> ParkingMapSaiGon</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    )
-
-}
 const Links = () => {
     const Styles = styled.div`
     .navbar {
@@ -244,17 +202,17 @@ const Routes = () => {
         }
     }
 
-    const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest }) => {
-        document.title = 'UPDATE'
-        return (
-            <Route
-                {...rest}
-                render={() =>
-                    (auth === true) ? (<Component />) : (<Redirect to="/login" />)
-                }
-            />
-        )
-    }
+    // const ProtectedUpdate = ({ auth, checkUserName, component: Component, ...rest }) => {
+    //     document.title = 'UPDATE'
+    //     return (
+    //         <Route
+    //             {...rest}
+    //             render={() =>
+    //                 (auth === true) ? (<Component />) : (<Redirect to="/login" />)
+    //             }
+    //         />
+    //     )
+    // }
 
     const ProtectedForgetPassword = ({ checkUserName, auth, component: Component, ...rest }) => {
         document.title = 'FORGETPASSWORD'
