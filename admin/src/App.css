@@ -1,53 +1,240 @@
-.App {
-    text-align: center;
+:root {
+    font-size: 16px;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+
+/* Grid page with sidebar */
+
+body {
+    background: #e9e9e9;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+main {
+    margin-left: 5rem;
+    transition: margin-left 0.2s;
 }
 
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
+body::-webkit-scrollbar {
+    width: 0.3rem;
+}
+
+body::-webkit-scrollbar-track {
+    background: #1e1e24;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #61dafb, #6649b8);
+}
+
+
+/* Sidebar */
+
+.navbarx {
+    width: 5rem;
+    height: 100vh;
+    position: fixed;
+    background-color: #23232e;
+    transition: width 200ms ease;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    height: 100%;
 }
 
-.App-link {
-    color: #61dafb;
+.nav-item {
+    width: 100%;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
+.nav-item:last-child {
+    margin-top: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    color: #b6b6b6;
+    text-decoration: none;
+    filter: grayscale(100%) opacity(0.7);
+    transition: 0.5s;
+}
+
+.nav-link:hover {
+    filter: grayscale(0%) opacity(1);
+    background: #141418;
+    color: #ececec
+}
+
+.link-text {
+    display: none;
+    min-width: 2rem;
+    margin: 0 1rem;
+}
+
+.nav-link svg {
+    min-width: 2rem;
+    margin: 0 1.5rem;
+}
+
+.navbarx:hover {
+    width: 16rem;
+}
+
+.navbarx:hover~main {
+    margin-left: 16rem;
+}
+
+.navbarx:hover .link-text {
+    display: block;
+}
+
+.nav-link svg path {
+    color: #df49a6;
+}
+
+.nav-logo {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #ececec;
+    background: #141418;
+    font-size: 1rem;
+    letter-spacing: 0.3ch;
+    width: 100%;
+}
+
+.nav-logo svg {
+    transform: rotate(0edg);
+    transition: transform 0.3s;
+}
+
+.navbarx:hover .nav-logo svg {
+    transform: rotate(-180deg);
+}
+
+
+/* Responsive SideBar */
+
+
+/* large screen */
+
+@media only screen and (min-width: 600px) {
+    .navbarx {
+        width: 5rem;
+        height: 100vh;
+        top: 0;
     }
-    to {
-        transform: rotate(360deg);
+    .navbarx:hover {
+        width: 16rem;
+    }
+    .navbarx:hover .link-text {
+        display: inline;
+        transition: opacity 1s;
     }
 }
 
-.list-group {
-    max-height: 300px;
-    margin-bottom: 10px;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
+
+/* Small screen */
+
+@media only screen and (max-width: 600px) {
+    .navbarx {
+        width: 100vw;
+        height: 5rem;
+        bottom: 0;
+    }
+    main {
+        margin-left: 0;
+        margin-bottom: 5rem;
+    }
+    .nav-logo {
+        display: none;
+    }
+    .navbar-nav {
+        flex-direction: row;
+    }
+    .navbarx:hover {
+        width: 100%;
+    }
+    .navbarx:hover~main {
+        margin-left: 0;
+    }
+    .navbarx:hover .link-text {
+        display: none;
+    }
+    .nav-link {
+        justify-content: center;
+    }
 }
 
-.info-card {
-    max-height: 300px;
+.navbarx .navbar-nav .nav-item .is-active {
+    filter: grayscale(0%) opacity(1);
+    background: #141418;
+    color: #ececec
 }
 
-.button-play {
-    margin-top: 50px;
+.navbarx .navbar-nav .nav-item .nav-link path {
+    fill: transparent;
+    stroke-width: 20;
+    stroke: #df49a6;
+}
+
+.navbarx .navbar-nav .nav-item .nav-link.is-active path {
+    stroke-dasharray: 1685;
+    stroke-dashoffset: 1685;
+    animation: animate-error 0.5s linear forwards;
+}
+
+.navbarx .navbar-nav .nav-item .nav-link.is-active {
+    pointer-events: none;
+}
+
+@keyframes animate-error {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    40% {
+        stroke-dashoffset: -1685;
+    }
+    80% {
+        stroke-dashoffset: -3370;
+        fill: transparent;
+    }
+    100% {
+        stroke-dashoffset: -3370;
+        fill: #df49a6;
+    }
+}
+
+
+/* transition change page */
+
+
+/* simple - enter transition 300ms, exit 150ms */
+
+.fade-appear,
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+
+.fade-appear-active,
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms linear 150ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 150ms linear;
 }

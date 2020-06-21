@@ -62,14 +62,12 @@ const Login = () => {
         request.setRole(userProto.UserRole.ADMIN)
 
         authService.validateUser(request, {}, (err, res) => {
-
             if (err) {
                 /** Xy ly error login */
                 setmyError(err.message)
                 openModalError()
                 setIsLoading(false)
                 setTypeButton("submit")
-
             } else {
                 Auth.setcheckUserName(username)
                 Auth.setAuth(true)
@@ -77,7 +75,6 @@ const Login = () => {
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", username)
-
             }
         })
     }
@@ -146,28 +143,31 @@ const Login = () => {
                         </Container>
                     </div>
                 </div> : <></>}
-                
-                {enter ? <></> : 
+
+                {enter ? <></> :
                     <div className={styles.welcomsection}>
-                    <div className={styles.contenwrap}>
-                        <ul className={styles.flytext}>
-                            <li>S</li>
-                            <li>A</li>
-                            <li>I</li>
-                            <li>G</li>
-                            <li>O</li>
-                            <li>N</li>
-                            <li>P</li>
-                            <li>A</li>
-                            <li>R</li>
-                            <li>K</li>
-                            <li>I</li>
-                            <li>N</li>
-                            <li>G</li>
-                        </ul>
-                        <a href='# ' onClick={handleEnter} className={styles.enterbutton}>ENTER</a>
+                        <div className={styles.contenwrap}>
+                            <ul className={styles.flytext}>
+                                <li>S</li>
+                                <li>A</li>
+                                <li>I</li>
+                                <li>G</li>
+                                <li>O</li>
+                                <li>N</li>
+                                <li>P</li>
+                                <li>A</li>
+                                <li>R</li>
+                                <li>K</li>
+                                <li>I</li>
+                                <li>N</li>
+                                <li>G</li>
+                            </ul>
+                            <a href='# ' onClick={(e) => {
+                                e.preventDefault();
+                                handleEnter(e)
+                            }} className={styles.enterbutton}>ENTER</a>
+                        </div>
                     </div>
-                </div>
                 }
             </section>
         </>

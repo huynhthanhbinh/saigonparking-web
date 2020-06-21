@@ -6,7 +6,7 @@ import AddModal from './Adduser'
 import ModalError from '../../Modal/ModalError'
 import exceptionHandler from '../../../ExceptionHandling'
 //cs
-import '../../../css/formparkinguser.css'
+import styles from './GetallUser.module.css'
 
 import '../../../css/pagination.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
@@ -23,6 +23,9 @@ const UserService = new UserServiceClient(API_URL)
 
 
 const Admingetalluser = () => {
+    //Loading State
+    const [isLoading, setIsLoading] = React.useState(true)
+
     //Pagination
 
     const [totalUser, settotalUser] = React.useState(0)
@@ -56,7 +59,7 @@ const Admingetalluser = () => {
     }
     //config Error modal
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
-    const [myError,setmyError] = React.useState(null)
+    const [myError, setmyError] = React.useState(null)
     function openModalError() {
 
         setmodalErrorIsOpen(true);
@@ -106,21 +109,21 @@ const Admingetalluser = () => {
 
         UserService.countAll(request, metadata, (err, res) => {
             if (err) {
-                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
-                {
+                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
-                else
-                {
+                else {
                     setmyError(err.message)
                 }
                 openModalError()
             } else {
                 settotalUser(res.getValue())
+                setIsLoading(false);
                 // setNPage(Math.ceil(res.getValue() / 10))
             }
         })
-    }, [pagenumber,modalErrorIsOpen])
+        
+    }, [pagenumber, modalErrorIsOpen])
 
     useEffect(() => {
         //getAllUser
@@ -132,97 +135,99 @@ const Admingetalluser = () => {
         UserService.getAllUser(request, metadata, (err, res) => {
 
             if (err) {
-                if(exceptionHandler.handleAccessTokenExpired(err.message)===false)
-                {
+                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
-                else
-                {
+                else {
                     setmyError(err.message)
                 }
                 openModalError()
             } else {
                 setuser(res.getUserList())
+                setIsLoading(false);
             }
         })
-    }, [pagenumber, isActive,modalErrorIsOpen])
+        
+    }, [pagenumber, isActive, modalErrorIsOpen])
 
     const handlechange = (e) => {
         setpagenumber(e)
+        if(pagenumber !== e) setIsLoading(true);
     }
 
     return (
-        <div className="card">
-            {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
-            <table className="table table-hover" style={{ marginTop: "50px" }}>
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">ROLE</th>
-                        <th scope="col">USERNAME</th>
-                        <th scope="col">EMAIL </th>
-                        <th scope="col">LASTSIGNIN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        users && users.map((user, index) =>
-                            <tr key={index}>
-                                <th scope="row" id="IDBIXOA">{user.getId()}</th>
-                                <td>{userMapper.toRoleString(user.getRole())}</td>
-                                <td>{user.getUsername()}</td>
-                                <td>{user.getEmail()}</td>
-                                <td>{user.getLastsignin()}</td>
-                                <td>
-                                    <button className="buttonparkinglotuser" onClick={() => {
-                                        if (user.getIsactivated() === true) {
-                                            calldeactivateUser(user.getId())
-
+        <div> {isLoading ?
+            <>
+                <div className={styles.section}>
+                    <div className={styles.loaderUser}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </>
+            :
+            <div className="card">
+                {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
+                <table className="table table-hover" style={{ marginTop: "50px" }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">ROLE</th>
+                            <th scope="col">USERNAME</th>
+                            <th scope="col">EMAIL </th>
+                            <th scope="col">LASTSIGNIN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            users && users.map((user, index) =>
+                                <tr key={index}>
+                                    <th scope="row" id="IDBIXOA">{user.getId()}</th>
+                                    <td>{userMapper.toRoleString(user.getRole())}</td>
+                                    <td>{user.getUsername()}</td>
+                                    <td>{user.getEmail()}</td>
+                                    <td>{user.getLastsignin()}</td>
+                                    <td>
+                                        <button className="buttonparkinglotuser" onClick={() => {
+                                            if (user.getIsactivated() === true) {
+                                                calldeactivateUser(user.getId())
+                                            }
+                                            else {
+                                                callactivateUser(user.getId())
+                                            }
+                                        }} > {(user.getIsactivated() === true) ? "Activated" : "Inactivated"}</button>
+                                        {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
+                                        <button style={{ backgroundColor: "blue", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
+                                            settmp(user)
+                                            openModal()
                                         }
-                                        else {
-                                            callactivateUser(user.getId())
-
-                                        }
-
-
-                                    }} > {(user.getIsactivated() === true) ? "Activated" : "Inactivated"}</button>
-                                    {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
-                                    <button style={{backgroundColor:"blue",border:"0px"}} className="buttonparkinglotuser" onClick={() => {
-                                        settmp(user)
-                                        openModal()
-
-                                    }
-                                    }>Detail</button>
-                                </td>
-
-
-                            </tr>
-                        )
-                    }
-
-                </tbody>
-
-            </table>
-            {modalErrorIsOpen?<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />:null}
-            
-            {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-            <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
-            {totalUser ?
-                <Pagination
-                    
-
-                    pageRangeDisplayed={10}
-                    activePage={pagenumber}
-                    itemsCountPerPage={10}
-                    totalItemsCount={totalUser}
-                    onChange={handlechange}
-
-
-                />
-                : null}
-
+                                        }>Detail</button>
+                                    </td>
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
+                <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
+                {totalUser ?
+                    <Pagination
+                        pageRangeDisplayed={10}
+                        activePage={pagenumber}
+                        itemsCountPerPage={10}
+                        totalItemsCount={totalUser}
+                        onChange={handlechange}
+                    />
+                    : null}
+            </div>}
         </div>
-
     )
 }
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import { Nav, Navbar } from "react-bootstrap";
-//css
-import styled from 'styled-components';
+
+//Sidebar Default
+import Navbardefault from './Nav/Navbar'
 
 //404 Page
 import Page404 from './404/Page404'
@@ -11,7 +9,7 @@ import Page404 from './404/Page404'
 //admin
 import LoginAdmin from './Admin/Login/LoginAdmin'
 import Resetpassword from './Resetpassword'
-import Admin from './Admin/Admin'
+import Dashboard from './Admin/Dashboard'
 import Admingetalluser from './Admin/User/Admingetalluser'
 import Admingetallparkinglot from './Admin/Parkinglot/Admingetallparkinglot'
 
@@ -28,10 +26,9 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect
 } from "react-router-dom";
-import sessionstorage from 'sessionstorage'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 
 function Home() {
@@ -55,10 +52,10 @@ function Home() {
     return (
         <AuthApi.Provider value={{ checkUserName, setcheckUserName, auth, setAuth }}>
             <Router>
-                <Links />
-                <Container>
+                <Navbardefault />
+                <main>
                     <Routes />
-                </Container>
+                </main>
             </Router>
         </AuthApi.Provider>
 
@@ -66,62 +63,11 @@ function Home() {
     );
 }
 
-const Links = () => {
-    const Styles = styled.div`
-    .navbar {
-        background-color: rgb(52,116,116);
-    }
-
-    a, .navbar-brand, .navbar-nav .nav-link {
-        color: black;
-        &:hover {
-        color: black;
-    }
-    }
-`;
-
-    let Auth = React.useContext(AuthApi)
-    const ClickLogOut = () => {
-        Auth.setAuth(false)
-        Auth.setcheckUserName(null)
-        Cookies.remove("checkUserName");
-        Cookies.remove("token");
-        Cookies.remove("refreshtoken");
-        sessionstorage.clear()
-    }
-
-    if (Auth.auth) {
-        return (
-            <Styles>
-                <Navbar expand="lg">
-                    <Link to="/">
-                        <Navbar.Brand >HOME</Navbar.Brand>
-                    </Link>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                        </Nav>
-                        <div style={{ marginRight: "50px" }} >
-                            <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
-                                <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
-                                <NavDropdown.Item ><Link to="/profile/changepassword" >CHANGEPASSWORD</Link></NavDropdown.Item>
-                                <NavDropdown.Item ><Link to="/" >ADMIN</Link></NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
-                            </NavDropdown>
-                        </div>
-                    </Navbar.Collapse>
-                </Navbar>
-            </Styles >
-        )
-    }
-    else return (<></>)
-}
-const Routes = () => {
+const Routes = (location) => {
     const Auth = React.useContext(AuthApi)
 
     //Page Error 404
-    const ProtectedError404 = ({component: Component}) => {
+    const ProtectedError404 = ({ component: Component }) => {
         document.title = 'ERROR404'
         return (<Component />)
     }
@@ -290,33 +236,45 @@ const Routes = () => {
     }
 
     return (
-        <Switch>
-            <ProtectedAdmin exact path="/" component={Admin} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedAdmin>
+        /* Animation */
+        <Route render={({ location }) => (
+            <TransitionGroup>
+                <CSSTransition
+                    key={location.key}
+                    timeout={500}
+                    classNames="fade">
+                    <Switch location={location}>
+                        {/* Add more route here */}
+                        <ProtectedAdmin exact path="/" component={Dashboard} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedAdmin>
 
-            <ProtectedLoginAdmin path="/login" component={LoginAdmin} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedLoginAdmin>
+                        <ProtectedLoginAdmin path="/login" component={LoginAdmin} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedLoginAdmin>
 
-            <ProtectedAdmingetallparkinglot exact path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedAdmingetallparkinglot>
+                        <ProtectedAdmingetallparkinglot exact path="/getallparkinglot" component={Admingetallparkinglot} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedAdmingetallparkinglot>
 
-            <ProtectedAdmingetalluser exact path="/getalluser" component={Admingetalluser} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedAdmingetalluser>
+                        <ProtectedAdmingetalluser exact path="/getalluser" component={Admingetalluser} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedAdmingetalluser>
 
-            {/* <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap> */}
+                        {/* <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap> */}
 
-            <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
+                        <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
 
-            <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
+                        <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
 
-            <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
+                        <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
 
-            <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
+                        <ProtectedResetPassword exact path="/reset-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
-            <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
+                        <ProtectedClickActivateAccount exact path="/clickactivateaccount" auth={Auth.auth} checkUserName={Auth.checkUserName} component={ClickActivateAccount}></ProtectedClickActivateAccount>
 
-            <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
+                        <ProtectedActivateAccount exact path="/activate-account" auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreActivateAccount}></ProtectedActivateAccount>
 
-            <ProtectedError404 exact path="/404" component={Page404} />
+                        <ProtectedError404 exact path="/404" component={Page404} />
 
-            <Redirect from="*" to="/404" />
-        </Switch>
+                        <Redirect from="*" to="/404" />
+                    </Switch>
+                </CSSTransition>
+            </TransitionGroup>
+        )} />
+
     )
 }
 
