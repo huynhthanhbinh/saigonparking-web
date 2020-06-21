@@ -4,7 +4,7 @@ import { ListGroup } from 'react-bootstrap';
 import SetClick from './ConTextMap/SetClick'
 //
 
-const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker }) => {
+const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker, currentPatient }) => {
     // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
     const abc = React.useContext(SetClick)
     //
@@ -18,7 +18,7 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker })
                     <ListGroup.Item key={index} as="li" ref={refs[index]} onClick={() => {
                         onClickItemPatient(patient, index);
                         abc.setswitchLP({ LiPa: true, BinhLuan: false })
-                    }} active={index === indexClickedMaker ? true : false}><ul>
+                    }} active={((index === indexClickedMaker) && (patients.indexOf(currentPatient) !== -1)) ? true : false}><ul>
                             <li>ID:  {patient.getId()}</li>
                             <li>AVAILABLESLOT:  {patient.getAvailableslot()}</li>
                             <li>TOTALSLOT:  {patient.getTotalslot()}</li>

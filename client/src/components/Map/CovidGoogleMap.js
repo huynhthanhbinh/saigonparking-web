@@ -62,8 +62,9 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
    * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
    */
   const onMouseDown = React.useCallback((e) => {
-    console.log("Click vao map")
+    console.log("xóa load dữ liệu")
     clearTimeout(myVar);
+
 
   }, []);
 
@@ -77,7 +78,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
     mapRef.current.panTo({ lat, lng });
 
-    mapRef.current.setZoom(15);
+    mapRef.current.setZoom(14);
 
   }, []);
   // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
@@ -86,6 +87,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
+
   return (
 
 
@@ -102,12 +104,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
       <GoogleMap
         id="map"
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={13}
         center={center}
         options={options}
         onMouseUp={onMouseUp}
         onMouseDown={onMouseDown}
         onLoad={onMapLoad}
+      // panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
       >
         {patients && patients.map((patient, index) => {
           if (patient.getType() === 0) {
@@ -117,6 +120,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
                 abc.setswitchLP({ LiPa: true, BinhLuan: false })
+                //
+                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerbuilding,
@@ -124,6 +129,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
+              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
 
             />)
           }
@@ -134,6 +140,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
                 abc.setswitchLP({ LiPa: true, BinhLuan: false })
+                //
+                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerprivate,
@@ -141,6 +149,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
+              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
+
             />)
           }
           else if (patient.getType() === 2) {
@@ -150,6 +160,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
                 abc.setswitchLP({ LiPa: true, BinhLuan: false })
+                //
+                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerstreet,
@@ -157,6 +169,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
+              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
             />)
           }
         }

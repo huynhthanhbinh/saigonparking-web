@@ -166,7 +166,13 @@ const CovidDashboard = (props) => {
 
     useEffect(() => {
         if (patients != null) {
-            setScrollList(patients, indexPatientClicked, refs);
+            if (patients.indexOf(currentPatient) !== -1) {
+                setScrollList(patients, indexPatientClicked, refs);
+            }
+            else {
+
+            }
+
         }
 
     })
