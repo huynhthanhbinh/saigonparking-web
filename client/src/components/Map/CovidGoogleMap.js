@@ -53,7 +53,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
    */
   const onMouseUp = React.useCallback((e) => {
     myVar = setTimeout(function () {
-      console.log(e.latLng.lat())
+      // console.log(e.latLng.lat())
       fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() })
     }, 2000);
 
@@ -62,7 +62,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
    * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
    */
   const onMouseDown = React.useCallback((e) => {
-    console.log("xóa load dữ liệu")
+    // console.log("xóa load dữ liệu")
+    // console.log(e.latLng.lat())
     clearTimeout(myVar);
 
 

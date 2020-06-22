@@ -24,6 +24,9 @@ import sessionstorage from 'sessionstorage'
 import SideMenu from './drawer'
 //import ReactContext SetClick
 import SetClick from './ConTextMap/SetClick'
+// import custom algorithm common
+import algorithm from '../../algorithm'
+//
 const authService = new AuthServiceClient(API_URL)
 
 
@@ -165,9 +168,9 @@ const CovidDashboard = (props) => {
 
 
     useEffect(() => {
-        if (patients != null) {
-            if (patients.indexOf(currentPatient) !== -1) {
-                setScrollList(patients, indexPatientClicked, refs);
+        if (patients !== null && currentPatient !== undefined) {
+            if (algorithm.customizedIndexOf(currentPatient, patients) !== -1) {
+                setScrollList(patients, algorithm.customizedIndexOf(currentPatient, patients), refs);
             }
             else {
 
@@ -233,6 +236,9 @@ const CovidDashboard = (props) => {
 
 const setScrollList = (patients, index, refs) => {
     if (patients.length > 0) {
+        console.log(index)
+        console.log(refs[index].current)
+
         if (refs[index]) {
             if (refs[index].current != null) {
                 refs[index].current.scrollIntoView({
