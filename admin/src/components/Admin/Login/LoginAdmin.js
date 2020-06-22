@@ -25,7 +25,6 @@ const Login = () => {
     const [enter, setEnter] = React.useState(false)
 
     function openModalError() {
-
         setmodalErrorIsOpen(true);
     }
 

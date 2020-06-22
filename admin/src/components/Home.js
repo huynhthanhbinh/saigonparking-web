@@ -63,6 +63,12 @@ function Home() {
     );
 }
 
+const RemoveCookie = () => {
+    Cookies.remove ("token");
+    Cookies.remove ("refreshtoken");
+    Cookies.remove ("checkUserName");
+}
+
 const Routes = (location) => {
     const Auth = React.useContext(AuthApi)
 
@@ -81,7 +87,8 @@ const Routes = (location) => {
             return (<Component />)
         }
         else {
-            return (<Redirect to="/login" />)
+            RemoveCookie();
+            window.location.href = "/login"
         }
     }
 
@@ -94,7 +101,8 @@ const Routes = (location) => {
             return (<Component />)
         }
         else {
-            return (<Redirect to="/login" />)
+            RemoveCookie();
+            window.location.href = "/login"
         }
     }
 
@@ -144,7 +152,8 @@ const Routes = (location) => {
             return (<Component />)
         }
         else {
-            return (<Redirect to="/login" />)
+            RemoveCookie();
+            window.location.href = "/login"
         }
     }
 

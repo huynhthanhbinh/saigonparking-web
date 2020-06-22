@@ -23,7 +23,7 @@ const Page404 = () => {
                     <div className={styles.content404}>
                         <h2 className={styles.h2404}>404</h2>
                         <h4 className={styles.h4404}>Opps! Page not found</h4>
-                        <p className={styles.p404}>The page you were looking for doesn't exit!</p>
+                        <p className={styles.p404}>The page you were looking for doesn't exist!</p>
                         <a className={styles.a404} href="/login">Back to Home</a>
                     </div>
                 </div>

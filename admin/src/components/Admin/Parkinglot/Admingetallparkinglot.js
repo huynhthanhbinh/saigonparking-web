@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import UpdateModal from './Updateparkinglot'
 import AddModal from './Addparkinglot'
 import ModalError from '../../Modal/ModalError'
-//css
-import '../../../css/formparkinguser.css'
+//cs
+import styles from '../Loading.module.css'
 //
 // import { Link } from "react-router-dom";
 import '../../../css/pagination.css'
@@ -23,6 +23,8 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const Admingetallparkinglot = () => {
+    //Loading State
+    const [isLoading, setIsLoading] = React.useState(true)
 
     //Pagination
     const [totalParkinglot, settotalParkinglot] = React.useState(0)
@@ -54,7 +56,6 @@ const Admingetallparkinglot = () => {
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     function openModalError() {
-
         setmodalErrorIsOpen(true);
     }
 
@@ -65,6 +66,7 @@ const Admingetallparkinglot = () => {
     useEffect(() => {
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
+        console.log(token)
         const metadata = { 'Authorization': token }
         ParkinglotwebService.countAll(request, metadata, (err, res) => {
             if (err) {
@@ -99,73 +101,94 @@ const Admingetallparkinglot = () => {
                 openModalError()
             } else {
                 setuser(res.getParkinglotList())
+                setIsLoading(false);
             }
         })
-    }, [pagenumber, modalErrorIsOpen,modalAddIsOpen])
+    }, [pagenumber, modalErrorIsOpen, modalAddIsOpen])
 
 
     const handlechange = (e) => {
         setpagenumber(e)
+        if(pagenumber !== e) setIsLoading(true);
     }
 
     return (
-        <div className="card">
-            {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
-            <table className="table table-hover" style={{ marginTop: "50px" }}>
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">NAME</th>
-                        <th scope="col">TYPE</th>
-                        <th scope="col">OPENING </th>
-                        <th scope="col">CLOSING </th>
-                        <th scope="col">AVAILABILITY</th>
-                        <th scope="col">CAPACITY</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        users && users.map((parkingLot, index) =>
-                            <tr key={index}>
-                                <th scope="row" id="IDBIXOA">{parkingLot.getId()}</th>
-                                <td>{parkingLot.getInformation().getName()}</td>
-                                <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>
-                                <td>{parkingLot.getOpeninghour()}</td>
-                                <td>{parkingLot.getClosinghour()}</td>
-                                <td>{parkingLot.getAvailableslot()}</td>
-                                <td>{parkingLot.getTotalslot()}</td>
-                                <td>
-                                    {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
-                                    <button style={{ backgroundColor: "blue", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
-                                        settmp(parkingLot)
-                                        openModal()
-                                        
-                                    }
-                                    }>DETAIL</button>
-                                    <button style={{ backgroundColor: "red", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
-                                        settmp(parkingLot)
-                                        openModalAdd()
-                                        
-                                    }}> DELETE</button>
-                                </td>
+        <div>
+            {isLoading ?
+                <>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                    <div className={styles.section}>
+                        <div className={styles.loaderUser}>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </>
+                :
+                <div className="card">
+                    {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
+                    <table className="table table-hover" style={{ marginTop: "50px" }}>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">NAME</th>
+                                <th scope="col">TYPE</th>
+                                <th scope="col">OPENING </th>
+                                <th scope="col">CLOSING </th>
+                                <th scope="col">AVAILABILITY</th>
+                                <th scope="col">CAPACITY</th>
                             </tr>
-                        )
-                    }
-                </tbody>
+                        </thead>
+                        <tbody>
+                            {
+                                users && users.map((parkingLot, index) =>
+                                    <tr key={index}>
+                                        <th scope="row" id="IDBIXOA">{parkingLot.getId()}</th>
+                                        <td>{parkingLot.getInformation().getName()}</td>
+                                        <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>
+                                        <td>{parkingLot.getOpeninghour()}</td>
+                                        <td>{parkingLot.getClosinghour()}</td>
+                                        <td>{parkingLot.getAvailableslot()}</td>
+                                        <td>{parkingLot.getTotalslot()}</td>
+                                        <td>
+                                            {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
+                                            <button style={{ backgroundColor: "blue", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
+                                                settmp(parkingLot)
+                                                openModal()
 
-            </table>
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-            {tmp ? <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} />:null}
-            {totalParkinglot ?
-                <Pagination
-                    pageRangeDisplayed={10}
-                    activePage={pagenumber}
-                    itemsCountPerPage={10}
-                    totalItemsCount={totalParkinglot}
-                    onChange={handlechange}
-                />
-                : null}
+                                            }
+                                            }>DETAIL</button>
+                                            <button style={{ backgroundColor: "red", border: "0px" }} className="buttonparkinglotuser" onClick={() => {
+                                                settmp(parkingLot)
+                                                openModalAdd()
+
+                                            }}> DELETE</button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+
+                    </table>
+                    {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
+                    {tmp ? <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} /> : null}
+                    {totalParkinglot ?
+                        <Pagination
+                            pageRangeDisplayed={10}
+                            activePage={pagenumber}
+                            itemsCountPerPage={10}
+                            totalItemsCount={totalParkinglot}
+                            onChange={handlechange}
+                        />
+                        : null}
+                </div>
+            }
         </div>
     )
 }

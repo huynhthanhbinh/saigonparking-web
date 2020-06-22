@@ -6,7 +6,7 @@ import AddModal from './Adduser'
 import ModalError from '../../Modal/ModalError'
 import exceptionHandler from '../../../ExceptionHandling'
 //cs
-import styles from './GetallUser.module.css'
+import styles from '../Loading.module.css'
 
 import '../../../css/pagination.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
@@ -158,6 +158,7 @@ const Admingetalluser = () => {
     return (
         <div> {isLoading ?
             <>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                 <div className={styles.section}>
                     <div className={styles.loaderUser}>
                         <span></span>
@@ -214,7 +215,6 @@ const Admingetalluser = () => {
                         }
                     </tbody>
                 </table>
-                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                 {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
                 <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} />
                 {totalUser ?

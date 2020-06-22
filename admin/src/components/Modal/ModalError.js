@@ -63,6 +63,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
     }
 
     if (myError != null) {
+        console.log(myError)
         return (
             <TransitionablePortal open={isOpen} transition={{ animation: 'scale', duration: 500 }}>
                 <Modal
@@ -89,7 +90,6 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 </Modal>
             </TransitionablePortal>
         )
-
     }
     else {
         return (<Landing></Landing>)
