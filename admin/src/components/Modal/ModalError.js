@@ -11,7 +11,7 @@ import Cookies from 'js-cookie'
 import styles from './Modal.module.css'
 import {ReactComponent as IconError} from '../Admin/svg/error.svg';
 
-const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
+const ModalError = ({ modalErrorIsOpen, closeModalError, myError }) => {
     const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
@@ -20,8 +20,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         Cookies.remove("checkUserName");
         Cookies.remove("token");
         Cookies.remove("refreshtoken");
-        sessionstorage.clear()
-        Redirect('/login')
+        sessionstorage.clear();
     }
 
     const ButtonReLogin = () => {
@@ -69,10 +68,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 <Modal
                     style={{ height: 'auto', position: 'relative' }}
                     open={true}
-                    onClose={() => {
-                        ClickLogOut()
-                        closeModalError()
-                    }}
+                    onClose={ClickLogOut}
                     size={'small'}
                 >
                     <Modal.Header>Error</Modal.Header>

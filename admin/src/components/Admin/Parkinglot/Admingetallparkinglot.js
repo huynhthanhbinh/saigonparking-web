@@ -66,7 +66,6 @@ const Admingetallparkinglot = () => {
     useEffect(() => {
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
-        console.log(token)
         const metadata = { 'Authorization': token }
         ParkinglotwebService.countAll(request, metadata, (err, res) => {
             if (err) {

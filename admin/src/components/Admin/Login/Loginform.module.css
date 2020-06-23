@@ -1,3 +1,5 @@
+/* background Car running */
+
 .section {
     margin: 0;
     height: 100%;
@@ -62,23 +64,56 @@
     }
 }
 
-.MainLogin {
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+/* background form login */
+
+.backgroundForm {
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: rgb(0, 0, 0);
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    animation: fadeinBackGround 1s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeinBackGround {
+    100% {
+        opacity: 0.7;
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+/* formLogin */
+
+
+/*1 big box */
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     align-items: center;
-    min-height: 100vh;
-    font-family: Arial;
-    -webkit-animation: fadein 2s;
-    /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 2s;
-    /* Firefox < 16 */
-    -ms-animation: fadein 2s;
-    /* Internet Explorer */
-    -o-animation: fadein 2s;
-    /* Opera < 12.1 */
-    animation: fadein 1s;
+    width: 1000px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0px 5px 100px #4b4b4b;
+    border-radius: 55px;
+}
+
+.MainLogin {
+    animation: fadein 1s forwards;
 }
 
 @keyframes fadein {
@@ -91,292 +126,235 @@
 }
 
 
-/* Firefox < 16 */
+/*2 login */
 
-@-moz-keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.box h1 {
+    color: #EC1763;
+    text-align: center;
+    margin-top: 30%;
+    font-size: 50px;
 }
 
 
-/* Safari, Chrome and Opera > 12.1 */
+/*3 welcome box */
 
-@-webkit-keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-
-/* Internet Explorer */
-
-@-ms-keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-
-/* Opera < 12.1 */
-
-@-o-keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.containerForm {
-    position: relative;
-    width: 450px;
-    min-height: 300px;
-    background: rgb(241, 241, 241);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
-}
-
-.containerForm .spanH {
+.box .welcome {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.containerForm .spanH::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: #fff;
-    filter: blur(3px);
-    transform: scaleX(0);
-    animation: loader 2s linear infinite
-}
-
-.containerForm .spanVL {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.containerForm .spanVL::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
-    background: #fff;
-    filter: blur(3px);
-    transform: scaleY(0);
-    animation: loader2 2s linear infinite
-}
-
-.containerForm .spanVL::before {
-    animation-delay: 1.5s;
-}
-
-.containerForm .spanVR {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.containerForm .spanVR::before {
-    content: '';
-    position: absolute;
-    top: 0;
     right: 0;
-    width: 5px;
-    height: 100%;
-    background: #fff;
-    filter: blur(3px);
-    transform: scaleY(0);
-    animation: loader3 2s linear infinite
-}
-
-.containerForm .spanVR::before {
-    animation-delay: 0.5s;
-}
-
-.containerForm .spanH:nth-child(1) {
-    transform: rotate(0deg);
-}
-
-.containerForm .spanH:nth-child(2) {
-    transform: rotate(180deg);
-}
-
-.containerForm .spanH:nth-child(1)::before {
-    animation-delay: 0s;
-}
-
-.containerForm .spanH:nth-child(2)::before {
-    animation-delay: 1s;
-}
-
-@keyframes loader {
-    0% {
-        transform: scaleX(0);
-        transform-origin: left;
-    }
-    25% {
-        transform: scaleX(1);
-        transform-origin: left;
-    }
-    25.00001% {
-        transform-origin: right;
-    }
-    50%,
-    100% {
-        transform: scaleX(0);
-        transform-origin: right;
-    }
-}
-
-@keyframes loader2 {
-    0% {
-        transform: scaleY(0);
-        transform-origin: bottom;
-    }
-    25% {
-        transform: scaleY(1);
-        transform-origin: bottom;
-    }
-    25.00001% {
-        transform-origin: top;
-    }
-    50%,
-    100% {
-        transform: scaleY(0);
-        transform-origin: top;
-    }
-}
-
-@keyframes loader3 {
-    0% {
-        transform: scaleY(0);
-        transform-origin: top;
-    }
-    25% {
-        transform: scaleY(1);
-        transform-origin: top;
-    }
-    25.00001% {
-        transform-origin: bottom;
-    }
-    50%,
-    100% {
-        transform: scaleY(0);
-        transform-origin: bottom;
-    }
-}
-
-.containerForm::before {
-    content: "";
-    position: absolute;
     top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    pointer-events: none;
+    width: 600px;
+    height: 600px;
+    background-image: url('./loginPicture1.jpg');
+    background-size: cover;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
 }
 
-.containerForm::after {
-    content: "";
+
+/*4 login box */
+
+.white {
     position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background: linear-gradient(45deg, #ff0047, #6eff00);
-    pointer-events: none;
-    animation: animate 10s linear infinite;
+    left: 0;
+    top: 0;
+    width: 400px;
+    height: 600px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
 }
 
-@keyframes animate {
+
+/* inputs */
+
+.white .inputbox input {
+    width: 70%;
+    padding: 5px;
+    margin: 20px 0;
+    margin-top: 30px;
+    margin-left: 60px;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+/* checkbox */
+
+.white .check input {
+    height: 40px;
+    margin-left: 60px;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+/* keep me logged in */
+
+.white .check p {
+    position: relative;
+    margin-left: 80px;
+    bottom: 34px;
+    color: #CCCCCC;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.white .inputbox {
+    position: relative;
+}
+
+
+/* forgot password */
+
+.white .inputbox a {
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    font-size: 14px;
+    color: #EC1763;
+    text-decoration: none;
+}
+
+.white .inputbox label {
+    position: absolute;
+    top: 5px;
+    left: 65px;
+    font-size: 18px;
+    color: #929292;
+    transition: .5s;
+}
+
+.white input[type="submit"] {
+    position: absolute;
+    bottom: 187px;
+    right: 50px;
+    border: 0;
+    background-color: #EC1763;
+    color: white;
+    font-size: 16px;
+    width: 130px;
+    height: auto;
+    padding: 7px 5px;
+    border-radius: 20brpx;
+    cursor: pointer;
+}
+
+.white input[type="submit"]:hover {
+    background: #EC1763;
+    box-shadow: 0 0 10px #EC1763, 0 0 40px #EC1763, 0 0 80px #EC1763;
+}
+
+.white input[type="submit"][disabled] {
+    animation: bgColor infinite 5s;
+}
+
+@keyframes bgColor {
     0% {
-        filter: blur(60px) hue-rotate(0deg);
+        background-color: #EC1763;
+        box-shadow: 0 0 0px #EC1763, 0 0 0px #EC1763, 0 0 0px #EC1763;
+    }
+    20% {
+        background-color: #da17ec;
+        box-shadow: 0 0 10px #da17ec, 0 0 40px #da17ec, 0 0 80px #da17ec;
+    }
+    40% {
+        background-color: #2c17ec;
+        box-shadow: 0 0 10px #2c17ec, 0 0 40px #2c17ec, 0 0 80px #2c17ec;
+    }
+    50% {
+        background-color: #17ecec;
+        box-shadow: 0 0 10px #17ecec, 0 0 40px #17ecec, 0 0 80px #17ecec;
+    }
+    80% {
+        background-color: #3aec17;
+        box-shadow: 0 0 10px #3aec17, 0 0 40px #3aec17, 0 0 80px #3aec17;
     }
     100% {
-        filter: blur(60px) hue-rotate(360deg);
+        background-color: #ece817;
+        box-shadow: 0 0 10px #ece817, 0 0 40px #ece817, 0 0 80px #ece817;
     }
 }
 
-.form {
+.white .signup {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 30px;
-    box-sizing: border-box;
-    z-index: 1;
+    bottom: 10px;
+    left: 30%;
+    font-size: 12px;
+    color: #929292;
 }
 
-.form h2 {
+.white .signup a {
+    color: #EC1763;
+    text-decoration: none;
+}
+
+.box .welcome img {
+    position: absolute;
+    width: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -80%);
+    pointer-events: none;
+}
+
+.box .welcome h1 {
+    position: absolute;
+    color: white;
+    top: 17%;
+    left: 10px;
+    pointer-events: none;
+}
+
+.welcome h4 {
+    position: absolute;
+    color: white;
+    left: 20%;
+    top: 55%;
+    pointer-events: none;
+}
+
+
+/* to */
+
+.box .welcome span {
+    position: relative;
+    color: #EC1763;
+    top: 17%;
+    left: 10px
+}
+
+.box input:focus~label {
+    color: #EC1763;
+}
+
+.box input:focus,
+input:valid {
+    transition: .5s;
+    border-color: #EC1763;
+}
+
+::-webkit-input-placeholder {
+    font-size: 16px;
+    color: #CCCCCC;
     margin: 0;
     padding: 0;
-    color: #fff;
-    font-size: 35px;
 }
 
-.form input {
-    width: 100%;
-    margin-top: 20px;
+input:focus::-webkit-input-placeholder {
+    transition: .5s;
+    color: transparent;
 }
 
-.form .inputBox input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #fff;
-    outline: none;
-    font-size: 18px;
-    color: #fff;
-    padding: 5px 0;
-    font-family: Arial;
-}
 
-::placeholder {
-    color: #eee;
-}
+/*------------------------------------------------------------------------------------------------------------*/
 
-.form .inputBox input[type=""] {
-    background: rgb(107, 107, 107);
-    color: rgb(0, 0, 0);
-    border: none;
-    font-weight: 900;
-    max-width: 100px;
-    cursor: pointer;
-    text-align: center;
-}
 
-.form .inputBox input[type="submit"] {
-    background: #fff;
-    color: #000;
-    border: none;
-    font-weight: 900;
-    max-width: 100px;
-    cursor: pointer;
-}
+/* Wellcome to SGPARKING MAP */
 
 .welcomsection {
     position: absolute;
@@ -505,4 +483,59 @@
     100% {
         transform: translate3d(0, 0, 0);
     }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+.seperatorwrapper {
+    margin: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    opacity: 1 !important;
+}
+
+.seperatorwrapper .seperator {
+    width: 100%;
+    height: 5px;
+    animation: rotate 3s infinite linear;
+    -webkit-animation: rotate 3s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        background-position: -3000px;
+    }
+    to {
+        background-position: 0px;
+    }
+}
+
+@keyframes rotate {
+    from {
+        background-position: -3000px;
+    }
+    to {
+        background-position: 0px;
+    }
+}
+
+.gradient {
+    background: #30ff90;
+    /* Old browsers */
+    background: -moz-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #30ff90), color-stop(25%, #ed2ded), color-stop(50%, #c99826), color-stop(75%, #30ffe6), color-stop(100%, #30ff90));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* IE10+ */
+    background: linear-gradient(to right, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* W3C */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#30ff90", endColorstr="#30ff90", GradientType=1);
+    /* IE6-9 */
 }

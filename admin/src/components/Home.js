@@ -22,12 +22,15 @@ import Forgetpassword from './Forgetpassword'
 import PreResetPassword from './PreResetPassword'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
+import sessionstorage from 'sessionstorage'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect
 } from "react-router-dom";
+
+// libary transition change page
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 
@@ -67,6 +70,7 @@ const RemoveCookie = () => {
     Cookies.remove ("token");
     Cookies.remove ("refreshtoken");
     Cookies.remove ("checkUserName");
+    sessionstorage.clear();
 }
 
 const Routes = (location) => {

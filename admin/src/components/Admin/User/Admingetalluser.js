@@ -61,7 +61,6 @@ const Admingetalluser = () => {
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     function openModalError() {
-
         setmodalErrorIsOpen(true);
     }
 
@@ -106,7 +105,6 @@ const Admingetalluser = () => {
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
-
         UserService.countAll(request, metadata, (err, res) => {
             if (err) {
                 if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
@@ -122,18 +120,18 @@ const Admingetalluser = () => {
                 // setNPage(Math.ceil(res.getValue() / 10))
             }
         })
-        
-    }, [pagenumber, modalErrorIsOpen])
+
+    }, [pagenumber])
 
     useEffect(() => {
         //getAllUser
         const request = new ActorProto.GetAllUserRequest();
         const token = 'Bearer ' + Cookies.get("token");
+        console.log(token)
         const metadata = { 'Authorization': token }
         request.setNrow(10);
         request.setPagenumber(pagenumber);
         UserService.getAllUser(request, metadata, (err, res) => {
-
             if (err) {
                 if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
@@ -147,18 +145,18 @@ const Admingetalluser = () => {
                 setIsLoading(false);
             }
         })
-        
-    }, [pagenumber, isActive, modalErrorIsOpen])
+
+    }, [pagenumber, isActive])
 
     const handlechange = (e) => {
         setpagenumber(e)
-        if(pagenumber !== e) setIsLoading(true);
+        if (pagenumber !== e) setIsLoading(true);
     }
 
     return (
         <div> {isLoading ?
             <>
-                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} /> : null}
                 <div className={styles.section}>
                     <div className={styles.loaderUser}>
                         <span></span>
