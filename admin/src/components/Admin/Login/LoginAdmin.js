@@ -19,7 +19,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = React.useState(false)
     const Auth = React.useContext(AuthApi)
     const [enter, setEnter] = React.useState(false)
-    const [email, setEmail] = React.useState('')
+    const [username, setUsername] = React.useState('')
     const [password, setPassword] = React.useState('')
 
     function openModalError() {
@@ -55,7 +55,7 @@ const Login = () => {
 
     const handleSubmit = () => {
         setIsLoading(true)
-        callUserLoginService(email, password, Auth)
+        callUserLoginService(username, password, Auth)
     }
 
     const handleEnter = () => {
@@ -63,7 +63,7 @@ const Login = () => {
     }
 
     const onChangeEmail = (event) => {
-        setEmail(event.target.value);
+        setUsername(event.target.value);
     }
 
     const onChangePassword = (event) => {
@@ -94,8 +94,8 @@ const Login = () => {
                             }} className={styles.white} >
                                 <h1>Log in</h1>
                                 <div className={styles.inputbox}>
-                                    <input type="email" required name="email" placeholder="example@mail.com" onChange={onChangeEmail} />
-                                    <label>Email Address</label>
+                                    <input type="text" required name="email" placeholder="Username" onChange={onChangeEmail} />
+                                    <label>Username</label>
                                 </div>
                                 <div className={styles.inputbox}>
                                     <input type="password" required name="password" placeholder="***************" onChange={onChangePassword} />
