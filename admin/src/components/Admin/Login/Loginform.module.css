@@ -113,7 +113,7 @@
 }
 
 .MainLogin {
-    animation: fadein 1s forwards;
+    animation: fadein 3s forwards;
 }
 
 @keyframes fadein {
