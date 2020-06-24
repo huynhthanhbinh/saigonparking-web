@@ -1,0 +1,29 @@
+
+
+  .fixedtop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+  }
+  
+  .bginfo{
+    background-color: white ;
+    animation: changecolorNav linear 1s forwards;
+    
+  }
+  
+  @keyframes changecolorNav {
+    0%
+    {
+      background-color: transparent;
+     
+    }
+    100%
+    {
+      background-color: #3155AA;
+      
+    }
+  }
+  

@@ -21,23 +21,24 @@ const fadeProperties = {
  
 const Slideshow = () => {
   return (
-    <div className="slide-container" style={{margin:"20px"}}>
-      <Fade {...fadeProperties}>
-        <div className="each-fade">
-          <div className="image-container" >
-            <img style={{height:"598px"}} src={fadeImages[0]}/>
-          </div>
+    // <div className="slide-container" style={{margin:"20px"}}>
+    //   <Fade {...fadeProperties}>
+    //     <div className="each-fade">
+    //       <div className="image-container" >
+    //         <img style={{height:"598px"}} src={fadeImages[0]}/>
+    //       </div>
         
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
-            <img style={{height:"598px"}} src={fadeImages[1]} />
-          </div>
+    //     </div>
+    //     <div className="each-fade">
+    //       <div className="image-container">
+    //         <img style={{height:"598px"}} src={fadeImages[1]} />
+    //       </div>
          
-        </div>
+    //     </div>
         
-      </Fade>
-    </div>
+    //   </Fade>
+    // </div>
+    <h1></h1>
   )
 }
 export default Slideshow;

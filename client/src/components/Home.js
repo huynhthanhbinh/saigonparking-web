@@ -1,14 +1,16 @@
-import React from 'react';
-import ControlledCarousel from './Home/Slider'
+import React, { useState, useEffect } from "react";
+import ControlledCarousel from './Home/Slider';
+import Navbardefault from './Navbar/Navbar'
+import Body from './Body/Body'
 
 import Container from 'react-bootstrap/Container';
-import Row from "react-bootstrap/Row";
-import { Nav, Navbar } from "react-bootstrap";
+// import { Nav, Navbar } from "react-bootstrap";
 //Error 404
 
 //CSS
 import styled from 'styled-components';
 import '../css/Error404.css'
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
@@ -38,13 +40,30 @@ import {
 } from "react-router-dom";
 import sessionstorage from 'sessionstorage'
 import auth from '../api/Auth_grpc_web_pb';
+// reactstrap components
+import {
+    Collapse,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    UncontrolledDropdown,
+    NavbarBrand,
+    Navbar,
+    NavItem,
+    NavLink,
+    Nav,
+    // Container,
+    Row,
+    Col
+} from 'reactstrap';
 
 
 
 function Home() {
     const [auth, setAuth] = React.useState(false);
     const [checkUserName, setcheckUserName] = React.useState(null)
-    const [forgetpass,setforgetpass] = React.useState(false)
+    const [forgetpass, setforgetpass] = React.useState(false)
+    const Auth = React.useContext(AuthApi)
 
     const readcookie = async () => {
         const token = Cookies.get("token");
@@ -64,13 +83,15 @@ function Home() {
     })
 
     return (
-        <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName , forgetpass,setforgetpass }}>
+        <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName, forgetpass, setforgetpass }}>
 
             <Router>
-                <Links />
-                <Container>
+                <Navbardefault />
+                <main>
+                {/* <Container> */}
                     <Routes></Routes>
-                </Container>
+                {/* </Container> */}
+                </main>
                 <Footer />
 
             </Router>
@@ -80,46 +101,66 @@ function Home() {
     );
 }
 const Footer = () => {
+    const Styles = styled.div`
+    h5,p,c,a,NavLink {
+        color: #ffffff;
+      
+    }
+  `;
     var style = {
-        backgroundColor: "gray",
+        backgroundColor: "#3155AA",
         borderTop: "1px solid #E7E7E7",
         textAlign: "center",
-        padding: "20px",
-        position: "fixed",
-        left: "0",
-        bottom: "0",
-        height: "70px",
-        width: "100%",
     }
 
-    var phantom = {
-        display: 'block',
-        padding: '20px',
-        height: '60px',
-        width: '100%',
-    }
     return (
-        <div>
-
-            <div style={style}>
-                <div className="container-fluid text-center text-md-left">
-                    <div className="row">
-                        <div className="col-md-6 mt-md-0 mt-3">
-                            <h5 className="text-uppercase font-weight-bold">LUÔN LUÔN LẮNG NGHE LÂU LÂU MỚI HIỂU</h5>
-
-                        </div>
-                        <div className="footer-copyright text-center py-3">© 2020 Copyright:
-                             <a href="https://www.facebook.com/profile.php?id=100009196064931"> ParkingMapSaiGon</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+        <Styles style={style} >
+        <MDBFooter color="blue" className="font-small pt-4 mt-4">
+        <MDBContainer fluid className="text-center text-md-left">
+          <MDBRow>
+            <MDBCol md="4">
+              <h5 className="white-title">SAIGON PARKING</h5>
+              <p className="white-text">
+               Find The Best Parking Lot For Your Car
+              </p>
+            </MDBCol>
+            <MDBCol md="4">
+            <ul>
+                <li className="list-unstyled">
+                  <NavLink to="/" tag={Link}>Home</NavLink>
+                </li>
+                <li className="list-unstyled">
+                <NavLink to="/register" tag={Link}>Register</NavLink>
+                </li>
+                <li className="list-unstyled">
+                <NavLink to="/profile" tag={Link}>Profile</NavLink>
+                </li>
+              </ul>
+            </MDBCol>
+            <MDBCol md="4">
+              <ul>
+                <li className="list-unstyled">
+                <NavLink to="/" tag={Link}>Contact Us</NavLink>
+                </li>
+                <li className="list-unstyled">
+                <NavLink to="/" tag={Link}>About Us</NavLink>
+                </li>
+                <li className="list-unstyled">
+                <NavLink to="/" tag={Link}>License</NavLink>
+                </li>
+              </ul>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+        <div className="footer-copyright text-center py-3">
+         
         </div>
+      </MDBFooter>
+      </Styles>
     )
-
 }
+
+
 const Links = () => {
     const Styles = styled.div`
     .navbar {
@@ -136,6 +177,8 @@ const Links = () => {
     }
   `;
 
+
+    
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -155,7 +198,7 @@ const Links = () => {
 
                 <Navbar expand="lg">
                     <Link to="/">
-                        <Navbar.Brand >HOME</Navbar.Brand>
+                    <Navbar.Brand to="/" tag={Link} id="navbar-brand">HOME</Navbar.Brand>
                     </Link>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -180,11 +223,12 @@ const Links = () => {
                     </Navbar.Collapse>
                 </Navbar>
             </Styles >
-
-        )
-
+            
+        );
     }
-    else if (Auth.auth === false ) {
+
+
+    else {
         return (
             <Styles>
                 <Navbar expand="lg">
@@ -214,7 +258,8 @@ const Links = () => {
                     </Navbar.Collapse>
                 </Navbar>
             </Styles >
-        )
+            
+        );
 
     }
 }
@@ -224,17 +269,17 @@ const Routes = () => {
     return (
 
         <Switch>
-            <ProtectedHome exact path="/" component={ControlledCarousel} auth={Auth.auth}  ></ProtectedHome>
+            <ProtectedHome exact path="/" component={Body} auth={Auth.auth}  ></ProtectedHome>
 
 
             <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth} forgetpass={Auth.forgetpass} ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>
             <ProtectedRegister exact path="/register" component={Register} auth={Auth.auth} checkUserName={Auth.checkUserName} ></ProtectedRegister>
-            
+
             <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
             <ProtectedUpdate exact path="/profile/update" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Update}></ProtectedUpdate>
             <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
-            
+
             <ProtectedForgetPassword exact path="/forget-password" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Forgetpassword}></ProtectedForgetPassword>
             <ProtectedResetPassword exact path="/reset-password" forgetpass={Auth.forgetpass} auth={Auth.auth} checkUserName={Auth.checkUserName} component={PreResetPassword}></ProtectedResetPassword>
 
@@ -280,7 +325,7 @@ const ProtectedError404 = () => {
     )
 }
 
-const ProtectedMap = ({forgetpass, auth, checkUserName, component: Component, ...rest }) => {
+const ProtectedMap = ({ forgetpass, auth, checkUserName, component: Component, ...rest }) => {
     document.title = 'MAP'
     return (
         <Route
@@ -288,7 +333,7 @@ const ProtectedMap = ({forgetpass, auth, checkUserName, component: Component, ..
             {...rest}
 
             render={() =>
-                (auth === true || forgetpass === true ) ? (<Component />) : (<Redirect to="/login" />)
+                (auth === true || forgetpass === true) ? (<Component />) : (<Redirect to="/login" />)
 
             }
         />
@@ -480,9 +525,9 @@ const ProtectedForgetPassword = ({ checkUserName, auth, component: Component, ..
 
     )
 }
-const ProtectedResetPassword = ({ forgetpass,checkUserName, auth, component: Component, ...rest }) => {
+const ProtectedResetPassword = ({ forgetpass, checkUserName, auth, component: Component, ...rest }) => {
     document.title = 'RESETPASSWORD'
-  
+
     return (
         <Route
             {...rest}

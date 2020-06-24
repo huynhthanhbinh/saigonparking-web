@@ -5,6 +5,7 @@ import AuthApi from "./Auth/AuthAPI";
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
 import { API_URL } from '../saigonparking';
+import '../css/Register.css';
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -138,7 +139,7 @@ const Register = () => {
   return (
 
 
-    <div>
+    <div className="background">
       {modalRegisterIsOpen ? <ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister} /> : null}
 
       <form onSubmit={formik.handleSubmit}>
