@@ -169,6 +169,7 @@ const CovidDashboard = (props) => {
 
     useEffect(() => {
         if (patients !== null && currentPatient !== undefined) {
+            console.log(algorithm.customizedIndexOf(currentPatient, patients))
             if (algorithm.customizedIndexOf(currentPatient, patients) !== -1) {
                 setScrollList(patients, algorithm.customizedIndexOf(currentPatient, patients), refs);
             }
@@ -178,7 +179,7 @@ const CovidDashboard = (props) => {
 
         }
 
-    })
+    }, [switchLP, flat, patients, currentPatient])
     if (patients != null) {
         refs = patients.reduce((acc, patient, index) => {
             acc[index] = React.createRef();
@@ -236,8 +237,7 @@ const CovidDashboard = (props) => {
 
 const setScrollList = (patients, index, refs) => {
     if (patients.length > 0) {
-        console.log(index)
-        console.log(refs[index].current)
+
 
         if (refs[index]) {
             if (refs[index].current != null) {
