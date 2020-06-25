@@ -70,14 +70,9 @@ const CommentRating = ({ id }) => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-               
-                    Cookies.remove("checkUserName");
-                    Cookies.remove("token");
 
-                    Cookies.remove("refreshtoken");
-
-                    sessionstorage.clear()
-                
+                setmyError(err.message)
+                openModalError()
 
 
             } else {

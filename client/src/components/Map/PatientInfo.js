@@ -61,14 +61,9 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
     authService.generateNewToken(request, metadata, (err, res) => {
       if (err) {
-      
-          Cookies.remove("checkUserName");
-          Cookies.remove("token");
 
-          Cookies.remove("refreshtoken");
-
-          sessionstorage.clear()
-        
+        setmyError(err.message)
+        openModalError()
 
 
       } else {
@@ -128,10 +123,13 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   else {
 
     return <div className="info-card">
+      <span role="button" tabIndex="0" onClick={() => {
+        abc.setswitchLP({ LiPa: false, BinhLuan: false })
+      }}><img src={backbutton}></img></span>
 
       {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
       {parkinglot ? <Card style={{ width: '25rem' }}>
-        <a className="btn-floating btn-lg btn-default"><i className="fas fa-bolt"></i></a>
+
         <Card.Header><img style={{ width: '100%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} /></Card.Header>
         <Card.Body>
           <Card.Title>ID: {id}</Card.Title>
@@ -156,11 +154,12 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
 
           </Card.Text>
+          <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
         </Card.Body>
-        <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM BINH LUẬN</button>
-        <button onClick={() => {
+
+        {/* <button onClick={() => {
           abc.setswitchLP({ LiPa: false, BinhLuan: false })
-        }}>BACK</button>
+        }}>BACK</button> */}
       </Card> : null}
     </div>
   }

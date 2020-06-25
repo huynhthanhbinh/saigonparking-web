@@ -88,13 +88,9 @@ const CovidDashboard = (props) => {
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
                 // 2 nguoi cung dang nhap vao 1 tai khoan
-                Cookies.remove("checkUserName");
-                Cookies.remove("token");
 
-                Cookies.remove("refreshtoken");
-
-                sessionstorage.clear()
-
+                setmyError(err.message)
+                openModalError()
 
 
             } else {

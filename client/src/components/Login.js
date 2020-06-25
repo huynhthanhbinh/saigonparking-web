@@ -74,7 +74,7 @@ const Login = () => {
         const request = new authProto.ValidateRequest();
         request.setUsername(username);
         request.setPassword(password);
-        request.setRole(userProto.UserRole.CUSTOMER)
+        request.setRole(userProto.UserRole.ADMIN)
 
         authService.validateUser(request, {}, (err, res) => {
 
