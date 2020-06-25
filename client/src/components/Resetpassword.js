@@ -85,14 +85,14 @@ const Resetpassword = ({ username }) => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                if (err.message === 'SPE#00001') {
+                
                     Cookies.remove("checkUserName");
                     Cookies.remove("token");
 
                     Cookies.remove("refreshtoken");
 
                     sessionstorage.clear()
-                }
+                
 
 
             } else {

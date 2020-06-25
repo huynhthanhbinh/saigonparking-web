@@ -89,7 +89,7 @@ export const SideMenu = ({
     const [menuHandlerStyle] = useSpring({
         native: true,
         to: {
-            x: active ? 0 : 120,
+            x: active ? 120 : 120,
             color: active ? "palevioletred" : "white"
         }
     });
@@ -179,8 +179,7 @@ export const SideMenu = ({
 
                     {currentPatient &&
                         <div>
-                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM TẤT CẢ BÌNH LUẬN</button>
-                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>THÔNG TIN BÃI XE</button>
+
                             <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                         </div>
 
@@ -223,8 +222,7 @@ export const SideMenu = ({
                     </MenuHandler>
                     {currentPatient &&
                         <div>
-                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM TẤT CẢ BÌNH LUẬN</button>
-                            <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>THÔNG TIN BÃI XE</button>
+
                             <CommentRating id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                         </div>
 

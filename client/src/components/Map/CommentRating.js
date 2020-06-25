@@ -27,7 +27,11 @@ import sessionstorage from 'sessionstorage'
 import InfiniteScroll from "react-infinite-scroll-component";
 import { UserServiceClient } from '../../api/Actor_grpc_web_pb';
 import ActorProto from '../../api/Actor_pb';
-
+//animation loading screen
+import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
+//
+// Import Css
+import stylescrollview from '../../css/scrollpath.module.css'
 
 import userMapper from '../../mapper/UserMapper';
 //
@@ -66,14 +70,14 @@ const CommentRating = ({ id }) => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                if (err.message === 'SPE#00001') {
+               
                     Cookies.remove("checkUserName");
                     Cookies.remove("token");
 
                     Cookies.remove("refreshtoken");
 
                     sessionstorage.clear()
-                }
+                
 
 
             } else {
@@ -88,8 +92,6 @@ const CommentRating = ({ id }) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
-                    console.log("refreshtoken + accesstoken mới")
-                    setflat(!flat)
                 }
 
 
@@ -156,43 +158,52 @@ const CommentRating = ({ id }) => {
         })
 
     }, [id, flat])
-    const fetchMoreData = () => {
+    const getMoreData = () => {
+        if (total.items.length !== countall) {
+            setflat(!flat)
+        }
 
-        setflat(!flat)
     }
     const style = {
         height: 30,
-        border: "1px solid green",
+        border: "1px solid rgb(52, 116, 116)",
         margin: 6,
         padding: 8
     };
+    if (total.items.length === 0) {
+        return <BoxLoading color={"rgb(52, 116, 116)"} />
+    }
+    else {
 
-    return (
-        <div>
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+        return (
+            <div>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
-            <h1>BÌNH LUẬN ĐÁNH GIÁ</h1>
+                <h1>BÌNH LUẬN ĐÁNH GIÁ</h1>
 
 
-            <hr />
-            {total ? <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
-            <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
-                <InfiniteScroll
-                    dataLength={total.items.length}
-                    next={fetchMoreData}
-                    hasMore={true}
-                    loader={<h4>Loading...</h4>}
-                    scrollableTarget="scrollableDiv"
-                >
-                    {total && total.items.map((i, index) => (
-                        <div style={style} key={index}>
-                            ID:{i.getId()} - Name: {i.getUsername()}
-                        </div>
-                    ))}
+                <hr />
+                <h4>{total.items.length}/{countall}</h4>
+                <div id="scrollableDiv" className={`${stylescrollview.scrollpage} `} style={{ height: 300, overflow: "auto" }}>
+                    <InfiniteScroll
+                        dataLength={total.items.length}
+                        next={getMoreData}
+                        hasMore={true}
+                        loader={(total.items.length !== countall) ? <h4>Loading...</h4> : <h4>Hiện không còn bình luận nào</h4>}
+                        scrollableTarget="scrollableDiv"
+                    >
 
-                </InfiniteScroll>
-            </div>
-        </div>)
+                        {total && total.items.map((i, index) => (
+                            <div className={`${stylescrollview.ListViewRow}`} style={style} key={index}>
+                                ID:{i.getId()} - Name: {i.getUsername()}
+                            </div>
+                        ))}
+
+                    </InfiniteScroll>
+                </div>
+                {total.items.length ? <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
+            </div>)
+    }
 };
 
 export default CommentRating;

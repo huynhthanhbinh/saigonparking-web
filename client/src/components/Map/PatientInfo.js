@@ -23,6 +23,10 @@ import SetClick from './ConTextMap/SetClick'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
+//import animation loading screen
+import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
+//import button back
+import backbutton from "./icon/leftarrow.png"
 const authService = new AuthServiceClient(API_URL)
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -57,14 +61,14 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
     authService.generateNewToken(request, metadata, (err, res) => {
       if (err) {
-        if (err.message === 'SPE#00001') {
+      
           Cookies.remove("checkUserName");
           Cookies.remove("token");
 
           Cookies.remove("refreshtoken");
 
           sessionstorage.clear()
-        }
+        
 
 
       } else {
@@ -118,43 +122,48 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   useEffect(() => {
     callgetParkingLotById(id)
   }, [id, flat])
+  if (parkinglot === null) {
+    return <WindMillLoading color={"rgb(52, 116, 116)"}></WindMillLoading>
+  }
+  else {
 
-  return <div className="info-card">
-    {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-    {parkinglot ? <Card style={{ width: '25rem' }}>
-      <Card.Header><h2>Thông tin chi tiết bãi xe</h2></Card.Header>
-      <Card.Body>
-        <Card.Title>ID: {id}</Card.Title>
-        <StarRatings
-          rating={parkinglot.getInformation().getRatingaverage()}
-          starRatedColor="rgb(56,112,112)"
-          starDimension="20px"
-          starSpacing="2px"
-          numberOfStars={5}
-          name="rating"
-        />
-        <Card.Text>
-          <img style={{ width: '88%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
+    return <div className="info-card">
+
+      {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+      {parkinglot ? <Card style={{ width: '25rem' }}>
+        <a className="btn-floating btn-lg btn-default"><i className="fas fa-bolt"></i></a>
+        <Card.Header><img style={{ width: '100%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} /></Card.Header>
+        <Card.Body>
+          <Card.Title>ID: {id}</Card.Title>
+          <StarRatings
+            rating={parkinglot.getInformation().getRatingaverage()}
+            starRatedColor="rgb(56,112,112)"
+            starDimension="20px"
+            starSpacing="2px"
+            numberOfStars={5}
+            name="rating"
+          />
+          <Card.Text>
+
+            <li>NAME: {parkinglot.getInformation().getName()}</li>
+            <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
+            <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
+            <li>TYPE: {parkinglot.getType()}</li>
+            <li>OPEN: {parkinglot.getOpeninghour()}</li>
+            <li>CLOSE: {parkinglot.getClosinghour()}</li>
+            <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
+            <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
 
 
-
-          <li>NAME: {parkinglot.getInformation().getName()}</li>
-          <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
-          <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
-          <li>TYPE: {parkinglot.getType()}</li>
-          <li>OPEN: {parkinglot.getOpeninghour()}</li>
-          <li>CLOSE: {parkinglot.getClosinghour()}</li>
-          <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
-          <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
-
-
-        </Card.Text>
-      </Card.Body>
-      <button onClick={() => {
-        abc.setswitchLP({ LiPa: false, BinhLuan: false })
-      }}>BACK</button>
-    </Card> : null}
-  </div>
+          </Card.Text>
+        </Card.Body>
+        <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>XEM BINH LUẬN</button>
+        <button onClick={() => {
+          abc.setswitchLP({ LiPa: false, BinhLuan: false })
+        }}>BACK</button>
+      </Card> : null}
+    </div>
+  }
 };
 
 export default PatientInfo;
