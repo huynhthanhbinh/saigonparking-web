@@ -21,6 +21,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError }) => {
         Cookies.remove("token");
         Cookies.remove("refreshtoken");
         sessionstorage.clear();
+        Redirect('/login')
     }
 
     const ButtonReLogin = () => {
@@ -35,7 +36,7 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError }) => {
     const CodeError = (myError) => {
         switch (myError) {
             case "SPE#00001":
-                return 'BẠN ĐÃ ĐƯỢC CẤP ACCESS TOKEN';
+                return null;
             case "SPE#00000":
                 return 'MÃ LỖI QUÁ MỚI';
             case "SPE#00002":
@@ -54,8 +55,6 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError }) => {
                 return 'NGHI NGỜ CÓ HACK';
             case "SPE#00005":
                 return 'KHÔNG CÓ TOKEN';
-            case "SPE#0000DB":
-                return 'REFRESHTOKEN HẾT HẠN';
             default:
                 return myError;
         }

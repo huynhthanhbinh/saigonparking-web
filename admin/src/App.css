@@ -10,7 +10,8 @@ body {
 }
 
 main {
-    margin-left: 5rem;
+    z-index: 0;
+    margin-left: 6rem;
     transition: margin-left 0.2s;
 }
 
@@ -31,10 +32,11 @@ body::-webkit-scrollbar-thumb {
 
 .navbarx {
     width: 5rem;
-    height: 100vh;
+    height: 100%;
     position: fixed;
     background-color: #23232e;
     transition: width 200ms ease;
+    z-index: 1;
 }
 
 .navbar-nav {
@@ -87,7 +89,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .navbarx:hover~main {
-    margin-left: 16rem;
+    margin-left: 17rem;
 }
 
 .navbarx:hover .link-text {
@@ -148,10 +150,12 @@ body::-webkit-scrollbar-thumb {
         width: 100vw;
         height: 5rem;
         bottom: 0;
+        z-index: 1;
     }
     main {
         margin-left: 0;
         margin-bottom: 5rem;
+        z-index: 0;
     }
     .nav-logo {
         display: none;

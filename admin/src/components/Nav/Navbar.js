@@ -14,6 +14,7 @@ import { NavLink  } from 'react-router-dom'
 
 const Navbardefault = () => {
     let Auth = React.useContext(AuthApi)
+    
     const ClickLogOut = () => {
         Auth.setAuth(false)
         Auth.setcheckUserName(null)
@@ -23,7 +24,7 @@ const Navbardefault = () => {
         sessionstorage.clear();
         Redirect('/login')
     }
-
+    
     return (
         <>
             {Auth.auth ?

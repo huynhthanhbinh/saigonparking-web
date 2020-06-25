@@ -15,14 +15,44 @@ import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import Pagination from "react-js-pagination";
 import parkingLotMapper from '../../../mapper/ParkingLotMapper';
-
-import exceptionHandler from '../../../ExceptionHandling'
-
+import { AuthServiceClient } from "../../../api/Auth_grpc_web_pb";
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
-
+const authService = new AuthServiceClient (API_URL)
 
 
 const Admingetallparkinglot = () => {
+    //renew accessToken
+    const [flat, setFlat] = React.useState(false);
+    const ErrorSPE00001 = React.useCallback(
+        () => {
+            const refreshtoken = "Bearer " + Cookies.get("refreshtoken");
+            const metadata = { 'Authorization': refreshtoken };
+            const request = new Empty();
+    
+            authService.generateNewToken(request, metadata, (err, res) => {
+                console.log('here: ', err)
+                if (err) {
+                    setmyError(err.message)
+                    openModalError()
+                } else {
+                    if (res.getRefreshtoken() === "") {
+                        /* luu access token */
+                        Cookies.set("token", res.getAccesstoken());
+                        console.log("accesstoken mới");
+                        setFlat(flat => !flat);
+                    } else {
+                        /* luu new access token + new refresh token */
+                        Cookies.set("token", res.getAccesstoken());
+                        Cookies.set("refreshtoken", res.getRefreshtoken());
+                        console.log("refreshtoken + accesstoken mới");
+                        setFlat(flat => !flat);
+                    }
+                }
+            });
+        },[]
+    )
+
+
     //Loading State
     const [isLoading, setIsLoading] = React.useState(true)
 
@@ -64,58 +94,73 @@ const Admingetallparkinglot = () => {
     }
 
     useEffect(() => {
+        //solved memory leak
+        let isCancelled = false;
+
         const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
         ParkinglotwebService.countAll(request, metadata, (err, res) => {
-            if (err) {
-                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
-                    setmyError('SPE#0000DB')
+            if (err && !isCancelled) {
+                if (err.message === "SPE#00001") {
+                    ErrorSPE00001();
                 }
                 else {
                     setmyError(err.message)
                 }
                 openModalError()
             } else {
-                settotalParkinglot(res.getValue())
+                if (!isCancelled) {
+                    settotalParkinglot(res.getValue())
+                }
                 // setNPage(Math.ceil(res.getValue() / 10))
             }
         })
-    }, [pagenumber, modalErrorIsOpen])
+        return () => {
+            isCancelled = true; 
+        };
+    }, [pagenumber, flat, ErrorSPE00001])
 
     useEffect(() => {
+        //solved memory leak
+        let isCancelled = false;
+
         const request = new ParkinglotProto.GetAllParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
         request.setNrow(10);
         request.setPagenumber(pagenumber);
         ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
-            if (err) {
-                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
-                    setmyError('SPE#0000DB')
+            if (err && !isCancelled) {
+                if (err.message === "SPE#00001") {
                 }
                 else {
                     setmyError(err.message)
                 }
                 openModalError()
             } else {
-                setuser(res.getParkinglotList())
-                setIsLoading(false);
+                if (!isCancelled) {
+                    setuser(res.getParkinglotList())
+                    setIsLoading(false);
+                }
             }
         })
-    }, [pagenumber, modalErrorIsOpen, modalAddIsOpen])
+        return () => {
+            isCancelled = true; 
+        };
+    }, [pagenumber, modalAddIsOpen, flat])
 
 
     const handlechange = (e) => {
         setpagenumber(e)
-        if(pagenumber !== e) setIsLoading(true);
+        if (pagenumber !== e) setIsLoading(true);
     }
 
     return (
         <div>
             {isLoading ?
                 <>
-                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                    {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                     <div className={styles.section}>
                         <div className={styles.loaderUser}>
                             <span></span>

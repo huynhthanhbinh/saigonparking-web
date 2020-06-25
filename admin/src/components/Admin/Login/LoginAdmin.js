@@ -70,7 +70,6 @@ const Login = () => {
         setPassword(event.target.value);
     }
 
-
     return (
         <div>
             <section className={styles.section}>
@@ -118,60 +117,6 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <div className={styles.MainLogin}>
-                        <div className={styles.pagecontainer}>
-                            {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                            <Container className={styles.containerForm} >
-                                {isLoading ? <>
-                                    <span className={styles.spanH}></span>
-                                    <span className={styles.spanH}></span>
-                                    <span className={styles.spanVL}></span>
-                                    <span className={styles.spanVR}></span>
-                                </> : <></>
-                                }
-                                <div className={styles.form} >
-                                    <h2>Admin</h2>
-                                    <form onSubmit={formik.handleSubmit}>
-                                        <div className={styles.inputBox}>
-                                            <input
-                                                id="userName"
-                                                name="userName"
-                                                type="text"
-                                                placeholder="User Name"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.userName}
-                                                autoComplete="off"
-                                            />
-                                        </div>
-                                        {formik.touched.userName && formik.errors.userName ? (
-                                            <div style={{ color: "yellow" }} >{formik.errors.userName}</div>
-                                        ) : null}
-
-                                        <div className={styles.inputBox}>
-                                            <input
-                                                placeholder="Password"
-                                                id="passWord"
-                                                name="passWord"
-                                                type="password"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.passWord}
-                                                autoComplete="off"
-                                            />
-                                        </div>
-                                        {formik.touched.passWord && formik.errors.passWord ? (
-                                            <div style={{ color: "yellow" }} >{formik.errors.passWord}</div>
-                                        ) : null}
-
-                                        <div className={styles.inputBox}>
-                                            <input type={typeButton} disabled={isLoading} value="Login"></input>
-                                        </div>
-                                    </form>
-                                </div>
-                            </Container>
-                        </div>
-                    </div> */}
                 </div> : <></>}
             {enter ? <></> :
                 <div className={styles.welcomsection}>
