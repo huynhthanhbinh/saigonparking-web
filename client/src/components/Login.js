@@ -148,15 +148,15 @@ const Login = () => {
                         <button style={{ margin: 10 }} type="submit" >Submit</button>
 
                         <Link style={{ color: 'cyan' }} to="/forget-password">Forget Password</Link>
-                        
+
 
                     </div>
-                    
+
                     <div style={{ margin: 10 }}>
-                       
+
 
                         <Link style={{ color: 'cyan' }} to="/clickactivateaccount">Activate Account</Link>
-                        
+
 
                     </div>
 

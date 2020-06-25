@@ -109,6 +109,8 @@ const CovidDashboard = (props) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
+                    console.log("refreshtoken + accesstoken mới")
+                    setflat(!flat)
                 }
 
 
@@ -131,7 +133,7 @@ const CovidDashboard = (props) => {
             request.setLongitude(Clicklocation.lng);
             request.setRadiustoscan(3)
             request.setNresult(10)
-            await ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
+            await ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
 
 
                 if (err) {

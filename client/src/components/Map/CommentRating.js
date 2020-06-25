@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 //default images
 import defaultimageparkinglot from './images/plot.jpg'
 
-import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
+
 
 import { API_URL } from '../../saigonparking';
 
@@ -23,17 +23,26 @@ import SetClick from './ConTextMap/SetClick'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
+/// load comment
+import InfiniteScroll from "react-infinite-scroll-component";
+import { UserServiceClient } from '../../api/Actor_grpc_web_pb';
+import ActorProto from '../../api/Actor_pb';
+
+
+import userMapper from '../../mapper/UserMapper';
+//
 const authService = new AuthServiceClient(API_URL)
 
-const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
+const UserService = new UserServiceClient(API_URL)
 
 
 
-const CommentRating = ({ id, name, availableSlot, totalSlot }) => {
+const CommentRating = ({ id }) => {
     // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
     const abc = React.useContext(SetClick)
-
-    const [parkinglot, setparkinglot] = React.useState(null)
+    // các phần tử của comment và total
+    const [total, settotal] = React.useState({ items: [], pagenumber: 1 })
+    const [countall, setcountall] = React.useState(0)
 
     //config Modal Error
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
@@ -79,6 +88,8 @@ const CommentRating = ({ id, name, availableSlot, totalSlot }) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
+                    console.log("refreshtoken + accesstoken mới")
+                    setflat(!flat)
                 }
 
 
@@ -87,17 +98,19 @@ const CommentRating = ({ id, name, availableSlot, totalSlot }) => {
 
     }
 
-    //
+    //load số tổng
 
-    const callgetParkingLotById = (parkinglotid) => {
-        const request = new Int64Value();
+
+    useEffect(() => {
+        //countAll
+        const request = new Empty();
         const token = 'Bearer ' + Cookies.get("token");
-        request.setValue(parkinglotid)
+
         const metadata = { 'Authorization': token }
 
-        ParkinglotwebService.getParkingLotById(request, metadata, (err, res) => {
-            if (err) {
+        UserService.countAll(request, metadata, (err, res) => {
 
+            if (err) {
                 if (err.message === 'SPE#00001') {
                     xulyerrorSPE00001()
                 }
@@ -108,49 +121,78 @@ const CommentRating = ({ id, name, availableSlot, totalSlot }) => {
 
             } else {
 
-                setparkinglot(res)
+                setcountall(res.getValue())
+                // setNPage(Math.ceil(res.getValue() / 10))
+
+
             }
         })
-    }
 
-    useEffect(() => {
-        callgetParkingLotById(id)
     }, [id, flat])
+    // load mảng
+    useEffect(() => {
+        const request = new ActorProto.GetAllUserRequest();
+        const token = 'Bearer ' + Cookies.get("token");
 
-    return <div className="info-card">
-        {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-        {parkinglot ? <Card style={{ width: '25rem' }}>
-            <Card.Header><h2>CÁC ĐÁNH GIÁ CỦA BÃI XE</h2></Card.Header>
-            <Card.Body>
-                <Card.Title>ID: {id}</Card.Title>
-                <StarRatings
-                    rating={parkinglot.getInformation().getRatingaverage()}
-                    starRatedColor="rgb(56,112,112)"
-                    starDimension="20px"
-                    starSpacing="2px"
-                    numberOfStars={5}
-                    name="rating"
-                />
-                {/* <Card.Text>
-                    <img style={{ width: '88%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
+        const metadata = { 'Authorization': token }
+        request.setNrow(10);
+        request.setPagenumber(total.pagenumber);
+        UserService.getAllUser(request, metadata, (err, res) => {
+
+            if (err) {
+                if (err.message === 'SPE#00001') {
+                    xulyerrorSPE00001()
+                }
+                else {
+                    setmyError(err.message)
+                    openModalError()
+                }
+
+            } else {
+
+                settotal({ items: total.items.concat(res.getUserList()), pagenumber: total.pagenumber + 1 })
+
+            }
+        })
+
+    }, [id, flat])
+    const fetchMoreData = () => {
+
+        setflat(!flat)
+    }
+    const style = {
+        height: 30,
+        border: "1px solid green",
+        margin: 6,
+        padding: 8
+    };
+
+    return (
+        <div>
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+
+            <h1>BÌNH LUẬN ĐÁNH GIÁ</h1>
 
 
+            <hr />
+            {total ? <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
+            <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                <InfiniteScroll
+                    dataLength={total.items.length}
+                    next={fetchMoreData}
+                    hasMore={true}
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="scrollableDiv"
+                >
+                    {total && total.items.map((i, index) => (
+                        <div style={style} key={index}>
+                            ID:{i.getId()} - Name: {i.getUsername()}
+                        </div>
+                    ))}
 
-                    <li>NAME: {parkinglot.getInformation().getName()}</li>
-                    <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
-                    <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
-                    <li>TYPE: {parkinglot.getType()}</li>
-                    <li>OPEN: {parkinglot.getOpeninghour()}</li>
-                    <li>CLOSE: {parkinglot.getClosinghour()}</li>
-                    <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
-                    <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
-
-
-                </Card.Text> */}
-            </Card.Body>
-
-        </Card> : null}
-    </div>
+                </InfiniteScroll>
+            </div>
+        </div>)
 };
 
 export default CommentRating;

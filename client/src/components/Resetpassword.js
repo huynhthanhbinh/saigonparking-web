@@ -107,6 +107,8 @@ const Resetpassword = ({ username }) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
+                    console.log("refreshtoken + accesstoken mới")
+                    setflat(!flat)
                 }
 
 
