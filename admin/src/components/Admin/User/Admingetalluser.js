@@ -233,11 +233,7 @@ const Admingetalluser = () => {
                                     </thead>
                                     <tbody>
                                         {users && users.map((user, index) => (
-                                            <tr onClick={() => {
-                                                setLoadingButton(true);
-                                                settmp(user);
-                                                openModal();
-                                            }} key={index}>
+                                            <tr key={index}>
                                                 <td id="IDBIXOA"> {user.getId()}</td>
                                                 <td>{userMapper.toRoleString(user.getRole())}</td>
                                                 <td>{user.getUsername()}</td>
