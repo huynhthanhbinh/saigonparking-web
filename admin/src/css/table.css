@@ -18,6 +18,7 @@ thead tr th {
 tbody tr td {
     text-align: center;
     padding: 15px;
+    cursor: pointer;
 }
 
 tbody tr:hover {

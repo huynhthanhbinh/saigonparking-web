@@ -203,7 +203,11 @@ const Admingetallparkinglot = () => {
                                 <tbody>
                                     {
                                         parkinglots && parkinglots.map((parkingLot, index) =>
-                                            <tr key={index}>
+                                            <tr onClick={() => {
+                                                setLoadingButton(true)
+                                                settmp(parkingLot)
+                                                openModal()
+                                            }} key={index}>
                                                 <td id="IDBIXOA">{parkingLot.getId()}</td>
                                                 <td>{parkingLot.getInformation().getName()}</td>
                                                 <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>

@@ -47,7 +47,7 @@ ul.pagination li.active a {
     color: #fff;
 }
 
-ul.pagination li:hover {
+ul.pagination li:hover~a {
     cursor: pointer;
 }
 
