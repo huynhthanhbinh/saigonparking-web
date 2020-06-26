@@ -2,11 +2,15 @@ import React, { useEffect } from "react";
 //modal
 import UpdateModal from "./Updateuser";
 import AddModal from "./Adduser";
+import { Button } from 'semantic-ui-react'
 //modal Error
 import ModalError from "../../Modal/ModalError";
 //css
-import styles from "../Loading.module.css";
+import stylesLoading from "../Loading.module.css";
+//css pagination
 import "../../../css/pagination.css";
+//css table
+import '../../../css/table.css'
 //Api
 import { UserServiceClient } from "../../../api/Actor_grpc_web_pb";
 import ActorProto from "../../../api/Actor_pb";
@@ -64,6 +68,9 @@ const Admingetalluser = () => {
     const [users, setuser] = React.useState(null);
     const [tmp, settmp] = React.useState(null);
 
+    //Loading in button
+    const [loadingButton, setLoadingButton] = React.useState(false)
+
     //config Update modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
@@ -72,6 +79,7 @@ const Admingetalluser = () => {
 
     function closeModal() {
         setIsOpen(false);
+        setLoadingButton(false)
     }
 
     //config Add modal
@@ -107,6 +115,7 @@ const Admingetalluser = () => {
                 // console.log(err)
             } else {
                 setisActive(!isActive);
+                setLoadingButton(false)
             }
         });
     };
@@ -121,6 +130,7 @@ const Admingetalluser = () => {
                 // console.log(err)
             } else {
                 setisActive(!isActive);
+                setLoadingButton(false)
             }
         });
     };
@@ -193,8 +203,8 @@ const Admingetalluser = () => {
             {isLoading ? (
                 <>
                     {modalErrorIsOpen ? (<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} />) : null}
-                    <div className={styles.section}>
-                        <div className={styles.loaderUser}>
+                    <div className={stylesLoading.section}>
+                        <div className={stylesLoading.loaderUser}>
                             <span></span>
                             <span></span>
                             <span></span>
@@ -207,60 +217,71 @@ const Admingetalluser = () => {
                     </div>
                 </>
             ) : (
-                    <div className="card">
-                        <table className="table table-hover" style={{ marginTop: "50px" }}>
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">ROLE</th>
-                                    <th scope="col">USERNAME</th>
-                                    <th scope="col">EMAIL </th>
-                                    <th scope="col">LASTSIGNIN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users &&
-                                    users.map((user, index) => (
-                                        <tr key={index}>
-                                            <th scope="row" id="IDBIXOA">
-                                                {user.getId()}
-                                            </th>
-                                            <td>{userMapper.toRoleString(user.getRole())}</td>
-                                            <td>{user.getUsername()}</td>
-                                            <td>{user.getEmail()}</td>
-                                            <td>{user.getLastsignin()}</td>
-                                            <td>
-                                                <button
-                                                    className="buttonparkinglotuser"
-                                                    onClick={() => {
-                                                        if (user.getIsactivated() === true) {
-                                                            calldeactivateUser(user.getId());
-                                                        } else {
-                                                            callactivateUser(user.getId());
-                                                        }
-                                                    }}
-                                                >
-                                                    {" "}
-                                                    {user.getIsactivated() === true
-                                                        ? "Activated"
-                                                        : "Inactivated"}
-                                                </button>
-                                                {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
-                                                <button
-                                                    style={{ backgroundColor: "blue", border: "0px" }}
-                                                    className="buttonparkinglotuser"
-                                                    onClick={() => {
-                                                        settmp(user);
-                                                        openModal();
-                                                    }}
-                                                >
-                                                    Detail
-                      </button>
-                                            </td>
+                    <div>
+                        <div className="MainCard">
+                            <div className='ContentMainCard'>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th width="10%" scope="col">ID</th>
+                                            <th width="10%" scope="col">ROLE</th>
+                                            <th width="10%" scope="col">USERNAME</th>
+                                            <th width="30%" scope="col">EMAIL </th>
+                                            <th width="20%" scope="col">LASTSIGNIN</th>
+                                            <th width="20%" scope="col">CONTROL</th>
                                         </tr>
-                                    ))}
-                            </tbody>
-                        </table>
+                                    </thead>
+                                    <tbody>
+                                        {users && users.map((user, index) => (
+                                            <tr key={index}>
+                                                <td id="IDBIXOA"> {user.getId()}</td>
+                                                <td>{userMapper.toRoleString(user.getRole())}</td>
+                                                <td>{user.getUsername()}</td>
+                                                <td>{user.getEmail()}</td>
+                                                <td>{user.getLastsignin()}</td>
+                                                <td>
+                                                    <Button.Group size='mini'>
+                                                        <Button
+                                                            color={user.getIsactivated() === true ? 'green' : 'red'}
+                                                            loading={loadingButton}
+                                                            disabled={user.getUsername() === 'admin' ? true : loadingButton}
+                                                            className="buttonparkinglotuser"
+                                                            onClick={() => {
+                                                                setLoadingButton(true);
+                                                                if (user.getIsactivated() === true) {
+                                                                    calldeactivateUser(user.getId());
+                                                                } else {
+                                                                    callactivateUser(user.getId());
+                                                                }
+                                                            }}
+                                                        >
+                                                            {" "}
+                                                            {user.getIsactivated() === true
+                                                                ? "Activated"
+                                                                : "Inactivated"}
+                                                        </Button>
+                                                        <Button.Or text='|' />
+                                                        {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
+                                                        <Button
+                                                            loading={loadingButton} disabled={loadingButton}
+                                                            primary
+                                                            className="buttonparkinglotuser"
+                                                            onClick={() => {
+                                                                setLoadingButton(true);
+                                                                settmp(user);
+                                                                openModal();
+                                                            }}
+                                                        >
+                                                            Detail
+                                                </Button>
+                                                    </Button.Group>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         {tmp ? (
                             <UpdateModal
                                 modalIsOpen={modalIsOpen}

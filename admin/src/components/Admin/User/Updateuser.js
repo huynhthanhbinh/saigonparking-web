@@ -5,7 +5,6 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 //CSS
-import '../../../css/formparkinguser.css'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
 import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';

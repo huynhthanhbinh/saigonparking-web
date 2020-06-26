@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #ffffff;
+    background: #dadada;
 }
 
 .loaderUser {
@@ -17,7 +17,7 @@
     width: 30px;
     height: 300px;
     margin: 0 20px;
-    background: #ffffff;
+    background: #dadada;
     animation: animateloader 1.4s linear infinite;
 }
 

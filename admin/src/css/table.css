@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+}
+
+thead {
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 2px solid rgb(143, 143, 143);
+    box-shadow: 5px 20px 50px;
+}
+
+thead tr th {
+    text-align: center;
+    padding: 20px;
+}
+
+tbody tr td {
+    text-align: center;
+    padding: 15px;
+}
+
+tbody tr:hover {
+    animation: changecolor 0.5s forwards;
+}
+
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+
+@keyframes changecolor {
+    0% {
+        background: rgb(255, 255, 255);
+    }
+    100% {
+        background: rgb(219, 219, 219);
+    }
+}

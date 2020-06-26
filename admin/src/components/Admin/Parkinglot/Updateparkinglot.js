@@ -4,8 +4,6 @@ import Card from "react-bootstrap/Card";
 import { Modal } from 'semantic-ui-react'
 // import { Row, Col, Container } from 'react-bootstrap'
 // import { useField } from 'formik';
-//
-import '../../../css/formparkinguser.css'
 
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import { API_URL } from '../../../saigonparking';
