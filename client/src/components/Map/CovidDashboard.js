@@ -20,13 +20,6 @@ import exceptionHandler from '../../ExceptionHandling'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
-//SLIDE DRAWER
-import SideMenu from './drawer'
-//import ReactContext SetClick
-import SetClick from './ConTextMap/SetClick'
-// import custom algorithm common
-import algorithm from '../../algorithm'
-//
 const authService = new AuthServiceClient(API_URL)
 
 
@@ -34,8 +27,6 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const CovidDashboard = (props) => {
-    //set up state switch page ListPatients and PatientInfo 
-    const [switchLP, setswitchLP] = React.useState({ LiPa: false, BinhLuan: false })
     //config Error modal
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
@@ -87,10 +78,14 @@ const CovidDashboard = (props) => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                // 2 nguoi cung dang nhap vao 1 tai khoan
+                if (err.message === 'SPE#00001') {
+                    Cookies.remove("checkUserName");
+                    Cookies.remove("token");
 
-                setmyError(err.message)
-                openModalError()
+                    Cookies.remove("refreshtoken");
+
+                    sessionstorage.clear()
+                }
 
 
             } else {
@@ -105,8 +100,6 @@ const CovidDashboard = (props) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
-                    console.log("refreshtoken + accesstoken mới")
-                    setflat(!flat)
                 }
 
 
@@ -114,7 +107,7 @@ const CovidDashboard = (props) => {
         })
 
     }
-
+    
     useEffect(() => {
 
 
@@ -129,7 +122,7 @@ const CovidDashboard = (props) => {
             request.setLongitude(Clicklocation.lng);
             request.setRadiustoscan(3)
             request.setNresult(10)
-            await ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithName(request, metadata, (err, res) => {
+            await ParkinglotwebService.getTopParkingLotInRegionOrderByDistanceWithoutName(request, metadata, (err, res) => {
 
 
                 if (err) {
@@ -166,18 +159,11 @@ const CovidDashboard = (props) => {
 
 
     useEffect(() => {
-        if (patients !== null && currentPatient !== undefined) {
-            console.log(algorithm.customizedIndexOf(currentPatient, patients))
-            if (algorithm.customizedIndexOf(currentPatient, patients) !== -1) {
-                setScrollList(patients, algorithm.customizedIndexOf(currentPatient, patients), refs);
-            }
-            else {
-
-            }
-
+        if (patients != null) {
+            setScrollList(patients, indexPatientClicked, refs);
         }
 
-    }, [switchLP, flat, patients, currentPatient])
+    })
     if (patients != null) {
         refs = patients.reduce((acc, patient, index) => {
             acc[index] = React.createRef();
@@ -202,41 +188,33 @@ const CovidDashboard = (props) => {
         setIndexPatientClicked(index);
     }
 
+    return ((<Container>
+        {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+        <Row>
 
-    return ((
-        <SetClick.Provider value={{ switchLP, setswitchLP }}>
-            <Container>
-                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                <Row>
+            {(patients != null) ? <Col xs={9}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
+            </Col> : <Landing />}
+            <Col xs={3}>
+                {currentPatient &&
+                    <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
+            </Col>
+        </Row>
+        <Row>
+            <Col xs={9}>
+                <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
+            </Col>
 
-                    {(patients != null) ? <Col xs={9}><CovidGoogleMap onPatientMarkerClicked={patientMarkerClickedHandler} patients={listPatientSelected ? listPatientSelected : patients} currentPatient={currentPatient} refs={refs} fgetClicklocation={fgetClicklocation} />
-                    </Col> : <Landing />}
-                    {/* <Col xs={3}>
-                        {currentPatient &&
-                            <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />}
-                    </Col> */}
-                </Row>
-                <Row>
-                    <Col xs={9}>
-                        {patients && <SideMenu overlayColor="#transparent" width={400} data={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />}
-                    </Col>
-                    {/* <Col xs={9}>
-                        <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />
-                    </Col> */}
-
-                </Row>
+        </Row>
 
 
 
-            </Container>
-        </SetClick.Provider>
+    </Container>
+
     ))
 };
 
 const setScrollList = (patients, index, refs) => {
     if (patients.length > 0) {
-
-
         if (refs[index]) {
             if (refs[index].current != null) {
                 refs[index].current.scrollIntoView({

@@ -15,18 +15,10 @@ import StarRatings from "react-star-ratings";
 import exceptionHandler from '../../ExceptionHandling'
 //modal Error
 import ModalError from '../Modal/ModalError'
-//
-//React Context ConTextMap SetClick
-import SetClick from './ConTextMap/SetClick'
-//
 // bắt lỗi error0001 cấp accesctoken mới
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
-//import animation loading screen
-import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
-//import button back
-import backbutton from "./icon/leftarrow.png"
 const authService = new AuthServiceClient(API_URL)
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -34,8 +26,6 @@ const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
 
 
 const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
-  // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
-  const abc = React.useContext(SetClick)
 
   const [parkinglot, setparkinglot] = React.useState(null)
 
@@ -61,9 +51,14 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
     authService.generateNewToken(request, metadata, (err, res) => {
       if (err) {
+        if (err.message === 'SPE#00001') {
+          Cookies.remove("checkUserName");
+          Cookies.remove("token");
 
-        setmyError(err.message)
-        openModalError()
+          Cookies.remove("refreshtoken");
+
+          sessionstorage.clear()
+        }
 
 
       } else {
@@ -78,8 +73,6 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
           /** luu new access token + new refresh token */
           Cookies.set("token", res.getAccesstoken())
           Cookies.set("refreshtoken", res.getRefreshtoken())
-          console.log("refreshtoken + accesstoken mới")
-          setflat(!flat)
         }
 
 
@@ -117,22 +110,16 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   useEffect(() => {
     callgetParkingLotById(id)
   }, [id, flat])
-  if (parkinglot === null) {
-    return <WindMillLoading color={"rgb(52, 116, 116)"}></WindMillLoading>
-  }
-  else {
 
-    return <div className="info-card">
-      <span role="button" tabIndex="0" onClick={() => {
-        abc.setswitchLP({ LiPa: false, BinhLuan: false })
-      }}><img src={backbutton}></img></span>
+  return <div class="info-card">
+    {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+    {parkinglot ? <Card style={{ width: '18rem' }}>
+      <Card.Header><h2>Thông tin chi tiết bãi xe</h2></Card.Header>
+      <Card.Body>
+        <Card.Title>ID: {id}</Card.Title>
+        <Card.Text>
+          <img style={{ width: '88%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} />
 
-      {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-      {parkinglot ? <Card style={{ width: '25rem' }}>
-
-        <Card.Header><img style={{ width: '100%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} /></Card.Header>
-        <Card.Body>
-          <Card.Title>ID: {id}</Card.Title>
           <StarRatings
             rating={parkinglot.getInformation().getRatingaverage()}
             starRatedColor="rgb(56,112,112)"
@@ -141,28 +128,21 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
             numberOfStars={5}
             name="rating"
           />
-          <Card.Text>
 
-            <li>NAME: {parkinglot.getInformation().getName()}</li>
-            <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
-            <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
-            <li>TYPE: {parkinglot.getType()}</li>
-            <li>OPEN: {parkinglot.getOpeninghour()}</li>
-            <li>CLOSE: {parkinglot.getClosinghour()}</li>
-            <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
-            <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
+          <li>NAME: {parkinglot.getInformation().getName()}</li>
+          <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
+          <li>PHONE: {parkinglot.getInformation().getPhone()}</li>
+          <li>TYPE: {parkinglot.getType()}</li>
+          <li>OPEN: {parkinglot.getOpeninghour()}</li>
+          <li>CLOSE: {parkinglot.getClosinghour()}</li>
+          <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
+          <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
 
 
-          </Card.Text>
-          <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
-        </Card.Body>
-
-        {/* <button onClick={() => {
-          abc.setswitchLP({ LiPa: false, BinhLuan: false })
-        }}>BACK</button> */}
-      </Card> : null}
-    </div>
-  }
+        </Card.Text>
+      </Card.Body>
+    </Card> : null}
+  </div>
 };
 
 export default PatientInfo;

@@ -61,8 +61,14 @@ const Information = () => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                setmyError(err.message)
-                openModalError()
+                if (err.message === 'SPE#00001') {
+                    Cookies.remove("checkUserName");
+                    Cookies.remove("token");
+
+                    Cookies.remove("refreshtoken");
+
+                    sessionstorage.clear()
+                }
 
 
             } else {
@@ -77,8 +83,6 @@ const Information = () => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
-                    console.log("refreshtoken + accesstoken mới")
-                    setflat(!flat)
                 }
 
 

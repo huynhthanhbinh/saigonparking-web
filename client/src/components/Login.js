@@ -74,7 +74,7 @@ const Login = () => {
         const request = new authProto.ValidateRequest();
         request.setUsername(username);
         request.setPassword(password);
-        request.setRole(userProto.UserRole.ADMIN)
+        request.setRole(userProto.UserRole.CUSTOMER)
 
         authService.validateUser(request, {}, (err, res) => {
 
@@ -148,15 +148,15 @@ const Login = () => {
                         <button style={{ margin: 10 }} type="submit" >Submit</button>
 
                         <Link style={{ color: 'cyan' }} to="/forget-password">Forget Password</Link>
-
+                        
 
                     </div>
-
+                    
                     <div style={{ margin: 10 }}>
-
+                       
 
                         <Link style={{ color: 'cyan' }} to="/clickactivateaccount">Activate Account</Link>
-
+                        
 
                     </div>
 

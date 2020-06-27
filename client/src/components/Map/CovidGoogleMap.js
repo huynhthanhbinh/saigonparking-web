@@ -3,8 +3,7 @@ import React from "react";
 import markerbuilding from "./icon/markerbuilding.png"
 import markerprivate from "./icon/markerprivate.png"
 import markerstreet from "./icon/markerstreet.png"
-//React Context ConTextMap SetClick
-import SetClick from './ConTextMap/SetClick'
+
 import {
   GoogleMap,
   useLoadScript,
@@ -40,7 +39,7 @@ const center = {
   lat: 10.762887,
   lng: 106.6800684,
 };
-var myVar;
+
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
@@ -48,25 +47,11 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
   });
   // const [markers, setMarkers] = React.useState([]);
 
-  /**
-   * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
-   */
-  const onMouseUp = React.useCallback((e) => {
-    myVar = setTimeout(function () {
-      // console.log(e.latLng.lat())
-      fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() })
-    }, 2000);
 
-  }, []);
-  /**
-   * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
-   */
-  const onMouseDown = React.useCallback((e) => {
-    // console.log("xóa load dữ liệu")
-    // console.log(e.latLng.lat())
-    clearTimeout(myVar);
+  const onMapClick = React.useCallback((e) => {
 
 
+    fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() })
   }, []);
 
   const mapRef = React.useRef();
@@ -79,16 +64,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
     mapRef.current.panTo({ lat, lng });
 
-    mapRef.current.setZoom(14);
+    mapRef.current.setZoom(15);
 
   }, []);
-  // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
-  const abc = React.useContext(SetClick)
 
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
-
   return (
 
 
@@ -105,13 +87,11 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
       <GoogleMap
         id="map"
         mapContainerStyle={mapContainerStyle}
-        zoom={13}
+        zoom={15}
         center={center}
         options={options}
-        onMouseUp={onMouseUp}
-        onMouseDown={onMouseDown}
+        onClick={onMapClick}
         onLoad={onMapLoad}
-      // panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
       >
         {patients && patients.map((patient, index) => {
           if (patient.getType() === 0) {
@@ -120,9 +100,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP({ LiPa: true, BinhLuan: false })
-                //
-                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerbuilding,
@@ -130,7 +107,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
-              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
 
             />)
           }
@@ -140,9 +116,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP({ LiPa: true, BinhLuan: false })
-                //
-                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerprivate,
@@ -150,8 +123,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
-              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
-
             />)
           }
           else if (patient.getType() === 2) {
@@ -160,9 +131,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
               onClick={() => {
                 onPatientMarkerClicked(patient, index)
-                abc.setswitchLP({ LiPa: true, BinhLuan: false })
-                //
-                panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
               }}
               icon={{
                 url: markerstreet,
@@ -170,7 +138,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
-              animation={currentPatient ? (patient.getLatitude() === currentPatient.getLatitude() && patient.getLongitude() === currentPatient.getLongitude() ? '1' : '0') : '0'}
             />)
           }
         }
