@@ -82,16 +82,16 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest,
+ *   !proto.google.protobuf.Empty,
  *   !proto.google.protobuf.Int64Value>}
  */
-const methodDescriptor_UserService_countAllUser = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.user.UserService/countAllUser',
+const methodDescriptor_UserService_countAll = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
   grpc.web.MethodType.UNARY,
-  proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest,
+  google_protobuf_empty_pb.Empty,
   google_protobuf_wrappers_pb.Int64Value,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest} request
+   * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -104,13 +104,13 @@ const methodDescriptor_UserService_countAllUser = new grpc.web.MethodDescriptor(
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest,
+ *   !proto.google.protobuf.Empty,
  *   !proto.google.protobuf.Int64Value>}
  */
-const methodInfo_UserService_countAllUser = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_UserService_countAll = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.Int64Value,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest} request
+   * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -121,7 +121,7 @@ const methodInfo_UserService_countAllUser = new grpc.web.AbstractClientBase.Meth
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -130,32 +130,32 @@ const methodInfo_UserService_countAllUser = new grpc.web.AbstractClientBase.Meth
  * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Int64Value>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.countAllUser =
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.countAll =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/countAllUser',
+      '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
       request,
       metadata || {},
-      methodDescriptor_UserService_countAllUser,
+      methodDescriptor_UserService_countAll,
       callback);
 };
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.CountAllUserRequest} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
  * @return {!Promise<!proto.google.protobuf.Int64Value>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.countAllUser =
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.countAll =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/countAllUser',
+      '/com.bht.saigonparking.api.grpc.user.UserService/countAll',
       request,
       metadata || {},
-      methodDescriptor_UserService_countAllUser);
+      methodDescriptor_UserService_countAll);
 };
 
 
@@ -562,80 +562,160 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
  */
-const methodDescriptor_UserService_mapToUsernameList = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+const methodDescriptor_UserService_getParkingLotEmployeeById = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
   grpc.web.MethodType.UNARY,
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request
+   * @param {!proto.google.protobuf.Int64Value} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse.deserializeBinary
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
  */
-const methodInfo_UserService_mapToUsernameList = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse,
+const methodInfo_UserService_getParkingLotEmployeeById = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request
+   * @param {!proto.google.protobuf.Int64Value} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse.deserializeBinary
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
 );
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request The
+ * @param {!proto.google.protobuf.Int64Value} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse)}
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.mapToUsernameList =
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParkingLotEmployeeById =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
       request,
       metadata || {},
-      methodDescriptor_UserService_mapToUsernameList,
+      methodDescriptor_UserService_getParkingLotEmployeeById,
       callback);
 };
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request The
+ * @param {!proto.google.protobuf.Int64Value} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.mapToUsernameList =
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getParkingLotEmployeeById =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeById',
       request,
       metadata || {},
-      methodDescriptor_UserService_mapToUsernameList);
+      methodDescriptor_UserService_getParkingLotEmployeeById);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
+ */
+const methodDescriptor_UserService_getParkingLotEmployeeByUsername = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
+ */
+const methodInfo_UserService_getParkingLotEmployeeByUsername = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getParkingLotEmployeeByUsername =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_getParkingLotEmployeeByUsername,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.ParkingLotEmployee>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getParkingLotEmployeeByUsername =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/getParkingLotEmployeeByUsername',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_getParkingLotEmployeeByUsername);
 };
 
 
@@ -1036,166 +1116,6 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.dea
       request,
       metadata || {},
       methodDescriptor_UserService_deactivateUser);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.google.protobuf.Int64Value,
- *   !proto.google.protobuf.Empty>}
- */
-const methodDescriptor_UserService_deleteUserById = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.user.UserService/deleteUserById',
-  grpc.web.MethodType.UNARY,
-  google_protobuf_wrappers_pb.Int64Value,
-  google_protobuf_empty_pb.Empty,
-  /**
-   * @param {!proto.google.protobuf.Int64Value} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  google_protobuf_empty_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.google.protobuf.Int64Value,
- *   !proto.google.protobuf.Empty>}
- */
-const methodInfo_UserService_deleteUserById = new grpc.web.AbstractClientBase.MethodInfo(
-  google_protobuf_empty_pb.Empty,
-  /**
-   * @param {!proto.google.protobuf.Int64Value} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  google_protobuf_empty_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @param {!proto.google.protobuf.Int64Value} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.deleteUserById =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/deleteUserById',
-      request,
-      metadata || {},
-      methodDescriptor_UserService_deleteUserById,
-      callback);
-};
-
-
-/**
- * @param {!proto.google.protobuf.Int64Value} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.google.protobuf.Empty>}
- *     A native promise that resolves to the response
- */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.deleteUserById =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/deleteUserById',
-      request,
-      metadata || {},
-      methodDescriptor_UserService_deleteUserById);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest,
- *   !proto.google.protobuf.Empty>}
- */
-const methodDescriptor_UserService_deleteMultiUserById = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.user.UserService/deleteMultiUserById',
-  grpc.web.MethodType.UNARY,
-  proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest,
-  google_protobuf_empty_pb.Empty,
-  /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  google_protobuf_empty_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest,
- *   !proto.google.protobuf.Empty>}
- */
-const methodInfo_UserService_deleteMultiUserById = new grpc.web.AbstractClientBase.MethodInfo(
-  google_protobuf_empty_pb.Empty,
-  /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  google_protobuf_empty_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.deleteMultiUserById =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/deleteMultiUserById',
-      request,
-      metadata || {},
-      methodDescriptor_UserService_deleteMultiUserById,
-      callback);
-};
-
-
-/**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.DeleteMultiUserByIdRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.google.protobuf.Empty>}
- *     A native promise that resolves to the response
- */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.deleteMultiUserById =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/deleteMultiUserById',
-      request,
-      metadata || {},
-      methodDescriptor_UserService_deleteMultiUserById);
 };
 
 
