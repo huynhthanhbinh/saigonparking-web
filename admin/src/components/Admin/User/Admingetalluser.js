@@ -287,7 +287,7 @@ const Admingetalluser = () => {
                             <UpdateModal
                                 modalIsOpen={modalIsOpen}
                                 closeModal={closeModal}
-                                parkinglot={tmp}
+                                user={tmp}
                             />
                         ) : null}
                         <AddModal
