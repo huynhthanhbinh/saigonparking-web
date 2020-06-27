@@ -172,7 +172,8 @@ const Information = () => {
 
     // console.log(customerObject)
     return (
-        <>
+        <div className='backgroundinfo'>
+        <div className='abcxyz'></div>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
             {customerObject ? <Formik
@@ -212,10 +213,10 @@ const Information = () => {
 
                 }}
             >
-                <Form className="backgroundinfo" >
-                    <Row>
+                <Form className='formabc' >
+                    <div></div>
                     <h1>Thông tin cá nhân</h1>
-                    </Row>
+
 
                     <div className="fontcolorinfo">
                         <MyTextInput
@@ -225,7 +226,7 @@ const Information = () => {
                             disabled="disabled"
                         />
                     </div>
-                    
+
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Email "
@@ -235,7 +236,7 @@ const Information = () => {
 
                         />
                     </div>
-                   
+
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Tên"
@@ -257,7 +258,7 @@ const Information = () => {
                     </div>
 
                     <div className="fontcolorinfo">
-                        <MyTextInput 
+                        <MyTextInput
                             label="Số điện thoại"
                             name="phone"
                             type="phone"
@@ -265,9 +266,9 @@ const Information = () => {
 
                         />
                     </div>
-                   
+
                     <div className="footer-copyright text-center py-5">
-                    
+
                         <div style={{ marginRight: "24%" }}>
                             <Link to="/profile/update">
                                 <button style={{ margin: "1%" }} type="button">
@@ -276,12 +277,11 @@ const Information = () => {
                             </Link>
                             <button style={{ margin: "1%" }} onClick={ClickLogOut}>Logout</button>
                         </div>
-                    
+
                     </div>
                 </Form>
             </Formik> : <button onClick={ClickLogOut}>Logout</button>}
-
-        </>
+        </div>
     )
 
 }

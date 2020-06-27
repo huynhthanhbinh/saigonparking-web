@@ -116,7 +116,7 @@ const Forgetpassword = () => {
         <>
         <div className="page-container2">
             <form className="form2" onSubmit={formik.handleSubmit}>
-                <div>
+                <div style={{ margin: "5%" }}>
                     {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                     <label htmlFor="userName">USERNAME</label>
                     <input
@@ -132,8 +132,8 @@ const Forgetpassword = () => {
                     ) : null}
                 </div>
 
-                <div style={{ marginTop: "5%" }}>
-                    <button style={{ marginTop: "5%" }} type="submit" >Submit</button>
+                <div style={{ marginBottom: "5%" }}>
+                    <button  type="submit" >Submit</button>
 
                 </div>
 

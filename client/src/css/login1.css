@@ -48,20 +48,29 @@ h1 {
 }
 
 .page-container2 .form2 {
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	position: absolute;
-	height: 40%;
-	width: 25%;
+	height: auto;
+	width: auto;
 	text-align: center;
 	background-color: black;
 	opacity: 0.75;
 }
 
-.page-container2 formResetPass {
-	margin-left: -12.5%;
-	margin-top: -10%;
+
+.page-container2 .form2 {
+	color: white;
+}
+
+.page-container2 .formResetPass {
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	position: absolute;
-	height: 60%;
-	width: 25%;
+	height: auto;
+	width: auto;
 	text-align: center;
 	background-color: black;
 	opacity: 0.75;
@@ -71,10 +80,14 @@ h1 {
 	color: white;
 	margin-top: 5%;
 }
-
-.page-container2 label {
+.page-container2 .formResetPass .divForm {
+	margin: 10%;
+}
+.page-container2 .formResetPass label {
 	color: white;
-	margin-top: 5%;
+}
+.page-container2 .formResetPass input {
+	margin-top: 10%;
 }
 
 input {

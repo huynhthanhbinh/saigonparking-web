@@ -144,10 +144,10 @@ const Register = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <Container className="fontcolor">
-
-          <Row >
-            <Col xs={2}><label htmlFor="lastName">Họ</label></Col>
-            <Col xs={5} >
+        <div className="fontcolorform">
+        <br/>
+            <label htmlFor="lastName">Họ</label>
+            
               <input
 
                 id="lastName"
@@ -157,17 +157,14 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.lastName}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+            
+            
               {formik.touched.lastName && formik.errors.lastName ? (
                 <div>{formik.errors.lastName}</div>
               ) : null}
-            </Col>
-          </Row>
-
-          <Row >
-            <Col xs={2}><label htmlFor="firstName">Tên</label></Col>
-            <Col xs={5}>
+              <br/>
+            <label htmlFor="firstName">Tên</label>
+            
               <input
                 id="firstName"
                 name="firstName"
@@ -176,18 +173,16 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.firstName}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+            
+            
               {formik.touched.firstName && formik.errors.firstName ? (
                 <div>{formik.errors.firstName}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-          <Row >
-            <Col xs={2}><label htmlFor="userName">UserName</label></Col>
-            <Col xs={5}>
+            
+              <br/>
+            <label htmlFor="userName">UserName</label>
+            
               <input
                 id="userName"
                 name="userName"
@@ -196,18 +191,16 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.userName}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+            
+           
               {formik.touched.userName && formik.errors.userName ? (
                 <div>{formik.errors.userName}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-          <Row >
-            <Col xs={2}><label htmlFor="passWord">Mật khẩu</label></Col>
-            <Col xs={5}>
+            
+              <br/>
+            <label htmlFor="passWord">Mật khẩu</label>
+           
               <input
                 id="passWord"
                 name="passWord"
@@ -216,18 +209,15 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.passWord}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+            
+           
               {formik.touched.passWord && formik.errors.passWord ? (
                 <div>{formik.errors.passWord}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-          <Row >
-            <Col xs={2}><label htmlFor="confirmpassWord">Xác nhận mật khẩu</label></Col>
-            <Col xs={5}>
+              <br/>
+            <label htmlFor="confirmpassWord">Xác nhận mật khẩu</label>
+           
               <input
                 id="confirmpassWord"
                 name="confirmpassWord"
@@ -236,18 +226,16 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmpassWord}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+            
+           
               {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
                 <div>{formik.errors.confirmpassWord}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-          <Row >
-            <Col xs={2}><label htmlFor="email">Email</label></Col>
-            <Col xs={5}>
+            
+              <br/>
+            <label htmlFor="email">Email</label>
+           
               <input
                 id="email"
                 name="email"
@@ -256,19 +244,15 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+           
               {formik.touched.email && formik.errors.email ? (
                 <div>{formik.errors.email}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-
-          <Row >
-            <Col xs={2}><label htmlFor="phone">Số điện thoại</label></Col>
-            <Col xs={5}>
+            
+              <br/>
+            <label htmlFor="phone">Số điện thoại</label>
+            
               <input
                 id="phone"
                 name="phone"
@@ -277,31 +261,25 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.phone}
               />
-            </Col>
-            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+          
               {formik.touched.phone && formik.errors.phone ? (
                 <div>{formik.errors.phone}</div>
               ) : null}
 
-            </Col>
-          </Row>
-
-        </Container>
-      </form>
-      <NotificationContainer />
-      <div className="footer-copyright text-center py-5">
-        <div style={{ marginRight: "53%" }}>
-          <button style={{ margin: "1%" }} type="submit"  >Submit</button>
+              <br/>
+          <button style={{}} type="submit"  >Submit</button>
           <button
-            style={{ margin: "1%" }}
+            style={{  }}
             onClick={formik.handleReset}
             type="reset"
           >
             Reset
         </button>
-        </div>
+                </div>
+        </Container>
+      </form>
+      <NotificationContainer />
       </div>
-    </div>
   );
 };
 export default Register;

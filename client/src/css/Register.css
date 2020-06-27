@@ -1,63 +1,82 @@
 /* css dung chung cho Register, Information, UpdateInfomation */
 
-.background{
-    background: url("../components/Home/images/night light.jpg");
-    background-size: 100% 100%;
-}
-
-.background .fontcolor label{
-    color: white;
-    margin-top: 30%;
-    margin-left: 9%;
-}
-
-.background .fontcolor input{
-    color: white;
-    margin-top: 10%;
-    background-color: 	silver;
-}
-
-
-
-/* css Information */
-.backgroundinfo{
+.background {
     background: url("../components/Home/images/night light.jpg");
     background-size: cover;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
-.backgroundinfo .fontcolorinfo{
+.background .fontcolor label {
     color: white;
 }
 
-.backgroundinfo .fontcolorinfo label{
-    margin-top: 9%;
+.background .fontcolor {
+    margin-top: 5%;
+    height: 100%;
+    overflow-y: auto;
+    background: black;
+    opacity: 0.75;
+}
+.background .fontcolor .fontcolorform {
+    margin-top: 5%;
 }
 
+.backgroundinfo {
+    background: url("../components/Home/images/night light.jpg");
+    background-size: cover;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
 
-.backgroundinfo h1{
+.backgroundinfo .fontcolorinfo {
     color: white;
-    margin-top: 3%;
-    margin-left: 40%;
 }
 
+.backgroundinfo .fontcolorinfo label {
+    margin-top: 20%;
+}
+
+.backgroundinfo .formabc {
+    background: black;
+    opacity: 0.75;
+}
+
+.backgroundinfo .formabc h1 {
+    color: white;
+    margin-top: 10%;
+}
 
 /* css UpdateInfo */
-.backgroundUpdate{
+.backgroundUpdate {
     background: url("../components/Home/images/night light.jpg");
     background-size: 100% 100%;
 }
 
-.backgroundUpdate .fontcolorUpdate{
+.backgroundUpdate .fontcolorUpdate {
     color: white;
 }
 
-.backgroundUpdate .fontcolorUpdate label{
+.backgroundUpdate .fontcolorUpdate label {
     margin-top: 9%;
     margin-left: 1%;
-} 
+}
 
-
-.backgroundUpdate h1{
+.backgroundUpdate h1 {
     color: white;
     margin-top: 3%;
     margin-left: 40%;

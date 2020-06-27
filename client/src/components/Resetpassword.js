@@ -136,7 +136,7 @@ const Resetpassword = ({ username }) => {
                 <label htmlFor={props.id || props.name}>{label}</label>
                 <input className="text-input" {...field} {...props} />
                 {meta.touched && meta.error ? (
-                    <div style={{ marginTop: "-11.5%", color: "#ef4300" }} className="error">{meta.error}</div>
+                    <div style={{color: "#ef4300" }} className="error">{meta.error}</div>
                 ) : null}
             </>
         );
@@ -211,10 +211,10 @@ const Resetpassword = ({ username }) => {
 
                 }}
             >
-                <formResetPass >
+                <formResetPass className="formResetPass" >
 
-
-                    <div >
+                <div className='divForm' >
+                    <div  >
                         <MyTextInput
                             label="Password"
                             name="passWord"
@@ -229,15 +229,8 @@ const Resetpassword = ({ username }) => {
                             type="passWord"
                         />
                     </div>
-
-
                     <button type="submit" >Update</button>
-                    <div >
-
-
-
-                    </div>
-
+</div>
                 </formResetPass>
             </Formik>
             <NotificationContainer />
