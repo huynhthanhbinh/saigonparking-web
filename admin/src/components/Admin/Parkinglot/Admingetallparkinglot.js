@@ -105,10 +105,10 @@ const Admingetallparkinglot = () => {
         //solved memory leak
         let isCancelled = false;
 
-        const request = new Empty();
+        const request = new ParkinglotProto.CountAllParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
-        ParkinglotwebService.countAll(request, metadata, (err, res) => {
+        ParkinglotwebService.countAllParkingLot(request, metadata, (err, res) => {
             if (err && !isCancelled) {
                 if (err.message === "SPE#00001") {
                     ErrorSPE00001();

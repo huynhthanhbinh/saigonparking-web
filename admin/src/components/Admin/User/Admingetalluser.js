@@ -139,10 +139,11 @@ const Admingetalluser = () => {
         //solved memory leak
         let isMounted = false;
         //countAll
-        const request = new Empty();
+        const request = new ActorProto.CountAllUserRequest();
+        // request.setKeyword()
         const token = "Bearer " + Cookies.get("token");
         const metadata = { 'Authorization': token };
-        UserService.countAll(request, metadata, (err, res) => {
+        UserService.countAllUser(request, metadata, (err, res) => {
             if (err && !isMounted) {
                 console.log(err)
                 if (err.message === "SPE#00001") {
