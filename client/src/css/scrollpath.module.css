@@ -1,0 +1,52 @@
+.scrollpage::-webkit-scrollbar {
+    width: 10px;
+}
+.scrollpage::-webkit-scrollbar-track {
+    border: 0px solid transparent;
+    box-shadow: inset 0 0 2.5px transparent;
+}
+.scrollpage::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, rgb(52, 116, 116), #0c5b5d);
+    border-radius: 7px;
+}
+.ListViewRow {
+    display: flex;
+}
+
+.ListViewColumn {
+    float: left;
+}
+.ListViewColumnRight {
+    width: 80%;
+}
+.ListViewColumnRightleft {
+    width: 20%;
+}
+
+.button {
+    width: 200px;
+    height: 50px;
+    background: linear-gradient(to left top, rgb(90, 171, 171) 50%, rgb(52, 116, 116) 50%);
+    border-style: none;
+    color: #fff;
+    font-size: 23px;
+    letter-spacing: 3px;
+    font-family: "Lato";
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0px;
+    overflow: hidden;
+    transition: all 0.5s;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+    transition: all 0.5s;
+    transform: rotate(-3deg) scale(1.1);
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+}
+.button:hover span {
+    animation-play-state: paused;
+}

@@ -8,7 +8,7 @@ import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 
 import Container from './Landing'
 
-import  { API_URL } from '../saigonparking';
+import { API_URL } from '../saigonparking';
 
 
 const authService = new AuthServiceClient(API_URL)
@@ -19,11 +19,11 @@ const PreResetPassword = () => {
     const Auth = React.useContext(AuthApi)
     const [status, setstatus] = React.useState(true)
     const [statusmail, setstatusmail] = React.useState(true)
-    const [tmp,settmp]=React.useState(null)
+    const [tmp, settmp] = React.useState(null)
     var url_string = window.location.href
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
-  
+
 
     const callgenerateNewToken = () => {
         const token = 'Bearer ' + tmptoken;
@@ -48,14 +48,18 @@ const PreResetPassword = () => {
 
 
     React.useEffect(() => {
-     
-        if(tmptoken === null ){
+        let unmount = false;
+        if (tmptoken === null) {
             setstatus(false)
         }
-        else{
-            callgenerateNewToken(Auth);
+        else {
+            if (unmount === false) {
+                callgenerateNewToken(Auth);
+            }
         }
-           
+        return () => {
+            unmount = true
+        }
 
     }, [])
 
@@ -66,9 +70,9 @@ const PreResetPassword = () => {
             {
                 (status === true) ?
                     (
-                        (statusmail === true) ? 
-                        <Container ></Container>
-                        : (<Resetpassword username={tmp} />)
+                        (statusmail === true) ?
+                            <Container ></Container>
+                            : (<Resetpassword username={tmp} />)
 
                     )
                     :
