@@ -22,11 +22,13 @@ import SetClick from './ConTextMap/SetClick'
 // bắt lỗi error0001 cấp accesctoken mới
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
+//
 import sessionstorage from 'sessionstorage'
 //import animation loading screen
 import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
 //import button back
 import backbutton from "./icon/leftarrow.png"
+import stylescrollview from '../../css/scrollpath.module.css'
 const authService = new AuthServiceClient(API_URL)
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
@@ -115,7 +117,14 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   }
 
   useEffect(() => {
-    callgetParkingLotById(id)
+    let unmount = false;
+    if (unmount === false) {
+      callgetParkingLotById(id)
+    }
+
+    return () => {
+      unmount = true
+    }
   }, [id, flat])
   if (parkinglot === null) {
     return <WindMillLoading color={"rgb(52, 116, 116)"}></WindMillLoading>
@@ -154,7 +163,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
 
 
           </Card.Text>
-          <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
+          <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
         </Card.Body>
 
         {/* <button onClick={() => {

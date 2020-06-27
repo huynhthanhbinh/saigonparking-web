@@ -123,9 +123,14 @@ const Update = () => {
     }
 
     React.useEffect(() => {
+        let unmount = false;
+        if (unmount === false) {
+            getInformationUser(Auth);
+        }
 
-        getInformationUser(Auth);
-
+        return () => {
+            unmount = true
+        }
     }, [flat])
 
     const MyTextInput = ({ label, ...props }) => {

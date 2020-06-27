@@ -11,14 +11,16 @@ import markerbuilding from "./icon/markerbuilding.png"
 import markerprivate from "./icon/markerprivate.png"
 import markerstreet from "./icon/markerstreet.png"
 //
+const parkinglotProto = require('../../api/ParkingLot_pb')
+//
 function loadIcon(typeIcon) {
-    if (typeIcon === 0) {
+    if (typeIcon === parkinglotProto.ParkingLotType.BUILDING) {
         return markerbuilding
     }
-    else if (typeIcon === 1) {
+    else if (typeIcon === parkinglotProto.ParkingLotType.PRIVATE) {
         return markerprivate
     }
-    else if (typeIcon === 2) {
+    else if (typeIcon === parkinglotProto.ParkingLotType.STREET) {
         return markerstreet
     }
 

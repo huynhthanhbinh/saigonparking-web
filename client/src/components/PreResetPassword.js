@@ -48,14 +48,18 @@ const PreResetPassword = () => {
 
 
     React.useEffect(() => {
-
+        let unmount = false;
         if (tmptoken === null) {
             setstatus(false)
         }
         else {
-            callgenerateNewToken(Auth);
+            if (unmount === false) {
+                callgenerateNewToken(Auth);
+            }
         }
-
+        return () => {
+            unmount = true
+        }
 
     }, [])
 

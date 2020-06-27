@@ -49,14 +49,18 @@ const PreActivateAccount = () => {
 
 
     React.useEffect(() => {
-
+        let unmount = false;
         if (tmptoken === null) {
             setstatus(false)
         }
         else {
-            callactivateNewAccount(Auth);
+            if (unmount === false) {
+                callactivateNewAccount(Auth);
+            }
         }
-
+        return () => {
+            unmount = true
+        }
 
     }, [])
 

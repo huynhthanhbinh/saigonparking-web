@@ -117,7 +117,7 @@ const CovidDashboard = (props) => {
 
     useEffect(() => {
 
-
+        let unmount = false;
 
         async function callParkingLotAPI() {
             const request = new ParkinglotProto.ScanningByRadiusRequest();
@@ -157,24 +157,35 @@ const CovidDashboard = (props) => {
             })
 
         }
+        if (unmount === false) {
+            callParkingLotAPI()
+        }
 
-        callParkingLotAPI()
-
+        return () => {
+            unmount = true
+        }
 
 
     }, [Clicklocation, flat])
 
 
     useEffect(() => {
-        if (patients !== null && currentPatient !== undefined) {
-            console.log(algorithm.customizedIndexOf(currentPatient, patients))
-            if (algorithm.customizedIndexOf(currentPatient, patients) !== -1) {
-                setScrollList(patients, algorithm.customizedIndexOf(currentPatient, patients), refs);
-            }
-            else {
+        let unmount = false;
+        if (unmount === false) {
+            if (patients !== null && currentPatient !== undefined) {
+                console.log(algorithm.customizedIndexOf(currentPatient, patients))
+                if (algorithm.customizedIndexOf(currentPatient, patients) !== -1) {
+                    setScrollList(patients, algorithm.customizedIndexOf(currentPatient, patients), refs);
+                }
+                else {
+
+                }
 
             }
+        }
 
+        return () => {
+            unmount = true
         }
 
     }, [switchLP, flat, patients, currentPatient])

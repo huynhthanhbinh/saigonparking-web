@@ -120,9 +120,14 @@ const Information = () => {
     }
 
     React.useEffect(() => {
+        let unmount = false;
+        if (unmount === false) {
+            getInformationUser();
+        }
 
-        getInformationUser();
-
+        return () => {
+            unmount = true
+        }
     }, [flat])
 
     const MyTextInput = ({ label, ...props }) => {

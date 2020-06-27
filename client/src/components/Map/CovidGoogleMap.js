@@ -5,6 +5,7 @@ import markerprivate from "./icon/markerprivate.png"
 import markerstreet from "./icon/markerstreet.png"
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
+
 import {
   GoogleMap,
   useLoadScript,
@@ -25,7 +26,9 @@ import {
 
 import "@reach/combobox/styles.css";
 import mapStyles from "./mapStyles";
-
+// enum type parking lot
+const parkinglotProto = require('../../api/ParkingLot_pb')
+//
 const libraries = ["places"];
 const mapContainerStyle = {
   height: "50vh",
@@ -114,7 +117,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
       // panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
       >
         {patients && patients.map((patient, index) => {
-          if (patient.getType() === 0) {
+          if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
             return (<Marker
               key={index}
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
@@ -134,7 +137,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
             />)
           }
-          else if (patient.getType() === 1) {
+          else if (patient.getType() === parkinglotProto.ParkingLotType.PRIVATE) {
             return (<Marker
               key={`${patient.getLatitude()}-${patient.getLongitude()}`}
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
@@ -154,7 +157,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
             />)
           }
-          else if (patient.getType() === 2) {
+          else if (patient.getType() === parkinglotProto.ParkingLotType.STREET) {
             return (<Marker
               key={`${patient.getLatitude()}-${patient.getLongitude()}`}
               position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}

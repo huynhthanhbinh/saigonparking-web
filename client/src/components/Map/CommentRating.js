@@ -25,8 +25,8 @@ import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 import sessionstorage from 'sessionstorage'
 /// load comment
 import InfiniteScroll from "react-infinite-scroll-component";
-import { UserServiceClient } from '../../api/Actor_grpc_web_pb';
-import ActorProto from '../../api/Actor_pb';
+import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
+import ParkinglotProto from '../../api/ParkingLot_pb';
 //animation loading screen
 import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
 //
@@ -34,10 +34,11 @@ import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
 import stylescrollview from '../../css/scrollpath.module.css'
 
 import userMapper from '../../mapper/UserMapper';
-//
+
+
 const authService = new AuthServiceClient(API_URL)
 
-const UserService = new UserServiceClient(API_URL)
+const ParkinglotService = new ParkingLotServiceClient(API_URL)
 
 
 
@@ -47,7 +48,7 @@ const CommentRating = ({ id }) => {
     // các phần tử của comment và total
     const [total, settotal] = React.useState({ items: [], pagenumber: 1 })
     const [countall, setcountall] = React.useState(0)
-
+    const [loadingscreen, setloadingscreen] = React.useState(true)
     //config Modal Error
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
@@ -100,57 +101,74 @@ const CommentRating = ({ id }) => {
 
     useEffect(() => {
         //countAll
-        const request = new Empty();
-        const token = 'Bearer ' + Cookies.get("token");
+        let unmount = false;
+        if (unmount === false) {
+            const request = new ParkinglotProto.CountAllRatingsOfParkingLotRequest();
+            const token = 'Bearer ' + Cookies.get("token");
+            const metadata = { 'Authorization': token }
+            request.setParkinglotid(id)
 
-        const metadata = { 'Authorization': token }
+            ParkinglotService.countAllRatingsOfParkingLot(request, metadata, (err, res) => {
 
-        UserService.countAll(request, metadata, (err, res) => {
+                if (err) {
+                    if (err.message === 'SPE#00001') {
+                        xulyerrorSPE00001()
+                    }
+                    else {
+                        setmyError(err.message)
+                        openModalError()
+                    }
 
-            if (err) {
-                if (err.message === 'SPE#00001') {
-                    xulyerrorSPE00001()
+                } else {
+
+                    setcountall(res.getValue())
+                    // setNPage(Math.ceil(res.getValue() / 10))
+
+
                 }
-                else {
-                    setmyError(err.message)
-                    openModalError()
-                }
+            })
+        }
 
-            } else {
-
-                setcountall(res.getValue())
-                // setNPage(Math.ceil(res.getValue() / 10))
-
-
-            }
-        })
-
+        return () => {
+            unmount = true
+        }
     }, [id, flat])
     // load mảng
     useEffect(() => {
-        const request = new ActorProto.GetAllUserRequest();
-        const token = 'Bearer ' + Cookies.get("token");
+        let unmount = false;
+        if (unmount === false) {
+            const request = new ParkinglotProto.GetAllRatingsOfParkingLotRequest();
+            const token = 'Bearer ' + Cookies.get("token");
 
-        const metadata = { 'Authorization': token }
-        request.setNrow(10);
-        request.setPagenumber(total.pagenumber);
-        UserService.getAllUser(request, metadata, (err, res) => {
+            const metadata = { 'Authorization': token }
 
-            if (err) {
-                if (err.message === 'SPE#00001') {
-                    xulyerrorSPE00001()
+            request.setParkinglotid(id)
+            request.setNrow(10);
+            request.setPagenumber(total.pagenumber);
+
+            ParkinglotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
+
+                if (err) {
+                    if (err.message === 'SPE#00001') {
+                        xulyerrorSPE00001()
+                    }
+                    else {
+                        setmyError(err.message)
+                        openModalError()
+                    }
+
+                } else {
+
+                    settotal({ items: total.items.concat(res.getRatingList()), pagenumber: total.pagenumber + 1 })
+                    setloadingscreen(false)
                 }
-                else {
-                    setmyError(err.message)
-                    openModalError()
-                }
+            })
 
-            } else {
+        }
 
-                settotal({ items: total.items.concat(res.getUserList()), pagenumber: total.pagenumber + 1 })
-
-            }
-        })
+        return () => {
+            unmount = true
+        }
 
     }, [id, flat])
     const getMoreData = () => {
@@ -165,10 +183,19 @@ const CommentRating = ({ id }) => {
         margin: 6,
         padding: 8
     };
-    if (total.items.length === 0) {
+    if (countall === 0 && loadingscreen === false) {
+        return (
+            <div>
+                <h1>HIỆN BÃI XE NÀY CHƯA CÓ ĐÁNH GIÁ</h1>
+                <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button>
+            </div>
+        )
+        // return <BoxLoading color={"rgb(52, 116, 116)"} />
+    }
+    else if (total.items.length === 0) {
         return <BoxLoading color={"rgb(52, 116, 116)"} />
     }
-    else {
+    else if (total.items.length !== 0) {
 
         return (
             <div>
@@ -179,24 +206,38 @@ const CommentRating = ({ id }) => {
 
                 <hr />
                 <h4>{total.items.length}/{countall}</h4>
-                <div id="scrollableDiv" className={`${stylescrollview.scrollpage} `} style={{ height: 300, overflow: "auto" }}>
+                <div id="scrollableDiv" className={`${stylescrollview.scrollpage} `} style={{
+                    height: "40vh", overflow: "auto"
+
+                }}>
                     <InfiniteScroll
                         dataLength={total.items.length}
                         next={getMoreData}
-                        hasMore={true}
-                        loader={(total.items.length !== countall) ? <h4>Loading...</h4> : <h4>Hiện không còn bình luận nào</h4>}
+                        hasMore={total.items.length < countall}
+                        loader={<h4>Loading...</h4>}
+
                         scrollableTarget="scrollableDiv"
                     >
 
                         {total && total.items.map((i, index) => (
-                            <div className={`${stylescrollview.ListViewRow}`} style={style} key={index}>
-                                ID:{i.getId()} - Name: {i.getUsername()}
+                            <div className={`${stylescrollview.ListViewRow}`} key={index}>
+                                <div>{i.getUsername()}</div>
+                                <div>{i.getComment()}</div>
+                                <div><StarRatings
+                                    rating={i.getRating()}
+                                    starRatedColor="rgb(56,112,112)"
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                    numberOfStars={5}
+                                    name="rating"
+                                /></div>
+                                <div>{i.getLastupdated()}</div>
                             </div>
                         ))}
 
                     </InfiniteScroll>
                 </div>
-                {total.items.length ? <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
+                {total.items.length ? <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
             </div>)
     }
 };
