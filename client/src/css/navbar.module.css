@@ -9,11 +9,27 @@
   }
   
   .bginfo{
-    background-color: white ;
-    animation: changecolorNav linear 1s forwards;
+    background-color: transparent ;
+    animation: changecolorNav linear 0.5s forwards;
     
   }
   
+ span{
+    color: white;
+}
+
+/* a{
+  color: white;
+} */
+
+.DropdownItem{
+  color: white;
+}
+
+.DropdownMenu{
+  background-color:  black;
+}
+
   @keyframes changecolorNav {
     0%
     {

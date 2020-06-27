@@ -20,6 +20,7 @@ import { API_URL } from '../../saigonparking';
 //import modal
 
 import '../../css/modal.css'
+import '../../css/login1.css'
 
 import ModalActivateAccountError from './ModalActivateAccountError'
 const authService = new AuthServiceClient(API_URL)
@@ -83,8 +84,8 @@ const ClickActivateAccount = () => {
                 openModalError()
 
             } else {
-                
-                createNotification('success',res.getValue())
+
+                createNotification('success', res.getValue())
             }
 
         })
@@ -113,10 +114,10 @@ const ClickActivateAccount = () => {
 
     return (
         <>
+            <div className="page-container2">
+                <form className="form2" onSubmit={formik.handleSubmit}>
 
-                <form onSubmit={formik.handleSubmit}>
-
-                    <div style={{ margin: 10 }}>
+                    <div>
                         {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                         <label htmlFor="userName">USERNAME</label>
                         <input
@@ -128,18 +129,17 @@ const ClickActivateAccount = () => {
                             value={formik.values.userName}
                         />
                         {formik.touched.userName && formik.errors.userName ? (
-                            <div>{formik.errors.userName}</div>
+                            <div style={{marginTop: "-11.5%", color: "#ef4300" }}>{formik.errors.userName}</div>
                         ) : null}
                     </div>
 
-                    <div style={{ margin: 10 }}>
-                        <button style={{ margin: 10 }} type="submit" >Submit</button>
+                    <div style={{ marginTop: "5%" }}>
+                        <button style={{ marginTop: "5%" }} type="submit" >Submit</button>
 
                     </div>
 
                 </form>
-          
-
+            </div>
             <NotificationContainer />
         </>
     );

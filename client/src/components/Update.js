@@ -164,155 +164,159 @@ const Update = () => {
 
     return (
         <>
+            <div className="backgroundUpdate">
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                <Row>
+                    <h1>Update Information</h1>
+                </Row>
+                {customerObject ? <Formik
+                    initialValues={{
+                        userName: customerObject.username,
 
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <h1>Update Information</h1>
-            {customerObject ? <Formik
-                initialValues={{
-                    userName: customerObject.username,
-
-                    email: customerObject.email,
-                    firstName: customerObject.firstName,
-                    lastName: customerObject.lastName,
-                    phone: customerObject.phone
-
-
-                }}
-                validationSchema={Yup.object({
-                    userName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
+                        email: customerObject.email,
+                        firstName: customerObject.firstName,
+                        lastName: customerObject.lastName,
+                        phone: customerObject.phone
 
 
-                    email: Yup.string()
-                        .email('Invalid email address')
-                        .required('Required'),
-
-                    firstName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    lastName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    phone: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-
-                    // if (values.userName === tmp.username) {
-                    //     alert(" Username is not different before")
-
-                    // }
-                    // else if (values.passWord === tmp.password) {
-                    //     alert(" Password is not different before")
-
-                    // }
-                    // else if (values.email === tmp.email) {
-                    //     alert(" Email is not different before")
-
-                    // }
-                    // else {
-                    //     alert("Update is done");
-                    //     setSubmitting(false);
-                    // }
-                    const user = new UserProto.User()
-                    const token = 'Bearer ' + Cookies.get("token");
-                    const metadata = { 'Authorization': token }
-                    const request = new UserProto.Customer()
-
-                    user.setRole(customerObject.role)
-                    user.setUsername(Cookies.get("checkUserName"))
-
-                    user.setEmail(values.email)
-                    user.setVersion(customerObject.version)
-                    request.setUserinfo(user)
-                    request.setFirstname(values.firstName)
-                    request.setLastname(values.lastName)
-                    request.setPhone(values.phone)
+                    }}
+                    validationSchema={Yup.object({
+                        userName: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
 
 
-                    userService.updateCustomer(request, metadata, (err, res) => {
-                        if (err) {
-                            if (err.message === 'SPE#00001') {
-                                xulyerrorSPE00001()
+                        email: Yup.string()
+                            .email('Invalid email address')
+                            .required('Required'),
+
+                        firstName: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+                        lastName: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+                        phone: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+
+                    })}
+                    onSubmit={(values, { setSubmitting }) => {
+
+                        // if (values.userName === tmp.username) {
+                        //     alert(" Username is not different before")
+
+                        // }
+                        // else if (values.passWord === tmp.password) {
+                        //     alert(" Password is not different before")
+
+                        // }
+                        // else if (values.email === tmp.email) {
+                        //     alert(" Email is not different before")
+
+                        // }
+                        // else {
+                        //     alert("Update is done");
+                        //     setSubmitting(false);
+                        // }
+                        const user = new UserProto.User()
+                        const token = 'Bearer ' + Cookies.get("token");
+                        const metadata = { 'Authorization': token }
+                        const request = new UserProto.Customer()
+
+                        user.setRole(customerObject.role)
+                        user.setUsername(Cookies.get("checkUserName"))
+
+                        user.setEmail(values.email)
+                        user.setVersion(customerObject.version)
+                        request.setUserinfo(user)
+                        request.setFirstname(values.firstName)
+                        request.setLastname(values.lastName)
+                        request.setPhone(values.phone)
+
+
+                        userService.updateCustomer(request, metadata, (err, res) => {
+                            if (err) {
+                                if (err.message === 'SPE#00001') {
+                                    xulyerrorSPE00001()
+                                }
+                                else {
+                                    setmyError(err.message)
+                                    openModalError()
+                                }
+                            } else {
+
+
+                                setSubmitting(false);
+                                setnextpage(true)
                             }
-                            else {
-                                setmyError(err.message)
-                                openModalError()
-                            }
-                        } else {
+
+                        })
 
 
-                            setSubmitting(false);
-                            setnextpage(true)
-                        }
+                    }}
+                >
+                    <Form className="fontcolorUpdate" >
 
-                    })
-
-
-                }}
-            >
-                <Form >
-
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Username"
-                            name="userName"
-                            type="text"
-                            disabled="disabled"
-                        />
-                    </div>
+                        <div>
+                            <MyTextInput
+                                label="Username"
+                                name="userName"
+                                type="text"
+                                disabled="disabled"
+                            />
+                        </div>
 
 
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Email "
-                            name="email"
-                            type="email"
+                        <div>
+                            <MyTextInput
+                                label="Email "
+                                name="email"
+                                type="email"
 
-                        />
-                    </div>
+                            />
+                        </div>
 
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="First Name"
-                            name="firstName"
-                            type="text"
+                        <div>
+                            <MyTextInput
+                                label="First Name"
+                                name="firstName"
+                                type="text"
 
-                        />
-                    </div>
+                            />
+                        </div>
 
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Last Name"
-                            name="lastName"
-                            type="text"
+                        <div>
+                            <MyTextInput
+                                label="Last Name"
+                                name="lastName"
+                                type="text"
 
-                        />
-                    </div>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Phone"
-                            name="phone"
-                            type="phone"
+                            />
+                        </div>
+                        <div>
+                            <MyTextInput
+                                label="Phone"
+                                name="phone"
+                                type="phone"
 
-                        />
-                    </div>
+                            />
+                        </div>
 
 
-                    <div style={{ margin: 10 }}>
-                        <button type="submit" >Update</button>
-                        <Link to="/profile">
-                            <button style={{ margin: 10 }} type="button">
-                                Back
+                        <div style={{ marginLeft: "18%" }}>
+                            <button style={{ margin: "1%" }} type="submit" >Update</button>
+                            <Link to="/profile">
+                                <button style={{ margin: "1%" }} type="button">
+                                    Back
                             </button>
-                        </Link>
-                    </div>
+                            </Link>
+                        </div>
 
-                </Form>
-            </Formik> : null}
+                    </Form>
+                </Formik> : null}
+                <div className="footer-copyright text-center py-5"></div>
+            </div>
         </>
     )
 

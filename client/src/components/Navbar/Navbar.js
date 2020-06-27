@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import styles from '../../css/navbar.module.css';
+import favicon3 from '../Home/images/favicon3.png';
 // reactstrap components
 import {
 	Collapse,
@@ -136,8 +137,11 @@ const Navbardefault = () => {
 	const Auth = React.useContext(AuthApi);
 	const [totalState, settotalState] = React.useState({ collapseOpen: false, color: 'navbar-transparent' })
 	const Styles = styled.div`
-	 .DropdownItem,span,DropdownMenu{
+	 .DropdownItem,span{
 		color: white;
+	 }
+	 .DropdownMenu{
+		color: black;
 	 }
   `;
 	React.useEffect(() => {
@@ -188,14 +192,20 @@ const Navbardefault = () => {
 
 	if (Auth.auth === true || Auth.forgetpass === true) {
 		return (
-			<Styles>
 				<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'navbar-transparent'`} color-on-scroll="100" expand="lg">
 					<Container>
+						<Row>
 						<div className="navbar-translate">
-							<NavbarBrand to="/" tag={Link} id="navbar-brand">
-								<span>SaiGon Parking</span>
+							<NavbarBrand className="NavbarBrand" to="/" tag={Link} id="navbar-brand">
+								<span>Saigon Parking</span>
+							</NavbarBrand>
+							<NavbarBrand className="NavbarBrand" to="/parkingmap" tag={Link} id="navbar-brand">
+								<span>
+									<img src={favicon3} alt="favicon3"></img>
+								</span>
 							</NavbarBrand>
 						</div>
+						</Row>
 						<Collapse
 							className={'justify-content-end ' + totalState.collapseOut}
 							navbar
@@ -229,18 +239,18 @@ const Navbardefault = () => {
 										<i className="fa fa-cogs d-lg-none d-xl-none" />
 
 									</DropdownToggle>
-									<DropdownMenu title="INFORMATION" className="dropdown-with-icons">
-										<DropdownItem tag={Link} to="/profile">
+									<DropdownMenu title="INFORMATION" className="DropdownMenu">
+										<DropdownItem className="DropdownItem" tag={Link} to="/profile">
 											<i className="tim-icons icon-bullet-list-67" />
-										Profile
+										<a>Hồ sơ cá nhân</a>
 									</DropdownItem>
-										<DropdownItem tag={Link} to="/profile/changepassword">
+										<DropdownItem className="DropdownItem" tag={Link} to="/profile/changepassword">
 											<i className="tim-icons icon-single-02" />
-										CHANGEPASSWORD
+										Đổi mật khẩu
 									</DropdownItem>
-										<DropdownItem onClick={ClickLogOut}>
+										<DropdownItem className="DropdownItem" onClick={ClickLogOut}>
 											<i className="tim-icons icon-single-02" />
-										LOGOUT
+										Đăng xuất
 									</DropdownItem>
 									</DropdownMenu>
 								</UncontrolledDropdown>
@@ -248,15 +258,14 @@ const Navbardefault = () => {
 						</Collapse>
 					</Container>
 				</Navbar>
-			</Styles>
 		);
 	}
 	else if (Auth.auth === false) {
-		return (<Styles>
+		return (
 			<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'navbar-transparent'`} color-on-scroll="100" expand="lg">
 				<Container>
 					<div className="navbar-translate">
-						<NavbarBrand to="/" tag={Link} id="navbar-brand">
+						<NavbarBrand className="NavbarBrand" to="/" tag={Link} id="navbar-brand">
 							<span>SaiGon Parking</span>
 						</NavbarBrand>
 					</div>
@@ -293,14 +302,14 @@ const Navbardefault = () => {
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
 
 								</DropdownToggle>
-								<DropdownMenu className="dropdown-with-icons">
-									<DropdownItem tag={Link} to="/register">
+								<DropdownMenu className="DropdownMenu">
+									<DropdownItem className="DropdownItem" tag={Link} to="/register">
 										<i className="tim-icons icon-bullet-list-67" />
-									Register
+									Đăng ký
 								</DropdownItem>
-									<DropdownItem tag={Link} to="/login">
+									<DropdownItem className="DropdownItem" tag={Link} to="/login">
 										<i className="tim-icons icon-single-02" />
-									Sign in
+									Đăng nhập
 								</DropdownItem>
 								</DropdownMenu>
 							</UncontrolledDropdown>
@@ -308,7 +317,7 @@ const Navbardefault = () => {
 					</Collapse>
 				</Container>
 			</Navbar>
-		</Styles>);
+		);
 	}
 }
 

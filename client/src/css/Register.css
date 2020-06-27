@@ -1,4 +1,64 @@
+/* css dung chung cho Register, Information, UpdateInfomation */
+
 .background{
-    margin-top: 50px;
-    background-color: turquoise;
+    background: url("../components/Home/images/night light.jpg");
+    background-size: 100% 100%;
+}
+
+.background .fontcolor label{
+    color: white;
+    margin-top: 30%;
+    margin-left: 9%;
+}
+
+.background .fontcolor input{
+    color: white;
+    margin-top: 10%;
+    background-color: 	silver;
+}
+
+
+
+/* css Information */
+.backgroundinfo{
+    background: url("../components/Home/images/night light.jpg");
+    background-size: cover;
+}
+
+.backgroundinfo .fontcolorinfo{
+    color: white;
+}
+
+.backgroundinfo .fontcolorinfo label{
+    margin-top: 9%;
+}
+
+
+.backgroundinfo h1{
+    color: white;
+    margin-top: 3%;
+    margin-left: 40%;
+}
+
+
+/* css UpdateInfo */
+.backgroundUpdate{
+    background: url("../components/Home/images/night light.jpg");
+    background-size: 100% 100%;
+}
+
+.backgroundUpdate .fontcolorUpdate{
+    color: white;
+}
+
+.backgroundUpdate .fontcolorUpdate label{
+    margin-top: 9%;
+    margin-left: 1%;
+} 
+
+
+.backgroundUpdate h1{
+    color: white;
+    margin-top: 3%;
+    margin-left: 40%;
 }

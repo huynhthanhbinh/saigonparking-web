@@ -26,6 +26,9 @@ import exceptionHandler from '../ExceptionHandling'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 
+// //import css
+// import '../css/Information.css';
+
 const authService = new AuthServiceClient(API_URL)
 
 const userService = new UserServiceClient(API_URL)
@@ -171,7 +174,6 @@ const Information = () => {
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
-            <h1>Your Information</h1>
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
@@ -209,9 +211,12 @@ const Information = () => {
 
                 }}
             >
-                <Form >
+                <Form className="backgroundinfo" >
+                    <Row>
+                    <h1>Thông tin cá nhân</h1>
+                    </Row>
 
-                    <div style={{ margin: 10 }}>
+                    <div className="fontcolorinfo">
                         <MyTextInput
                             label="Username"
                             name="userName"
@@ -219,9 +224,8 @@ const Information = () => {
                             disabled="disabled"
                         />
                     </div>
-
-
-                    <div style={{ margin: 10 }}>
+                    
+                    <div className="fontcolorinfo">
                         <MyTextInput
                             label="Email "
                             name="email"
@@ -230,10 +234,10 @@ const Information = () => {
 
                         />
                     </div>
-
-                    <div style={{ margin: 10 }}>
+                   
+                    <div className="fontcolorinfo">
                         <MyTextInput
-                            label="First Name"
+                            label="Tên"
                             name="firstName"
                             type="text"
                             disabled="disabled"
@@ -241,38 +245,41 @@ const Information = () => {
                         />
                     </div>
 
-                    <div style={{ margin: 10 }}>
+                    <div className="fontcolorinfo">
                         <MyTextInput
-                            label="Last Name"
+                            label="Họ"
                             name="lastName"
                             type="text"
                             disabled="disabled"
 
                         />
                     </div>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Phone"
+
+                    <div className="fontcolorinfo">
+                        <MyTextInput 
+                            label="Số điện thoại"
                             name="phone"
                             type="phone"
                             disabled="disabled"
 
                         />
                     </div>
-                    <div style={{ margin: 10 }}>
-                        <Link to="/profile/update">
-                            <button type="button">
-                                update your information
+                   
+                    <div className="footer-copyright text-center py-5">
+                    
+                        <div style={{ marginRight: "24%" }}>
+                            <Link to="/profile/update">
+                                <button style={{ margin: "1%" }} type="button">
+                                    update your information
                         </button>
-                        </Link>
-
-
-                        <button style={{ margin: 10 }} onClick={ClickLogOut}>Logout</button>
-
+                            </Link>
+                            <button style={{ margin: "1%" }} onClick={ClickLogOut}>Logout</button>
+                        </div>
+                    
                     </div>
-
                 </Form>
             </Formik> : <button onClick={ClickLogOut}>Logout</button>}
+
         </>
     )
 

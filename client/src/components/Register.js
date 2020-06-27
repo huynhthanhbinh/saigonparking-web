@@ -28,7 +28,7 @@ const Register = () => {
         NotificationManager.info('Info message');
         break;
       case 'success':
-        NotificationManager.success('ĐÃ GỬI EMAIL KÍCH HOẠT ĐẾN '+errortype , 'ĐĂNG KÝ THÀNH CÔNG');
+        NotificationManager.success('ĐÃ GỬI EMAIL KÍCH HOẠT ĐẾN ' + errortype, 'ĐĂNG KÝ THÀNH CÔNG');
         break;
       case 'warning':
         NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -80,12 +80,12 @@ const Register = () => {
       if (err) {
         // console.log('Lỗi lỗi lỗi ');
         // console.log(err)
-      
-        createNotification('error',err.message)
+
+        createNotification('error', err.message)
 
       } else {
         // console.log('dang ky thanh cong');
-        createNotification('success',res.getValue())
+        createNotification('success', res.getValue())
         openModalRegister()
         setnextpage(true)
 
@@ -143,11 +143,31 @@ const Register = () => {
       {modalRegisterIsOpen ? <ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister} /> : null}
 
       <form onSubmit={formik.handleSubmit}>
-        <Container>
+        <Container className="fontcolor">
 
-          <Row style={{ margin: 10 }}>
-            <Col xs={4}><label htmlFor="firstName">First Name</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="lastName">Họ</label></Col>
+            <Col xs={5} >
+              <input
+
+                id="lastName"
+                name="lastName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.lastName}
+              />
+            </Col>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
+              {formik.touched.lastName && formik.errors.lastName ? (
+                <div>{formik.errors.lastName}</div>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row >
+            <Col xs={2}><label htmlFor="firstName">Tên</label></Col>
+            <Col xs={5}>
               <input
                 id="firstName"
                 name="firstName"
@@ -157,7 +177,7 @@ const Register = () => {
                 value={formik.values.firstName}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.firstName && formik.errors.firstName ? (
                 <div>{formik.errors.firstName}</div>
               ) : null}
@@ -165,30 +185,9 @@ const Register = () => {
             </Col>
           </Row>
 
-
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="lastName">Last Name</label></Col>
-            <Col xs={4}>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
-              />
-            </Col>
-            <Col xs={4}>
-              {formik.touched.lastName && formik.errors.lastName ? (
-                <div>{formik.errors.lastName}</div>
-              ) : null}
-
-            </Col>
-          </Row>
-
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="userName">userName</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="userName">UserName</label></Col>
+            <Col xs={5}>
               <input
                 id="userName"
                 name="userName"
@@ -198,7 +197,7 @@ const Register = () => {
                 value={formik.values.userName}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.userName && formik.errors.userName ? (
                 <div>{formik.errors.userName}</div>
               ) : null}
@@ -206,9 +205,9 @@ const Register = () => {
             </Col>
           </Row>
 
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="passWord">passWord</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="passWord">Mật khẩu</label></Col>
+            <Col xs={5}>
               <input
                 id="passWord"
                 name="passWord"
@@ -218,7 +217,7 @@ const Register = () => {
                 value={formik.values.passWord}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.passWord && formik.errors.passWord ? (
                 <div>{formik.errors.passWord}</div>
               ) : null}
@@ -226,9 +225,9 @@ const Register = () => {
             </Col>
           </Row>
 
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="confirmpassWord">confirmpassWord</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="confirmpassWord">Xác nhận mật khẩu</label></Col>
+            <Col xs={5}>
               <input
                 id="confirmpassWord"
                 name="confirmpassWord"
@@ -238,7 +237,7 @@ const Register = () => {
                 value={formik.values.confirmpassWord}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
                 <div>{formik.errors.confirmpassWord}</div>
               ) : null}
@@ -246,9 +245,9 @@ const Register = () => {
             </Col>
           </Row>
 
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="email">email</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="email">Email</label></Col>
+            <Col xs={5}>
               <input
                 id="email"
                 name="email"
@@ -258,7 +257,7 @@ const Register = () => {
                 value={formik.values.email}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.email && formik.errors.email ? (
                 <div>{formik.errors.email}</div>
               ) : null}
@@ -267,9 +266,9 @@ const Register = () => {
           </Row>
 
 
-          <Row style={{ margin: 5 }}>
-            <Col xs={4}><label htmlFor="phone">phone</label></Col>
-            <Col xs={4}>
+          <Row >
+            <Col xs={2}><label htmlFor="phone">Số điện thoại</label></Col>
+            <Col xs={5}>
               <input
                 id="phone"
                 name="phone"
@@ -279,7 +278,7 @@ const Register = () => {
                 value={formik.values.phone}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5} style={{ marginTop: "5%", color: '#FF0000' }}>
               {formik.touched.phone && formik.errors.phone ? (
                 <div>{formik.errors.phone}</div>
               ) : null}
@@ -288,21 +287,20 @@ const Register = () => {
           </Row>
 
         </Container>
-
-        <div style={{ margin: 10 }}>
-          <button style={{ margin: 10 }} type="submit"  >Submit</button>
+      </form>
+      <NotificationContainer />
+      <div className="footer-copyright text-center py-5">
+        <div style={{ marginRight: "53%" }}>
+          <button style={{ margin: "1%" }} type="submit"  >Submit</button>
           <button
-            style={{ margin: 10 }}
+            style={{ margin: "1%" }}
             onClick={formik.handleReset}
             type="reset"
           >
             Reset
         </button>
         </div>
-
-
-      </form>
-      <NotificationContainer />
+      </div>
     </div>
   );
 };

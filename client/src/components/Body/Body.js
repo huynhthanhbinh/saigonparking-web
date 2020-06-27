@@ -6,6 +6,8 @@ import search from './images/search.png';
 import direction from './images/direction.png';
 import car2 from './images/car2.png';
 import '../../css/video.css';
+import Navbardefault from '../Navbar/Navbar'
+import Footer from '../Footer/Footer'
 const Body = () => {
 	const Style = styled.div`
 		h5,
@@ -27,10 +29,10 @@ const Body = () => {
 	};
 
 	return (
-		<>
+		<>   
 				<div className="banner">
 					<video loop autoPlay muted>
-						<source src={require("../Home/images/The Mountain Run.mp4")} type="video/mp4" />
+						<source src={require("../Home/images/Midnight Run Trim.mp4")} type="video/mp4" />
 					</video>
 					<div className="content">
 						<h6>Saigon Parking</h6>
@@ -82,6 +84,7 @@ const Body = () => {
 					<div className="footer-copyright text-center py-3" />
 				</MDBFooter>
 			</Style>
+			<Footer/>
 		</>
 	);
 };

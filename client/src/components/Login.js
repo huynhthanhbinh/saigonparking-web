@@ -8,6 +8,7 @@ import sessionstorage from 'sessionstorage'
 import { StatusCode } from 'grpc-web'
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 import authProto from '../api/Auth_pb';
+import Navbardefault from './Navbar/Navbar'
 //import CSS
 import '../css/login1.css'
 
@@ -100,68 +101,64 @@ const Login = () => {
     }
 
     return (
+
         <div className="page-container">
             {modalErrorIsOpen ? <ModalErrorLogin modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <Container>
-                <form onSubmit={formik.handleSubmit}>
+
+            <form onSubmit={formik.handleSubmit}>
+                <label htmlFor="userName">Username</label>
+
+                <input
+                    id="userName"
+                    name="userName"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.userName}
+                />
 
 
-
-                    <label htmlFor="userName">USERNAME</label>
-
-                    <input
-                        id="userName"
-                        name="userName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.userName}
-                    />
-
-
-                    {formik.touched.userName && formik.errors.userName ? (
-                        <div style={{ margin: 10, color: "yellow" }} >{formik.errors.userName}</div>
-                    ) : null}
-
-
-
-
-                    <label htmlFor="passWord">PASSWORD</label>
-
-                    <input
-                        id="passWord"
-                        name="passWord"
-                        type="password"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.passWord}
-                    />
-
-                    {formik.touched.passWord && formik.errors.passWord ? (
-                        <div style={{ margin: 10, color: "yellow" }} >{formik.errors.passWord}</div>
-                    ) : null}
+                {formik.touched.userName && formik.errors.userName ? (
+                    <div style={{ marginTop: "-11.5%", color: "#ef4300" }} >{formik.errors.userName}</div>
+                ) : null}
 
 
 
 
-                    <div style={{ margin: 10 }}>
-                        <button style={{ margin: 10 }} type="submit" >Submit</button>
+                <label htmlFor="passWord">Mật khẩu</label>
 
-                        <Link style={{ color: 'cyan' }} to="/forget-password">Forget Password</Link>
-                        
+                <input
+                    id="passWord"
+                    name="passWord"
+                    type="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.passWord}
+                />
 
-                    </div>
-                    
-                    <div style={{ margin: 10 }}>
-                       
+                {formik.touched.passWord && formik.errors.passWord ? (
+                    <div style={{ marginTop: "-11.5%", color: "#ef4300" }} >{formik.errors.passWord}</div>
+                ) : null}
 
-                        <Link style={{ color: 'cyan' }} to="/clickactivateaccount">Activate Account</Link>
-                        
 
-                    </div>
 
-                </form>
-            </Container>
+
+                <div style={{ marginTop: "5%" }}>
+                    <button style={{ marginTop: "5%" }} type="submit" >Submit</button>
+
+                    <Link style={{ color: 'whitesmoke' }} to="/forget-password">Forget Password</Link>
+
+
+                </div>
+
+                <div style={{ marginTop: "5%" }}>
+
+
+                    <Link style={{ color: 'whitesmoke' }} to="/clickactivateaccount">Activate Account</Link>
+
+
+                </div>
+            </form>
 
         </div>
     );

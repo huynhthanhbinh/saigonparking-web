@@ -86,78 +86,17 @@ function Home() {
         <AuthApi.Provider value={{ auth, setAuth, checkUserName, setcheckUserName, forgetpass, setforgetpass }}>
 
             <Router>
-                <Navbardefault />
-                <main>
+                <Navbardefault/>
+                {/* <main> */}
                 {/* <Container> */}
-                    <Routes></Routes>
+                    <Routes/>
                 {/* </Container> */}
-                </main>
-                <Footer />
-
+                {/* </main> */}
             </Router>
         </AuthApi.Provider>
 
 
     );
-}
-const Footer = () => {
-    const Styles = styled.div`
-    h5,p,c,a,NavLink {
-        color: #ffffff;
-      
-    }
-  `;
-    var style = {
-        backgroundColor: "#3155AA",
-        borderTop: "1px solid #E7E7E7",
-        textAlign: "center",
-    }
-
-    return (
-        <Styles style={style} >
-        <MDBFooter color="blue" className="font-small pt-4 mt-4">
-        <MDBContainer fluid className="text-center text-md-left">
-          <MDBRow>
-            <MDBCol md="4">
-              <h5 className="white-title">SAIGON PARKING</h5>
-              <p className="white-text">
-               Find The Best Parking Lot For Your Car
-              </p>
-            </MDBCol>
-            <MDBCol md="4">
-            <ul>
-                <li className="list-unstyled">
-                  <NavLink to="/" tag={Link}>Home</NavLink>
-                </li>
-                <li className="list-unstyled">
-                <NavLink to="/register" tag={Link}>Register</NavLink>
-                </li>
-                <li className="list-unstyled">
-                <NavLink to="/profile" tag={Link}>Profile</NavLink>
-                </li>
-              </ul>
-            </MDBCol>
-            <MDBCol md="4">
-              <ul>
-                <li className="list-unstyled">
-                <NavLink to="/" tag={Link}>Contact Us</NavLink>
-                </li>
-                <li className="list-unstyled">
-                <NavLink to="/" tag={Link}>About Us</NavLink>
-                </li>
-                <li className="list-unstyled">
-                <NavLink to="/" tag={Link}>License</NavLink>
-                </li>
-              </ul>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-        <div className="footer-copyright text-center py-3">
-         
-        </div>
-      </MDBFooter>
-      </Styles>
-    )
 }
 
 
@@ -270,7 +209,7 @@ const Routes = () => {
 
         <Switch>
             <ProtectedHome exact path="/" component={Body} auth={Auth.auth}  ></ProtectedHome>
-
+          
 
             <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth} forgetpass={Auth.forgetpass} ></ProtectedMap>
             <ProtectedLogin exact path="/login" component={Login} auth={Auth.auth} checkUserName={Auth.checkUserName}  ></ProtectedLogin>

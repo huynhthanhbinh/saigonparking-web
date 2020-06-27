@@ -19,6 +19,7 @@ import {
 import { API_URL } from '../saigonparking';
 //modal Error 
 import '../css/modal.css'
+import '../css/login1.css'
 
 import ModalActivateAccountError from './ActivateAccount/ModalActivateAccountError'
 
@@ -83,8 +84,8 @@ const Forgetpassword = () => {
                 setmyError(err.message)
                 openModalError()
             } else {
-                
-                createNotification('success',res.getValue())
+
+                createNotification('success', res.getValue())
             }
 
         })
@@ -113,33 +114,31 @@ const Forgetpassword = () => {
 
     return (
         <>
-            
-                <form onSubmit={formik.handleSubmit}>
-                    <div style={{ margin: 10 }}>
-                        {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                        <label htmlFor="userName">USERNAME</label>
-                        <input
-                            id="userName"
-                            name="userName"
-                            type="text"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.userName}
-                        />
-                        {formik.touched.userName && formik.errors.userName ? (
-                            <div>{formik.errors.userName}</div>
-                        ) : null}
-                    </div>
+        <div className="page-container2">
+            <form className="form2" onSubmit={formik.handleSubmit}>
+                <div>
+                    {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                    <label htmlFor="userName">USERNAME</label>
+                    <input
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.userName}
+                    />
+                    {formik.touched.userName && formik.errors.userName ? (
+                        <div style={{marginTop: "-11.5%", color: "#ef4300" }}>{formik.errors.userName}</div>
+                    ) : null}
+                </div>
 
-                    <div style={{ margin: 10 }}>
-                        <button style={{ margin: 10 }} type="submit" >Submit</button>
+                <div style={{ marginTop: "5%" }}>
+                    <button style={{ marginTop: "5%" }} type="submit" >Submit</button>
 
-                    </div>
+                </div>
 
-                </form>
-            
-        
-
+            </form>
+            </div>
             <NotificationContainer />
         </>
     );

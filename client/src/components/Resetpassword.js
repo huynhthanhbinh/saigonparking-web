@@ -139,7 +139,7 @@ const Resetpassword = ({ username }) => {
                 <label htmlFor={props.id || props.name}>{label}</label>
                 <input className="text-input" {...field} {...props} />
                 {meta.touched && meta.error ? (
-                    <div className="error">{meta.error}</div>
+                    <div style={{ marginTop: "-11.5%", color: "#ef4300" }} className="error">{meta.error}</div>
                 ) : null}
             </>
         );
@@ -151,17 +151,18 @@ const Resetpassword = ({ username }) => {
 
 
     return (
-        <>
+        <div className="page-container2">
+        <div>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <Formik
+            <Formik 
                 initialValues={{
 
                     passWord: '',
                     confirmpassWord: '',
 
                 }}
-                validationSchema={Yup.object({
-
+                validationSchema ={Yup.object({
+                    
                     passWord: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
@@ -213,10 +214,10 @@ const Resetpassword = ({ username }) => {
 
                 }}
             >
-                <Form >
+                <formResetPass >
 
 
-                    <div style={{ margin: 10 }}>
+                    <div >
                         <MyTextInput
                             label="Password"
                             name="passWord"
@@ -224,7 +225,7 @@ const Resetpassword = ({ username }) => {
                         />
                     </div>
 
-                    <div style={{ margin: 10 }}>
+                    <div >
                         <MyTextInput
                             label="Confirm Password"
                             name="confirmpassWord"
@@ -234,16 +235,17 @@ const Resetpassword = ({ username }) => {
 
 
                     <button type="submit" >Update</button>
-                    <div style={{ margin: 10 }}>
+                    <div >
 
 
 
                     </div>
 
-                </Form>
+                </formResetPass>
             </Formik>
             <NotificationContainer />
-        </>
+        </div>
+        </div>
     )
 
 }
