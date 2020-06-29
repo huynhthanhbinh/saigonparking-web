@@ -116,9 +116,10 @@ const Forgetpassword = () => {
         <>
         <div className="page-container2">
             <form className="form2" onSubmit={formik.handleSubmit}>
+                <h1 style={{marginTop: "5%"}}>Quên mật khẩu</h1>
                 <div style={{ margin: "5%" }}>
                     {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                    <label htmlFor="userName">USERNAME</label>
+                    <label htmlFor="userName">Tài Khoản</label>
                     <input
                         id="userName"
                         name="userName"
@@ -133,7 +134,7 @@ const Forgetpassword = () => {
                 </div>
 
                 <div style={{ marginBottom: "5%" }}>
-                    <button  type="submit" >Submit</button>
+                    <button  type="submit" >Gửi email cho tôi</button>
 
                 </div>
 

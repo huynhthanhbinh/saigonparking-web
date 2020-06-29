@@ -5,11 +5,11 @@
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 9999;
   }
   
   .bginfo{
-    background-color: transparent ;
+    background-color: #3155AA;
     animation: changecolorNav linear 0.5s forwards;
     
   }
@@ -18,9 +18,16 @@
     color: white;
 }
 
-/* a{
-  color: white;
-} */
+.photo{
+  display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    vertical-align: middle;
+    overflow: hidden; }
+.photo img{
+  width: 100%;
+}
 
 .DropdownItem{
   color: white;

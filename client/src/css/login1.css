@@ -40,12 +40,19 @@ h1 {
 
 .page-container form {
 	position: absolute;
-	height: 400px;
+	height: 450px;
 	width: 305px;
 	text-align: center;
 	background-color: black;
 	opacity: 0.75;
 }
+
+.page-container h1{
+	color: white;
+	margin-top: 5%;
+	
+}
+
 
 .page-container2 .form2 {
 	left: 50%;
@@ -63,6 +70,7 @@ h1 {
 .page-container2 .form2 {
 	color: white;
 }
+
 
 .page-container2 .formResetPass {
 	left: 50%;
@@ -80,15 +88,23 @@ h1 {
 	color: white;
 	margin-top: 5%;
 }
+
 .page-container2 .formResetPass .divForm {
 	margin: 10%;
 }
+.page-container2 h1{
+	color: white;
+
+}
 .page-container2 .formResetPass label {
 	color: white;
+	padding-top	: 10%;
 }
 .page-container2 .formResetPass input {
-	margin-top: 10%;
+	
 }
+
+
 
 input {
 	width: 270px;

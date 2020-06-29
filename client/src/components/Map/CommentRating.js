@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 //default images
 import defaultimageparkinglot from './images/plot.jpg'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 
@@ -221,8 +223,13 @@ const CommentRating = ({ id }) => {
 
                         {total && total.items.map((i, index) => (
                             <div className={`${stylescrollview.ListViewRow}`} key={index}>
+                                <Col xd="1">
                                 <div>{i.getUsername()}</div>
+                                </Col>
+                                <Col xd="4">
                                 <div>{i.getComment()}</div>
+                                </Col>
+                                <Col xd="4">
                                 <div><StarRatings
                                     rating={i.getRating()}
                                     starRatedColor="rgb(56,112,112)"
@@ -231,7 +238,11 @@ const CommentRating = ({ id }) => {
                                     numberOfStars={5}
                                     name="rating"
                                 /></div>
+                                </Col>
+                                <Col xd="3">
                                 <div>{i.getLastupdated()}</div>
+                                </Col>
+                               
                             </div>
                         ))}
 

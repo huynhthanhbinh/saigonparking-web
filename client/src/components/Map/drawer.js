@@ -178,11 +178,7 @@ export const SideMenu = ({
                     </MenuHandler>
 
                     {currentPatient &&
-                        <div>
-
                             <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
-                        </div>
-
                     }
                 </StyledSideMenu>
             </SidekickWrapper>
@@ -254,10 +250,9 @@ const SidekickWrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  top: 8%;
   left: 0;
   pointer-events: none;
-  z-index: ${9999};
+  z-index: ${9998};
  
 `;
 //xử lý đè lên màn hình chính
@@ -280,6 +275,10 @@ const StyledSideMenu = styled(animated.div)`
   background-color: ${"#fff"};
   height: 100%;
   max-width: ${({ width }) => width}px;
+  
+
+
+  
 `;
 
 const MenuHandler = styled(animated.button)`
@@ -287,10 +286,11 @@ const MenuHandler = styled(animated.button)`
   background: transparent;
   border-radius: 0;
   position: absolute;
-  top: 20px;
+  margin-top: 66px;
+  width: 10%;
   right: 5px;
   outline: none;
-  z-index: ${100};
+    z-index: ${100};
 `;
 
 

@@ -100,108 +100,108 @@ function Home() {
 }
 
 
-const Links = () => {
-    const Styles = styled.div`
-    .navbar {
-      background-color: rgb(52,116,116);
+// const Links = () => {
+//     const Styles = styled.div`
+//     .navbar {
+//       background-color: rgb(52,116,116);
       
-    }
+//     }
   
-    a, .navbar-brand, .navbar-nav .nav-link {
-      color: white;
+//     a, .navbar-brand, .navbar-nav .nav-link {
+//       color: white;
   
-      &:hover {
-        color: yellow;
-      }
-    }
-  `;
+//       &:hover {
+//         color: yellow;
+//       }
+//     }
+//   `;
 
 
     
-    const Auth = React.useContext(AuthApi)
-    const ClickLogOut = () => {
-        Auth.setAuth(false)
-        Auth.setforgetpass(false)
-        Auth.setcheckUserName(null)
-        Cookies.remove("checkUserName");
-        Cookies.remove("token");
+//     const Auth = React.useContext(AuthApi)
+//     const ClickLogOut = () => {
+//         Auth.setAuth(false)
+//         Auth.setforgetpass(false)
+//         Auth.setcheckUserName(null)
+//         Cookies.remove("checkUserName");
+//         Cookies.remove("token");
 
-        Cookies.remove("refreshtoken");
+//         Cookies.remove("refreshtoken");
 
-        sessionstorage.clear();
-    }
+//         sessionstorage.clear();
+//     }
 
-    if (Auth.auth === true || Auth.forgetpass === true) {
-        return (
-            <Styles>
+//     if (Auth.auth === true || Auth.forgetpass === true) {
+//         return (
+//             <Styles>
 
-                <Navbar expand="lg">
-                    <Link to="/">
-                    <Navbar.Brand to="/" tag={Link} id="navbar-brand">HOME</Navbar.Brand>
-                    </Link>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Link to="/parkingmap">
-                                <Nav >MAP</Nav>
-                            </Link>
+//                 <Navbar expand="lg">
+//                     <Link to="/">
+//                     <Navbar.Brand to="/" tag={Link} id="navbar-brand">HOME</Navbar.Brand>
+//                     </Link>
+//                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
+//                     <Navbar.Collapse id="basic-navbar-nav">
+//                         <Nav className="mr-auto">
+//                             <Link to="/parkingmap">
+//                                 <Nav >MAP</Nav>
+//                             </Link>
 
-                        </Nav>
+//                         </Nav>
 
-                        <div style={{ marginRight: "50px" }} >
-                            <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
+//                         <div style={{ marginRight: "50px" }} >
+//                             <NavDropdown title="INFORMATION" id="basic-nav-dropdown" >
 
-                                <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
-                                <NavDropdown.Item ><Link to="/profile/changepassword" >CHANGEPASSWORD</Link></NavDropdown.Item>
+//                                 <NavDropdown.Item ><Link to="/profile" >PROFILE</Link></NavDropdown.Item>
+//                                 <NavDropdown.Item ><Link to="/profile/changepassword" >CHANGEPASSWORD</Link></NavDropdown.Item>
 
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
-                            </NavDropdown>
-                        </div>
+//                                 <NavDropdown.Divider />
+//                                 <NavDropdown.Item onClick={ClickLogOut} >LOGOUT</NavDropdown.Item>
+//                             </NavDropdown>
+//                         </div>
 
-                    </Navbar.Collapse>
-                </Navbar>
-            </Styles >
+//                     </Navbar.Collapse>
+//                 </Navbar>
+//             </Styles >
             
-        );
-    }
+//         );
+//     }
 
 
-    else {
-        return (
-            <Styles>
-                <Navbar expand="lg">
-                    <Link to="/">
-                        <Navbar.Brand >HOME</Navbar.Brand>
-                    </Link>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Link to="/parkingmap">
-                                <Nav >MAP</Nav>
-                            </Link>
+//     else {
+//         return (
+//             <Styles>
+//                 <Navbar expand="lg">
+//                     <Link to="/">
+//                         <Navbar.Brand >HOME</Navbar.Brand>
+//                     </Link>
+//                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
+//                     <Navbar.Collapse id="basic-navbar-nav">
+//                         <Nav className="mr-auto">
+//                             <Link to="/parkingmap">
+//                                 <Nav >MAP</Nav>
+//                             </Link>
 
-                        </Nav>
+//                         </Nav>
 
-                        <div style={{ marginRight: "50px" }} >
-                            <NavDropdown title="ĐĂNG NHẬP" id="basic-nav-dropdown" >
+//                         <div style={{ marginRight: "50px" }} >
+//                             <NavDropdown title="ĐĂNG NHẬP" id="basic-nav-dropdown" >
 
-                                <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
-                                <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
+//                                 <NavDropdown.Item ><Link to="/login" >LOGIN</Link></NavDropdown.Item>
+//                                 <NavDropdown.Item ><Link to="/register" >REGISTER</Link></NavDropdown.Item>
 
-                                <NavDropdown.Divider />
+//                                 <NavDropdown.Divider />
 
-                            </NavDropdown>
-                        </div>
+//                             </NavDropdown>
+//                         </div>
 
-                    </Navbar.Collapse>
-                </Navbar>
-            </Styles >
+//                     </Navbar.Collapse>
+//                 </Navbar>
+//             </Styles >
             
-        );
+//         );
 
-    }
-}
+//     }
+// }
 const Routes = () => {
     const Auth = React.useContext(AuthApi)
 

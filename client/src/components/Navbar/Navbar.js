@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import styles from '../../css/navbar.module.css';
 import favicon3 from '../Home/images/favicon3.png';
+import anime3 from '../Home/images/anime3.png';
+import defaultavatar from '../Home/images/defaultavatar.png';
+import NavDropdown from 'react-bootstrap/NavDropdown'
 // reactstrap components
 import {
 	Collapse,
@@ -135,7 +138,7 @@ import sessionstorage from 'sessionstorage'
 
 const Navbardefault = () => {
 	const Auth = React.useContext(AuthApi);
-	const [totalState, settotalState] = React.useState({ collapseOpen: false, color: 'navbar-transparent' })
+	const [totalState, settotalState] = React.useState({ collapseOpen: false, color: 'transparent' })
 	const Styles = styled.div`
 	 .DropdownItem,span{
 		color: white;
@@ -156,7 +159,7 @@ const Navbardefault = () => {
 			settotalState({ collapseOpen: totalState.collapseOpen, color: 'bg-info' })
 		} else if (document.documentElement.scrollTop < 100 || document.body.scrollTop < 100) {
 
-			settotalState({ collapseOpen: totalState.collapseOpen, color: 'navbar-transparent' })
+			settotalState({ collapseOpen: totalState.collapseOpen, color: 'transparent' })
 		}
 	};
 	// const toggleCollapse = () => {
@@ -192,7 +195,7 @@ const Navbardefault = () => {
 
 	if (Auth.auth === true || Auth.forgetpass === true) {
 		return (
-				<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'navbar-transparent'`} color-on-scroll="100" expand="lg">
+				<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + '#3155AA'`} color-on-scroll="100">
 					<Container>
 						<Row>
 						<div className="navbar-translate">
@@ -205,8 +208,9 @@ const Navbardefault = () => {
 								</span>
 							</NavbarBrand>
 						</div>
+						
 						</Row>
-						<Collapse
+						<Row
 							className={'justify-content-end ' + totalState.collapseOut}
 							navbar
 							isOpen={totalState.collapseOpen}
@@ -226,17 +230,19 @@ const Navbardefault = () => {
 								</Col>
 							</Row>
 						</div> */}
-							<Nav navbar>
+						<Nav navbar>
 								<UncontrolledDropdown nav>
 									<DropdownToggle
-										caret
 										color="default"
 										data-toggle="dropdown"
 										href="#pablo"
 										nav
 										onClick={(e) => e.preventDefault()}
 									>
-										<i className="fa fa-cogs d-lg-none d-xl-none" />
+										
+										<div className="photo">
+											<img style={{}}  src={anime3} alt="anime3" />
+										</div>
 
 									</DropdownToggle>
 									<DropdownMenu title="INFORMATION" className="DropdownMenu">
@@ -255,21 +261,21 @@ const Navbardefault = () => {
 									</DropdownMenu>
 								</UncontrolledDropdown>
 							</Nav>
-						</Collapse>
+						</Row>
 					</Container>
 				</Navbar>
 		);
 	}
 	else if (Auth.auth === false) {
 		return (
-			<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'navbar-transparent'`} color-on-scroll="100" expand="lg">
+			<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'transparent'`} color-on-scroll="100">
 				<Container>
 					<div className="navbar-translate">
 						<NavbarBrand className="NavbarBrand" to="/" tag={Link} id="navbar-brand">
 							<span>SaiGon Parking</span>
 						</NavbarBrand>
 					</div>
-					<Collapse
+					<Row
 						className={'justify-content-end ' + totalState.collapseOut}
 						navbar
 						isOpen={totalState.collapseOpen}
@@ -292,7 +298,6 @@ const Navbardefault = () => {
 						<Nav navbar>
 							<UncontrolledDropdown nav>
 								<DropdownToggle
-									caret
 									color="default"
 									data-toggle="dropdown"
 									href="#pablo"
@@ -300,6 +305,9 @@ const Navbardefault = () => {
 									onClick={(e) => e.preventDefault()}
 								>
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
+									<div className="photo">
+											<img style={{paddingTop: "11%"}} src={defaultavatar} alt="defaultavatar" />
+										</div>
 
 								</DropdownToggle>
 								<DropdownMenu className="DropdownMenu">
@@ -314,7 +322,7 @@ const Navbardefault = () => {
 								</DropdownMenu>
 							</UncontrolledDropdown>
 						</Nav>
-					</Collapse>
+					</Row>
 				</Container>
 			</Navbar>
 		);

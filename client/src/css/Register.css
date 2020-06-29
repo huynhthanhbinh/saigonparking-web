@@ -1,5 +1,6 @@
 /* css dung chung cho Register, Information, UpdateInfomation */
 
+/* css Register */
 .background {
     background: url("../components/Home/images/night light.jpg");
     background-size: cover;
@@ -14,21 +15,34 @@
     width: 100%;
 }
 
-.background .fontcolor label {
+
+.background .fontcolor h1 {
     color: white;
+    margin-top: 3%;
 }
 
 .background .fontcolor {
     margin-top: 5%;
-    height: 100%;
+    height: auto;
+    width: 600px;
     overflow-y: auto;
     background: black;
     opacity: 0.75;
+    /* text-align: center; */
 }
-.background .fontcolor .fontcolorform {
-    margin-top: 5%;
+.background .fontcolor .fontcolordetail {
+    margin-bottom: 8%;
 }
 
+.background .fontcolor .fontcolordetail label {
+    color: white;	
+    margin-top: 30%;
+    font-size: 80%;
+}
+
+
+
+/* css Information */
 .backgroundinfo {
     background: url("../components/Home/images/night light.jpg");
     background-size: cover;
@@ -48,36 +62,60 @@
 }
 
 .backgroundinfo .fontcolorinfo label {
-    margin-top: 20%;
+    margin-top: 25%;
 }
 
-.backgroundinfo .formabc {
+.backgroundinfo .forminfo {
     background: black;
     opacity: 0.75;
 }
 
-.backgroundinfo .formabc h1 {
+.backgroundinfo .forminfo h1 {
     color: white;
     margin-top: 10%;
 }
 
+.backgroundinfo .forminfo button {
+    width: 90%;
+}
+
+
+
+
 /* css UpdateInfo */
 .backgroundUpdate {
     background: url("../components/Home/images/night light.jpg");
-    background-size: 100% 100%;
+    background-size: cover;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
-.backgroundUpdate .fontcolorUpdate {
-    color: white;
-}
 
 .backgroundUpdate .fontcolorUpdate label {
-    margin-top: 9%;
-    margin-left: 1%;
+    color: white;
+    margin-top: 25%;
+    
 }
 
 .backgroundUpdate h1 {
     color: white;
-    margin-top: 3%;
-    margin-left: 40%;
+    padding-top: 5%;
+}
+
+
+.backgroundUpdate .formUpdate {
+    background: black;
+    opacity: 0.75;
+    
+}
+
+.backgroundUpdate .formUpdate .fontcolorUpdate button {
+    /* width: 50%; */
 }

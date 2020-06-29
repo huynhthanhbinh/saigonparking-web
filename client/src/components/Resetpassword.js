@@ -214,9 +214,10 @@ const Resetpassword = ({ username }) => {
                 <formResetPass className="formResetPass" >
 
                 <div className='divForm' >
+                    <h1>Đổi mật khẩu</h1>
                     <div  >
                         <MyTextInput
-                            label="Password"
+                            label="Mật khẩu"
                             name="passWord"
                             type="passWord"
                         />
@@ -224,12 +225,12 @@ const Resetpassword = ({ username }) => {
 
                     <div >
                         <MyTextInput
-                            label="Confirm Password"
+                            label="Xác nhận mật khẩu"
                             name="confirmpassWord"
                             type="passWord"
                         />
                     </div>
-                    <button type="submit" >Update</button>
+                    <button type="submit" >Cập nhật</button>
 </div>
                 </formResetPass>
             </Formik>

@@ -168,9 +168,7 @@ const Update = () => {
         <>
             <div className="backgroundUpdate">
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                <Row>
-                    <h1>Update Information</h1>
-                </Row>
+
                 {customerObject ? <Formik
                     initialValues={{
                         userName: customerObject.username,
@@ -258,11 +256,13 @@ const Update = () => {
 
                     }}
                 >
-                    <Form className="fontcolorUpdate" >
+                    <Form className="formUpdate" >
+                    <div></div>
+                    <h1>Cập nhật thông tin cá nhân</h1>
 
-                        <div>
+                        <div className="fontcolorUpdate">
                             <MyTextInput
-                                label="Username"
+                                label="Tài khoản"
                                 name="userName"
                                 type="text"
                                 disabled="disabled"
@@ -270,7 +270,7 @@ const Update = () => {
                         </div>
 
 
-                        <div>
+                        <div className="fontcolorUpdate">
                             <MyTextInput
                                 label="Email "
                                 name="email"
@@ -279,26 +279,26 @@ const Update = () => {
                             />
                         </div>
 
-                        <div>
+                        <div className="fontcolorUpdate">
                             <MyTextInput
-                                label="First Name"
+                                label="Tên"
                                 name="firstName"
                                 type="text"
 
                             />
                         </div>
 
-                        <div>
+                        <div className="fontcolorUpdate">
                             <MyTextInput
-                                label="Last Name"
+                                label="Họ"
                                 name="lastName"
                                 type="text"
 
                             />
                         </div>
-                        <div>
+                        <div className="fontcolorUpdate">
                             <MyTextInput
-                                label="Phone"
+                                label="Số điện thoại"
                                 name="phone"
                                 type="phone"
 
@@ -306,18 +306,23 @@ const Update = () => {
                         </div>
 
 
-                        <div style={{ marginLeft: "18%" }}>
-                            <button style={{ margin: "1%" }} type="submit" >Update</button>
-                            <Link to="/profile">
-                                <button style={{ margin: "1%" }} type="button">
-                                    Back
+                        <Row className="fontcolorUpdate" style={{paddingBottom: "5%" }}>
+                           
+                                <Col xd="6">
+                                <button style={{ }} type="submit" >Cập nhật</button>
+                                </Col>  
+                                <Col xd="6">
+                                <Link to="/profile">
+                                <button style={{ }} type="button">
+                                    Trở lại
                             </button>
                             </Link>
-                        </div>
+                                </Col>
+                            
+                        </Row>
 
                     </Form>
                 </Formik> : null}
-                <div className="footer-copyright text-center py-5"></div>
             </div>
         </>
     )

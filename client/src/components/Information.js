@@ -173,7 +173,6 @@ const Information = () => {
     // console.log(customerObject)
     return (
         <div className='backgroundinfo'>
-        <div className='abcxyz'></div>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
             {customerObject ? <Formik
@@ -213,14 +212,14 @@ const Information = () => {
 
                 }}
             >
-                <Form className='formabc' >
+                <Form className='forminfo' >
                     <div></div>
                     <h1>Thông tin cá nhân</h1>
 
 
                     <div className="fontcolorinfo">
                         <MyTextInput
-                            label="Username"
+                            label="Tài khoản"
                             name="userName"
                             type="text"
                             disabled="disabled"
@@ -269,18 +268,25 @@ const Information = () => {
 
                     <div className="footer-copyright text-center py-5">
 
-                        <div style={{ marginRight: "24%" }}>
-                            <Link to="/profile/update">
-                                <button style={{ margin: "1%" }} type="button">
-                                    update your information
+                        <div>
+                            <Row>
+                                <Col xd="6">
+                                <Link to="/profile/update">
+                                <button style={{}} type="button">
+                                    Chỉnh sửa
                         </button>
                             </Link>
-                            <button style={{ margin: "1%" }} onClick={ClickLogOut}>Logout</button>
+                                    </Col>
+                                    <Col xd="6">
+                                    <button style={{}} onClick={ClickLogOut}>Đăng xuất</button>
+                                    </Col>
+                           
+                            </Row>
                         </div>
 
                     </div>
                 </Form>
-            </Formik> : <button onClick={ClickLogOut}>Logout</button>}
+            </Formik> : <button onClick={ClickLogOut}>Đăng xuất</button>}
         </div>
     )
 

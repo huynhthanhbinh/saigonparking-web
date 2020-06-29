@@ -116,10 +116,10 @@ const ClickActivateAccount = () => {
         <>
             <div className="page-container2">
                 <form className="form2" onSubmit={formik.handleSubmit}>
-
-                    <div>
+                    <h1 style= {{marginTop:"5%"}}>Kích hoạt tài khoản</h1>
+                    <div style={{ margin: "5%" }}>
                         {modalErrorIsOpen ? <ModalActivateAccountError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                        <label htmlFor="userName">USERNAME</label>
+                        <label htmlFor="userName">Tài khoản</label>
                         <input
                             id="userName"
                             name="userName"
@@ -133,8 +133,8 @@ const ClickActivateAccount = () => {
                         ) : null}
                     </div>
 
-                    <div style={{ marginTop: "5%" }}>
-                        <button style={{ marginTop: "5%" }} type="submit" >Submit</button>
+                    <div style={{ marginBottom: "5%" }}>
+                        <button type="submit" >Gửi email cho tôi</button>
 
                     </div>
 
