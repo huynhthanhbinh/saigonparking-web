@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom'
 import styles from '../../css/navbar.module.css';
 import favicon3 from '../Home/images/favicon3.png';
 import anime3 from '../Home/images/anime3.png';
@@ -138,7 +139,7 @@ import sessionstorage from 'sessionstorage'
 
 const Navbardefault = () => {
 	const Auth = React.useContext(AuthApi);
-	const [totalState, settotalState] = React.useState({ collapseOpen: false, color: 'transparent' })
+	const [totalState, settotalState] = React.useState({ collapseOpen: false, color: 'rgb(52, 116, 116)' })
 	const Styles = styled.div`
 	 .DropdownItem,span{
 		color: white;
@@ -148,25 +149,26 @@ const Navbardefault = () => {
 	 }
   `;
 	React.useEffect(() => {
+
 		window.addEventListener('scroll', changeColor);
 		return () => window.removeEventListener('scroll', changeColor);
-		
+
 	})
 
 	const changeColor = () => {
 		if (document.documentElement.scrollTop > 99 || document.body.scrollTop > 99) {
 
-			settotalState({ collapseOpen: totalState.collapseOpen, color: 'bg-info' })
+			settotalState({ collapseOpen: totalState.collapseOpen, color: 'bginfo' })
 		} else if (document.documentElement.scrollTop < 100 || document.body.scrollTop < 100) {
 
-			settotalState({ collapseOpen: totalState.collapseOpen, color: 'transparent' })
+			settotalState({ collapseOpen: totalState.collapseOpen, color: 'rgb(52, 116, 116)' })
 		}
 	};
-	// const toggleCollapse = () => {
-	// 	document.documentElement.classList.toggle('nav-open');
+	const toggleCollapse = () => {
+		document.documentElement.classList.toggle('nav-open');
 
-	// 	settotalState({ collapseOpen: !totalState.collapseOpen, color: 'navbar-transparent' })
-	// };
+		settotalState({ collapseOpen: !totalState.collapseOpen, color: 'navbar-transparent' })
+	};
 	const onCollapseExiting = () => {
 
 		settotalState({ collapseOpen: totalState.collapseOpen, color: 'collapsing-out' })
@@ -175,7 +177,7 @@ const Navbardefault = () => {
 		this.setState({
 			collapseOut: ''
 		});
-		settotalState({ collapseOpen: totalState.collapseOpen, color: '' })
+		settotalState({ collapseOpen: totalState.collapseOpen, color: 'rgb(52, 116, 116)' })
 	};
 
 
@@ -192,12 +194,20 @@ const Navbardefault = () => {
 	};
 
 
-
+	let location = useLocation();
 	if (Auth.auth === true || Auth.forgetpass === true) {
+		let stylenavbarparkingmap = null;
+
+		if (location.pathname === '/parkingmap') {
+			stylenavbarparkingmap = {
+				backgroundColor: "rgb(52,116,116)"
+			};
+		}
+
 		return (
-				<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + '#3155AA'`} color-on-scroll="100">
-					<Container>
-						<Row>
+			<Navbar style={stylenavbarparkingmap} className={totalState.color === 'bginfo' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop}`} color-on-scroll="100">
+				<Container >
+					<Row>
 						<div className="navbar-translate">
 							<NavbarBrand className="NavbarBrand" to="/" tag={Link} id="navbar-brand">
 								<span>Saigon Parking</span>
@@ -208,16 +218,16 @@ const Navbardefault = () => {
 								</span>
 							</NavbarBrand>
 						</div>
-						
-						</Row>
-						<Row
-							className={'justify-content-end ' + totalState.collapseOut}
-							navbar
-							isOpen={totalState.collapseOpen}
-							onExiting={onCollapseExiting}
-							onExited={onCollapseExited}
-						>
-							{/* <div className="navbar-collapse-header">
+
+					</Row>
+					<Row
+						className={'justify-content-end ' + totalState.collapseOut}
+						navbar
+						isOpen={totalState.collapseOpen}
+						onExiting={onCollapseExiting}
+						onExited={onCollapseExited}
+					>
+						{/* <div className="navbar-collapse-header">
 							<Row>
 								<Col className="collapse-close text-right" xs="6">
 									<button
@@ -231,44 +241,44 @@ const Navbardefault = () => {
 							</Row>
 						</div> */}
 						<Nav navbar>
-								<UncontrolledDropdown nav>
-									<DropdownToggle
-										color="default"
-										data-toggle="dropdown"
-										href="#pablo"
-										nav
-										onClick={(e) => e.preventDefault()}
-									>
-										
-										<div className="photo">
-											<img style={{}}  src={anime3} alt="anime3" />
-										</div>
+							<UncontrolledDropdown nav>
+								<DropdownToggle
+									color="default"
+									data-toggle="dropdown"
+									href="#pablo"
+									nav
+									onClick={(e) => e.preventDefault()}
+								>
 
-									</DropdownToggle>
-									<DropdownMenu title="INFORMATION" className="DropdownMenu">
-										<DropdownItem className="DropdownItem" tag={Link} to="/profile">
-											<i className="tim-icons icon-bullet-list-67" />
+									<div className="photo">
+										<img style={{}} src={anime3} alt="anime3" />
+									</div>
+
+								</DropdownToggle>
+								<DropdownMenu title="INFORMATION" className="DropdownMenu">
+									<DropdownItem className="DropdownItem" tag={Link} to="/profile">
+										<i className="tim-icons icon-bullet-list-67" />
 										<a>Hồ sơ cá nhân</a>
 									</DropdownItem>
-										<DropdownItem className="DropdownItem" tag={Link} to="/profile/changepassword">
-											<i className="tim-icons icon-single-02" />
+									<DropdownItem className="DropdownItem" tag={Link} to="/profile/changepassword">
+										<i className="tim-icons icon-single-02" />
 										Đổi mật khẩu
 									</DropdownItem>
-										<DropdownItem className="DropdownItem" onClick={ClickLogOut}>
-											<i className="tim-icons icon-single-02" />
+									<DropdownItem className="DropdownItem" onClick={ClickLogOut}>
+										<i className="tim-icons icon-single-02" />
 										Đăng xuất
 									</DropdownItem>
-									</DropdownMenu>
-								</UncontrolledDropdown>
-							</Nav>
-						</Row>
-					</Container>
-				</Navbar>
+								</DropdownMenu>
+							</UncontrolledDropdown>
+						</Nav>
+					</Row>
+				</Container>
+			</Navbar>
 		);
 	}
 	else if (Auth.auth === false) {
 		return (
-			<Navbar className={totalState.color === 'bg-info' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'transparent'`} color-on-scroll="100">
+			<Navbar className={totalState.color === 'bginfo' ? `${styles.fixedtop} ${styles.bginfo}` : `${styles.fixedtop} + 'rgb(52, 116, 116)`} color-on-scroll="100">
 				<Container>
 					<div className="navbar-translate">
 						<NavbarBrand className="NavbarBrand" to="/" tag={Link} id="navbar-brand">
@@ -306,8 +316,8 @@ const Navbardefault = () => {
 								>
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
 									<div className="photo">
-											<img style={{paddingTop: "11%"}} src={defaultavatar} alt="defaultavatar" />
-										</div>
+										<img style={{ paddingTop: "11%" }} src={defaultavatar} alt="defaultavatar" />
+									</div>
 
 								</DropdownToggle>
 								<DropdownMenu className="DropdownMenu">

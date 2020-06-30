@@ -179,7 +179,7 @@ export const SideMenu = ({
                     </MenuHandler>
 
                     {currentPatient &&
-                            <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
+                        <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                     }
                 </StyledSideMenu>
             </SidekickWrapper>
@@ -251,6 +251,7 @@ const SidekickWrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
+  margin-top: 66px;
   left: 0;
   pointer-events: none;
   z-index: ${9998};

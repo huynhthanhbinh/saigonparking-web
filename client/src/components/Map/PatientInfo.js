@@ -131,7 +131,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   }
   else {
 
-    return <div className="info-card" style={{overflowY:"auto", height:"100%"}}>  
+    return <div className="info-card" style={{ overflowY: "auto", height: "100%" }}>
       <span role="button" tabIndex="0" onClick={() => {
         abc.setswitchLP({ LiPa: false, BinhLuan: false })
       }}><img src={backbutton}></img></span>
@@ -139,9 +139,11 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
       {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
       {parkinglot ? <Card style={{ width: '25rem' }}>
 
-        <Card.Header style={{paddingTop:"66px"}}><img style={{ width: '100%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} /></Card.Header>
+        <Card.Header style={{ paddingTop: "66px" }}><img style={{ width: '100%' }} src={(parkinglot.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${parkinglot.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} /></Card.Header>
         <Card.Body>
-          <Card.Title>ID: {id}</Card.Title>
+          <Card.Title>ID: {id}
+            <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
+          </Card.Title>
           <StarRatings
             rating={parkinglot.getInformation().getRatingaverage()}
             starRatedColor="rgb(56,112,112)"
@@ -161,10 +163,10 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
             <li>AVAILABLESLOT: {parkinglot.getAvailableslot()}</li>
             <li>TOTALSLOT: {parkinglot.getTotalslot()}</li>
 
-            <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
-        
+
+
           </Card.Text>
-          </Card.Body>
+        </Card.Body>
 
         {/* <button onClick={() => {
           abc.setswitchLP({ LiPa: false, BinhLuan: false })

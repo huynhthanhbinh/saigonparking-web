@@ -58,6 +58,7 @@ const Update = () => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
+
                 setmyError(err.message)
                 openModalError()
 
