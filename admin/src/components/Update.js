@@ -37,13 +37,10 @@ const Update = () => {
 
         setmodalErrorIsOpen(true);
     }
-
     function closeModalError() {
         setmodalErrorIsOpen(false);
     }
-    //
     const Auth = React.useContext(AuthApi)
-
     let [customerObject, setCustomerObject] = React.useState()
     const [nextpage,setnextpage] = React.useState(false)
     const getInformationUser = async (Auth) => {
@@ -52,42 +49,24 @@ const Update = () => {
         const checkUserName = Cookies.get("checkUserName");
         const request = new StringValue()
         request.setValue(checkUserName)
-
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
-
                 if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                     setmyError('SPE#0000DB')
                 }
                 else {
                     setmyError(err.message)
                 }
-
-
                 openModalError()
-
             } else {
-
-
-
                 setCustomerObject(userMapper.toCustomerObject(res))
-
-
-
-
             }
-
         })
-
-
     }
-
     React.useEffect(() => {
-
         getInformationUser(Auth);
-
-    }, [modalErrorIsOpen,nextpage])
-
+    }, [modalErrorIsOpen,nextpage,Auth,getInformationUser])
+    
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
         // which we can spread on <input> and also replace ErrorMessage entirely.
@@ -103,23 +82,17 @@ const Update = () => {
                         ) : null}</Col>
                     </Row>
                 </Container>
-
-
-
             </>
         );
     };
 
-
-
     const ClickLogOut = () => {
-
     }
     if(nextpage===true)
     {
         return(<Redirect to="/profile" />)
     }
-  
+
     return (
         <>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
@@ -127,24 +100,18 @@ const Update = () => {
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-                   
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
                     phone: customerObject.phone
-
-
                 }}
                 validationSchema={Yup.object({
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-                   
-
                     email: Yup.string()
                         .email('Invalid email address')
                         .required('Required'),
-
                     firstName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
@@ -154,7 +121,6 @@ const Update = () => {
                     phone: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-
                 })}
                 onSubmit={(values, { setSubmitting }) => {
 
@@ -178,18 +144,14 @@ const Update = () => {
                     const token = 'Bearer ' + Cookies.get("token");
                     const metadata = { 'Authorization': token }
                     const request = new UserProto.Customer()
-
                     user.setRole(customerObject.role)
                     user.setUsername(customerObject.username)
-                  
                     user.setEmail(values.email)
                     user.setVersion(customerObject.version)
                     request.setUserinfo(user)
                     request.setFirstname(values.firstName)
                     request.setLastname(values.lastName)
                     request.setPhone(values.phone)
-
-
                     userService.updateCustomer(request, metadata, (err, res) => {
                         if (err) {
                             if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
@@ -198,23 +160,16 @@ const Update = () => {
                             else {
                                 setmyError(err.message)
                             }
-
-
                             openModalError()
                         } else {
-
                             
                             setSubmitting(false);
                             setnextpage(true)
                         }
-
                     })
-
-
                 }}
             >
                 <Form >
-
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Username"
@@ -223,32 +178,25 @@ const Update = () => {
                             disabled="disabled"
                         />
                     </div>
-
-                   
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Email "
                             name="email"
                             type="email"
-
                         />
                     </div>
-
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="First Name"
                             name="firstName"
                             type="text"
-
                         />
                     </div>
-
                     <div style={{ margin: 10 }}>
                         <MyTextInput
                             label="Last Name"
                             name="lastName"
                             type="text"
-
                         />
                     </div>
                     <div style={{ margin: 10 }}>
@@ -256,11 +204,8 @@ const Update = () => {
                             label="Phone"
                             name="phone"
                             type="phone"
-
                         />
                     </div>
-
-
                     <div style={{ margin: 10 }}>
                         <button type="submit" >Update</button>
                         <Link to="/profile">
@@ -269,7 +214,6 @@ const Update = () => {
                             </button>
                         </Link>
                     </div>
-
                 </Form>
             </Formik> : null}
         </>
