@@ -1,0 +1,541 @@
+/* background Car running */
+
+.section {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background: url("../images/car1.jpg");
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+}
+
+.Surface {
+    height: 140px;
+    width: 500%;
+    background: url("../images/car2.png");
+    display: block;
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    background-repeat: repeat-x;
+    animation: moveRight 6s linear infinite;
+}
+
+.Car {
+    height: 70px;
+    width: 270px;
+    background: url("../images/car4.png");
+    position: absolute;
+    bottom: 5%;
+    left: 24%;
+    animation: suppension 0.3s linear infinite;
+}
+
+@keyframes moveRight {
+    100% {
+        transform: translateX(-2950px);
+    }
+}
+
+@keyframes suppension {
+    100% {
+        transform: translateY(-1px);
+    }
+    50% {
+        transform: translateY(2px);
+    }
+    0% {
+        transform: translateY(-1px);
+    }
+}
+
+@keyframes change2 {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+/* background form login */
+
+.backgroundForm {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background: rgb(0, 0, 0);
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    animation: fadeinBackGround 1s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeinBackGround {
+    100% {
+        opacity: 0.7;
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+/* formLogin */
+
+
+/*1 big box */
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    width: 1000px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0px 5px 100px #4b4b4b;
+    border-radius: 55px;
+}
+
+.MainLogin {
+    animation: fadein 3s forwards;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/*2 login */
+
+.box h1 {
+    color: #EC1763;
+    text-align: center;
+    margin-top: 30%;
+    font-size: 50px;
+}
+
+
+/*3 welcome box */
+
+.box .welcome {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 600px;
+    height: 600px;
+    background-image: url('./loginPicture1.jpg');
+    background-size: cover;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+}
+
+
+/*4 login box */
+
+.white {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 400px;
+    height: 600px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+
+/* inputs */
+
+.white .inputbox input {
+    width: 70%;
+    padding: 5px;
+    margin: 20px 0;
+    margin-top: 30px;
+    margin-left: 60px;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+/* checkbox */
+
+.white .check input {
+    height: 40px;
+    margin-left: 60px;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+/* keep me logged in */
+
+.white .check p {
+    position: relative;
+    margin-left: 80px;
+    bottom: 34px;
+    color: #CCCCCC;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.white .inputbox {
+    position: relative;
+}
+
+
+/* forgot password */
+
+.white .inputbox a {
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    font-size: 14px;
+    color: #EC1763;
+    text-decoration: none;
+}
+
+.white .inputbox label {
+    position: absolute;
+    top: 5px;
+    left: 65px;
+    font-size: 18px;
+    color: #929292;
+    transition: .5s;
+}
+
+.white input[type="submit"] {
+    position: absolute;
+    bottom: 187px;
+    right: 50px;
+    border: 0;
+    background-color: #EC1763;
+    color: white;
+    font-size: 16px;
+    width: 130px;
+    height: auto;
+    padding: 7px 5px;
+    border-radius: 20brpx;
+    cursor: pointer;
+}
+
+.white input[type="submit"]:hover {
+    background: #EC1763;
+    box-shadow: 0 0 10px #EC1763, 0 0 40px #EC1763, 0 0 80px #EC1763;
+}
+
+.white input[type="submit"][disabled] {
+    animation: bgColor infinite 5s;
+}
+
+@keyframes bgColor {
+    0% {
+        background-color: #EC1763;
+        box-shadow: 0 0 0px #EC1763, 0 0 0px #EC1763, 0 0 0px #EC1763;
+    }
+    20% {
+        background-color: #da17ec;
+        box-shadow: 0 0 10px #da17ec, 0 0 40px #da17ec, 0 0 80px #da17ec;
+    }
+    40% {
+        background-color: #2c17ec;
+        box-shadow: 0 0 10px #2c17ec, 0 0 40px #2c17ec, 0 0 80px #2c17ec;
+    }
+    50% {
+        background-color: #17ecec;
+        box-shadow: 0 0 10px #17ecec, 0 0 40px #17ecec, 0 0 80px #17ecec;
+    }
+    80% {
+        background-color: #3aec17;
+        box-shadow: 0 0 10px #3aec17, 0 0 40px #3aec17, 0 0 80px #3aec17;
+    }
+    100% {
+        background-color: #ece817;
+        box-shadow: 0 0 10px #ece817, 0 0 40px #ece817, 0 0 80px #ece817;
+    }
+}
+
+.white .signup {
+    position: absolute;
+    bottom: 10px;
+    left: 30%;
+    font-size: 12px;
+    color: #929292;
+}
+
+.white .signup a {
+    color: #EC1763;
+    text-decoration: none;
+}
+
+.box .welcome img {
+    position: absolute;
+    width: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -80%);
+    pointer-events: none;
+}
+
+.box .welcome h1 {
+    position: absolute;
+    color: white;
+    top: 17%;
+    left: 10px;
+    pointer-events: none;
+}
+
+.welcome h4 {
+    position: absolute;
+    color: white;
+    left: 20%;
+    top: 55%;
+    pointer-events: none;
+}
+
+
+/* to */
+
+.box .welcome span {
+    position: relative;
+    color: #EC1763;
+    top: 17%;
+    left: 10px
+}
+
+.box input:focus~label {
+    color: #EC1763;
+}
+
+.box input:focus,
+input:valid {
+    transition: .5s;
+    border-color: #EC1763;
+}
+
+::-webkit-input-placeholder {
+    font-size: 16px;
+    color: #CCCCCC;
+    margin: 0;
+    padding: 0;
+}
+
+input:focus::-webkit-input-placeholder {
+    transition: .5s;
+    color: transparent;
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+/* Wellcome to SGPARKING MAP */
+
+.welcomsection {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    overflow: hidden;
+    animation: fadeoutWelcome forwards 3s;
+    animation-delay: 3s;
+}
+
+@keyframes fadeoutWelcome {
+    100% {
+        background: none;
+    }
+}
+
+.contenwrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.flytext {
+    list-style: none;
+}
+
+.flytext li {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 5em;
+    color: #fff;
+    opacity: 1;
+    transition: all 3s ease;
+}
+
+.flytext li:nth-child(13) {
+    margin-right: 0;
+}
+
+.enterbutton {
+    display: block;
+    text-align: center;
+    font-size: 1em;
+    text-decoration: none;
+    color: #adff2f;
+    opacity: 1;
+    margin-top: 30px;
+    transition: all 1s ease 3s;
+}
+
+.welcomsection .flytext li:nth-child(1) {
+    transform: translate3d(-180px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(2) {
+    transform: translate3d(-150px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(3) {
+    transform: translate3d(-120px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(4) {
+    transform: translate3d(-90px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(5) {
+    transform: translate3d(-60px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(6) {
+    transform: translate3d(-30px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(7) {
+    transform: translate3d(0px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(8) {
+    transform: translate3d(30px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(9) {
+    transform: translate3d(60px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(10) {
+    transform: translate3d(90px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(11) {
+    transform: translate3d(120px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(12) {
+    transform: translate3d(150px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .flytext li:nth-child(13) {
+    transform: translate3d(180px, 0, 0);
+    animation: moveText forwards 3s;
+}
+
+.welcomsection .enterbutton {
+    transform: translate3d(0, -30px, 0);
+    animation: moveText forwards 3s;
+}
+
+@keyframes moveText {
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+.seperatorwrapper {
+    margin: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    opacity: 1 !important;
+}
+
+.seperatorwrapper .seperator {
+    width: 100%;
+    height: 5px;
+    animation: rotate 3s infinite linear;
+    -webkit-animation: rotate 3s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        background-position: -3000px;
+    }
+    to {
+        background-position: 0px;
+    }
+}
+
+@keyframes rotate {
+    from {
+        background-position: -3000px;
+    }
+    to {
+        background-position: 0px;
+    }
+}
+
+.gradient {
+    background: #30ff90;
+    /* Old browsers */
+    background: -moz-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #30ff90), color-stop(25%, #ed2ded), color-stop(50%, #c99826), color-stop(75%, #30ffe6), color-stop(100%, #30ff90));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* IE10+ */
+    background: linear-gradient(to right, #30ff90 0%, #ed2ded 25%, #c99826 50%, #30ffe6 75%, #30ff90 100%);
+    /* W3C */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#30ff90", endColorstr="#30ff90", GradientType=1);
+    /* IE6-9 */
+}
