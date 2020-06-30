@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
 import { ListGroup } from 'react-bootstrap';
+import stylescrollview from '../../css/scrollpath.module.css'
 //IMPORT COMPONENT
 import PatientInfo from "./PatientInfo";
 import ListPatients from "./ListPatients";
