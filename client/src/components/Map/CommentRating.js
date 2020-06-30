@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 //default images
 import defaultimageparkinglot from './images/plot.jpg'
-
+import { ProgressBar } from 'react-bootstrap'
 
 
 import { API_URL } from '../../saigonparking';
@@ -15,6 +15,9 @@ import StarRatings from "react-star-ratings";
 import exceptionHandler from '../../ExceptionHandling'
 //modal Error
 import ModalError from '../Modal/ModalError'
+//
+//
+import ModalComment from '../Modal/ModalComment'
 //
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
@@ -33,6 +36,7 @@ import { CommonLoading, BoxLoading, WindMillLoading } from 'react-loadingg';
 // Import Css
 import stylescrollview from '../../css/scrollpath.module.css'
 
+
 import userMapper from '../../mapper/UserMapper';
 
 
@@ -47,6 +51,7 @@ const CommentRating = ({ id }) => {
     const abc = React.useContext(SetClick)
     // các phần tử của comment và total
     const [total, settotal] = React.useState({ items: [], pagenumber: 1 })
+    const [ratingcountmap, setratingcountmap] = React.useState([])
     const [countall, setcountall] = React.useState(0)
     const [loadingscreen, setloadingscreen] = React.useState(true)
     //config Modal Error
@@ -59,6 +64,18 @@ const CommentRating = ({ id }) => {
 
     function closeModalError() {
         setmodalErrorIsOpen(false);
+    }
+    //
+    //config Modal Comment
+    const [modalCommentIsOpen, setmodalCommentIsOpen] = React.useState(false);
+    // const [myError, setmyError] = React.useState(null)
+    function openModalComment() {
+
+        setmodalCommentIsOpen(true);
+    }
+
+    function closeModalComment() {
+        setmodalCommentIsOpen(false);
     }
     //
     //xử lý lỗi error0001 cấp accestoken mới
@@ -88,6 +105,8 @@ const CommentRating = ({ id }) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
+                    console.log("accesstoken mới")
+                    setflat(!flat)
                 }
 
 
@@ -122,6 +141,46 @@ const CommentRating = ({ id }) => {
                 } else {
 
                     setcountall(res.getValue())
+                    // setNPage(Math.ceil(res.getValue() / 10))
+
+
+                }
+            })
+        }
+
+        return () => {
+            unmount = true
+        }
+    }, [id, flat])
+    //load rating
+    useEffect(() => {
+        //get Rating all
+        let unmount = false;
+        if (unmount === false) {
+            const request = new Int64Value();
+            const token = 'Bearer ' + Cookies.get("token");
+            const metadata = { 'Authorization': token }
+            request.setValue(id)
+
+            ParkinglotService.getParkingLotRatingCountGroupByRating(request, metadata, (err, res) => {
+
+                if (err) {
+                    if (err.message === 'SPE#00001') {
+                        xulyerrorSPE00001()
+                    }
+                    else {
+                        setmyError(err.message)
+                        openModalError()
+                    }
+
+                } else {
+                    setratingcountmap(res.getRatingcountMap().getEntryList())
+                    // res.getRatingcountMap().getEntryList().map((rating, index) => {
+                    //     console.log('BachMapKey: ' + rating[0] + ', BachMapValue: ' + rating[1])
+                    // })
+
+                    // settotal({ items: total.items, pagenumber: total.pagenumber, ratingcountmap: res.getRatingcountMap().getEntryList() })
+                    // setcountall(res)
                     // setNPage(Math.ceil(res.getValue() / 10))
 
 
@@ -171,6 +230,7 @@ const CommentRating = ({ id }) => {
         }
 
     }, [id, flat])
+
     const getMoreData = () => {
         if (total.items.length !== countall) {
             setflat(!flat)
@@ -183,29 +243,49 @@ const CommentRating = ({ id }) => {
         margin: 6,
         padding: 8
     };
+
     if (countall === 0 && loadingscreen === false) {
         return (
             <div>
                 <h1>HIỆN BÃI XE NÀY CHƯA CÓ ĐÁNH GIÁ</h1>
+                {/* <button className={`${stylescrollview.button} `} onClick={openModalComment} >THÊM NHẬN XÉT</button> */}
                 <button onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button>
             </div>
         )
         // return <BoxLoading color={"rgb(52, 116, 116)"} />
     }
     else if (total.items.length === 0) {
+
         return <BoxLoading color={"rgb(52, 116, 116)"} />
+
     }
     else if (total.items.length !== 0) {
+
 
         return (
             <div>
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                {modalCommentIsOpen ? <ModalComment modalCommentIsOpen={modalCommentIsOpen} closeModalComment={closeModalComment} myError={myError} setmyError={setmyError} /> : null}
 
                 <h1>BÌNH LUẬN ĐÁNH GIÁ</h1>
 
 
                 <hr />
-                <h4>{total.items.length}/{countall}</h4>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <h4 style={{ margin: "5%" }}>{total.items.length}/{countall}</h4>
+                    <button style={{ margin: "5%" }} className={`${stylescrollview.button} `} onClick={openModalComment} >NHẬN XÉT</button>
+                </div>
+
+                <div>
+                    {ratingcountmap &&
+                        ratingcountmap.map((value, index) =>
+                            <ProgressBar style={{ margin: "5%", }} key={index} now={(value[1] / countall) * 100} label={`${value[1]} cái`} />
+                        )
+                    }
+                </div>
+
+
+
                 <div id="scrollableDiv" className={`${stylescrollview.scrollpage} `} style={{
                     height: "40vh", overflow: "auto"
 
@@ -238,7 +318,7 @@ const CommentRating = ({ id }) => {
                     </InfiniteScroll>
                 </div>
                 {total.items.length ? <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: false }) }}>QUAY LAI</button> : null}
-            </div>)
+            </div >)
     }
 };
 

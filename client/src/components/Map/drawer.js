@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
 import { ListGroup } from 'react-bootstrap';
+import stylescrollview from '../../css/scrollpath.module.css'
 //IMPORT COMPONENT
 import PatientInfo from "./PatientInfo";
 import ListPatients from "./ListPatients";
@@ -257,7 +258,7 @@ const SidekickWrapper = styled.div`
   top: 8%;
   left: 0;
   pointer-events: none;
-  z-index: ${9999};
+  z-index: ${2};
  
 `;
 //xử lý đè lên màn hình chính
@@ -290,7 +291,7 @@ const MenuHandler = styled(animated.button)`
   top: 20px;
   right: 5px;
   outline: none;
-  z-index: ${100};
+  z-index: ${1};
 `;
 
 
