@@ -5,7 +5,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(52, 116, 116, 0.7);
-  z-index: 3;
+  z-index: 10000;
 }
 
 .modal-content {
@@ -18,5 +18,5 @@
   text-align: center;
   border: 0px;
   background-color: rgb(52, 116, 116);
-  z-index: 3;
+  z-index: 10000;
 }
