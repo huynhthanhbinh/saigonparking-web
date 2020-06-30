@@ -1,46 +1,52 @@
-.fixedtop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 9999;
+
+
+  .fixedtop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9999;
+  }
+  
+  .bginfo{
+    background-color: #3155AA;
+    animation: changecolorNav linear 0.5s forwards;
+    
+  }
+  
+ span{
+    color: white;
 }
 
-.bginfo {
-  background-color: rgb(52, 116, 116) !important;
-
-  /* animation: changecolorNav linear 0.5s forwards; */
-}
-
-span {
-  color: white;
-}
-
-.photo {
+.photo{
   display: inline-block;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  vertical-align: middle;
-  overflow: hidden;
-}
-.photo img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    vertical-align: middle;
+    overflow: hidden; }
+.photo img{
   width: 100%;
 }
 
-.DropdownItem {
+.DropdownItem{
   color: white;
 }
 
-.DropdownMenu {
-  background-color: black;
+.DropdownMenu{
+  background-color:  black;
 }
 
-@keyframes changecolorNav {
-  0% {
-    background-color: rgb(52, 116, 116);
+  @keyframes changecolorNav {
+    0%
+    {
+      background-color: transparent;
+     
+    }
+    100%
+    {
+      background-color: #3155AA;
+      
+    }
   }
-  100% {
-    background-color: red;
-  }
-}
+  
