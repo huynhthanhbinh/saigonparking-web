@@ -1,0 +1,20 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(52, 116, 116, 0.7);
+  }
+  
+  .modal-content {
+    position: absolute;
+    top: calc(50% - 275px - 10px);
+    left: calc(50% - 200px - 10px);
+    width: 400px;
+    height: 550px;
+    padding: 10px;
+    text-align: center;
+    border: 0px;
+    background-color: rgb(52,116,116);
+  }

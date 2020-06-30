@@ -1,10 +1,12 @@
 
 import React from 'react'
-import { Modal } from 'semantic-ui-react'
+import Modal from 'react-modal';
 import { Row, Col, Container } from 'react-bootstrap'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+import '../../../css/modal.css'
 
+Modal.setAppElement(document.getElementById("root"));
 const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
     
 
@@ -36,14 +38,19 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
         return (
 
             <Modal
-                open={modalAddIsOpen}
+                isOpen={modalAddIsOpen}
+               
                 onRequestClose={closeModalAdd}
 
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
+
                 <h2 >ADD USER</h2>
+
+
+
 
                 <Formik
                     initialValues={{
@@ -90,6 +97,7 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
                                 label="Username"
                                 name="userName"
                                 type="text"
+                             
                             />
                         </div>
 
@@ -147,6 +155,12 @@ const AddModal = ({ modalAddIsOpen, closeModalAdd }) => {
                 <button onClick={closeModalAdd}>close</button>
             </Modal>
         )
+
+  
+
+
+
+
 }
 export default AddModal;
 

@@ -1,10 +1,11 @@
 import { AuthServiceClient } from './api/Auth_grpc_web_pb';
-// import AuthProto from './api/Auth_pb';
-// import Landing from './components/Landing'
+import AuthProto from './api/Auth_pb';
+import Landing from './components/Landing'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 
 import { API_URL } from './saigonparking';
 import Cookies from 'js-cookie'
+import Modal from 'react-modal';
 const authService = new AuthServiceClient(API_URL)
 
 let exceptionHandler = {}
@@ -24,14 +25,19 @@ exceptionHandler.handleAccessTokenExpired = (errCode) => { /** != Auth Service *
         const token = 'Bearer ' + refreshtoken;
         const metadata = { 'Authorization': token }
         const request = new Empty()
+
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
                 exceptionHandler.handleRefreshTokenExpired(err.message)
                 return false
+
             } else {
+
                 if (res.getRefreshtoken() === '') {
                     /** luu access token */
                     Cookies.set("token", res.getAccesstoken())
+                    
+
                 } else {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
@@ -53,6 +59,7 @@ exceptionHandler.handleRefreshTokenExpired = (errCode) => {
         Cookies.remove("token");
         Cookies.remove("isAdmin");
         Cookies.remove("refreshtoken");
+        
         localStorage.clear()
     }
 }
