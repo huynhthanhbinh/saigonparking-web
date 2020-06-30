@@ -148,7 +148,7 @@ input:focus {
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1) inset, 0 2px 7px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* button {
+button {
 	cursor: pointer;
 	width: 260px;
 	height: 44px;
@@ -185,7 +185,7 @@ button:active {
 	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.1) inset, 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 
 	border: 0px solid #ef4300;
-} */
+}
 
 /* .dropdown-menu {
 	background-color: rgb(52, 116, 116);

@@ -16,18 +16,18 @@ import Navbardefault from '../Navbar/Navbar';
 // enum type parking lot
 const parkinglotProto = require('../../api/ParkingLot_pb');
 //
-const libraries = [ 'places' ];
+const libraries = ['places'];
 const mapContainerStyle = {
-  margin: "0",
-  marginTop: "66px",
-  height: "calc(100% - 66px)",
-  width: "100%",
-  size: "cover",
-  overflow: "hidden",
+	margin: "0",
+	marginTop: "66px",
+	height: "calc(100% - 66px)",
+	width: "100%",
+	size: "cover",
+	overflow: "hidden",
 	display: "flex",
-  position: "absolute",
-  zIndex: "3",
-  left: "0"
+	position: "absolute",
+	zIndex: "3",
+	left: "0"
 };
 const options = {
 	styles: mapStyles,
@@ -50,7 +50,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
    * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
    */
 	const onMouseUp = React.useCallback((e) => {
-		myVar = setTimeout(function() {
+		myVar = setTimeout(function () {
 			// console.log(e.latLng.lat())
 			fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
 		}, 2000);
@@ -82,7 +82,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	return (
 		<div>
-      {/* <Search style={{position:"absolute", zIndex:"6", Top:"50%", Left:"50%", transform: "translate(-50%, -50%)" }} panTo={panTo} /> */}
+			{/* <Search style={{position:"absolute", zIndex:"6", Top:"50%", Left:"50%", transform: "translate(-50%, -50%)" }} panTo={panTo} /> */}
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -92,9 +92,9 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
 				onLoad={onMapLoad}
-				// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
+			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
-         
+
 				{patients &&
 					patients.map((patient, index) => {
 						if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
@@ -116,13 +116,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 									}}
 									animation={
 										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-										patient.getLongitude() === currentPatient.getLongitude() ? (
-											'1'
-										) : (
-											'0'
-										) : (
-											'0'
-										)
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
 									}
 								/>
 							);
@@ -145,13 +145,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 									}}
 									animation={
 										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-										patient.getLongitude() === currentPatient.getLongitude() ? (
-											'1'
-										) : (
-											'0'
-										) : (
-											'0'
-										)
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
 									}
 								/>
 							);
@@ -174,13 +174,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 									}}
 									animation={
 										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-										patient.getLongitude() === currentPatient.getLongitude() ? (
-											'1'
-										) : (
-											'0'
-										) : (
-											'0'
-										)
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
 									}
 								/>
 							);

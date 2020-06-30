@@ -211,7 +211,7 @@ const Resetpassword = ({ username }) => {
 
                 }}
             >
-                <formResetPass className="formResetPass" >
+                <form className="formResetPass" >
 
                 <div className='divForm' >
                     <h1>Đổi mật khẩu</h1>
@@ -232,7 +232,7 @@ const Resetpassword = ({ username }) => {
                     </div>
                     <button type="submit" >Cập nhật</button>
 </div>
-                </formResetPass>
+                </form>
             </Formik>
             <NotificationContainer />
         </div>
