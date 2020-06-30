@@ -85,14 +85,8 @@ const Resetpassword = ({ username }) => {
 
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
-                if (err.message === 'SPE#00001') {
-                    Cookies.remove("checkUserName");
-                    Cookies.remove("token");
-
-                    Cookies.remove("refreshtoken");
-
-                    sessionstorage.clear()
-                }
+                setmyError(err.message)
+                openModalError()
 
 
             } else {
@@ -107,6 +101,8 @@ const Resetpassword = ({ username }) => {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
+                    console.log("refreshtoken + accesstoken mới")
+                    setflat(!flat)
                 }
 
 
