@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 //modal
 import UpdateModal from "./Updateuser";
 import AddModal from "./Adduser";
+import Searchbar from "../Searchbar/Searchbar"
 import { Button } from 'semantic-ui-react'
 //modal Error
 import ModalError from "../../Modal/ModalError";
@@ -199,39 +200,46 @@ const Admingetalluser = () => {
         if (pagenumber !== e) setIsLoading(true);
     };
 
+    const callActivated = (activated) => {
+        console.log(activated.activated)
+    }
+
     return (
         <div>
-            {isLoading ? (
-                <>
-                    {modalErrorIsOpen ? (<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} />) : null}
-                    <div className={stylesLoading.section}>
-                        <div className={stylesLoading.loaderUser}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                </>
-            ) : (
-                    <div>
-                        <div className="MainCard">
-                            <div className='ContentMainCard'>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th width="10%" scope="col">ID</th>
-                                            <th width="10%" scope="col">ROLE</th>
-                                            <th width="10%" scope="col">USERNAME</th>
-                                            <th width="30%" scope="col">EMAIL </th>
-                                            <th width="20%" scope="col">LASTSIGNIN</th>
-                                            <th width="20%" scope="col">CONTROL</th>
-                                        </tr>
-                                    </thead>
+            <Searchbar activated={callActivated}/>
+            {modalErrorIsOpen ? (<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} />) : null}
+            <div>
+                <div className="MainCard">
+                    <div className='ContentMainCard'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="10%" scope="col">ID</th>
+                                    <th width="10%" scope="col">ROLE</th>
+                                    <th width="10%" scope="col">USERNAME</th>
+                                    <th width="30%" scope="col">EMAIL </th>
+                                    <th width="20%" scope="col">LASTSIGNIN</th>
+                                    <th width="20%" scope="col">CONTROL</th>
+                                </tr>
+                            </thead>
+                            {isLoading ? (
+                                <tfoot>
+                                <tr>
+                                    <td rowSpan="10" colSpan="6">
+                                        <div className={stylesLoading.loaderUser}>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            ) : (
                                     <tbody>
                                         {users && users.map((user, index) => (
                                             <tr key={index}>
@@ -274,37 +282,37 @@ const Admingetalluser = () => {
                                                             }}
                                                         >
                                                             Detail
-                                                </Button>
+                                                        </Button>
                                                     </Button.Group>
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        {tmp ? (
-                            <UpdateModal
-                                modalIsOpen={modalIsOpen}
-                                closeModal={closeModal}
-                                user={tmp}
-                            />
-                        ) : null}
-                        <AddModal
-                            modalAddIsOpen={modalAddIsOpen}
-                            closeModalAdd={closeModalAdd}
-                        />
-                        {totalUser ? (
-                            <Pagination
-                                pageRangeDisplayed={10}
-                                activePage={pagenumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={totalUser}
-                                onChange={handlechange}
-                            />
-                        ) : null}
+                                )}
+                        </table>
                     </div>
-                )}
+                </div>
+                {tmp ? (
+                    <UpdateModal
+                        modalIsOpen={modalIsOpen}
+                        closeModal={closeModal}
+                        user={tmp}
+                    />
+                ) : null}
+                <AddModal
+                    modalAddIsOpen={modalAddIsOpen}
+                    closeModalAdd={closeModalAdd}
+                />
+                {totalUser ? (
+                    <Pagination
+                        pageRangeDisplayed={10}
+                        activePage={pagenumber}
+                        itemsCountPerPage={10}
+                        totalItemsCount={totalUser}
+                        onChange={handlechange}
+                    />
+                ) : null}
+            </div>
         </div>
     );
 };

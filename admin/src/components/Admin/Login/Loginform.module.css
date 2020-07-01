@@ -379,19 +379,30 @@ input:focus::-webkit-input-placeholder {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
 }
 
 .flytext {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     list-style: none;
 }
 
 .flytext li {
     display: inline-block;
     margin-right: 20px;
-    font-size: 5em;
+    font-size: 3vw;
     color: #fff;
     opacity: 1;
     transition: all 3s ease;
+}
+
+@media only screen and (max-width: 600px) {
+    .enterbutton {
+        font-size: 0.5em;
+    }
 }
 
 .flytext li:nth-child(13) {

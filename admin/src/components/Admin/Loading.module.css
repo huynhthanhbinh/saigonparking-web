@@ -1,23 +1,18 @@
-.section {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #dadada;
-}
-
 .loaderUser {
     position: relative;
     display: flex;
+    height: 700px;
+    width: 100%;
+    justify-content: center;
+    list-style: none;
+    overflow: hidden;
 }
 
 .loaderUser span {
     width: 30px;
     height: 300px;
-    margin: 0 20px;
-    background: #dadada;
+    margin: auto 20px;
+    background: #ffffff;
     animation: animateloader 1.4s linear infinite;
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 //modal 
 import UpdateModal from './Updateparkinglot'
 import AddModal from './Addparkinglot'
+import Searchbar from "../Searchbar/Searchbar"
 import ModalError from '../../Modal/ModalError'
 import { Button } from 'semantic-ui-react'
 //cs
@@ -164,42 +165,47 @@ const Admingetallparkinglot = () => {
         if (pagenumber !== e) setIsLoading(true);
     }
 
+    const callActivated = (activated) => {
+        console.log(activated)
+    }
+
     return (
         <div>
-            {isLoading ?
-                <>
-                    {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                    <div className={stylesLoading.section}>
-                        <div className={stylesLoading.loaderUser}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                </>
-                :
-                <div>
-                    <div className="MainCard">
-                        <div className='ContentMainCard'>
-                            {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
-                            <table>
-                                <thead>
+            <Searchbar activated={callActivated}/>
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+            <div>
+                <div className="MainCard">
+                    <div className='ContentMainCard'>
+                        {/* <button onClick={openModalAdd} id="addnewlist" type="button" className="btn btn-success position-absolute" > Add a new List</button> */}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="10%" scope="col">ID</th>
+                                    <th width="30%" scope="col">NAME</th>
+                                    <th width="20%" scope="col">TYPE</th>
+                                    <th width="10%" scope="col">AVAILABILITY</th>
+                                    <th width="10%" scope="col">CAPACITY</th>
+                                    <th width="20%" scope="col">CONTROL</th>
+                                </tr>
+                            </thead>
+                            {isLoading ?
+                                <tfoot>
                                     <tr>
-                                        <th width="10%" scope="col">ID</th>
-                                        <th width="30%" scope="col">NAME</th>
-                                        <th width="10%" scope="col">TYPE</th>
-                                        <th width="10%" scope="col">OPENING </th>
-                                        <th width="10%" scope="col">CLOSING </th>
-                                        <th width="5%" scope="col">AVAILABILITY</th>
-                                        <th width="5%" scope="col">CAPACITY</th>
-                                        <th width="20%" scope="col">CONTROL</th>
+                                        <td rowSpan="10" colSpan="6">
+                                            <div className={stylesLoading.loaderUser}>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
+                                </tfoot>
+                                :
                                 <tbody>
                                     {
                                         parkinglots && parkinglots.map((parkingLot, index) =>
@@ -207,8 +213,6 @@ const Admingetallparkinglot = () => {
                                                 <td id="IDBIXOA">{parkingLot.getId()}</td>
                                                 <td>{parkingLot.getInformation().getName()}</td>
                                                 <td>{parkingLotMapper.toTypeString(parkingLot.getType())}</td>
-                                                <td>{parkingLot.getOpeninghour()}</td>
-                                                <td>{parkingLot.getClosinghour()}</td>
                                                 <td>{parkingLot.getAvailableslot()}</td>
                                                 <td>{parkingLot.getTotalslot()}</td>
                                                 <td>
@@ -232,22 +236,22 @@ const Admingetallparkinglot = () => {
                                         )
                                     }
                                 </tbody>
-                            </table>
-                        </div>
+                            }
+                        </table>
                     </div>
-                    {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
-                    {tmp ? <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} /> : null}
-                    {totalParkinglot ?
-                        <Pagination
-                            pageRangeDisplayed={10}
-                            activePage={pagenumber}
-                            itemsCountPerPage={10}
-                            totalItemsCount={totalParkinglot}
-                            onChange={handlechange}
-                        />
-                        : null}
                 </div>
-            }
+                {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
+                {tmp ? <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} /> : null}
+                {totalParkinglot ?
+                    <Pagination
+                        pageRangeDisplayed={10}
+                        activePage={pagenumber}
+                        itemsCountPerPage={10}
+                        totalItemsCount={totalParkinglot}
+                        onChange={handlechange}
+                    />
+                    : null}
+            </div>
         </div>
     )
 }
