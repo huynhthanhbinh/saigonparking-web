@@ -73,6 +73,9 @@ const Admingetallparkinglot = () => {
     //config Update modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
+    //search data 
+    const [searchData, setSearchData] = React.useState({})
+
     //modal detail
     function openModal() {
         setIsOpen(true);
@@ -109,6 +112,22 @@ const Admingetallparkinglot = () => {
         const request = new ParkinglotProto.CountAllParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
+        if (searchData.Textfield === null) request.setKeyword("")
+        else request.setKeyword(searchData.Textfield)
+        switch (searchData.RoleOfType) {
+            case 'Building':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.BUILDING)
+                break
+            case 'Private':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.PRIVATE)
+                break
+            case 'Street':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.STREET)
+                break
+            default:
+                break
+        }
+        if(searchData.activated) request.setAvailableonly(searchData.activated)
         ParkinglotwebService.countAllParkingLot(request, metadata, (err, res) => {
             if (err && !isCancelled) {
                 if (err.message === "SPE#00001") {
@@ -128,7 +147,7 @@ const Admingetallparkinglot = () => {
         return () => {
             isCancelled = true;
         };
-    }, [pagenumber, flat, ErrorSPE00001])
+    }, [pagenumber, flat, ErrorSPE00001, searchData])
 
     useEffect(() => {
         //solved memory leak
@@ -137,6 +156,22 @@ const Admingetallparkinglot = () => {
         const request = new ParkinglotProto.GetAllParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
         const metadata = { 'Authorization': token }
+        if (searchData.Textfield === null) request.setKeyword("")
+        else request.setKeyword(searchData.Textfield)
+        switch (searchData.RoleOfType) {
+            case 'Building':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.BUILDING)
+                break
+            case 'Private':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.PRIVATE)
+                break
+            case 'Street':
+                request.setParkinglottype(ParkinglotProto.ParkingLotType.STREET)
+                break
+            default:
+                break
+        }
+        if(searchData.activated) request.setAvailableonly(searchData.activated)
         request.setNrow(10);
         request.setPagenumber(pagenumber);
         ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
@@ -157,7 +192,7 @@ const Admingetallparkinglot = () => {
         return () => {
             isCancelled = true;
         };
-    }, [pagenumber, modalAddIsOpen, flat])
+    }, [pagenumber, modalAddIsOpen, flat, searchData])
 
 
     const handlechange = (e) => {
@@ -165,8 +200,8 @@ const Admingetallparkinglot = () => {
         if (pagenumber !== e) setIsLoading(true);
     }
 
-    const callActivated = (activated) => {
-        console.log(activated)
+    const callActivated = (data) => {
+        setSearchData(data)
     }
 
     return (

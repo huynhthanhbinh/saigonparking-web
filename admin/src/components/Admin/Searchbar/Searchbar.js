@@ -1,30 +1,16 @@
 import React from 'react'
 import styles from './searchbar.module.css'
-import { Checkbox } from 'semantic-ui-react'
+import { Radio } from 'semantic-ui-react'
 
 const Searchbar = ({ activated }) => {
     const [styleFocus, setStylefocus] = React.useState(styles.notFocus)
     const [inputfield, setInputfield] = React.useState('')
-    const [dataCheckbox, setdataCheckbox] = React.useState({})
-
-
-    //innitState Checkbox
-    React.useEffect(() => {
-        window.location.pathname === '/getalluser' ? setdataCheckbox({
-            activated: false,
-            ADM: true,
-            CUS: true,
-            GOV: true,
-            PLE: true,
-            Textfield: ''
-        }) : setdataCheckbox({
-            activated: false,
-            Building: true,
-            Private: true,
-            Street: true,
-            Textfield: ''
-        })
-    }, [setdataCheckbox])
+    const [dataCheckbox, setdataCheckbox] = React.useState({
+        activated: false,
+        RoleOfType: null,
+        Textfield: ''
+    })
+    const [check, setCheck] = React.useState('ALL')
 
     //Close Search or click find
     const callCloseSearch = () => {
@@ -49,14 +35,13 @@ const Searchbar = ({ activated }) => {
             temp.Textfield = inputfield;
             setdataCheckbox(temp);
             activated(temp)
-            setStylefocus(styles.notFocus)
         }
     }
 
     return (
         <div className={styles.header}>
             {window.location.pathname === '/getalluser' ? <h1>User Manager</h1> : <>{window.location.pathname === '/getallparkinglot' ? <h1>Parking Manager</h1> : null}</>}
-            <Checkbox className={`${styles.activated} ${styleFocus}`} slider onChange={() => {
+            <Radio className={`${styles.activated} ${styleFocus}`} slider onChange={() => {
                 let temp = Object.assign({}, dataCheckbox);
                 temp.activated = !temp.activated;
                 activated(temp)
@@ -64,52 +49,82 @@ const Searchbar = ({ activated }) => {
             }
             } />
             {window.location.pathname === '/getalluser' ?
-                <>
-                    <Checkbox className={`${styles.roleAdmin} ${styleFocus}`} label='Admin' defaultChecked onChange={() => {
+                <>  
+                <Radio className={`${styles.roleAdmin} ${styleFocus}`} label='All' checked={check === 'ALL'} onChange={() => {
                         let temp = Object.assign({}, dataCheckbox);
-                        temp.ADM = !temp.ADM;
+                        temp.RoleOfType = null
                         setdataCheckbox(temp);
+                        setCheck('ALL')
+                        activated(temp)
                     }
-                    }></Checkbox>
-                    <Checkbox className={`${styles.roleCustomer} ${styleFocus}`} label='Customer' defaultChecked onChange={() => {
+                    }></Radio>
+                    <Radio className={`${styles.roleAdmin} ${styleFocus}`} label='Admin' checked={check === 'ADM'} onChange={() => {
                         let temp = Object.assign({}, dataCheckbox);
-                        temp.CUS = !temp.CUS;
+                        temp.RoleOfType = 'ADM'
                         setdataCheckbox(temp);
+                        setCheck('ADM')
+                        activated(temp)
                     }
-                    }></Checkbox>
-                    <Checkbox className={`${styles.roleGov} ${styleFocus}`} label='Government' defaultChecked onChange={() => {
+                    }></Radio>
+                    <Radio className={`${styles.roleCustomer} ${styleFocus}`} label='Customer' checked={check === 'CUS'} onChange={() => {
                         let temp = Object.assign({}, dataCheckbox);
-                        temp.GOV = !temp.GOV;
+                        temp.RoleOfType = 'CUS'
                         setdataCheckbox(temp);
+                        setCheck('CUS')
+                        activated(temp)
                     }
-                    }></Checkbox>
-                    <Checkbox className={`${styles.rolePle} ${styleFocus}`} label='Parking Lot Employee' defaultChecked onChange={() => {
+                    }></Radio>
+                    <Radio className={`${styles.roleGov} ${styleFocus}`} label='Government' checked={check === 'GOV'} onChange={() => {
                         let temp = Object.assign({}, dataCheckbox);
-                        temp.PLE = !temp.PLE;
+                        temp.RoleOfType = 'GOV'
                         setdataCheckbox(temp);
+                        setCheck('GOV')
+                        activated(temp)
                     }
-                    }></Checkbox>
+                    }></Radio>
+                    <Radio className={`${styles.rolePle} ${styleFocus}`} label='Parking Lot Employee' checked={check === 'PLE'} onChange={() => {
+                        let temp = Object.assign({}, dataCheckbox);
+                        temp.RoleOfType = 'PLE'
+                        setdataCheckbox(temp);
+                        setCheck('PLE')
+                        activated(temp)
+                    }
+                    }></Radio>
                 </>
                 : <>{window.location.pathname === '/getallparkinglot' ?
                     <>
-                        <Checkbox className={`${styles.typeBuilding} ${styleFocus}`} label='Building' defaultChecked onChange={() => {
+                    <Radio className={`${styles.typeBuilding} ${styleFocus}`} label='All' checked={check === 'ALL'} onChange={() => {
                             let temp = Object.assign({}, dataCheckbox);
-                            temp.Building = !temp.Building;
+                            temp.RoleOfType = null
                             setdataCheckbox(temp);
+                            setCheck('ALL')
+                            activated(temp)
                         }
-                        }></Checkbox>
-                        <Checkbox className={`${styles.typePrivate} ${styleFocus}`} label='Private' defaultChecked onChange={() => {
+                        }></Radio>
+                        <Radio className={`${styles.typeBuilding} ${styleFocus}`} label='Building' checked={check === 'Building'} onChange={() => {
                             let temp = Object.assign({}, dataCheckbox);
-                            temp.Private = !temp.Private;
+                            temp.RoleOfType = 'Building'
                             setdataCheckbox(temp);
+                            setCheck('Building')
+                            activated(temp)
                         }
-                        }></Checkbox>
-                        <Checkbox className={`${styles.tyleStreet} ${styleFocus}`} label='Street' defaultChecked onChange={() => {
+                        }></Radio>
+                        <Radio className={`${styles.typePrivate} ${styleFocus}`} label='Private' checked={check === 'Private'} onChange={() => {
                             let temp = Object.assign({}, dataCheckbox);
-                            temp.Street = !temp.Street;
+                            temp.RoleOfType = 'Private'
                             setdataCheckbox(temp);
+                            setCheck('Private')
+                            activated(temp)
                         }
-                        }></Checkbox>
+                        }></Radio>
+                        <Radio className={`${styles.tyleStreet} ${styleFocus}`} label='Street' checked={check === 'Street'} onChange={() => {
+                            let temp = Object.assign({}, dataCheckbox);
+                            temp.RoleOfType = 'Street'
+                            setdataCheckbox(temp);
+                            setCheck('Street')
+                            activated(temp)
+                        }
+                        }></Radio>
                     </> : <></>
                 }
                 </>

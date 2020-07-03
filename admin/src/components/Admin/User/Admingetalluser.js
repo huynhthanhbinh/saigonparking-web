@@ -78,6 +78,9 @@ const Admingetalluser = () => {
         setIsOpen(true);
     }
 
+    //search data 
+    const [searchData, setSearchData] = React.useState({})
+
     function closeModal() {
         setIsOpen(false);
         setLoadingButton(false)
@@ -144,6 +147,25 @@ const Admingetalluser = () => {
         // request.setKeyword()
         const token = "Bearer " + Cookies.get("token");
         const metadata = { 'Authorization': token };
+        if (searchData.Textfield === null) request.setKeyword("")
+        else request.setKeyword(searchData.Textfield)
+        switch (searchData.RoleOfType) {
+            case 'ADM':
+                request.setUserrole(ActorProto.UserRole.ADMIN)
+                break
+            case 'CUS':
+                request.setUserrole(ActorProto.UserRole.CUSTOMER)
+                break
+            case 'GOV':
+                request.setUserrole(ActorProto.UserRole.GOVERNMENT_EMPLOYEE)
+                break
+            case 'PLE':
+                request.setUserrole(ActorProto.UserRole.PARKING_LOT_EMPLOYEE)
+                break
+            default:
+                break
+        }
+        if(searchData.activated) request.setInactivatedonly(searchData.activated)
         UserService.countAllUser(request, metadata, (err, res) => {
             if (err && !isMounted) {
                 console.log(err)
@@ -164,7 +186,7 @@ const Admingetalluser = () => {
         return () => {
             isMounted = true;
         };
-    }, [pagenumber, flat, ErrorSPE00001]);
+    }, [pagenumber, flat, ErrorSPE00001, searchData]);
 
     useEffect(() => {
         //solved memory leak
@@ -175,6 +197,25 @@ const Admingetalluser = () => {
         const metadata = { 'Authorization': token };
         request.setNrow(10);
         request.setPagenumber(pagenumber);
+        if (searchData.Textfield === null) request.setKeyword("")
+        else request.setKeyword(searchData.Textfield)
+        switch (searchData.RoleOfType) {
+            case 'ADM':
+                request.setUserrole(ActorProto.UserRole.ADMIN)
+                break
+            case 'CUS':
+                request.setUserrole(ActorProto.UserRole.CUSTOMER)
+                break
+            case 'GOV':
+                request.setUserrole(ActorProto.UserRole.GOVERNMENT_EMPLOYEE)
+                break
+            case 'PLE':
+                request.setUserrole(ActorProto.UserRole.PARKING_LOT_EMPLOYEE)
+                break
+            default:
+                break
+        }
+        if(searchData.activated) request.setInactivatedonly(searchData.activated)
         UserService.getAllUser(request, metadata, (err, res) => {
             if (err) {
                 if (err.message === "SPE#00001") {
@@ -193,20 +234,45 @@ const Admingetalluser = () => {
         return () => {
             isMounted = true;
         };
-    }, [pagenumber, isActive, flat, ErrorSPE00001]);
+    }, [pagenumber, isActive, flat, ErrorSPE00001, searchData]);
 
     const handlechange = (e) => {
         setpagenumber(e);
         if (pagenumber !== e) setIsLoading(true);
     };
 
-    const callActivated = (activated) => {
-        console.log(activated.activated)
+    const callActivated = (data) => {
+        setSearchData(data)
     }
+
+    // const SearchCallBack = React.useCallback(() => {
+    //     const request = new ActorProto.CountAllUserRequest();
+    //     const token = "Bearer " + Cookies.get("token");
+    //     const metadata = { 'Authorization': token };
+    //     request.setKeyword(searchData.Textfield)
+    //     switch (searchData.Role) {
+    //         case 'ADM':
+    //             request.setUserrole(ActorProto.UserRole.ADMIN)
+    //             break
+    //         case 'CUS':
+    //             request.setUserrole(ActorProto.UserRole.CUSTOMER)
+    //             break
+    //         case 'GOV':
+    //             request.setUserrole(ActorProto.UserRole.GOVERNMENT_EMPLOYEE)
+    //             break
+    //         case 'PLE':
+    //             request.setUserrole(ActorProto.UserRole.PARKING_LOT_EMPLOYEE)
+    //             break
+    //         default:
+    //             break
+    //     }
+    //     request.setInactivatedonly(searchData.activated)
+    //     UserService.countAllUser
+    // }, [searchData])
 
     return (
         <div>
-            <Searchbar activated={callActivated}/>
+            <Searchbar activated={callActivated} />
             {modalErrorIsOpen ? (<ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} />) : null}
             <div>
                 <div className="MainCard">
@@ -224,20 +290,20 @@ const Admingetalluser = () => {
                             </thead>
                             {isLoading ? (
                                 <tfoot>
-                                <tr>
-                                    <td rowSpan="10" colSpan="6">
-                                        <div className={stylesLoading.loaderUser}>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td rowSpan="10" colSpan="6">
+                                            <div className={stylesLoading.loaderUser}>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tfoot>
                             ) : (
                                     <tbody>
