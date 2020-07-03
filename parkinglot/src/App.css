@@ -1,0 +1,43 @@
+.rightTab {
+    height: 90%;
+    width: 20%;
+    background: white;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.rightTab .listItem {
+    margin: 0;
+}
+
+.rightTab .listItem ul {
+    list-style: none;
+}
+
+.container {
+    margin: 0;
+    height: 100%;
+    width: 80%;
+    background: rgb(90, 82, 82);
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+}
+
+.contentContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+}
