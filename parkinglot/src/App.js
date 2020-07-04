@@ -28,9 +28,9 @@ function App() {
     setValue(e.target.value)
   }
 
-  const addList = () => {
-    if (value) {
-      setLists(lists.concat(value));
+  const addList = (data) => {
+    if (data) {
+      setLists(lists.concat(data));
     }
     console.log(lists)
   }
@@ -40,11 +40,9 @@ function App() {
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
-    var httpHeaders = {'Authorization': token}
-    var myHeaders = new Headers(httpHeaders);
     if (token && checkUserName && refreshtoken) {
       setFlagIsLogin(true)
-      const clients = new W3CWebSocket(`ws://localhost:8000/contact/web?token=${token}`,'TCP', 'http://localhost:3000', myHeaders);
+      const clients = new W3CWebSocket(`ws://localhost:8000/contact/web?token=${token}`);
       clients.onerror = function (error) {
         console.log(error);
       }
@@ -55,7 +53,7 @@ function App() {
         console.log('WebSocket Client Connected');
       };
       clients.onmessage = (message) => {
-        console.log(message);
+        console.log(JSON.parse(message.data).message);
       };
     }
     else {
