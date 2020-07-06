@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package com.bht.saigonparking.api.grpc.contact;
+//option java_generic_services = true;
+option java_multiple_files = true;
+
+/** Contact Service will use WebSocket protocol to create a bidirectional communication between client and server (text & binary format)
+ * message will be initialized as an object (protobuf Java obj/ protobuf Javascript obj) then stringify into JSON format (text message)
+ * or message will be initialized as an object (protobuf Java obj/ protobuf Javascript obj) then serialize into binary format (binary message)
+ *
+ * for Java (mobile client),
+ *      + please use GSON lib from Google to parse JSON into Java obj and generate JSON from Java obj, when processing with text message
+ *      + please use SaigonParkingMessage.parseFrom() static method (to parse byte array into protobuf obj) when receiving binary message
+ *      + please use toByteArray() method (to generate byte array from protobuf Java obj) when sending binary message
+ *
+ * for Javascript (web client),
+ *      + please init each obj as Protobuf obj, then use toObject() method to convert to JSON obj, when processing with text message
+ *      + please use deserializeBinary() method to parse binary message into protobuf Javascript obj, when receiving binary message
+ *      + please use serializeBinary() method to generate binary message from protobuf Javascript obj, when sending binary message
+ */
+message SaigonParkingMessage {
+
+    /* classification of message: who send this message ? */
+    enum Classification {
+        SYSTEM_MESSAGE = 0; /* message that sent from system */
+        CUSTOMER_MESSAGE = 1; /* message that sent from customer */
+        PARKING_LOT_MESSAGE = 2; /* message that sent from parking-lot */
+    }
+
+    /* type of message, please see each type's content definition below */
+    enum Type {
+        NOTIFICATION = 0; /* send from system / admin, senderId = 0 */
+        TEXT_MESSAGE = 1; /* send from both Customer and ParkingLot: just text message */
+        BOOKING_REQUEST = 2; /* send from Customer: request for new booking */
+        BOOKING_CANCELLATION = 3; /* send from Customer: cancel booking request */
+        BOOKING_ACCEPTANCE = 4; /* send from ParkingLot: accept booking request */
+        BOOKING_REJECT = 5; /* send from ParkingLot: reject booking request */
+        AVAILABILITY_UPDATE = 6; /* send from ParkingLot: update available slot */
+    }
+
+    Classification classification = 1; /* whether message is sent from customer or parking-lot */
+    Type type = 2; /* default TEXT_MESSAGE (chatting) */
+    string content = 3; /* can be empty or stringify as JSON, please take a look at each Content definition below */
+    int64 senderId = 4; /* sender's user ID, if sender ID = 0, it means this message is sent from system not from user */
+    int64 receiverId = 5; /* receiver ID: will be UserId if it sent from ParkingLot, otherwise ParkingLotId ! */
+    string timestamp = 6; /* the time at which the sender sent this message, timestamp-format yyyy-MM-dd hh:mm:ss */
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message NotificationContent {
+    string notification = 1;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message TextMessageContent {
+    string message = 1;
+    string sender = 2;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message BookingRequestContent {
+    string customerName = 1;
+    string customerLicense = 2;
+    double amountOfParkingHour = 3;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message BookingCancellationContent {
+    string bookingId = 1;
+    string reason = 2;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message BookingAcceptanceContent {
+    string bookingId = 1;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+message BookingRejectContent {
+    string reason = 1;
+}
+
+/* content will be stringify as JSON, then it will be assigned into content field in SaigonParkingMessage */
+/* for this message type, receiver will be system (receiver ID = 0)  */
+message AvailabilityUpdateContent {
+    int64 parkingLotId = 1;
+    int32 newAvailability = 2;
+}
