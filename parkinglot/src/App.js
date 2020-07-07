@@ -20,29 +20,98 @@ function App() {
   const [flagIsLogin, setFlagIsLogin] = useState(false)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const [messageReceived, setMesssageReceived] = useState()
+  const [clients, setClients] = useState(null)
+
+  const [messageReceived, setMesssageReceived] = useState({
+    classification: null,
+    type: null,
+    content: null,
+    senderId: null,
+    receiverId: null,
+    timestamp: null,
+  })
+
+  // deserialize content on Received message //
+  const deserializeBinary = (dataU8, type) => {
+    if (dataU8) {
+      switch (type) {
+        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+          return contactProto.NotificationContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+          return contactProto.TextMessageContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+          return contactProto.BookingRequestContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.IMAGE:
+          return dataU8
+        default:
+          return 'Error not in type Received'
+      }
+    }
+    else return 'Error message null'
+  }
+  // ------------------------------------------------------------------------ //
 
   const handleChange = (e) => {
     setValue(e.target.value)
   }
 
-  const addList = (data) => {
+  const send = () => {
+    // sendMessage set filed and send //
+    const content = new contactProto.TextMessageContent()
+    content.setMessage(value)
+    content.setSender('bxsape')
+    const message = new contactProto.SaigonParkingMessage()
+    message.setSenderid(14)
+    message.setReceiverid(3)
+    message.setContent(content.serializeBinary())
+    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    message.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
+    clients.send(message.serializeBinary())
+    let temp = lists;
+    temp[temp.length] = 'bxsape: ' + value
+    setLists(lists.concat(temp[temp.length]));
+    console.log(message)
+    // ------------------------------------------------------------------------ //
+  }
+
+  const addList = (data, type) => {
     if (data) {
-      setLists(lists.concat(data));
+      switch (type) {
+        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+          return setLists(lists.concat(data.getNotification()));
+        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+          return setLists(lists.concat(data.getMessage()));
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+          return setLists(lists.concat(data.customerName()));
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          return setLists(lists.concat(data.reason()));
+        case contactProto.SaigonParkingMessage.Type.IMAGE:
+          return 0
+        default:
+          return setLists(lists.concat(data));
+      }
     }
-    console.log(lists)
-    console.log(messageReceived)
+    else return 'Error message null'
   }
 
   useEffect(() => {
-
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
     if (token && checkUserName && refreshtoken) {
       setFlagIsLogin(true)
-      const clients = new W3CWebSocket(`ws://localhost:8000/contact/web?token=${token}`);
+      setClients(new W3CWebSocket(`ws://localhost:8000/contact/web?token=${token}`))
+    }
+    else {
+      setIsOpen(true)
+    }
+  }, [])
 
+  //useEffect onState connect websocket
+  useEffect(() => {
+    if (clients !== null) {
       clients.onerror = function (error) {
         console.log(error);
       }
@@ -53,32 +122,41 @@ function App() {
 
       clients.onopen = () => {
         console.log('WebSocket Client Connected');
-
-        // sendMessage set filed and send //
-        const message = new contactProto.SaigonParkingMessage()
-        message.setSenderid(14)
-        message.setReceiverid(4)
-        message.setContent('abcd 12345674989876')
-        message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-        message.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
-        clients.send(message.serializeBinary())
-        // ------------------------------------------------------------------------ //
-
       };
 
       clients.onmessage = (data) => {
         // change received message to Unit8Array and convert to object and set to State MesssageReceived //
         data.data.arrayBuffer().then(function (v) {
-          var buf = new Uint8Array(v)
-          setMesssageReceived(contactProto.SaigonParkingMessage.deserializeBinary(buf))
+          let buf = new Uint8Array(v)
+          let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
+          const temp = {
+            classification: data.getClassification(),
+            type: data.getType(),
+            content: deserializeBinary(data.getContent_asU8(), data.getType()),
+            senderId: data.getSenderid(),
+            receiverId: data.getReceiverid(),
+            timestamp: data.getTimestamp(),
+          }
+          setMesssageReceived(temp)
         })
         // ------------------------------------------------------------------------ //
       };
     }
-    else {
-      setIsOpen(true)
+  }, [clients])
+
+  // ------------------------------------------------------------------------ //
+
+  //useEffect onmessage
+  useEffect(() => {
+    if (messageReceived.type !== null) {
+      
+      addList(messageReceived.content, messageReceived.type)
+      //trigger onmessage ở đây
+        console.log('message nhan: ', messageReceived)
     }
-  }, [])
+  }, [messageReceived])
+
+  // ------------------------------------------------------------------------ //
 
   const handleChangeUserName = (e) => {
     setUserName(e.target.value)
@@ -126,11 +204,11 @@ function App() {
             <div className='contentContainer'>
               <form onSubmit={(e) => {
                 e.preventDefault();
-                addList()
+                send()
               }}>
                 <label>Chat:</label>
                 <input type="text" value={value} name="name" onChange={handleChange} />
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Send" />
               </form>
             </div>
           </div>
