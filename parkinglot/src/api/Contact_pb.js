@@ -224,7 +224,7 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.toObject = fun
   var f, obj = {
     classification: jspb.Message.getFieldWithDefault(msg, 1, 0),
     type: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    content: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    content: msg.getContent_asB64(),
     senderid: jspb.Message.getFieldWithDefault(msg, 4, 0),
     receiverid: jspb.Message.getFieldWithDefault(msg, 5, 0),
     timestamp: jspb.Message.getFieldWithDefault(msg, 6, "")
@@ -273,7 +273,7 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.deserializeBin
       msg.setType(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setContent(value);
       break;
     case 4:
@@ -331,9 +331,9 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.serializeBinar
       f
     );
   }
-  f = message.getContent();
+  f = message.getContent_asU8();
   if (f.length > 0) {
-    writer.writeString(
+    writer.writeBytes(
       3,
       f
     );
@@ -381,7 +381,8 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.Type = {
   BOOKING_CANCELLATION: 3,
   BOOKING_ACCEPTANCE: 4,
   BOOKING_REJECT: 5,
-  AVAILABILITY_UPDATE: 6
+  AVAILABILITY_UPDATE: 6,
+  IMAGE: 7
 };
 
 /**
@@ -421,7 +422,7 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.setT
 
 
 /**
- * optional string content = 3;
+ * optional bytes content = 3;
  * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.getContent = function() {
@@ -430,11 +431,35 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.getC
 
 
 /**
- * @param {string} value
+ * optional bytes content = 3;
+ * This is a type-conversion wrapper around `getContent()`
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.getContent_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getContent()));
+};
+
+
+/**
+ * optional bytes content = 3;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getContent()`
+ * @return {!Uint8Array}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.getContent_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getContent()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.prototype.setContent = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3BytesField(this, 3, value);
 };
 
 
