@@ -82,7 +82,7 @@ function App() {
     const checkUserName = Cookies.get("checkUserName");
     if (token && checkUserName && refreshtoken) {
       setFlagIsLogin(true)
-      setClients(new W3CWebSocket(`ws://localhost:8000/contact/web?token=${token}`))
+      setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
     }
     else {
       setIsOpen(true)
