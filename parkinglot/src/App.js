@@ -76,26 +76,6 @@ function App() {
     // ------------------------------------------------------------------------ //
   }
 
-  const addList = (data, type) => {
-    if (data) {
-      switch (type) {
-        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-          return setLists(lists.concat(data.getNotification()));
-        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-          return setLists(lists.concat(data.getMessage()));
-        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-          return setLists(lists.concat(data.customerName()));
-        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-          return setLists(lists.concat(data.reason()));
-        case contactProto.SaigonParkingMessage.Type.IMAGE:
-          return 0
-        default:
-          return setLists(lists.concat(data));
-      }
-    }
-    else return 'Error message null'
-  }
-
   useEffect(() => {
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
@@ -118,6 +98,10 @@ function App() {
 
       clients.onclose = (event) => {
         console.log(event)
+        Cookies.remove("token")
+        Cookies.remove("refreshtoken")
+        Cookies.remove("checkUserName")
+        window.location.href = '/'
       }
 
       clients.onopen = () => {
@@ -149,14 +133,69 @@ function App() {
   //useEffect onmessage
   useEffect(() => {
     if (messageReceived.type !== null) {
-      
-      addList(messageReceived.content, messageReceived.type)
+      console.log('message nhan: ', messageReceived)
       //trigger onmessage ở đây
-        console.log('message nhan: ', messageReceived)
+      switch (messageReceived.type) {
+        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+          return setLists(l => lists.concat(messageReceived.content.getNotification()));
+        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+          return setLists(l => lists.concat(messageReceived.content.getMessage()));
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+          return (
+            setLists(l =>  lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour())),
+            acceptRequestBook()
+          )
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          return setLists(l => lists.concat(messageReceived.content.getReason()));
+        case contactProto.SaigonParkingMessage.Type.IMAGE:
+          return 0
+        default:
+          return setLists(l => lists.concat(messageReceived.content));
+      }
     }
   }, [messageReceived])
 
   // ------------------------------------------------------------------------ //
+
+  // accept booking send message //
+  const acceptRequestBook = () => {
+    // sendMessage set filed and send //
+    const content = new contactProto.BookingAcceptanceContent()
+    content.setBookingid(messageReceived.content.getCustomername() + messageReceived.senderId + Date.now())
+    console.log(content)
+
+    const message = new contactProto.SaigonParkingMessage()
+    message.setSenderid(messageReceived.receiverId)
+    message.setReceiverid(messageReceived.senderId)
+    message.setContent(content.serializeBinary())
+    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
+    clients.send(message.serializeBinary())
+    
+    console.log('accept book: ', message)
+    // ------------------------------------------------------------------------ //
+  }
+  // ------------------------------------------------------------------------ //
+
+  // reject booking send message //
+  const rejectRequestBook = () => {
+    // sendMessage set filed and send //
+    const content = new contactProto.BookingRejectContent()
+    content.setReason('Already full Slot')
+
+    const message = new contactProto.SaigonParkingMessage()
+    message.setSenderid(messageReceived.receiverId)
+    message.setReceiverid(messageReceived.senderId)
+    message.setContent(content.serializeBinary())
+    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
+    clients.send(message.serializeBinary())
+    
+    console.log('reject book: ', message)
+    // ------------------------------------------------------------------------ //
+  }
+  // ------------------------------------------------------------------------ //
+
 
   const handleChangeUserName = (e) => {
     setUserName(e.target.value)
