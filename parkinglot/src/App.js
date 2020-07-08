@@ -162,7 +162,6 @@ function App() {
     // sendMessage set filed and send //
     const content = new contactProto.BookingAcceptanceContent()
     content.setBookingid(messageReceived.content.getCustomername() + messageReceived.senderId + Date.now())
-    console.log(content)
 
     const message = new contactProto.SaigonParkingMessage()
     message.setSenderid(messageReceived.receiverId)
@@ -221,6 +220,7 @@ function App() {
         Cookies.set("checkUserName", userName)
         setIsOpen(false)
         setFlagIsLogin(true)
+        window.location.href = '/'
       }
     })
   }
@@ -253,7 +253,9 @@ function App() {
           </div>
         </>
         :
-        <Modal
+        <></>
+      }
+      <Modal
           open={isOpen}
           closeOnDimmerClick={true}
         >
@@ -272,8 +274,6 @@ function App() {
             />
           </Modal.Actions>
         </Modal>
-      }
-
 
     </>
   );
