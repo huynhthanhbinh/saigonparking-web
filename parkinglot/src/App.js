@@ -9,6 +9,8 @@ import authProto from './api/Auth_pb'
 import { API_URL } from './saigonparking'
 import { AuthServiceClient } from './api/Auth_grpc_web_pb'
 import contactProto from './api/Contact_pb'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const userProto = require('./api/Actor_pb')
 const authService = new AuthServiceClient(API_URL)
@@ -137,12 +139,15 @@ function App() {
       //trigger onmessage ở đây
       switch (messageReceived.type) {
         case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-          return setLists(l => lists.concat(messageReceived.content.getNotification()));
+          return (
+            setLists(l => lists.concat(messageReceived.content.getNotification())),
+            notify(messageReceived.content.getNotification(), messageReceived.type)
+          )
         case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
           return setLists(l => lists.concat(messageReceived.content.getMessage()));
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
           return (
-            setLists(l =>  lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour())),
+            setLists(l => lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour())),
             acceptRequestBook()
           )
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
@@ -170,7 +175,7 @@ function App() {
     message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
     clients.send(message.serializeBinary())
-    
+
     console.log('accept book: ', message)
     // ------------------------------------------------------------------------ //
   }
@@ -189,7 +194,7 @@ function App() {
     message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
     clients.send(message.serializeBinary())
-    
+
     console.log('reject book: ', message)
     // ------------------------------------------------------------------------ //
   }
@@ -225,6 +230,50 @@ function App() {
     })
   }
 
+
+  // Custom toast when request book or something //
+
+  const MsgContent = (message, type) => {
+    switch (type) {
+      //content with switch on type declare here
+      case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+        return <>{message}</>
+      case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+        return <></>;
+      case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+        return <></>
+      case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+        return <></>;
+      case contactProto.SaigonParkingMessage.Type.IMAGE:
+        return <></>
+      default:
+        return <></>;
+    }
+  }
+
+  const Msg = ({ message, type, closeToast }) => {
+    return (
+      <div>
+        {MsgContent (message, type)}
+        <div style={{ marginLeft: '60%' }}>
+          <button>Accept</button>
+          <button onClick={closeToast}>Reject</button>
+        </div>
+      </div>
+    )
+  }
+
+  const notify = (message, type) => toast.warn(<Msg message={message} type={type} />,
+    {
+      autoClose: false,
+      onClose: () => window.alert(message),
+      closeButton: false,
+      draggable: false,
+      closeOnClick: false,
+    });
+
+  //--------------------------------------------------------------------------//
+
   return (
     <>
       {flagIsLogin ?
@@ -256,25 +305,25 @@ function App() {
         <></>
       }
       <Modal
-          open={isOpen}
-          closeOnDimmerClick={true}
-        >
-          <Modal.Header><p>Please Login to continue!</p></Modal.Header>
-          <Modal.Content>
-            <input type='text' label='UserName' value={userName} onChange={handleChangeUserName} />
-            <input type='password' label='Password' value={password} onChange={handleChangePassword} />
-          </Modal.Content>
-          <Modal.Actions>
-            <Button
-              onClick={handleSubmit}
-              positive
-              labelPosition='right'
-              icon='checkmark'
-              content='Submit'
-            />
-          </Modal.Actions>
-        </Modal>
-
+        open={isOpen}
+        closeOnDimmerClick={true}
+      >
+        <Modal.Header><p>Please Login to continue!</p></Modal.Header>
+        <Modal.Content>
+          <input type='text' label='UserName' value={userName} onChange={handleChangeUserName} />
+          <input type='password' label='Password' value={password} onChange={handleChangePassword} />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            onClick={handleSubmit}
+            positive
+            labelPosition='right'
+            icon='checkmark'
+            content='Submit'
+          />
+        </Modal.Actions>
+      </Modal>
+      <ToastContainer />
     </>
   );
 }
