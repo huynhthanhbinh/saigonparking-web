@@ -2,7 +2,7 @@
     height: 90%;
     width: 20%;
     background: white;
-    overflow: hidden;
+    overflow: auto;
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
