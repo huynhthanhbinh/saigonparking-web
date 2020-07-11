@@ -7,13 +7,17 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
 import { API_URL } from './saigonparking'
+import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import { AuthServiceClient } from './api/Auth_grpc_web_pb'
+import { UserServiceClient } from './api/Actor_grpc_web_pb';
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const userProto = require('./api/Actor_pb')
 const authService = new AuthServiceClient(API_URL)
+const userService = new UserServiceClient(API_URL)
 
 function App() {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,6 +28,57 @@ function App() {
   const [password, setPassword] = useState('')
   const [clients, setClients] = useState(null)
 
+  // renew accessToken //
+  const [flat, setFlat] = React.useState(false);
+
+  const getInformationUser = React.useCallback(() => {
+    const token = 'Bearer ' + Cookies.get("token");
+    let metadata = { 'Authorization': token }
+    let request = new StringValue()
+    request.setValue(Cookies.get("checkUserName"))
+
+    userService.getUserByUsername(request, metadata, (err, res) => {
+      if (err) {
+        if (err.message === "SPE#00001") {
+          const refreshtoken = "Bearer " + Cookies.get("refreshtoken");
+          metadata = { 'Authorization': refreshtoken };
+          request = new Empty();
+
+          authService.generateNewToken(request, metadata, (err, res) => {
+            if (err) {
+              Cookies.remove("token")
+              Cookies.remove("refreshtoken")
+              Cookies.remove("checkUserName")
+              window.location.href = '/'
+            } else {
+              if (res.getRefreshtoken() === "") {
+                /* luu access token */
+                Cookies.set("token", res.getAccesstoken());
+                setFlat(flat => !flat);
+              } else {
+                /* luu new access token + new refresh token */
+                Cookies.set("token", res.getAccesstoken());
+                Cookies.set("refreshtoken", res.getRefreshtoken());
+                console.log("refreshtoken + accesstoken mới");
+                setFlat(flat => !flat);
+              }
+            }
+          });
+        }
+        else {
+          Cookies.remove("token")
+          Cookies.remove("refreshtoken")
+          Cookies.remove("checkUserName")
+          window.location.href = '/'
+        }
+      }
+    })
+  },
+    [],
+  )
+  //--------------------------------------------------------------------------------------//
+
+  // initalize message received on Websocket
   const [messageReceived, setMesssageReceived] = useState({
     classification: null,
     type: null,
@@ -32,6 +87,7 @@ function App() {
     receiverId: null,
     timestamp: null,
   })
+  // ------------------------------------------------------------------------ //
 
   // deserialize content on Received message //
   const deserializeBinary = (dataU8, type) => {
@@ -59,25 +115,26 @@ function App() {
     setValue(e.target.value)
   }
 
-  const send = () => {
-    // sendMessage set filed and send //
+  // sendMessage set filed and send //
+  const send = (message, values) => {
     const content = new contactProto.TextMessageContent()
-    content.setMessage(value)
-    content.setSender('bxsape')
-    const message = new contactProto.SaigonParkingMessage()
-    message.setSenderid(14)
-    message.setReceiverid(3)
-    message.setContent(content.serializeBinary())
-    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    message.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
-    clients.send(message.serializeBinary())
+    content.setMessage(values)
+    content.setSender(Cookies.get("checkUserName"))
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(message.receiverId)
+    messages.setReceiverid(message.senderId)
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
+    clients.send(messages.serializeBinary())
     let temp = lists;
-    temp[temp.length] = 'bxsape: ' + value
+    temp[temp.length] = 'bxsape: ' + values
     setLists(lists.concat(temp[temp.length]));
-    console.log(message)
-    // ------------------------------------------------------------------------ //
+    console.log(messages)
   }
+  // ------------------------------------------------------------------------ //
 
+  //Open connected Websocket //
   useEffect(() => {
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
@@ -89,7 +146,8 @@ function App() {
     else {
       setIsOpen(true)
     }
-  }, [])
+  }, [flat])
+  // ------------------------------------------------------------------------ //
 
   //useEffect onState connect websocket
   useEffect(() => {
@@ -100,10 +158,7 @@ function App() {
 
       clients.onclose = (event) => {
         console.log(event)
-        Cookies.remove("token")
-        Cookies.remove("refreshtoken")
-        Cookies.remove("checkUserName")
-        window.location.href = '/'
+        getInformationUser()
       }
 
       clients.onopen = () => {
@@ -123,7 +178,7 @@ function App() {
             receiverId: data.getReceiverid(),
             timestamp: data.getTimestamp(),
           }
-          setMesssageReceived(temp)
+          setMesssageReceived(messageReceived => temp)
         })
         // ------------------------------------------------------------------------ //
       };
@@ -132,30 +187,45 @@ function App() {
 
   // ------------------------------------------------------------------------ //
 
-  //useEffect onmessage
+  //useEffect handle onmessage by type
   useEffect(() => {
     if (messageReceived.type !== null) {
       console.log('message nhan: ', messageReceived)
       //trigger onmessage ở đây
       switch (messageReceived.type) {
         case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-          return (
-            setLists(l => lists.concat(messageReceived.content.getNotification())),
-            notify(messageReceived.content.getNotification(), messageReceived.type)
-          )
+          {
+            setLists(l => lists.concat(messageReceived.content.getNotification()))
+            notify(messageReceived)
+            break
+          }
         case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-          return setLists(l => lists.concat(messageReceived.content.getMessage()));
+          {
+            setLists(l => lists.concat(messageReceived.content.getMessage()))
+            notify(messageReceived)
+            break
+          }
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-          return (
-            setLists(l => lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour())),
-            acceptRequestBook()
-          )
+          {
+            setLists(l => lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour()))
+            notify(messageReceived)
+            break
+          }
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-          return setLists(l => lists.concat(messageReceived.content.getReason()));
+          {
+            setLists(l => lists.concat(messageReceived.content.getReason()))
+            notify(messageReceived)
+            break
+          } 
         case contactProto.SaigonParkingMessage.Type.IMAGE:
-          return 0
+          {
+            //imgae
+          }
         default:
-          return setLists(l => lists.concat(messageReceived.content));
+          {
+            setLists(l => lists.concat(messageReceived.content));
+            break
+          } 
       }
     }
   }, [messageReceived])
@@ -163,39 +233,39 @@ function App() {
   // ------------------------------------------------------------------------ //
 
   // accept booking send message //
-  const acceptRequestBook = () => {
+  const acceptRequestBook = (message) => {
     // sendMessage set filed and send //
     const content = new contactProto.BookingAcceptanceContent()
-    content.setBookingid(messageReceived.content.getCustomername() + messageReceived.senderId + Date.now())
+    content.setBookingid(message.content.getCustomername() + message.senderId + Date.now())
 
-    const message = new contactProto.SaigonParkingMessage()
-    message.setSenderid(messageReceived.receiverId)
-    message.setReceiverid(messageReceived.senderId)
-    message.setContent(content.serializeBinary())
-    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
-    clients.send(message.serializeBinary())
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(message.receiverId)
+    messages.setReceiverid(message.senderId)
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
+    clients.send(messages.serializeBinary())
 
-    console.log('accept book: ', message)
+    console.log('accept book: ', messages)
     // ------------------------------------------------------------------------ //
   }
   // ------------------------------------------------------------------------ //
 
   // reject booking send message //
-  const rejectRequestBook = () => {
+  const rejectRequestBook = (message) => {
     // sendMessage set filed and send //
     const content = new contactProto.BookingRejectContent()
     content.setReason('Already full Slot')
 
-    const message = new contactProto.SaigonParkingMessage()
-    message.setSenderid(messageReceived.receiverId)
-    message.setReceiverid(messageReceived.senderId)
-    message.setContent(content.serializeBinary())
-    message.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    message.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
-    clients.send(message.serializeBinary())
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(message.receiverId)
+    messages.setReceiverid(message.senderId)
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
+    clients.send(messages.serializeBinary())
 
-    console.log('reject book: ', message)
+    console.log('reject book: ', messages)
     // ------------------------------------------------------------------------ //
   }
   // ------------------------------------------------------------------------ //
@@ -209,6 +279,7 @@ function App() {
     setPassword(e.target.value)
   }
 
+  // handle submit Login //
   const handleSubmit = () => {
     const request = new authProto.ValidateRequest();
     request.setUsername(userName);
@@ -217,7 +288,7 @@ function App() {
 
     authService.validateUser(request, {}, (err, res) => {
       if (err) {
-
+        window.alert('Username or Password was wrong!')
       } else {
         //set cookies when success
         Cookies.set("token", res.getAccesstoken())
@@ -229,21 +300,33 @@ function App() {
       }
     })
   }
+  // ------------------------------------------------------------------------ //
 
 
   // Custom toast when request book or something //
 
-  const MsgContent = (message, type) => {
-    switch (type) {
+  const MsgContent = ({message, callCloseToast}) => {
+    const [values, setValues] = useState('')
+    switch (message.type) {
       //content with switch on type declare here
       case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-        return <>{message}</>
+        return <>{message.content.getNotification()}</>
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-        return <></>;
+        return <>{message.content.getSender()}: {message.content.getMessage()}
+          <form onSubmit={(e) => {
+                e.preventDefault();
+                send(message, values)
+                callCloseToast()
+              }}>
+                <label>Chat:</label>
+                <input type="text" value={values} name="name" onChange={(e) => setValues(e.target.value)} />
+                <input type="submit" value="Send" />
+              </form>
+        </>;
       case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-        return <></>
+        return <>{message.content.getCustomername() + message.content.getCustomerlicense()} book {message.content.getAmountofparkinghour()} hour</>
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-        return <></>;
+        return <>{message.content.getBookingid()} cancel booking with reason: {message.content.getReason()}</>;
       case contactProto.SaigonParkingMessage.Type.IMAGE:
         return <></>
       default:
@@ -251,27 +334,78 @@ function App() {
     }
   }
 
-  const Msg = ({ message, type, closeToast }) => {
+  const Msg = ({ message, closeToast }) => {
+    console.log(message)
     return (
       <div>
-        {MsgContent (message, type)}
+        <MsgContent message={message} callCloseToast={closeToast} />
+        {message.type === contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST ? 
         <div style={{ marginLeft: '60%' }}>
-          <button>Accept</button>
-          <button onClick={closeToast}>Reject</button>
-        </div>
+          <button onClick={() => {acceptRequestBook(message);closeToast()}}>Accept</button>
+          <button onClick={() => {rejectRequestBook(message);closeToast()}}>Reject</button>
+        </div> : <></>}
       </div>
     )
   }
 
-  const notify = (message, type) => toast.warn(<Msg message={message} type={type} />,
-    {
-      autoClose: false,
-      onClose: () => window.alert(message),
-      closeButton: false,
-      draggable: false,
-      closeOnClick: false,
-    });
-
+  const notify = (message) =>{
+    switch (message.type) {
+      //nofti with switch on type declare here
+      case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+        {
+          toast.warn(<Msg message={message} />,
+          {
+            autoClose: true,
+            onClose: () => {},
+            closeButton: false,
+            draggable: false,
+            closeOnClick: false,
+          }) 
+          break 
+        }
+      case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+        {
+          toast.info(<Msg message={message} />,
+          {
+            position: "bottom-left",
+            autoClose: false,
+            onClose: () => {},
+            closeButton: true,
+            draggable: false,
+            closeOnClick: false,
+          }) 
+          break 
+        }
+      case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+        {
+          toast.success(<Msg message={message} />,
+          {
+            autoClose: false,
+            onClose: () => {},
+            closeButton: false,
+            draggable: false,
+            closeOnClick: false,
+          }) 
+          break 
+        }
+      case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+        {
+          toast.error(<Msg message={message} />,
+          {
+            autoClose: true,
+            onClose: () => {},
+            closeButton: false,
+            draggable: false,
+            closeOnClick: false,
+          }) 
+          break 
+        }
+      case contactProto.SaigonParkingMessage.Type.IMAGE:
+        return <></>
+      default:
+        return <></>;
+    }
+  } 
   //--------------------------------------------------------------------------//
 
   return (
@@ -290,14 +424,6 @@ function App() {
           </div>
           <div className='container'>
             <div className='contentContainer'>
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                send()
-              }}>
-                <label>Chat:</label>
-                <input type="text" value={value} name="name" onChange={handleChange} />
-                <input type="submit" value="Send" />
-              </form>
             </div>
           </div>
         </>
