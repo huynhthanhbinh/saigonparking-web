@@ -1,32 +1,37 @@
 
 import React from 'react'
-import Modal from 'react-modal';
-import { Row, Col, Container } from 'react-bootstrap'
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
-import '../../css/modal.css'
+import { Button, Modal, TransitionablePortal, ModalActions, ModalContent } from 'semantic-ui-react'
+import styles from './Modal.module.css'
+import {ReactComponent as IconError} from '../Home/images/error.svg';
 
-Modal.setAppElement(document.getElementById("root"));
+
 const RegisterModal = ({ modalRegisterIsOpen, closeModalRegister }) => {
-    
+    const [isOpen, setIsOpen] = React.useState(modalRegisterIsOpen)
 
 
-        return (
-
+    return (
+        <TransitionablePortal open={isOpen} transition={{ animation: 'scale', duration: 500 }}>
             <Modal
-                isOpen={modalRegisterIsOpen}
-               
+                style={{ height: 'auto', position: 'relative' }}
+                open={true}
+                size={'small'}
                 onRequestClose={closeModalRegister}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
             >
-                <h2 >ĐĂNG KÝ THÀNH CÔNG , KIỂM TRA EMAIL DI</h2>
+                <ModalContent>
+                    {/* <div className={styles.container}>
+                        <div className={`${styles.icon} ${styles.error}`}>
+                        <IconError />
+                        </div>
+                    </div> */}
+                    <h1 className={styles.h1Modal} >ĐĂNG KÝ THÀNH CÔNG , KIỂM TRA EMAIL CỦA BẠN </h1>
+                </ModalContent>
+                <ModalActions>
+                    <button onClick={closeModalRegister}>Đóng</button>
+                </ModalActions>
 
-                <button onClick={closeModalRegister}>close</button>
             </Modal>
-        )
+        </TransitionablePortal>
+    )
 
 }
 export default RegisterModal;

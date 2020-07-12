@@ -82,7 +82,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	return (
 		<div>
-			{/* <Search style={{position:"absolute", zIndex:"6", Top:"50%", Left:"50%", transform: "translate(-50%, -50%)" }} panTo={panTo} /> */}
+			{/* <Search style={{}} panTo={panTo} /> */}
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -92,9 +92,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
 				onLoad={onMapLoad}
-			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
+			panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
-
 				{patients &&
 					patients.map((patient, index) => {
 						if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
