@@ -166,10 +166,9 @@ export const SideMenu = ({
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
                     {data.length !== 0 ?
-                        <> 
-                    <Search style={{paddingtop:"100%"}} panTo={panTo} />
+                        
+                    /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
                      <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
-                        </>
                         : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
 
                 </StyledSideMenu>
@@ -330,7 +329,7 @@ const SidekickWrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  margin-top: 66px;
+  margin-top: 63px;
   left: 0;
   pointer-events: none;
   z-index: ${9998};
@@ -351,7 +350,7 @@ const SidekickOverlay = styled.div`
 
 const StyledSideMenu = styled(animated.div)`
   position: relative;
-  z-index: ${1};
+  z-index: ${2};
   pointer-events: all;
   background-color: ${"#fff"};
   height: 100%;
