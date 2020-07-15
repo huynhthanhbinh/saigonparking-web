@@ -432,7 +432,15 @@ function App() {
                 toastId: id,
                 position: "bottom-left",
                 autoClose: false,
-                onClose: () => { setNumberMessage(numberMessage => numberMessage - 1) },
+                onClose: () => { setNumberMessage(numberMessage => numberMessage - 1)
+                  let a = chatMessage
+                  for (let i = 0; i < a.length; i++) {
+                    if (a[i].id === id) {
+                      a[i].content = []
+                    }
+                  }
+                  setChatMessage(a)
+                },
                 closeButton: true,
                 draggable: false,
                 closeOnClick: false,
