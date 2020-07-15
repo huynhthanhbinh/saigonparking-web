@@ -27,6 +27,8 @@ function App() {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [clients, setClients] = useState(null)
+  const [numberMessage, setNumberMessage] = useState(0)
+  const [chatMessage, setChatMessage] = useState([])
 
   // renew accessToken //
   const [flat, setFlat] = React.useState(false);
@@ -89,7 +91,10 @@ function App() {
   })
   // ------------------------------------------------------------------------ //
 
-  // deserialize content on Received message //
+  /**
+   * 
+   * deserialize content on Received message
+   */
   const deserializeBinary = (dataU8, type) => {
     if (dataU8) {
       switch (type) {
@@ -111,11 +116,9 @@ function App() {
   }
   // ------------------------------------------------------------------------ //
 
-  const handleChange = (e) => {
-    setValue(e.target.value)
-  }
-
-  // sendMessage set filed and send //
+  /**
+   * sendMessage set filed and send
+   */
   const send = (message, values) => {
     const content = new contactProto.TextMessageContent()
     content.setMessage(values)
@@ -201,6 +204,24 @@ function App() {
           }
         case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
           {
+            let a = chatMessage
+            if (a.length === 0) {
+              a = [{ 'content': [messageReceived.content.getMessage()], 'id': messageReceived.senderId + messageReceived.receiverId }]
+            }
+            else {
+              let temp = 0
+              for (let i = 0; i < a.length; i++) {
+                if (a[i].id === messageReceived.senderId + messageReceived.receiverId) {
+                  a[i].content.push(messageReceived.content.getMessage())
+                  temp = 1
+                }
+              }
+              if (temp === 0) {
+                a.push({ 'content': [messageReceived.content.getMessage()], 'id': messageReceived.senderId + messageReceived.receiverId })
+              }
+            }
+            setChatMessage(a)
+            console.log(chatMessage)
             setLists(l => lists.concat(messageReceived.content.getMessage()))
             notify(messageReceived)
             break
@@ -216,7 +237,7 @@ function App() {
             setLists(l => lists.concat(messageReceived.content.getReason()))
             notify(messageReceived)
             break
-          } 
+          }
         case contactProto.SaigonParkingMessage.Type.IMAGE:
           {
             //imgae
@@ -225,7 +246,7 @@ function App() {
           {
             setLists(l => lists.concat(messageReceived.content));
             break
-          } 
+          }
       }
     }
   }, [messageReceived])
@@ -302,26 +323,25 @@ function App() {
   }
   // ------------------------------------------------------------------------ //
 
-
   // Custom toast when request book or something //
 
-  const MsgContent = ({message, callCloseToast}) => {
+  const MsgContent = ({ message, callCloseToast }) => {
     const [values, setValues] = useState('')
     switch (message.type) {
       //content with switch on type declare here
       case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
         return <>{message.content.getNotification()}</>
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-        return <>{message.content.getSender()}: {message.content.getMessage()}
+        return <><span style={{width:'auto',fontWeight:'bold'}}>{message.content.getSender()}</span>: {message.content.getMessage()}
           <form onSubmit={(e) => {
-                e.preventDefault();
-                send(message, values)
-                callCloseToast()
-              }}>
-                <label>Chat:</label>
-                <input type="text" value={values} name="name" onChange={(e) => setValues(e.target.value)} />
-                <input type="submit" value="Send" />
-              </form>
+            e.preventDefault();
+            send(message, values)
+            callCloseToast()
+          }}>
+            <label>Chat:</label>
+            <input type="text" value={values} name="name" onChange={(e) => setValues(e.target.value)} />
+            <input type="submit" value="Send" />
+          </form>
         </>;
       case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
         return <>{message.content.getCustomername() + message.content.getCustomerlicense()} book {message.content.getAmountofparkinghour()} hour</>
@@ -339,80 +359,126 @@ function App() {
     return (
       <div>
         <MsgContent message={message} callCloseToast={closeToast} />
-        {message.type === contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST ? 
-        <div style={{ marginLeft: '60%' }}>
-          <button onClick={() => {acceptRequestBook(message);closeToast()}}>Accept</button>
-          <button onClick={() => {rejectRequestBook(message);closeToast()}}>Reject</button>
-        </div> : <></>}
+        {message.type === contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST ?
+          <div style={{ marginLeft: '60%' }}>
+            <button onClick={() => { acceptRequestBook(message); closeToast() }}>Accept</button>
+            <button onClick={() => { rejectRequestBook(message); closeToast() }}>Reject</button>
+          </div> : <></>}
+      </div>
+    )
+  }
+  
+  //Update chatText
+  const MsgUpdateText = ({ message, temp, id }) => {
+    const [values, setValues] = useState('')
+    return (
+      <div>
+        <span style={{width:'auto',fontWeight:'bold'}}>{message.content.getSender()}</span>: 
+        <ul style={{listStyleType:'none',paddingInlineStart:'5px'}}>{temp.map((data, index) => <li key={index}>{data}</li>)}</ul>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          send(message, values)
+          let a = chatMessage
+          for (let i = 0; i < a.length; i++) {
+            if (a[i].id === id) {
+              a[i].content = []
+            }
+          }
+          setChatMessage(a)
+          toast.dismiss(id)
+        }}>
+          <label>Chat:</label>
+          <input type="text" value={values} name="name" onChange={(e) => setValues(e.target.value)} />
+          <input type="submit" value="Send" />
+        </form>
       </div>
     )
   }
 
-  const notify = (message) =>{
+  const notify = (message) => {
     switch (message.type) {
       //nofti with switch on type declare here
       case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
         {
           toast.warn(<Msg message={message} />,
-          {
-            autoClose: true,
-            onClose: () => {},
-            closeButton: false,
-            draggable: false,
-            closeOnClick: false,
-          }) 
-          break 
+            {
+              position: "bottom-right",
+              autoClose: true,
+              onClose: () => { },
+              closeButton: false,
+              draggable: false,
+              closeOnClick: true,
+            })
+          break
         }
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
         {
-          toast.info(<Msg message={message} />,
-          {
-            position: "bottom-left",
-            autoClose: false,
-            onClose: () => {},
-            closeButton: true,
-            draggable: false,
-            closeOnClick: false,
-          }) 
-          break 
+          let id = message.senderId + message.receiverId
+          if (toast.isActive(id)) {
+            let temp = []
+            for (let i = 0; i < chatMessage.length; i++) {
+              if (chatMessage[i].id === id) {
+                temp = chatMessage[i].content
+              }
+            }
+            toast.update(id, {
+              render: () => <MsgUpdateText message={message} temp={temp} id={id} />
+            })
+          }
+          else {
+            setNumberMessage(numberMessage + 1)
+            toast.info(<Msg message={message} />,
+              {
+                toastId: id,
+                position: "bottom-left",
+                autoClose: false,
+                onClose: () => { setNumberMessage(numberMessage => numberMessage - 1) },
+                closeButton: true,
+                draggable: false,
+                closeOnClick: false,
+              })
+          }
+          break
         }
       case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
         {
           toast.success(<Msg message={message} />,
-          {
-            autoClose: false,
-            onClose: () => {},
-            closeButton: false,
-            draggable: false,
-            closeOnClick: false,
-          }) 
-          break 
+            {
+              position: "bottom-right",
+              autoClose: false,
+              onClose: () => { },
+              closeButton: false,
+              draggable: false,
+              closeOnClick: false,
+            })
+          break
         }
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
         {
           toast.error(<Msg message={message} />,
-          {
-            autoClose: true,
-            onClose: () => {},
-            closeButton: false,
-            draggable: false,
-            closeOnClick: false,
-          }) 
-          break 
+            {
+              position: "bottom-right",
+              autoClose: true,
+              onClose: () => { },
+              closeButton: false,
+              draggable: false,
+              closeOnClick: false,
+            })
+          break
         }
       case contactProto.SaigonParkingMessage.Type.IMAGE:
         return <></>
       default:
         return <></>;
     }
-  } 
+  }
   //--------------------------------------------------------------------------//
 
   return (
     <>
       {flagIsLogin ?
         <>
-          <Navbar />
+          <Navbar numberMessage={numberMessage} />
           <div className='rightTab'>
             <div className='listItem'>
               <ul>
@@ -449,7 +515,7 @@ function App() {
           />
         </Modal.Actions>
       </Modal>
-      <ToastContainer />
+      <ToastContainer  style={{width:'auto' }}/>
     </>
   );
 }
