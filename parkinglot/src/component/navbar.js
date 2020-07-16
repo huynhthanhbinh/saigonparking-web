@@ -35,6 +35,7 @@ const handleLogout = () => {
     Cookies.remove("token")
     Cookies.remove("refreshtoken")
     Cookies.remove("checkUserName")
+    localStorage.removeItem('chatMessage')
     window.location.href = '/'
 }
 

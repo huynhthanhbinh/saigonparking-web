@@ -51,6 +51,7 @@ function App() {
               Cookies.remove("token")
               Cookies.remove("refreshtoken")
               Cookies.remove("checkUserName")
+              localStorage.removeItem('chatMessage')
               window.location.href = '/'
             } else {
               if (res.getRefreshtoken() === "") {
@@ -71,6 +72,7 @@ function App() {
           Cookies.remove("token")
           Cookies.remove("refreshtoken")
           Cookies.remove("checkUserName")
+          localStorage.removeItem('chatMessage')
           window.location.href = '/'
         }
       }
@@ -193,6 +195,7 @@ function App() {
   //useEffect handle onmessage by type
   useEffect(() => {
     if (messageReceived.type !== null) {
+      localStorage.getItem('chatMessage') ? setChatMessage(JSON.parse(localStorage.getItem('chatMessage'))) : console.log('Available')
       console.log('message nhan: ', messageReceived)
       //trigger onmessage ở đây
       switch (messageReceived.type) {
@@ -204,23 +207,33 @@ function App() {
           }
         case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
           {
+            //handle textChat to List object
             let a = chatMessage
             if (a.length === 0) {
-              a = [{ 'content': [messageReceived.content.getMessage()], 'id': messageReceived.senderId + messageReceived.receiverId }]
+              a = [{
+                'content': ['kh:' + messageReceived.content.getMessage()],
+                'id': messageReceived.senderId + messageReceived.receiverId,
+                'customer': messageReceived.content.getSender()
+              }]
             }
             else {
               let temp = 0
               for (let i = 0; i < a.length; i++) {
                 if (a[i].id === messageReceived.senderId + messageReceived.receiverId) {
-                  a[i].content.push(messageReceived.content.getMessage())
+                  a[i].content.push('kh:' + messageReceived.content.getMessage())
                   temp = 1
                 }
               }
               if (temp === 0) {
-                a.push({ 'content': [messageReceived.content.getMessage()], 'id': messageReceived.senderId + messageReceived.receiverId })
+                a.push({
+                  'content': ['kh:' + messageReceived.content.getMessage()],
+                  'id': messageReceived.senderId + messageReceived.receiverId,
+                  'customer': messageReceived.content.getSender()
+                })
               }
             }
             setChatMessage(a)
+            localStorage.setItem('chatMessage', JSON.stringify(chatMessage))
             console.log(chatMessage)
             setLists(l => lists.concat(messageReceived.content.getMessage()))
             notify(messageReceived)
@@ -325,17 +338,25 @@ function App() {
 
   // Custom toast when request book or something //
 
-  const MsgContent = ({ message, callCloseToast }) => {
+  const MsgContent = ({ message, callCloseToast, id }) => {
     const [values, setValues] = useState('')
     switch (message.type) {
       //content with switch on type declare here
       case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
         return <>{message.content.getNotification()}</>
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-        return <><span style={{width:'auto',fontWeight:'bold'}}>{message.content.getSender()}</span>: {message.content.getMessage()}
+        return <><span style={{ width: 'auto', fontWeight: 'bold' }}>{message.content.getSender()}</span>: {message.content.getMessage()}
           <form onSubmit={(e) => {
             e.preventDefault();
             send(message, values)
+            let a = chatMessage
+            for (let i = 0; i < a.length; i++) {
+              if (a[i].id === id) {
+                a[i].content.push('bx:' + values)
+              }
+            }
+            setChatMessage(a)
+            localStorage.setItem('chatMessage', JSON.stringify(a))
             callCloseToast()
           }}>
             <label>Chat:</label>
@@ -354,11 +375,11 @@ function App() {
     }
   }
 
-  const Msg = ({ message, closeToast }) => {
+  const Msg = ({ message, closeToast, id }) => {
     console.log(message)
     return (
       <div>
-        <MsgContent message={message} callCloseToast={closeToast} />
+        <MsgContent message={message} callCloseToast={closeToast} id={id} />
         {message.type === contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST ?
           <div style={{ marginLeft: '60%' }}>
             <button onClick={() => { acceptRequestBook(message); closeToast() }}>Accept</button>
@@ -367,24 +388,32 @@ function App() {
       </div>
     )
   }
-  
+
   //Update chatText
   const MsgUpdateText = ({ message, temp, id }) => {
     const [values, setValues] = useState('')
     return (
       <div>
-        <span style={{width:'auto',fontWeight:'bold'}}>{message.content.getSender()}</span>: 
-        <ul style={{listStyleType:'none',paddingInlineStart:'5px'}}>{temp.map((data, index) => <li key={index}>{data}</li>)}</ul>
+        <span style={{ width: 'auto', fontWeight: 'bold' }}>{message.content.getSender()}</span>:
+        <ul style={{ listStyleType: 'none', paddingInlineStart: '5px' }}>
+          {temp.map((data, index) => {
+            let style = data.substring(0, 3) === 'kh:' ? { textAlign: 'left' } : { textAlign: 'right' }
+            return <li style={style} key={index}>
+              {data.substring(3)}
+            </li>
+          })}
+        </ul>
         <form onSubmit={(e) => {
           e.preventDefault();
           send(message, values)
           let a = chatMessage
           for (let i = 0; i < a.length; i++) {
             if (a[i].id === id) {
-              a[i].content = []
+              a[i].content.push('bx:' + values)
             }
           }
           setChatMessage(a)
+          localStorage.setItem('chatMessage', JSON.stringify(a))
           toast.dismiss(id)
         }}>
           <label>Chat:</label>
@@ -427,19 +456,13 @@ function App() {
           }
           else {
             setNumberMessage(numberMessage + 1)
-            toast.info(<Msg message={message} />,
+            toast.info(<Msg message={message} id={id} />,
               {
                 toastId: id,
                 position: "bottom-left",
                 autoClose: false,
-                onClose: () => { setNumberMessage(numberMessage => numberMessage - 1)
-                  let a = chatMessage
-                  for (let i = 0; i < a.length; i++) {
-                    if (a[i].id === id) {
-                      a[i].content = []
-                    }
-                  }
-                  setChatMessage(a)
+                onClose: () => {
+                  setNumberMessage(numberMessage => numberMessage - 1)
                 },
                 closeButton: true,
                 draggable: false,
@@ -489,11 +512,14 @@ function App() {
           <Navbar numberMessage={numberMessage} />
           <div className='rightTab'>
             <div className='listItem'>
-              <ul>
-                {lists.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
+              {chatMessage.map((data, index) => {
+                return (
+                  <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
+                    <h5 style={{ margin: '0' }}>{data.customer}:</h5>
+                    <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
+                  </ul>
+                )
+              })}
             </div>
           </div>
           <div className='container'>
@@ -523,7 +549,7 @@ function App() {
           />
         </Modal.Actions>
       </Modal>
-      <ToastContainer  style={{width:'auto' }}/>
+      <ToastContainer style={{ width: 'auto' }} />
     </>
   );
 }

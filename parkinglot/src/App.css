@@ -15,6 +15,11 @@
 
 .rightTab .listItem {
     margin: 0;
+    width: 100%;
+}
+
+.rightTab .listItem ul:hover {
+    background: rgb(133, 133, 133);
 }
 
 .rightTab .listItem ul {
