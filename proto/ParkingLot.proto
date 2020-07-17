@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 package com.bht.saigonparking.api.grpc.parkinglot;
-//option java_generic_services = true;
 option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
@@ -161,13 +160,26 @@ message ParkingLotRatingCountGroupByRating {
     map<int32, int64> ratingCount = 1; /* is a map of <rating, count> with rating is key & count is value */
 }
 
+message UpdateParkingLotAvailabilityRequest {
+    int64 parkingLotId = 1;
+    int32 newAvailability = 2;
+}
+
+message MapToParkingLotNameMapRequest {
+    repeated int64 parkingLotId = 1;
+}
+
+message MapToParkingLotNameMapResponse {
+    map<int64, string> parkingLotName = 1;
+}
+
 service ParkingLotService {
 
     /** PUBLIC
      * use-case: send message to parking-lot employee, known parking-lot id
-     *  + request: parking-lot's ID
-     *  + response: parking-lot employee's ID */
-    rpc getParkingLotEmployeeIdOfParkingLot (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
+     *  + request: parking-lot employee's ID
+     *  + response: parking-lot's ID */
+    rpc getParkingLotIdByParkingLotEmployeeId (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
 
     /** PUBLIC - ADMIN ONLY
      * use-case: get all parking-lots
@@ -295,4 +307,24 @@ service ParkingLotService {
      *  + request:  parking lot ID
      *  + response: a map (or a dictionary) of <rating, count> with rating is key & count is value */
     rpc getParkingLotRatingCountGroupByRating (google.protobuf.Int64Value) returns (ParkingLotRatingCountGroupByRating);
+
+    /** PUBLIC - for admin & parkingLot only
+     * use-case: update current available slots of parking slot
+     *  + request: UpdateParkingLotAvailabilityRequest, you need to provide 2 arguments:
+     *      ++ parkingLotId: id of parking-lot to be updated
+     *      ++ newAvailability: new available slots of parking-lot
+     *  + response: Empty value if succeed, otherwise, throw exception */
+    rpc updateParkingLotAvailability (UpdateParkingLotAvailabilityRequest) returns (google.protobuf.Empty);
+
+    /** PRIVATE
+     * use-case: map parking lot id list from bookings to <parking lot id, parking lot name> map
+     *  + request: parking-lot id list/set
+     *  + response: <parking-lot id, parking-lot name> map, if succeed, otherwise, throw exception */
+    rpc mapToParkingLotNameMap (MapToParkingLotNameMapRequest) returns (MapToParkingLotNameMapResponse);
+
+    /** PRIVATE
+     * use-case: view booking details
+     *  + request: parking-lot id
+     *  + response: parking-lot name, if succeed, otherwise, throw exception */
+    rpc getParkingLotNameByParkingLotId (google.protobuf.Int64Value) returns (google.protobuf.StringValue);
 }
