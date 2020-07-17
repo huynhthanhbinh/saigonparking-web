@@ -14,6 +14,7 @@ import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment'
 
 const userProto = require('./api/Actor_pb')
 const authService = new AuthServiceClient(API_URL)
@@ -131,6 +132,7 @@ function App() {
     messages.setContent(content.serializeBinary())
     messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     messages.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
     let temp = lists;
     temp[temp.length] = 'bxsape: ' + values
@@ -141,6 +143,8 @@ function App() {
 
   //Open connected Websocket //
   useEffect(() => {
+    let date = moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+    console.log(date)
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
@@ -270,7 +274,7 @@ function App() {
   const acceptRequestBook = (message) => {
     // sendMessage set filed and send //
     const content = new contactProto.BookingAcceptanceContent()
-    content.setBookingid(message.content.getCustomername() + message.senderId + Date.now())
+    content.setBookingid(message.content.getBookingid())
 
     const messages = new contactProto.SaigonParkingMessage()
     messages.setSenderid(message.receiverId)
@@ -278,6 +282,7 @@ function App() {
     messages.setContent(content.serializeBinary())
     messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
 
     console.log('accept book: ', messages)
@@ -289,6 +294,7 @@ function App() {
   const rejectRequestBook = (message) => {
     // sendMessage set filed and send //
     const content = new contactProto.BookingRejectContent()
+    content.setBookingid(message.content.getBookingid())
     content.setReason('Already full Slot')
 
     const messages = new contactProto.SaigonParkingMessage()
@@ -297,6 +303,7 @@ function App() {
     messages.setContent(content.serializeBinary())
     messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
 
     console.log('reject book: ', messages)
