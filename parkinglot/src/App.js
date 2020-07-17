@@ -111,6 +111,8 @@ function App() {
           return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
         case contactProto.SaigonParkingMessage.Type.IMAGE:
           return dataU8
+          case contactProto.SaigonParkingMessage.Type.HISTORY_CHANGE:
+            return console.log('đã update')
         default:
           return 'Error not in type Received'
       }
