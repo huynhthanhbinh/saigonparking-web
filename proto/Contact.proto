@@ -3,6 +3,8 @@ syntax = "proto3";
 package com.bht.saigonparking.api.grpc.contact;
 option java_multiple_files = true;
 
+import "google/protobuf/wrappers.proto";
+
 /** Contact Service will use WebSocket protocol to create a bidirectional communication between client and server (text & binary format)
  * message will be initialized as an object (protobuf Java obj/ protobuf Javascript obj) then stringify into JSON format (text message)
  * or message will be initialized as an object (protobuf Java obj/ protobuf Javascript obj) then serialize into binary format (binary message)
@@ -31,25 +33,31 @@ message SaigonParkingMessage {
         TEXT_MESSAGE = 1; /* send from both Customer and ParkingLot (chatting) */
         BOOKING_REQUEST = 2; /* send from Customer: request for new booking */
         BOOKING_CANCELLATION = 3; /* send from Customer: cancel booking request */
-        BOOKING_ACCEPTANCE = 4; /* send from ParkingLot: accept booking request */
-        BOOKING_REJECT = 5; /* send from ParkingLot: reject booking request */
-        AVAILABILITY_UPDATE = 6; /* send from ParkingLot: update available slot */
-        IMAGE = 7; /* everyone can send and receive image */
+        BOOKING_PROCESSING = 4; /* send from system to customer with new bookingId attached */
+        BOOKING_ACCEPTANCE = 5; /* send from ParkingLot: accept booking request */
+        BOOKING_REJECT = 6; /* send from ParkingLot: reject booking request */
+        BOOKING_FINISH = 7; /* send from ParkingLot: when customer arrived */
+        AVAILABILITY_UPDATE = 8; /* send from ParkingLot: update available slot */
+        HISTORY_CHANGE = 9; /* send from system to notify parking-lot that booking history was updated --> refresh list */
+        IMAGE = 10; /* everyone can send and receive image */
     }
 
     Classification classification = 1; /* whether message is sent from customer or parking-lot */
     Type type = 2; /* default TEXT_MESSAGE (chatting) */
     bytes content = 3; /* parse it using each content's parse method, please take a look at each Content definition below */
-    int64 senderId = 4; /* sender's user ID, if sender ID = 0, it means this message is sent from system not from user */
+    int64 senderId = 4; /* sender ID: will be ParkingLotId if it sent from ParkingLot, otherwise UserId ! */
     int64 receiverId = 5; /* receiver ID: will be UserId if it sent from ParkingLot, otherwise ParkingLotId ! */
     string timestamp = 6; /* the time at which the sender sent this message, timestamp-format yyyy-MM-dd hh:mm:ss */
 }
 
-/** Below are each message content's definitions, you have to serialize into binary to send & deserialize into object on receive
+/** Below are each message content's definitions,
+ * you have to serialize into binary to send & deserialize into object on receive
  * Example: NotificationContent (message is of type SaigonParkingMessage && message.getType() == Type.NOTIFICATION)
+ *
  * for Android client:
  *      + to get content:   content = NotificationContent.parseFrom(message.getContent())
  *      + to set content:   message.setContent(content.toByteString())
+ *
  * for Web client:
  *      + to get content:   content = NotificationContent.deserializeBinary(message.getContent_asU8())
  *      + to set content:   message.setContent(content.serializeBinary()) */
@@ -62,27 +70,49 @@ message TextMessageContent {
     string sender = 2;
 }
 
+/* for customer, do not initialize bookingId, the system will then set bookingId before forward request to parking-lot */
 message BookingRequestContent {
-    string customerName = 1;
-    string customerLicense = 2;
-    double amountOfParkingHour = 3;
+    int64 bookingId = 1;
+    int64 parkingLotId = 2;
+    string customerName = 3;
+    string customerLicense = 4;
+    double amountOfParkingHour = 5;
 }
 
 message BookingCancellationContent {
-    string bookingId = 1;
+    int64 bookingId = 1;
     string reason = 2;
 }
 
+message BookingProcessingContent {
+    int64 bookingId = 1;
+    int64 parkingLotId = 2;
+}
+
 message BookingAcceptanceContent {
-    string bookingId = 1;
+    int64 bookingId = 1;
 }
 
 message BookingRejectContent {
-    string reason = 1;
+    int64 bookingId = 1;
+    string reason = 2;
+}
+
+message BookingFinishContent {
+    int64 bookingId = 1;
 }
 
 /* for this message type, receiver will be system (receiver ID = 0)  */
 message AvailabilityUpdateContent {
     int64 parkingLotId = 1;
     int32 newAvailability = 2;
+}
+
+service ContactService {
+
+    /* check whether user is online / reachable for pre-sending messages (remember to provide token) */
+    rpc checkUserOnlineByUserId (google.protobuf.Int64Value) returns (google.protobuf.BoolValue);
+
+    /* check whether parking-lot is online / reachable for pre-sending messages (remember to provide token) */
+    rpc checkParkingLotOnlineByParkingLotId (google.protobuf.Int64Value) returns (google.protobuf.BoolValue);
 }
