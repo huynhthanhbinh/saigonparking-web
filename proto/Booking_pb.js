@@ -296,8 +296,9 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.toObject = function(include
     parkinglotname: jspb.Message.getFieldWithDefault(msg, 3, ""),
     customerid: jspb.Message.getFieldWithDefault(msg, 4, 0),
     licenseplate: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    lateststatus: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    isfinished: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    createdat: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    lateststatus: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    isfinished: jspb.Message.getBooleanFieldWithDefault(msg, 8, false)
   };
 
   if (includeInstance) {
@@ -355,10 +356,14 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.deserializeBinaryFromReader
       msg.setLicenseplate(value);
       break;
     case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCreatedat(value);
+      break;
+    case 7:
       var value = /** @type {!proto.com.bht.saigonparking.api.grpc.booking.BookingStatus} */ (reader.readEnum());
       msg.setLateststatus(value);
       break;
-    case 7:
+    case 8:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsfinished(value);
       break;
@@ -426,17 +431,24 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.serializeBinaryToWriter = f
       f
     );
   }
+  f = message.getCreatedat();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
   f = message.getLateststatus();
   if (f !== 0.0) {
     writer.writeEnum(
-      6,
+      7,
       f
     );
   }
   f = message.getIsfinished();
   if (f) {
     writer.writeBool(
-      7,
+      8,
       f
     );
   }
@@ -534,11 +546,29 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.setLicenseplate =
 
 
 /**
- * optional BookingStatus latestStatus = 6;
+ * optional string createdAt = 6;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.getCreatedat = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.booking.Booking} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.setCreatedat = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional BookingStatus latestStatus = 7;
  * @return {!proto.com.bht.saigonparking.api.grpc.booking.BookingStatus}
  */
 proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.getLateststatus = function() {
-  return /** @type {!proto.com.bht.saigonparking.api.grpc.booking.BookingStatus} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {!proto.com.bht.saigonparking.api.grpc.booking.BookingStatus} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
 };
 
 
@@ -547,16 +577,16 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.getLateststatus =
  * @return {!proto.com.bht.saigonparking.api.grpc.booking.Booking} returns this
  */
 proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.setLateststatus = function(value) {
-  return jspb.Message.setProto3EnumField(this, 6, value);
+  return jspb.Message.setProto3EnumField(this, 7, value);
 };
 
 
 /**
- * optional bool isFinished = 7;
+ * optional bool isFinished = 8;
  * @return {boolean}
  */
 proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.getIsfinished = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 8, false));
 };
 
 
@@ -565,7 +595,7 @@ proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.getIsfinished = f
  * @return {!proto.com.bht.saigonparking.api.grpc.booking.Booking} returns this
  */
 proto.com.bht.saigonparking.api.grpc.booking.Booking.prototype.setIsfinished = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 7, value);
+  return jspb.Message.setProto3BooleanField(this, 8, value);
 };
 
 
@@ -2304,7 +2334,6 @@ proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.toObject
   var f, obj = {
     bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0),
     status: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    timestamp: jspb.Message.getFieldWithDefault(msg, 3, ""),
     note: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
@@ -2349,10 +2378,6 @@ proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.deserial
     case 2:
       var value = /** @type {!proto.com.bht.saigonparking.api.grpc.booking.BookingStatus} */ (reader.readEnum());
       msg.setStatus(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTimestamp(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -2401,13 +2426,6 @@ proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.serializ
       f
     );
   }
-  f = message.getTimestamp();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
   f = message.getNote();
   if (f.length > 0) {
     writer.writeString(
@@ -2451,24 +2469,6 @@ proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.prototyp
  */
 proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.prototype.setStatus = function(value) {
   return jspb.Message.setProto3EnumField(this, 2, value);
-};
-
-
-/**
- * optional string timestamp = 3;
- * @return {string}
- */
-proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.prototype.getTimestamp = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest} returns this
- */
-proto.com.bht.saigonparking.api.grpc.booking.UpdateBookingStatusRequest.prototype.setTimestamp = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
