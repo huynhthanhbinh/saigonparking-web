@@ -82,11 +82,91 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodDescriptor_ParkingLotService_getParkingLotIdByAuthorizationHeader = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByAuthorizationHeader',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  google_protobuf_wrappers_pb.Int64Value,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.google.protobuf.Int64Value>}
+ */
+const methodInfo_ParkingLotService_getParkingLotIdByAuthorizationHeader = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.Int64Value,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.Int64Value.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Int64Value)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Int64Value>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.getParkingLotIdByAuthorizationHeader =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByAuthorizationHeader',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_getParkingLotIdByAuthorizationHeader,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Int64Value>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.getParkingLotIdByAuthorizationHeader =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByAuthorizationHeader',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_getParkingLotIdByAuthorizationHeader);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.google.protobuf.Int64Value,
  *   !proto.google.protobuf.Int64Value>}
  */
-const methodDescriptor_ParkingLotService_getParkingLotEmployeeIdOfParkingLot = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotEmployeeIdOfParkingLot',
+const methodDescriptor_ParkingLotService_getParkingLotIdByParkingLotEmployeeId = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByParkingLotEmployeeId',
   grpc.web.MethodType.UNARY,
   google_protobuf_wrappers_pb.Int64Value,
   google_protobuf_wrappers_pb.Int64Value,
@@ -107,7 +187,7 @@ const methodDescriptor_ParkingLotService_getParkingLotEmployeeIdOfParkingLot = n
  *   !proto.google.protobuf.Int64Value,
  *   !proto.google.protobuf.Int64Value>}
  */
-const methodInfo_ParkingLotService_getParkingLotEmployeeIdOfParkingLot = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_ParkingLotService_getParkingLotIdByParkingLotEmployeeId = new grpc.web.AbstractClientBase.MethodInfo(
   google_protobuf_wrappers_pb.Int64Value,
   /**
    * @param {!proto.google.protobuf.Int64Value} request
@@ -130,13 +210,13 @@ const methodInfo_ParkingLotService_getParkingLotEmployeeIdOfParkingLot = new grp
  * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Int64Value>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.getParkingLotEmployeeIdOfParkingLot =
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.getParkingLotIdByParkingLotEmployeeId =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotEmployeeIdOfParkingLot',
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByParkingLotEmployeeId',
       request,
       metadata || {},
-      methodDescriptor_ParkingLotService_getParkingLotEmployeeIdOfParkingLot,
+      methodDescriptor_ParkingLotService_getParkingLotIdByParkingLotEmployeeId,
       callback);
 };
 
@@ -149,13 +229,13 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototyp
  * @return {!Promise<!proto.google.protobuf.Int64Value>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.getParkingLotEmployeeIdOfParkingLot =
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.getParkingLotIdByParkingLotEmployeeId =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotEmployeeIdOfParkingLot',
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotIdByParkingLotEmployeeId',
       request,
       metadata || {},
-      methodDescriptor_ParkingLotService_getParkingLotEmployeeIdOfParkingLot);
+      methodDescriptor_ParkingLotService_getParkingLotIdByParkingLotEmployeeId);
 };
 
 
@@ -1356,6 +1436,246 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.p
       request,
       metadata || {},
       methodDescriptor_ParkingLotService_getParkingLotRatingCountGroupByRating);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_ParkingLotService_updateParkingLotAvailability = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/updateParkingLotAvailability',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodInfo_ParkingLotService_updateParkingLotAvailability = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.updateParkingLotAvailability =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/updateParkingLotAvailability',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_updateParkingLotAvailability,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.UpdateParkingLotAvailabilityRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.updateParkingLotAvailability =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/updateParkingLotAvailability',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_updateParkingLotAvailability);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse>}
+ */
+const methodDescriptor_ParkingLotService_mapToParkingLotNameMap = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/mapToParkingLotNameMap',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse>}
+ */
+const methodInfo_ParkingLotService_mapToParkingLotNameMap = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.mapToParkingLotNameMap =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/mapToParkingLotNameMap',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_mapToParkingLotNameMap,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.parkinglot.MapToParkingLotNameMapResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.mapToParkingLotNameMap =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/mapToParkingLotNameMap',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_mapToParkingLotNameMap);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodDescriptor_ParkingLotService_getParkingLotNameByParkingLotId = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotNameByParkingLotId',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  google_protobuf_wrappers_pb.StringValue,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodInfo_ParkingLotService_getParkingLotNameByParkingLotId = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.StringValue,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.getParkingLotNameByParkingLotId =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotNameByParkingLotId',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_getParkingLotNameByParkingLotId,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.StringValue>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.getParkingLotNameByParkingLotId =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/getParkingLotNameByParkingLotId',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_getParkingLotNameByParkingLotId);
 };
 
 
