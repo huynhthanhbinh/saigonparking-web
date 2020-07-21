@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './component/navbar'
 import Cookies from 'js-cookie'
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Modal, Flag } from 'semantic-ui-react'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
 import { API_URL } from './saigonparking'
-import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
+import { StringValue, Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
 import { AuthServiceClient } from './api/Auth_grpc_web_pb'
 import { UserServiceClient } from './api/Actor_grpc_web_pb';
+import { ParkingLotServiceClient } from './api/ParkingLot_grpc_web_pb'
+import { BookingServiceClient } from './api/Booking_grpc_web_pb';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,12 +19,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
 
 const userProto = require('./api/Actor_pb')
+const bookingService = new BookingServiceClient(API_URL)
 const authService = new AuthServiceClient(API_URL)
 const userService = new UserServiceClient(API_URL)
+const parkingLotService = new ParkingLotServiceClient(API_URL)
 
 function App() {
   const [isOpen, setIsOpen] = useState(false)
-  const [value, setValue] = useState('')
   const [lists, setLists] = useState([])
   const [flagIsLogin, setFlagIsLogin] = useState(false)
   const [userName, setUserName] = useState('')
@@ -30,6 +33,7 @@ function App() {
   const [clients, setClients] = useState(null)
   const [numberMessage, setNumberMessage] = useState(0)
   const [chatMessage, setChatMessage] = useState([])
+  const [bookingPending, setBookingPending] = useState(null)
 
   // renew accessToken //
   const [flat, setFlat] = React.useState(false);
@@ -108,11 +112,17 @@ function App() {
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
           return contactProto.BookingRequestContent.deserializeBinary(dataU8)
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-          return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
+          }
         case contactProto.SaigonParkingMessage.Type.IMAGE:
           return dataU8
-          case contactProto.SaigonParkingMessage.Type.HISTORY_CHANGE:
-            return console.log('đã update')
+        case contactProto.SaigonParkingMessage.Type.HISTORY_CHANGE:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
         default:
           return 'Error not in type Received'
       }
@@ -137,26 +147,65 @@ function App() {
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
     let temp = lists;
-    temp[temp.length] = 'bxsape: ' + values
+    temp[temp.length] = Cookies.get("checkUserName") + ': ' + values
     setLists(lists.concat(temp[temp.length]));
     console.log(messages)
   }
   // ------------------------------------------------------------------------ //
 
+  /**
+   * Function get Ongoing booking
+   */
+  const getOnGoingBooking = React.useCallback(
+    (id) => {
+      const token = Cookies.get("token")
+      const metadata = { 'Authorization': token }
+      const request = new Int64Value()
+      request.setValue(id)
+      bookingService.getAllOnGoingBookingOfParkingLot(request, metadata, (err, res) => {
+        if (err) { console.log('error get ongoing booking: ', err) }
+        else {
+          console.log('res: ', res.getBookingList())
+          setBookingPending(res.getBookingList())
+          localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
+        }
+      })
+    },
+    [],
+  )
+
+  // ------------------------------------------------------------------------ //
+
+
   //Open connected Websocket //
   useEffect(() => {
-    let date = moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
-    console.log(date)
+    let isCancelled = false;
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
-    if (token && checkUserName && refreshtoken) {
+    const metadata = { 'Authorization': token }
+    if (token && checkUserName && refreshtoken && !isCancelled) {
       setFlagIsLogin(true)
       setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
+      const request = new Empty();
+      parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
+        if (err && !isCancelled) { console.log(err) }
+        else {
+          if (!isCancelled) {
+            localStorage.setItem('ID', res.getValue())
+            getOnGoingBooking(localStorage.getItem('ID'))
+          }
+        }
+      })
     }
     else {
-      setIsOpen(true)
+      if (!isCancelled) {
+        setIsOpen(true)
+      }
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [flat])
   // ------------------------------------------------------------------------ //
 
@@ -513,7 +562,6 @@ function App() {
     }
   }
   //--------------------------------------------------------------------------//
-
   return (
     <>
       {flagIsLogin ?
@@ -523,10 +571,12 @@ function App() {
             <div className='listItem'>
               {chatMessage.map((data, index) => {
                 return (
-                  <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
-                    <h5 style={{ margin: '0' }}>{data.customer}:</h5>
-                    <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
-                  </ul>
+                <>{bookingPending && bookingPending.map((data, index) => <div>ID: {data.getId()} | Status: {data.getLateststatus()} | Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</div>)}
+                    <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
+                      <h5 style={{ margin: '0' }}>{data.customer}:</h5>
+                      <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
+                    </ul>
+                  </>
                 )
               })}
             </div>
