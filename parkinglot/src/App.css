@@ -38,11 +38,130 @@
     left: 0;
 }
 
+.contentContainerMiddle {
+    display: flex;
+    height: 100%;
+    width: 70%;
+    left: 30%;
+    position: absolute;
+    background: rgb(148, 148, 148);
+    overflow-y: auto;
+}
+
 .contentContainer {
     display: flex;
     height: 100%;
-    width: 100%;
+    width: 30%;
     position: absolute;
-    justify-content: center;
-    align-items: center;
+    background: rgb(255, 255, 255);
+    overflow-y: auto;
+}
+
+.contentContainer .listPending ul {
+    position: relative;
+    width: 100%;
+    margin-top: 20%;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted {
+    position: relative;
+    left: 0;
+    color: #999;
+    list-style: none;
+    margin: 4px 0;
+    border-left: 2px solid #24ff0b;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #24ff0b;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover::before {
+    transform: scaleX(1);
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover {
+    left: 10px;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted span {
+    position: relative;
+    padding: 8px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover span {
+    color: #111;
+    font-weight: bold;
+}
+
+.contentContainer .listPending ul .pendingLiCreated {
+    position: relative;
+    left: 0;
+    color: #999;
+    list-style: none;
+    margin: 4px 0;
+    border-left: 2px solid yellow;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.contentContainer .listPending ul .pendingLiCreated::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: yellow;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover::before {
+    transform: scaleX(1);
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover {
+    left: 10px;
+}
+
+.contentContainer .listPending ul .pendingLiCreated span {
+    position: relative;
+    padding: 8px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover span {
+    color: #111;
+    font-weight: bold;
+}
+
+.Toastify__toast-container--bottom-left {
+    margin-left: 25%;
+    width: 5500px;
+}
+
+.Toastify__toast.Toastify__toast--info {
+    border-radius: 10px;
+}
+
+.Toastify__toast.Toastify__toast--error {
+    border-radius: 10px;
+}
+
+.Toastify__toast.Toastify__toast--warning {
+    border-radius: 10px;
 }

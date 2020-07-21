@@ -14,9 +14,11 @@ import { ParkingLotServiceClient } from './api/ParkingLot_grpc_web_pb'
 import { BookingServiceClient } from './api/Booking_grpc_web_pb';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
+import bookingProto from './api/Booking_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
+import { Popup, Grid } from 'semantic-ui-react'
 
 const userProto = require('./api/Actor_pb')
 const bookingService = new BookingServiceClient(API_URL)
@@ -33,10 +35,24 @@ function App() {
   const [clients, setClients] = useState(null)
   const [numberMessage, setNumberMessage] = useState(0)
   const [chatMessage, setChatMessage] = useState([])
-  const [bookingPending, setBookingPending] = useState(null)
+  const [bookingPending, setBookingPending] = useState([])
+  const [searchBook, setSerchBook] = useState('')
 
   // renew accessToken //
   const [flat, setFlat] = React.useState(false);
+
+
+  /**
+   * Check RenewToken every 1 minute
+   */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getInformationUser();
+    }, 100000);
+    return () => clearInterval(interval);
+  }, []);
+
+  //--------------------------------------------------------------------------------------//
 
   const getInformationUser = React.useCallback(() => {
     const token = 'Bearer ' + Cookies.get("token");
@@ -110,10 +126,12 @@ function App() {
         case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
           return contactProto.TextMessageContent.deserializeBinary(dataU8)
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-          return contactProto.BookingRequestContent.deserializeBinary(dataU8)
-        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
           {
             getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingRequestContent.deserializeBinary(dataU8)
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          {
             return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
           }
         case contactProto.SaigonParkingMessage.Type.IMAGE:
@@ -163,11 +181,14 @@ function App() {
       const request = new Int64Value()
       request.setValue(id)
       bookingService.getAllOnGoingBookingOfParkingLot(request, metadata, (err, res) => {
-        if (err) { console.log('error get ongoing booking: ', err) }
+        if (err) {
+          console.log('error get ongoing booking: ', err)
+          getInformationUser()
+        }
         else {
           console.log('res: ', res.getBookingList())
-          setBookingPending(res.getBookingList())
           localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
+          setBookingPending(res.getBookingList())
         }
       })
     },
@@ -189,7 +210,10 @@ function App() {
       setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
       const request = new Empty();
       parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
-        if (err && !isCancelled) { console.log(err) }
+        if (err && !isCancelled) {
+          console.log(err)
+          getInformationUser()
+        }
         else {
           if (!isCancelled) {
             localStorage.setItem('ID', res.getValue())
@@ -335,8 +359,6 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
-
-    console.log('accept book: ', messages)
     // ------------------------------------------------------------------------ //
   }
   // ------------------------------------------------------------------------ //
@@ -356,12 +378,77 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
-
-    console.log('reject book: ', messages)
     // ------------------------------------------------------------------------ //
   }
   // ------------------------------------------------------------------------ //
 
+  /**
+   * Finish OnGoing Booking
+   */
+
+  const finishedBook = (data) => {
+    // sendMessage set filed and send //
+    const content = new contactProto.BookingRejectContent()
+    content.setBookingid(data.getId())
+
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(data.getParkinglotid())
+    messages.setReceiverid(data.getCustomerid())
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_FINISH)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    clients.send(messages.serializeBinary())
+  }
+
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * 
+   * Accept Request With no NoTification
+   */
+
+  const acceptRequestBookWithOutNoti = (data) => {
+    // sendMessage set filed and send //
+    const content = new contactProto.BookingAcceptanceContent()
+    content.setBookingid(data.getId())
+
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(data.getParkinglotid())
+    messages.setReceiverid(data.getCustomerid())
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    clients.send(messages.serializeBinary())
+    // ------------------------------------------------------------------------ //
+  }
+
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * 
+   * Reject Request With no NoTification
+   */
+
+  const rejectRequestBookWithOutNoti = (data) => {
+    // sendMessage set filed and send //
+    const content = new contactProto.BookingRejectContent()
+    content.setBookingid(data.getId())
+    content.setReason('Already full Slot')
+
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(data.getParkinglotid())
+    messages.setReceiverid(data.getCustomerid())
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    clients.send(messages.serializeBinary())
+    // ------------------------------------------------------------------------ //
+  }
+
+  // ------------------------------------------------------------------------ //
 
   const handleChangeUserName = (e) => {
     setUserName(e.target.value)
@@ -529,21 +616,9 @@ function App() {
           }
           break
         }
-      case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-        {
-          toast.success(<Msg message={message} />,
-            {
-              position: "bottom-right",
-              autoClose: false,
-              onClose: () => { },
-              closeButton: false,
-              draggable: false,
-              closeOnClick: false,
-            })
-          break
-        }
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
         {
+          getOnGoingBooking(localStorage.getItem('ID'))
           toast.error(<Msg message={message} />,
             {
               position: "bottom-right",
@@ -571,18 +646,44 @@ function App() {
             <div className='listItem'>
               {chatMessage.map((data, index) => {
                 return (
-                <>{bookingPending && bookingPending.map((data, index) => <div>ID: {data.getId()} | Status: {data.getLateststatus()} | Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</div>)}
-                    <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
-                      <h5 style={{ margin: '0' }}>{data.customer}:</h5>
-                      <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
-                    </ul>
-                  </>
+                  <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
+                    <h5 style={{ margin: '0' }}>{data.customer}:</h5>
+                    <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
+                  </ul>
                 )
               })}
             </div>
           </div>
           <div className='container'>
             <div className='contentContainer'>
+              <div className="listPending">
+                <ul>
+                  {bookingPending.length !== 0 ? <>
+                    <h2 style={{ marginTop: '100px' }}>Booking: </h2>
+                  Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
+                    {bookingPending.sort((a, b) => a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED ? 1 : -1).map((data, index) => {
+                      if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
+                        return null
+                      }
+                      if (data.getLateststatus() === bookingProto.BookingStatus.ACCEPTED)
+                        return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: {data.getId()} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
+                      else if (data.getLateststatus() === bookingProto.BookingStatus.CREATED)
+                        return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: {data.getId()} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
+                          <Grid centered divided columns={2}>
+                            <Grid.Column textAlign='center'>
+                              <Button onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
+                            </Grid.Column>
+                            <Grid.Column textAlign='center'>
+                              <Button onClick={() => rejectRequestBookWithOutNoti(data)}>Reject</Button>
+                            </Grid.Column>
+                          </Grid>
+                        </Popup>
+                    })} </> : <h2 style={{ marginTop: '100px' }}>No Pending Booking...</h2>}
+                </ul>
+              </div>
+            </div>
+            <div className='contentContainerMiddle'>
+              <ToastContainer style={{ width: 'auto' }} />
             </div>
           </div>
         </>
@@ -608,7 +709,6 @@ function App() {
           />
         </Modal.Actions>
       </Modal>
-      <ToastContainer style={{ width: 'auto' }} />
     </>
   );
 }
