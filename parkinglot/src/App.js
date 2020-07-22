@@ -19,6 +19,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
 import { Popup, Grid } from 'semantic-ui-react'
+import Notification from 'react-web-notification'
+import icon from './images/parking.png'
 
 const userProto = require('./api/Actor_pb')
 const bookingService = new BookingServiceClient(API_URL)
@@ -37,6 +39,18 @@ function App() {
   const [chatMessage, setChatMessage] = useState([])
   const [bookingPending, setBookingPending] = useState([])
   const [searchBook, setSerchBook] = useState('')
+  const [optionsNofti, setOptionNofti] = useState({
+    ignore: true,
+    title: 'Sai Gon Parking Map',
+    options: {
+      tag: 'This is Tag',
+      body: '',
+      icon: icon,
+      lang: 'en',
+      dir: 'ltr',
+    }
+  })
+
 
   // renew accessToken //
   const [flat, setFlat] = React.useState(false);
@@ -48,7 +62,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       getInformationUser();
-    }, 100000);
+    }, 600000);
     return () => clearInterval(interval);
   }, []);
 
@@ -345,43 +359,6 @@ function App() {
 
   // ------------------------------------------------------------------------ //
 
-  // accept booking send message //
-  const acceptRequestBook = (message) => {
-    // sendMessage set filed and send //
-    const content = new contactProto.BookingAcceptanceContent()
-    content.setBookingid(message.content.getBookingid())
-
-    const messages = new contactProto.SaigonParkingMessage()
-    messages.setSenderid(message.receiverId)
-    messages.setReceiverid(message.senderId)
-    messages.setContent(content.serializeBinary())
-    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE)
-    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
-    clients.send(messages.serializeBinary())
-    // ------------------------------------------------------------------------ //
-  }
-  // ------------------------------------------------------------------------ //
-
-  // reject booking send message //
-  const rejectRequestBook = (message) => {
-    // sendMessage set filed and send //
-    const content = new contactProto.BookingRejectContent()
-    content.setBookingid(message.content.getBookingid())
-    content.setReason('Already full Slot')
-
-    const messages = new contactProto.SaigonParkingMessage()
-    messages.setSenderid(message.receiverId)
-    messages.setReceiverid(message.senderId)
-    messages.setContent(content.serializeBinary())
-    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
-    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
-    clients.send(messages.serializeBinary())
-    // ------------------------------------------------------------------------ //
-  }
-  // ------------------------------------------------------------------------ //
-
   /**
    * Finish OnGoing Booking
    */
@@ -487,8 +464,6 @@ function App() {
     const [values, setValues] = useState('')
     switch (message.type) {
       //content with switch on type declare here
-      case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-        return <>{message.content.getNotification()}</>
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
         return <><span style={{ width: 'auto', fontWeight: 'bold' }}>{message.content.getSender()}</span>: {message.content.getMessage()}
           <form onSubmit={(e) => {
@@ -509,8 +484,6 @@ function App() {
             <input type="submit" value="Send" />
           </form>
         </>;
-      case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-        return <>{message.content.getCustomername() + message.content.getCustomerlicense()} book {message.content.getAmountofparkinghour()} hour</>
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
         return <>{message.content.getBookingid()} cancel booking with reason: {message.content.getReason()}</>;
       case contactProto.SaigonParkingMessage.Type.IMAGE:
@@ -525,11 +498,6 @@ function App() {
     return (
       <div>
         <MsgContent message={message} callCloseToast={closeToast} id={id} />
-        {message.type === contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST ?
-          <div style={{ marginLeft: '60%' }}>
-            <button onClick={() => { acceptRequestBook(message); closeToast() }}>Accept</button>
-            <button onClick={() => { rejectRequestBook(message); closeToast() }}>Reject</button>
-          </div> : <></>}
       </div>
     )
   }
@@ -574,15 +542,11 @@ function App() {
       //nofti with switch on type declare here
       case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
         {
-          toast.warn(<Msg message={message} />,
-            {
-              position: "bottom-right",
-              autoClose: true,
-              onClose: () => { },
-              closeButton: false,
-              draggable: false,
-              closeOnClick: true,
-            })
+          let Nofti = optionsNofti
+          Nofti.ignore = false
+          Nofti.options.body = message.content.getNotification()
+          console.log(Nofti)
+          setOptionNofti(Nofti)
           break
         }
       case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
@@ -616,9 +580,25 @@ function App() {
           }
           break
         }
+      case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+        {
+          let Nofti = optionsNofti
+          Nofti.ignore = false
+          Nofti.options.tag = 'Booking!'
+          Nofti.options.body = `${message.content.getCustomername()}: ${message.content.getCustomerlicense()} book ${message.content.getAmountofparkinghour()} hours`
+          console.log(Nofti)
+          setOptionNofti(Nofti)
+          break
+        }
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
         {
           getOnGoingBooking(localStorage.getItem('ID'))
+          let Nofti = optionsNofti
+          Nofti.ignore = false
+          Nofti.options.tag = 'Cancel Booking!'
+          Nofti.options.body = `${message.content.getBookingid()}: ${message.content.getReason()}`
+          console.log(Nofti)
+          setOptionNofti(Nofti)
           toast.error(<Msg message={message} />,
             {
               position: "bottom-right",
@@ -637,6 +617,13 @@ function App() {
     }
   }
   //--------------------------------------------------------------------------//
+
+  const handleNotSupported = () => {
+    console.log('Web Notification not Supported');
+  }
+
+
+
   return (
     <>
       {flagIsLogin ?
@@ -686,6 +673,19 @@ function App() {
               <ToastContainer style={{ width: 'auto' }} />
             </div>
           </div>
+          <Notification
+            ignore={optionsNofti.ignore}
+            notSupported={() => handleNotSupported()}
+            // onPermissionGranted={this.handlePermissionGranted.bind(this)}
+            onPermissionDenied={() => window.alert('Please enable Notification on this page!!!')}
+            // onShow={this.handleNotificationOnShow.bind(this)}
+            // onClick={this.handleNotificationOnClick.bind(this)}
+            // onClose={this.handleNotificationOnClose.bind(this)}
+            // onError={this.handleNotificationOnError.bind(this)}
+            timeout={5000}
+            title={optionsNofti.title}
+            options={optionsNofti.options}
+          />
         </>
         :
         <></>
