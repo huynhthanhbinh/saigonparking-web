@@ -1,5 +1,5 @@
 .rightTab {
-    height: 90%;
+    height: 100%;
     width: 20%;
     background: white;
     overflow: auto;
@@ -11,6 +11,8 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    z-index: 1;
+    box-shadow: -5px 1px 8px #acacac;
 }
 
 .rightTab .listItem {
@@ -44,8 +46,9 @@
     width: 70%;
     left: 30%;
     position: absolute;
-    background: rgb(148, 148, 148);
+    background: rgb(231, 231, 231);
     overflow-y: auto;
+    z-index: 0;
 }
 
 .contentContainer {
@@ -55,6 +58,8 @@
     position: absolute;
     background: rgb(255, 255, 255);
     overflow-y: auto;
+    box-shadow: 5px 10px 8px #acacac;
+    z-index: 1;
 }
 
 .contentContainer .listPending ul {
