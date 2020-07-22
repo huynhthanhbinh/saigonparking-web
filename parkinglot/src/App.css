@@ -32,8 +32,8 @@
     margin: 0;
     height: 100%;
     width: 80%;
-    background: rgb(90, 82, 82);
-    overflow: hidden;
+    background: rgb(173, 173, 173);
+    overflow: auto;
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -41,14 +41,59 @@
 }
 
 .contentContainerMiddle {
-    display: flex;
-    height: 100%;
+    display: grid;
+    margin-top: 70px;
+    padding: 10px;
+    height: auto;
     width: 70%;
     left: 30%;
     position: absolute;
-    background: rgb(231, 231, 231);
-    overflow-y: auto;
+    background: rgb(173, 173, 173);
     z-index: 0;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-flow: dense;
+    grid-gap: 10px;
+    overflow-wrap: break-word;
+}
+
+.contentContainerMiddle .box {
+    background: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 20px;
+    overflow: auto;
+    text-align: center;
+    transition: 0.5s;
+    box-shadow: 5px 10px 10px #8f8f8f;
+}
+
+.contentContainerMiddle .box:hover {
+    background: #e91e63;
+}
+
+.contentContainerMiddle .box:nth-child(1) {
+    grid-column: span 2;
+}
+
+.contentContainerMiddle .box:nth-child(2) {
+    grid-row: span 3;
+}
+
+.contentContainerMiddle .box:nth-child(3) {
+    grid-row: span 2;
+}
+
+.contentContainerMiddle .box:nth-child(4) {
+    grid-row: span 2;
+}
+
+@media (max-width: 991px) {
+    .contentContainerMiddle {
+        grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+    }
+    .contentContainerMiddle .box {
+        grid-row: unset !important;
+        grid-column: unset !important;
+    }
 }
 
 .contentContainer {
@@ -169,4 +214,28 @@
 
 .Toastify__toast.Toastify__toast--warning {
     border-radius: 10px;
+}
+
+.scroll {
+    display: flex;
+}
+
+.scroll div {
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    white-space: nowrap;
+    font-weight: 900;
+    text-transform: uppercase;
+    height: 100%;
+    margin: 10px;
+    animation: animate 20s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateX(70%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }

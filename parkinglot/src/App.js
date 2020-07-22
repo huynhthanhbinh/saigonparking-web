@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './component/navbar'
 import Cookies from 'js-cookie'
-import { Button, Modal, Flag } from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
@@ -21,6 +21,7 @@ import moment from 'moment'
 import { Popup, Grid } from 'semantic-ui-react'
 import Notification from 'react-web-notification'
 import icon from './images/parking.png'
+import { PieChart } from 'react-minimal-pie-chart';
 
 const userProto = require('./api/Actor_pb')
 const bookingService = new BookingServiceClient(API_URL)
@@ -49,6 +50,14 @@ function App() {
       lang: 'en',
       dir: 'ltr',
     }
+  })
+
+  const [countAllbooking, setCountAllbooking] = useState({
+    CREATED: { title: 'Created', value: 0, color: '#FFFF00' },
+    ACCEPTED: { title: 'Accepted', value: 0, color: '#24ff0b' },
+    REJECTED: { title: 'Rejected', value: 0, color: '#B22222' },
+    CANCELLED: { title: 'Cancelled', value: 0, color: '#A9A9A9' },
+    FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
   })
 
 
@@ -110,6 +119,9 @@ function App() {
           localStorage.removeItem('chatMessage')
           window.location.href = '/'
         }
+      }
+      else {
+        console.log('infomation: ', res)
       }
     })
   },
@@ -181,7 +193,6 @@ function App() {
     let temp = lists;
     temp[temp.length] = Cookies.get("checkUserName") + ': ' + values
     setLists(lists.concat(temp[temp.length]));
-    console.log(messages)
   }
   // ------------------------------------------------------------------------ //
 
@@ -196,13 +207,86 @@ function App() {
       request.setValue(id)
       bookingService.getAllOnGoingBookingOfParkingLot(request, metadata, (err, res) => {
         if (err) {
-          console.log('error get ongoing booking: ', err)
           getInformationUser()
         }
         else {
-          console.log('res: ', res.getBookingList())
           localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
           setBookingPending(res.getBookingList())
+        }
+      })
+      countAllBooking(id)
+    },
+    [],
+  )
+
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * Count all booking by status
+   */
+
+  const countAllBooking = React.useCallback(
+    (id) => {
+      let temp = {
+        CREATED: { title: 'Created', value: 0, color: '#FFFF00' },
+        ACCEPTED: { title: 'Accepted', value: 0, color: '#24ff0b' },
+        REJECTED: { title: 'Rejected', value: 0, color: '#B22222' },
+        CANCELLED: { title: 'Cancelled', value: 0, color: '#A9A9A9' },
+        FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
+      }
+      const token = Cookies.get("token")
+      const metadata = { 'Authorization': token }
+      const request = new bookingProto.CountAllBookingOfParkingLotRequest
+      request.setParkinglotid(id)
+      //Create
+      request.setStatus(bookingProto.BookingStatus.CREATED)
+      bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
+        if (err) {
+          getInformationUser()
+        }
+        else {
+          temp.CREATED.value = res.getValue()
+          //Accept
+          request.setStatus(bookingProto.BookingStatus.ACCEPTED)
+          bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
+            if (err) {
+              getInformationUser()
+            }
+            else {
+              temp.ACCEPTED.value = res.getValue()
+              //Reject
+              request.setStatus(bookingProto.BookingStatus.REJECTED)
+              bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
+                if (err) {
+                  getInformationUser()
+                }
+                else {
+                  temp.REJECTED.value = res.getValue()
+                  //cancel
+                  request.setStatus(bookingProto.BookingStatus.CANCELLED)
+                  bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
+                    if (err) {
+                      getInformationUser()
+                    }
+                    else {
+                      temp.CANCELLED.value = res.getValue()
+                      //finish
+                      request.setStatus(bookingProto.BookingStatus.FINISHED)
+                      bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
+                        if (err) {
+                          getInformationUser()
+                        }
+                        else {
+                          temp.FINISHED.value = res.getValue()
+                          setCountAllbooking(temp)
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
         }
       })
     },
@@ -211,10 +295,10 @@ function App() {
 
   // ------------------------------------------------------------------------ //
 
-
   //Open connected Websocket //
   useEffect(() => {
     let isCancelled = false;
+    window.Notification.requestPermission() // request permission Noti in browser
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
@@ -260,7 +344,6 @@ function App() {
       }
 
       clients.onopen = () => {
-        console.log('WebSocket Client Connected');
       };
 
       clients.onmessage = (data) => {
@@ -289,7 +372,6 @@ function App() {
   useEffect(() => {
     if (messageReceived.type !== null) {
       localStorage.getItem('chatMessage') ? setChatMessage(JSON.parse(localStorage.getItem('chatMessage'))) : console.log('Available')
-      console.log('message nhan: ', messageReceived)
       //trigger onmessage ở đây
       switch (messageReceived.type) {
         case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
@@ -327,7 +409,6 @@ function App() {
             }
             setChatMessage(a)
             localStorage.setItem('chatMessage', JSON.stringify(chatMessage))
-            console.log(chatMessage)
             setLists(l => lists.concat(messageReceived.content.getMessage()))
             notify(messageReceived)
             break
@@ -494,7 +575,6 @@ function App() {
   }
 
   const Msg = ({ message, closeToast, id }) => {
-    console.log(message)
     return (
       <div>
         <MsgContent message={message} callCloseToast={closeToast} id={id} />
@@ -545,7 +625,6 @@ function App() {
           let Nofti = optionsNofti
           Nofti.ignore = false
           Nofti.options.body = message.content.getNotification()
-          console.log(Nofti)
           setOptionNofti(Nofti)
           break
         }
@@ -586,7 +665,6 @@ function App() {
           Nofti.ignore = false
           Nofti.options.tag = 'Booking!'
           Nofti.options.body = `${message.content.getCustomername()}: ${message.content.getCustomerlicense()} book ${message.content.getAmountofparkinghour()} hours`
-          console.log(Nofti)
           setOptionNofti(Nofti)
           break
         }
@@ -597,7 +675,6 @@ function App() {
           Nofti.ignore = false
           Nofti.options.tag = 'Cancel Booking!'
           Nofti.options.body = `${message.content.getBookingid()}: ${message.content.getReason()}`
-          console.log(Nofti)
           setOptionNofti(Nofti)
           toast.error(<Msg message={message} />,
             {
@@ -670,6 +747,69 @@ function App() {
               </div>
             </div>
             <div className='contentContainerMiddle'>
+              <div className='box'>
+                <div className='boxContent'>
+                  <p>
+                    1 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
+                    </p>
+                </div>
+              </div>
+              <div className='box'>
+                <div className='boxContent'>
+                  <p>
+                    <PieChart
+                      lineWidth={20}
+                      animate={true}
+                      data={[
+                        { title: countAllbooking.CREATED.title, value: countAllbooking.CREATED.value, color: countAllbooking.CREATED.color },
+                        { title: countAllbooking.ACCEPTED.title, value: countAllbooking.ACCEPTED.value, color: countAllbooking.ACCEPTED.color },
+                        { title: countAllbooking.REJECTED.title, value: countAllbooking.REJECTED.value, color: countAllbooking.REJECTED.color },
+                        { title: countAllbooking.CANCELLED.title, value: countAllbooking.CANCELLED.value, color: countAllbooking.CANCELLED.color },
+                        { title: countAllbooking.FINISHED.title, value: countAllbooking.FINISHED.value, color: countAllbooking.FINISHED.color }
+                      ]}
+                      label={() => { return countAllbooking.CREATED.value + countAllbooking.ACCEPTED.value + countAllbooking.REJECTED.value + countAllbooking.CANCELLED.value + countAllbooking.FINISHED.value }}
+                      labelStyle={{
+                        fontSize: '25px',
+                        fontFamily: 'sans-serif',
+                        fill: '#E38627',
+                      }}
+                      labelPosition={0}
+                    />
+                    <h3>Count All Booking</h3>
+                    <ul style={{ listStyle: 'none', padding: '0' }}>
+                      <li style={{ background: `${countAllbooking.CREATED.color}`, fontWeight: 'bold', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
+                        CREATED: {countAllbooking.CREATED.value}
+                      </li>
+                      <li style={{ background: `${countAllbooking.ACCEPTED.color}`, fontWeight: 'bold' }}>
+                        ACCEPTED: {countAllbooking.ACCEPTED.value}
+                      </li>
+                      <li style={{ background: `${countAllbooking.REJECTED.color}`, fontWeight: 'bold' }}>
+                        REJECTED: {countAllbooking.REJECTED.value}
+                      </li>
+                      <li style={{ background: `${countAllbooking.CANCELLED.color}`, fontWeight: 'bold' }}>
+                        CANCELLED: {countAllbooking.CANCELLED.value}
+                      </li>
+                      <li style={{ background: `${countAllbooking.FINISHED.color}`, fontWeight: 'bold', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}>
+                        FINISHED: {countAllbooking.FINISHED.value}
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+              </div>
+              <div className='box'>
+                <div className='boxContent'>
+                  <p>
+                    3 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
+                    </p>
+                </div>
+              </div>
+              <div className='box'>
+                <div className='boxContent'>
+                  <p>
+                    4 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
+                    </p>
+                </div>
+              </div>
               <ToastContainer style={{ width: 'auto' }} />
             </div>
           </div>
