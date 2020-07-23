@@ -888,7 +888,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.prototype.toO
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     parkinglotid: jspb.Message.getFieldWithDefault(msg, 2, 0),
     customername: jspb.Message.getFieldWithDefault(msg, 3, ""),
     customerlicense: jspb.Message.getFieldWithDefault(msg, 4, ""),
@@ -930,7 +930,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.deserializeBi
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     case 2:
@@ -979,8 +979,8 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.prototype.ser
 proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -1017,20 +1017,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.serializeBina
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRequestContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1138,7 +1138,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.prototyp
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     reason: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -1177,7 +1177,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.deserial
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     case 2:
@@ -1214,8 +1214,8 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.prototyp
 proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -1231,20 +1231,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.serializ
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingCancellationContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1298,8 +1298,10 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    parkinglotid: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    qrcode: msg.getQrcode_asB64(),
+    parkinglotid: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    createdat: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -1337,12 +1339,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.deserializ
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     case 2:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setQrcode(value);
+      break;
+    case 3:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setParkinglotid(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCreatedat(value);
       break;
     default:
       reader.skipField();
@@ -1374,16 +1384,30 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
+      f
+    );
+  }
+  f = message.getQrcode_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
+      2,
       f
     );
   }
   f = message.getParkinglotid();
   if (f !== 0) {
     writer.writeInt64(
-      2,
+      3,
+      f
+    );
+  }
+  f = message.getCreatedat();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -1391,29 +1415,71 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.serializeB
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional int64 parkingLotId = 2;
+ * optional bytes qrCode = 2;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getQrcode = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * optional bytes qrCode = 2;
+ * This is a type-conversion wrapper around `getQrcode()`
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getQrcode_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getQrcode()));
+};
+
+
+/**
+ * optional bytes qrCode = 2;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getQrcode()`
+ * @return {!Uint8Array}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getQrcode_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getQrcode()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.setQrcode = function(value) {
+  return jspb.Message.setProto3BytesField(this, 2, value);
+};
+
+
+/**
+ * optional int64 parkingLotId = 3;
  * @return {number}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getParkinglotid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
@@ -1422,7 +1488,25 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.setParkinglotid = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional string createdAt = 4;
+ * @return {string}
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.getCreatedat = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent} returns this
+ */
+proto.com.bht.saigonparking.api.grpc.contact.BookingProcessingContent.prototype.setCreatedat = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
@@ -1458,7 +1542,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.prototype.
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1496,7 +1580,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.deserializ
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     default:
@@ -1529,8 +1613,8 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.prototype.
 proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -1539,20 +1623,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.serializeB
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingAcceptanceContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1588,7 +1672,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.prototype.toOb
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     reason: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -1627,7 +1711,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.deserializeBin
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     case 2:
@@ -1664,8 +1748,8 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.prototype.seri
 proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -1681,20 +1765,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.serializeBinar
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingRejectContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1748,7 +1832,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.prototype.toOb
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bookingid: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    bookingid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1786,7 +1870,7 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.deserializeBin
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setBookingid(value);
       break;
     default:
@@ -1819,8 +1903,8 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.prototype.seri
 proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBookingid();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -1829,20 +1913,20 @@ proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.serializeBinar
 
 
 /**
- * optional int64 bookingId = 1;
- * @return {number}
+ * optional string bookingId = 1;
+ * @return {string}
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.prototype.getBookingid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent} returns this
  */
 proto.com.bht.saigonparking.api.grpc.contact.BookingFinishContent.prototype.setBookingid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

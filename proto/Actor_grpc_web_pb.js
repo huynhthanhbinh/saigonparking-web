@@ -562,80 +562,80 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.get
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse>}
  */
-const methodDescriptor_UserService_mapToUsernameList = new grpc.web.MethodDescriptor(
-  '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+const methodDescriptor_UserService_mapToUsernameMap = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameMap',
   grpc.web.MethodType.UNARY,
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse,
+  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest,
+  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse.deserializeBinary
+  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest,
- *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse>}
  */
-const methodInfo_UserService_mapToUsernameList = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse,
+const methodInfo_UserService_mapToUsernameMap = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse,
   /**
-   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request
+   * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse.deserializeBinary
+  proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request The
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse)}
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.mapToUsernameList =
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.mapToUsernameMap =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameMap',
       request,
       metadata || {},
-      methodDescriptor_UserService_mapToUsernameList,
+      methodDescriptor_UserService_mapToUsernameMap,
       callback);
 };
 
 
 /**
- * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListRequest} request The
+ * @param {!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameListResponse>}
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.MapToUsernameMapResponse>}
  *     A native promise that resolves to the response
  */
-proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.mapToUsernameList =
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.mapToUsernameMap =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameList',
+      '/com.bht.saigonparking.api.grpc.user.UserService/mapToUsernameMap',
       request,
       metadata || {},
-      methodDescriptor_UserService_mapToUsernameList);
+      methodDescriptor_UserService_mapToUsernameMap);
 };
 
 
