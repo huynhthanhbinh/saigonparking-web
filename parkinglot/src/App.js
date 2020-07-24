@@ -22,6 +22,7 @@ import { Popup, Grid } from 'semantic-ui-react'
 import Notification from 'react-web-notification'
 import icon from './images/parking.png'
 import { PieChart } from 'react-minimal-pie-chart';
+import ReactStars from "react-rating-stars-component";
 
 const userProto = require('./api/Actor_pb')
 const bookingService = new BookingServiceClient(API_URL)
@@ -60,9 +61,7 @@ function App() {
     FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
   })
 
-
-  // renew accessToken //
-  const [flat, setFlat] = React.useState(false);
+  const [information, setInformation] = useState(null)
 
 
   /**
@@ -77,6 +76,51 @@ function App() {
 
   //--------------------------------------------------------------------------------------//
 
+  /**
+   * get Information ParkingLot
+   */
+
+  const getInformationParking = (id) => {
+    const token = 'Bearer ' + Cookies.get("token");
+    const metadata = { 'Authorization': token }
+    const request = new Int64Value()
+    request.setValue(id)
+    parkingLotService.getParkingLotById(request, metadata, (err, res) => {
+      if (err) {
+
+      }
+      else {
+        let temp = {
+          availableSlot: null,
+          totalSlot: null,
+          detail: {
+            address: null,
+            name: null,
+            phone: null,
+            numberRating: null,
+            ratingAverage: null
+          },
+          openHour: null,
+          closeHour: null
+        }
+        temp.availableSlot = res.getAvailableslot()
+        temp.totalSlot = res.getTotalslot()
+        temp.detail.address = res.getInformation().getAddress()
+        temp.detail.name = res.getInformation().getName()
+        temp.detail.phone = res.getInformation().getPhone()
+        temp.detail.numberRating = res.getInformation().getNumberofrating()
+        temp.detail.ratingAverage = res.getInformation().getRatingaverage()
+        temp.openHour = res.getOpeninghour()
+        temp.closeHour = res.getClosinghour()
+        setInformation(temp)
+      }
+    })
+  }
+
+  //--------------------------------------------------------------------------------------//
+
+  // renew accessToken //
+  const [flat, setFlat] = React.useState(false);
   const getInformationUser = React.useCallback(() => {
     const token = 'Bearer ' + Cookies.get("token");
     let metadata = { 'Authorization': token }
@@ -214,6 +258,7 @@ function App() {
         }
       })
       countAllBooking(id)
+      getInformationParking(id)
     },
     [],
   )
@@ -304,8 +349,7 @@ function App() {
     const metadata = { 'Authorization': token }
     if (token && checkUserName && refreshtoken && !isCancelled) {
       setFlagIsLogin(true)
-      if(clients === null)
-      {
+      if (clients === null) {
         setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
       }
       const request = new Empty();
@@ -752,49 +796,56 @@ function App() {
             <div className='contentContainerMiddle'>
               <div className='box'>
                 <div className='boxContent'>
-                  <p>
-                    1 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
-                    </p>
+                  {information ?<> 
+                    <p>Available Slot: {information.availableSlot} / Total Slot: {information.totalSlot}</p>
+                    <p>Address: {information.detail.address}</p> 
+                    <p>Name: {information.detail.name}</p> 
+                    <p>Phone: {information.detail.phone}</p> 
+                    <p>Vote: {information.detail.numberRating}</p> 
+                    <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false}/>
+                    <p>Opening Hour: {information.openHour}</p> 
+                    <p>Closing Hour: {information.closeHour}</p> 
+                  </>: null}
                 </div>
               </div>
               <div className='box'>
                 <div className='boxContent'>
-                    <PieChart
-                      lineWidth={20}
-                      animate={true}
-                      data={[
-                        { title: countAllbooking.CREATED.title, value: countAllbooking.CREATED.value, color: countAllbooking.CREATED.color },
-                        { title: countAllbooking.ACCEPTED.title, value: countAllbooking.ACCEPTED.value, color: countAllbooking.ACCEPTED.color },
-                        { title: countAllbooking.REJECTED.title, value: countAllbooking.REJECTED.value, color: countAllbooking.REJECTED.color },
-                        { title: countAllbooking.CANCELLED.title, value: countAllbooking.CANCELLED.value, color: countAllbooking.CANCELLED.color },
-                        { title: countAllbooking.FINISHED.title, value: countAllbooking.FINISHED.value, color: countAllbooking.FINISHED.color }
-                      ]}
-                      label={() => { return countAllbooking.CREATED.value + countAllbooking.ACCEPTED.value + countAllbooking.REJECTED.value + countAllbooking.CANCELLED.value + countAllbooking.FINISHED.value }}
-                      labelStyle={{
-                        fontSize: '25px',
-                        fontFamily: 'sans-serif',
-                        fill: '#E38627',
-                      }}
-                      labelPosition={0}
-                    />
-                    <h3>Count All Booking</h3>
-                    <ul style={{ listStyle: 'none', padding: '0' }}>
-                      <li style={{ background: `${countAllbooking.CREATED.color}`, fontWeight: 'bold', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
-                        REQUEST: {countAllbooking.CREATED.value}
-                      </li>
-                      <li style={{ background: `${countAllbooking.ACCEPTED.color}`, fontWeight: 'bold' }}>
-                        ACCEPTED: {countAllbooking.ACCEPTED.value}
-                      </li>
-                      <li style={{ background: `${countAllbooking.REJECTED.color}`, fontWeight: 'bold' }}>
-                        REJECTED: {countAllbooking.REJECTED.value}
-                      </li>
-                      <li style={{ background: `${countAllbooking.CANCELLED.color}`, fontWeight: 'bold' }}>
-                        CANCELLED: {countAllbooking.CANCELLED.value}
-                      </li>
-                      <li style={{ background: `${countAllbooking.FINISHED.color}`, fontWeight: 'bold', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}>
-                        FINISHED: {countAllbooking.FINISHED.value}
-                      </li>
-                    </ul>
+                  <PieChart
+                    lineWidth={20}
+                    animate={true}
+                    data={[
+                      { title: countAllbooking.CREATED.title, value: countAllbooking.CREATED.value, color: countAllbooking.CREATED.color },
+                      { title: countAllbooking.ACCEPTED.title, value: countAllbooking.ACCEPTED.value, color: countAllbooking.ACCEPTED.color },
+                      { title: countAllbooking.REJECTED.title, value: countAllbooking.REJECTED.value, color: countAllbooking.REJECTED.color },
+                      { title: countAllbooking.CANCELLED.title, value: countAllbooking.CANCELLED.value, color: countAllbooking.CANCELLED.color },
+                      { title: countAllbooking.FINISHED.title, value: countAllbooking.FINISHED.value, color: countAllbooking.FINISHED.color }
+                    ]}
+                    label={() => { return countAllbooking.CREATED.value + countAllbooking.ACCEPTED.value + countAllbooking.REJECTED.value + countAllbooking.CANCELLED.value + countAllbooking.FINISHED.value }}
+                    labelStyle={{
+                      fontSize: '25px',
+                      fontFamily: 'sans-serif',
+                      fill: '#E38627',
+                    }}
+                    labelPosition={0}
+                  />
+                  <h3>Count All Booking</h3>
+                  <ul style={{ listStyle: 'none', padding: '0' }}>
+                    <li style={{ background: `${countAllbooking.CREATED.color}`, fontWeight: 'bold', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
+                      REQUEST: {countAllbooking.CREATED.value}
+                    </li>
+                    <li style={{ background: `${countAllbooking.ACCEPTED.color}`, fontWeight: 'bold' }}>
+                      ACCEPTED: {countAllbooking.ACCEPTED.value}
+                    </li>
+                    <li style={{ background: `${countAllbooking.REJECTED.color}`, fontWeight: 'bold' }}>
+                      REJECTED: {countAllbooking.REJECTED.value}
+                    </li>
+                    <li style={{ background: `${countAllbooking.CANCELLED.color}`, fontWeight: 'bold' }}>
+                      CANCELLED: {countAllbooking.CANCELLED.value}
+                    </li>
+                    <li style={{ background: `${countAllbooking.FINISHED.color}`, fontWeight: 'bold', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}>
+                      FINISHED: {countAllbooking.FINISHED.value}
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div className='box'>
@@ -811,7 +862,7 @@ function App() {
                     </p>
                 </div>
               </div>
-              <ToastContainer style={{ width: 'auto' }} />
+              <ToastContainer style={{ width: 'auto', zIndex: '2' }} />
             </div>
           </div>
           <Notification
