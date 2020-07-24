@@ -62,7 +62,7 @@ export default function MiniDrawer({numberMessage}) {
                     <Typography style={{width:'50%' ,minHeight: '50px', overflow:'hidden', margin:'10px', cursor:'pointer', boxShadow:'inset -7px 0 9px -7px #000000, inset 7px 0 9px -7px #000000'}} variant="h5" className={classes.title}>
                         <div className='scroll text'>
                             <div>
-                                1653005: <span>Huynh Thanh Binh - </span>1653006: <span>Vu Tuong Bach - </span>1653012: <span>Pham Viet Minh Dao - </span>1653020: <span>Vu Hai - </span>1653076: <span>Dang Duc Tai</span>
+                                1653005: <span>Vu Tuong Bach - </span>1653006: <span>Huynh Thanh Binh - </span>1653012: <span>Pham Viet Minh Dao - </span>1653020: <span>Vu Hai - </span>1653076: <span>Dang Duc Tai</span>
                             </div>
                         </div>
                     </Typography>

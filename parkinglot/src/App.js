@@ -82,7 +82,6 @@ function App() {
     let metadata = { 'Authorization': token }
     let request = new StringValue()
     request.setValue(Cookies.get("checkUserName"))
-
     userService.getUserByUsername(request, metadata, (err, res) => {
       if (err) {
         if (err.message === "SPE#00001") {
@@ -305,7 +304,10 @@ function App() {
     const metadata = { 'Authorization': token }
     if (token && checkUserName && refreshtoken && !isCancelled) {
       setFlagIsLogin(true)
-      setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
+      if(clients === null)
+      {
+        setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
+      }
       const request = new Empty();
       parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
         if (err && !isCancelled) {
@@ -344,6 +346,7 @@ function App() {
       }
 
       clients.onopen = () => {
+        console.log('Connected')
       };
 
       clients.onmessage = (data) => {
@@ -756,7 +759,6 @@ function App() {
               </div>
               <div className='box'>
                 <div className='boxContent'>
-                  <p>
                     <PieChart
                       lineWidth={20}
                       animate={true}
@@ -778,7 +780,7 @@ function App() {
                     <h3>Count All Booking</h3>
                     <ul style={{ listStyle: 'none', padding: '0' }}>
                       <li style={{ background: `${countAllbooking.CREATED.color}`, fontWeight: 'bold', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
-                        CREATED: {countAllbooking.CREATED.value}
+                        REQUEST: {countAllbooking.CREATED.value}
                       </li>
                       <li style={{ background: `${countAllbooking.ACCEPTED.color}`, fontWeight: 'bold' }}>
                         ACCEPTED: {countAllbooking.ACCEPTED.value}
@@ -793,7 +795,6 @@ function App() {
                         FINISHED: {countAllbooking.FINISHED.value}
                       </li>
                     </ul>
-                  </p>
                 </div>
               </div>
               <div className='box'>
