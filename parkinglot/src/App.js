@@ -7,6 +7,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
 import { API_URL } from './saigonparking'
+import { WEBSOCKET_URL } from './saigonparking'
 import { StringValue, Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb'
 import { AuthServiceClient } from './api/Auth_grpc_web_pb'
 import { UserServiceClient } from './api/Actor_grpc_web_pb';
@@ -350,7 +351,7 @@ function App() {
     if (token && checkUserName && refreshtoken && !isCancelled) {
       setFlagIsLogin(true)
       if (clients === null) {
-        setClients(new W3CWebSocket(`ws://ylas2712.ddns.net:8000/contact/web?token=${token}`))
+        setClients(new W3CWebSocket(`${WEBSOCKET_URL}/contact/web?token=${token}`))
       }
       const request = new Empty();
       parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
