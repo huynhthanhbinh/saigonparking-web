@@ -57,7 +57,6 @@
 }
 
 .contentContainerMiddle .box {
-    background: rgb(255, 255, 255);
     border-radius: 5px;
     background: #f1f1f1;
     box-shadow: inset 5px 5px 10px #cdcdcd, inset -5px -5px 10px #ffffff;
@@ -69,6 +68,7 @@
 
 .contentContainerMiddle .box:hover {
     background: #e91e63;
+    box-shadow: 5px 5px 10px #c61a54, -5px -5px 10px #ff2372;
 }
 
 .contentContainerMiddle .box:nth-child(1) {
