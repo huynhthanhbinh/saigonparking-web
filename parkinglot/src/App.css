@@ -82,10 +82,23 @@
 
 .contentContainerMiddle .box:nth-child(3) {
     grid-row: span 2;
+    height: 300px;
 }
 
 .contentContainerMiddle .box:nth-child(4) {
     grid-row: span 2;
+    height: 300px;
+    text-align: unset;
+}
+
+.contentContainerMiddle .box:nth-child(4) ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.contentContainerMiddle .box:nth-child(4) ul li {
+    border-bottom: 1px solid black;
+    padding-top: 5px;
 }
 
 .contentContainerMiddle .box .boxContent {
@@ -212,7 +225,7 @@
 }
 
 .Toastify__toast-container--bottom-right {
-    margin-right: 25%;
+    margin-right: 20%;
     z-index: 2;
 }
 

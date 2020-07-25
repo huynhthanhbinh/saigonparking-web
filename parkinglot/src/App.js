@@ -16,6 +16,7 @@ import { BookingServiceClient } from './api/Booking_grpc_web_pb';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
 import bookingProto from './api/Booking_pb'
+import parkingLotProto from './api/ParkingLot_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
@@ -42,7 +43,10 @@ function App() {
   const [chatMessage, setChatMessage] = useState([])
   const [bookingPending, setBookingPending] = useState([])
   const [searchBook, setSerchBook] = useState('')
+  const [information, setInformation] = useState(null)
+  const [topComment, setTopComment] = useState(null)
   const [optionsNofti, setOptionNofti] = useState({
+    askAgain: true,
     ignore: true,
     title: 'Sai Gon Parking Map',
     options: {
@@ -51,6 +55,7 @@ function App() {
       icon: icon,
       lang: 'en',
       dir: 'ltr',
+      renotify: true
     }
   })
 
@@ -62,11 +67,10 @@ function App() {
     FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
   })
 
-  const [information, setInformation] = useState(null)
 
 
   /**
-   * Check RenewToken every 1 minute
+   * Check RenewToken every 10 minute
    */
   useEffect(() => {
     const interval = setInterval(() => {
@@ -120,6 +124,38 @@ function App() {
 
   //--------------------------------------------------------------------------------------//
 
+  /**
+   *  get last 10 comment
+   */
+
+  const getCommentParkingLot = (id) => {
+    const token = 'Bearer ' + Cookies.get("token");
+    const metadata = { 'Authorization': token }
+    const request = new parkingLotProto.GetAllRatingsOfParkingLotRequest()
+    request.setParkinglotid(id)
+    request.setNrow(10)
+    request.setPagenumber(1)
+    parkingLotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
+      if (err) {
+
+      }
+      else {
+        let temp = []
+        for (let i = 0; i < res.getRatingList().length; i++)
+        {
+          temp.push({
+            comment: res.getRatingList()[i].getComment(),
+            userName: res.getRatingList()[i].getUsername(),
+            rating: res.getRatingList()[i].getRating()
+          })
+        }
+        setTopComment(temp)
+      }
+    })
+  }
+
+  //--------------------------------------------------------------------------------------//
+
   // renew accessToken //
   const [flat, setFlat] = React.useState(false);
   const getInformationUser = React.useCallback(() => {
@@ -165,7 +201,6 @@ function App() {
         }
       }
       else {
-        console.log('infomation: ', res)
       }
     })
   },
@@ -260,6 +295,7 @@ function App() {
       })
       countAllBooking(id)
       getInformationParking(id)
+      getCommentParkingLot(id)
     },
     [],
   )
@@ -672,6 +708,7 @@ function App() {
         {
           let Nofti = optionsNofti
           Nofti.ignore = false
+          Nofti.tag = new Date()
           Nofti.options.body = message.content.getNotification()
           setOptionNofti(Nofti)
           break
@@ -711,7 +748,7 @@ function App() {
         {
           let Nofti = optionsNofti
           Nofti.ignore = false
-          Nofti.options.tag = 'Booking!'
+          Nofti.options.tag = new Date()
           Nofti.options.body = `${message.content.getCustomername()}: ${message.content.getCustomerlicense()} book ${message.content.getAmountofparkinghour()} hours`
           setOptionNofti(Nofti)
           break
@@ -721,7 +758,7 @@ function App() {
           getOnGoingBooking(localStorage.getItem('ID'))
           let Nofti = optionsNofti
           Nofti.ignore = false
-          Nofti.options.tag = 'Cancel Booking!'
+          Nofti.options.tag = new Date()
           Nofti.options.body = `${message.content.getBookingid()}: ${message.content.getReason()}`
           setOptionNofti(Nofti)
           toast.error(<Msg message={message} />,
@@ -858,9 +895,10 @@ function App() {
               </div>
               <div className='box'>
                 <div className='boxContent'>
-                  <p>
-                    4 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
-                    </p>
+                  <h3>Comment: </h3>
+                  {topComment ?  <ul>{topComment.map((data, index) => <li key={index}>
+                    <h4>{data.userName}<ReactStars size={10} value={data.rating ? data.rating : null} edit={false}/></h4> {data.comment} 
+                  </li>)}</ul> :<></>}
                 </div>
               </div>
               <ToastContainer style={{ width: 'auto', zIndex: '2' }} />
@@ -873,7 +911,11 @@ function App() {
             onPermissionDenied={() => window.alert('Please enable Notification on this page!!!')}
             // onShow={this.handleNotificationOnShow.bind(this)}
             // onClick={this.handleNotificationOnClick.bind(this)}
-            // onClose={this.handleNotificationOnClose.bind(this)}
+            // onClose={() => {
+            //   let temp = optionsNofti
+            //   temp.ignore = true
+            //   setOptionNofti(temp)
+            // }}
             // onError={this.handleNotificationOnError.bind(this)}
             timeout={5000}
             title={optionsNofti.title}
