@@ -45,6 +45,7 @@ function App() {
   const [searchBook, setSerchBook] = useState('')
   const [information, setInformation] = useState(null)
   const [topComment, setTopComment] = useState(null)
+  const [feed, setFeed] = useState(null)
   const [optionsNofti, setOptionNofti] = useState({
     askAgain: true,
     ignore: true,
@@ -141,8 +142,7 @@ function App() {
       }
       else {
         let temp = []
-        for (let i = 0; i < res.getRatingList().length; i++)
-        {
+        for (let i = 0; i < res.getRatingList().length; i++) {
           temp.push({
             comment: res.getRatingList()[i].getComment(),
             userName: res.getRatingList()[i].getUsername(),
@@ -379,6 +379,13 @@ function App() {
   //Open connected Websocket //
   useEffect(() => {
     let isCancelled = false;
+    // get News from VNExpress.net
+    let Parser = require('rss-parser');
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
+    let parser = new Parser();
+    parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/oto-xe-may.rss', function (err, feed) {
+      if (err) { console.log('Error get Feed!') } else setFeed(feed.items)
+    })
     window.Notification.requestPermission() // request permission Noti in browser
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
@@ -793,14 +800,15 @@ function App() {
           <Navbar numberMessage={numberMessage} />
           <div className='rightTab'>
             <div className='listItem'>
-              {chatMessage.map((data, index) => {
+              {feed ? feed.map((data, index) => <ul key={index}><li key={index} style={{ fontWeight: 'bold' }}><h4><a target="_blank" href={data.link}>{data.title}</a></h4><div target="_blank" className='contentRss' dangerouslySetInnerHTML={{ __html: data.content }} /></li></ul>) : null}
+              {/* {chatMessage.map((data, index) => {
                 return (
                   <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
                     <h5 style={{ margin: '0' }}>{data.customer}:</h5>
                     <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
                   </ul>
                 )
-              })}
+              })} */}
             </div>
           </div>
           <div className='container'>
@@ -808,7 +816,7 @@ function App() {
               <div className="listPending">
                 <ul>
                   {bookingPending.length !== 0 ? <>
-                    <h2 style={{ marginTop: '100px' }}>Booking: </h2>
+                    <h2>Booking: </h2>
                   Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
                     {bookingPending.sort((a, b) => a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED ? 1 : -1).map((data, index) => {
                       if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
@@ -817,7 +825,7 @@ function App() {
                       if (data.getLateststatus() === bookingProto.BookingStatus.ACCEPTED)
                         return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: {data.getId()} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
                       else if (data.getLateststatus() === bookingProto.BookingStatus.CREATED)
-                        return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: {data.getId()} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
+                        return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
                           <Grid centered divided columns={2}>
                             <Grid.Column textAlign='center'>
                               <Button onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
@@ -827,23 +835,23 @@ function App() {
                             </Grid.Column>
                           </Grid>
                         </Popup>
-                    })} </> : <h2 style={{ marginTop: '100px' }}>No Pending Booking...</h2>}
+                    })} </> : <h2>No Pending Booking...</h2>}
                 </ul>
               </div>
             </div>
             <div className='contentContainerMiddle'>
               <div className='box'>
                 <div className='boxContent'>
-                  {information ?<> 
+                  {information ? <>
                     <p>Available Slot: {information.availableSlot} / Total Slot: {information.totalSlot}</p>
-                    <p>Address: {information.detail.address}</p> 
-                    <p>Name: {information.detail.name}</p> 
-                    <p>Phone: {information.detail.phone}</p> 
-                    <p>Vote: {information.detail.numberRating}</p> 
-                    <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false}/>
-                    <p>Opening Hour: {information.openHour}</p> 
-                    <p>Closing Hour: {information.closeHour}</p> 
-                  </>: null}
+                    <p>Address: {information.detail.address}</p>
+                    <p>Name: {information.detail.name}</p>
+                    <p>Phone: {information.detail.phone}</p>
+                    <p>Vote: {information.detail.numberRating}</p>
+                    <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false} />
+                    <p>Opening Hour: {information.openHour}</p>
+                    <p>Closing Hour: {information.closeHour}</p>
+                  </> : null}
                 </div>
               </div>
               <div className='box'>
@@ -888,17 +896,18 @@ function App() {
               </div>
               <div className='box'>
                 <div className='boxContent'>
-                  <p>
-                    3 áldkjnaslkdjaslkdjaslkdjsalkjdsalkjdasljdsalkjdsalkjsalkjdalskjasd
-                    </p>
+                  {information ? <>
+                    <h2>Available Slot: </h2>
+                    {information.availableSlot}
+                  </> : null}
                 </div>
               </div>
               <div className='box'>
                 <div className='boxContent'>
                   <h3>Comment: </h3>
-                  {topComment ?  <ul>{topComment.map((data, index) => <li key={index}>
-                    <h4>{data.userName}<ReactStars size={10} value={data.rating ? data.rating : null} edit={false}/></h4> {data.comment} 
-                  </li>)}</ul> :<></>}
+                  {topComment ? <ul>{topComment.map((data, index) => <li key={index}>
+                    <h4>{data.userName}<ReactStars size={10} value={data.rating ? data.rating : null} edit={false} /></h4> {data.comment}
+                  </li>)}</ul> : <></>}
                 </div>
               </div>
               <ToastContainer style={{ width: 'auto', zIndex: '2' }} />

@@ -51,8 +51,7 @@ export default function MiniDrawer({numberMessage}) {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
-                position="fixed"
-                style={{borderBottomLeftRadius:'50px', borderBottomRightRadius:'50px'}}
+                position="static"
             >
                 <Toolbar>
                     <Typography style={{margin:'10px', cursor:'pointer'}} variant="h5" className={classes.title}>

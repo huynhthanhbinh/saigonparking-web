@@ -1,17 +1,15 @@
 .rightTab {
-    height: 100%;
+    height: calc(100% - 70px);
     width: 20%;
     background: white;
     overflow: auto;
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    bottom: 0;
     right: 0;
+    z-index: 1;
     align-items: center;
     justify-content: center;
-    display: flex;
-    z-index: 1;
     box-shadow: -5px 1px 8px #acacac;
 }
 
@@ -21,16 +19,26 @@
 }
 
 .rightTab .listItem ul:hover {
-    background: rgb(133, 133, 133);
+    background: rgb(216, 216, 216);
 }
 
 .rightTab .listItem ul {
     list-style: none;
+    padding-left: 5px;
+    border-bottom: 1px solid rgb(194, 194, 194);
+}
+
+.rightTab .listItem ul .contentRss {
+    display: inline-flex;
+}
+
+.rightTab .listItem ul li {
+    word-break: break-all;
 }
 
 .container {
     margin: 0;
-    height: 100%;
+    height: calc(100% - 70px);
     width: 80%;
     background: rgb(241, 241, 241);
     overflow: auto;
@@ -42,7 +50,6 @@
 
 .contentContainerMiddle {
     display: grid;
-    margin-top: 70px;
     padding: 10px;
     height: auto;
     width: 70%;
@@ -119,12 +126,14 @@
 .contentContainer {
     display: flex;
     height: 100%;
-    width: 30%;
-    position: absolute;
-    background: rgb(255, 255, 255);
-    overflow-y: auto;
+    width: 24%;
     box-shadow: 5px 10px 8px #acacac;
     z-index: 1;
+    background: white;
+    overflow: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
 }
 
 .contentContainer .listPending ul {
@@ -263,4 +272,9 @@
     100% {
         transform: translateX(-100%);
     }
+}
+
+img {
+    height: 80px;
+    padding-right: 3px;
 }
