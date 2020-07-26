@@ -383,7 +383,7 @@ function App() {
     let Parser = require('rss-parser');
     const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
     let parser = new Parser();
-    parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/oto-xe-may.rss', function (err, feed) {
+    parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/tin-moi-nhat.rss', function (err, feed) {
       if (err) { console.log('Error get Feed!') } else setFeed(feed.items)
     })
     window.Notification.requestPermission() // request permission Noti in browser
