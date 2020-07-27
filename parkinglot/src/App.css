@@ -29,31 +29,26 @@
 }
 
 .rightTab .listItem ul .contentRss {
-    display: inline-flex;
-}
-
-.rightTab .listItem ul li {
-    word-break: break-all;
+    display: inline;
 }
 
 .container {
     margin: 0;
     height: calc(100% - 70px);
-    width: 80%;
+    width: 56%;
     background: rgb(241, 241, 241);
     overflow: auto;
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    left: 0;
+    left: 24%;
 }
 
 .contentContainerMiddle {
     display: grid;
     padding: 10px;
     height: auto;
-    width: 70%;
-    left: 30%;
+    width: 100%;
     position: absolute;
     background: rgb(241, 241, 241);
     z-index: 0;
@@ -114,6 +109,23 @@
 }
 
 @media (max-width: 991px) {
+    .rightTab {
+        width: 0;
+    }
+    .container {
+        width: 50%;
+        left: 50%;
+    }
+    .contentContainer {
+        width: 50% !important;
+    }
+    .Toastify__toast-container--bottom-left {
+        margin-left: 51% !important;
+        width: 47% !important;
+    }
+    .Toastify__toast-container--bottom-left div {
+        overflow: auto !important;
+    }
     .contentContainerMiddle {
         grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
     }
@@ -125,7 +137,7 @@
 
 .contentContainer {
     display: flex;
-    height: 100%;
+    height: calc(100% - 70px);
     width: 24%;
     box-shadow: 5px 10px 8px #acacac;
     z-index: 1;
@@ -133,7 +145,7 @@
     overflow: auto;
     background-size: cover;
     background-repeat: no-repeat;
-    position: fixed;
+    position: absolute;
 }
 
 .contentContainer .listPending ul {
@@ -230,7 +242,7 @@
 
 .Toastify__toast-container--bottom-left {
     margin-left: 25%;
-    width: 5500px;
+    width: 25%;
 }
 
 .Toastify__toast-container--bottom-right {
@@ -275,6 +287,6 @@
 }
 
 img {
-    height: 80px;
+    height: 60px;
     padding-right: 3px;
 }

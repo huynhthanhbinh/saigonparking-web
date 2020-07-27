@@ -442,19 +442,22 @@ function App() {
 
       clients.onmessage = (data) => {
         // change received message to Unit8Array and convert to object and set to State MesssageReceived //
-        data.data.arrayBuffer().then(function (v) {
-          let buf = new Uint8Array(v)
-          let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
-          const temp = {
-            classification: data.getClassification(),
-            type: data.getType(),
-            content: deserializeBinary(data.getContent_asU8(), data.getType()),
-            senderId: data.getSenderid(),
-            receiverId: data.getReceiverid(),
-            timestamp: data.getTimestamp(),
-          }
-          setMesssageReceived(messageReceived => temp)
-        })
+        if(data.data.arrayBuffer) {
+          data.data.arrayBuffer().then(function (v) {
+            let buf = new Uint8Array(v)
+            let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
+            const temp = {
+              classification: data.getClassification(),
+              type: data.getType(),
+              content: deserializeBinary(data.getContent_asU8(), data.getType()),
+              senderId: data.getSenderid(),
+              receiverId: data.getReceiverid(),
+              timestamp: data.getTimestamp(),
+            }
+            setMesssageReceived(messageReceived => temp)
+          })
+        }
+        
         // ------------------------------------------------------------------------ //
       };
     }
@@ -814,8 +817,7 @@ function App() {
               })} */}
             </div>
           </div>
-          <div className='container'>
-            <div className='contentContainer'>
+          <div className='contentContainer'>
               <div className="listPending">
                 <ul>
                   {bookingPending.length !== 0 ? <>
@@ -842,6 +844,7 @@ function App() {
                 </ul>
               </div>
             </div>
+          <div className='container'>
             <div className='contentContainerMiddle'>
               <div className='box'>
                 <div className='boxContent'>
