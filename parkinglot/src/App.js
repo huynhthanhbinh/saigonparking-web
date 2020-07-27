@@ -386,7 +386,10 @@ function App() {
     parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/tin-moi-nhat.rss', function (err, feed) {
       if (err) { console.log('Error get Feed!') } else setFeed(feed.items)
     })
-    window.Notification.requestPermission() // request permission Noti in browser
+    if (('Notification') in window) {
+      window.Notification.requestPermission() // request permission Noti in browser
+    }
+    
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
