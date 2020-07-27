@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package com.bht.saigonparking.api.grpc.booking;
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+enum BookingStatus {
+    ALL = 0;
+    CREATED = 1;
+    ACCEPTED = 2;
+    REJECTED = 3;
+    CANCELLED = 4;
+    FINISHED = 5;
+}
+
+message Booking {
+    string id = 1; /* will be an Universal Unique Identifier - UUID */
+    int64 parkingLotId = 2;
+    string parkingLotName = 3;
+    int64 customerId = 4;
+    string licensePlate = 5;
+    string createdAt = 6;
+    BookingStatus latestStatus = 7;
+    bool isFinished = 8;
+}
+
+message BookingHistory {
+    int64 id = 1;
+    BookingStatus status = 2;
+    string timestamp = 3;
+    string note = 4;
+}
+
+message BookingDetail {
+    Booking booking = 1;
+    repeated BookingHistory history = 2;
+}
+
+message BookingList {
+    repeated Booking booking = 1;
+}
+
+message GetAllBookingRequest {
+    BookingStatus status = 1; /* default: ALL */
+    int32 nRow = 2;
+    int32 pageNumber = 3;
+}
+
+message CountAllBookingRequest {
+    BookingStatus status = 1; /* default: ALL */
+}
+
+message GetAllBookingOfCustomerRequest {
+    int64 customerId = 1; /* let skip customerId (not set) if you want auto-get customerId by customer JWT token  */
+    int32 nRow = 2;
+    int32 pageNumber = 3;
+}
+
+message GetAllBookingOfParkingLotRequest {
+    int64 parkingLotId = 1;
+    BookingStatus status = 2; /* default: ALL */
+    int32 nRow = 3;
+    int32 pageNumber = 4;
+}
+
+message CountAllBookingOfParkingLotRequest {
+    int64 parkingLotId = 1;
+    BookingStatus status = 2; /* default: ALL */
+}
+
+message CreateBookingRequest {
+    int64 parkingLotId = 1;
+    int64 customerId = 2;
+    string licensePlate = 3;
+}
+
+message CreateBookingResponse {
+    string bookingId = 1; /* will be an Universal Unique Identifier - UUID */
+    bytes qrCode = 2; /* representation of booking UUID as image */
+    string createdAt = 3; /* timestamp when this booking was persisted into DB */
+}
+
+message UpdateBookingStatusRequest {
+    string bookingId = 1; /* will be an Universal Unique Identifier - UUID */
+    BookingStatus status = 2;
+    string note = 4;
+}
+
+service BookingService {
+    /* PRIVATE: ADMIN & INTERNAL service use-only */
+    rpc createBooking (CreateBookingRequest) returns (CreateBookingResponse);
+    rpc updateBookingStatus (UpdateBookingStatusRequest) returns (google.protobuf.Empty);
+    rpc deleteBookingById (google.protobuf.StringValue) returns (google.protobuf.Empty);
+
+    /* PUBLIC: EXTERNAL client can call (remember to provide token for auth purposes) */
+    rpc getAllBooking (GetAllBookingRequest) returns (BookingList);
+    rpc countAllBooking (CountAllBookingRequest) returns (google.protobuf.Int64Value);
+    rpc getAllBookingOfCustomer (GetAllBookingOfCustomerRequest) returns (BookingList);
+    rpc countAllBookingOfCustomerByCustomerId (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
+    rpc countAllBookingOfCustomerByAuthorizationHeader (google.protobuf.Empty) returns (google.protobuf.Int64Value); /* get customerId from JWT */
+    rpc getAllBookingOfParkingLot (GetAllBookingOfParkingLotRequest) returns (BookingList);
+    rpc countAllBookingOfParkingLot (CountAllBookingOfParkingLotRequest) returns (google.protobuf.Int64Value);
+    rpc getAllOnGoingBookingOfParkingLot (google.protobuf.Int64Value) returns (BookingList);
+    rpc countAllOnGoingBookingOfParkingLot (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
+    rpc getBookingDetailByBookingId (google.protobuf.StringValue) returns (BookingDetail);
+}
