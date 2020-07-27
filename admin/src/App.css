@@ -48,7 +48,6 @@ body::-webkit-scrollbar-thumb {
     flex-direction: column;
     align-items: center;
     height: 100%;
-    overflow-y: auto;
 }
 
 .nav-item {
@@ -165,6 +164,8 @@ body::-webkit-scrollbar-thumb {
     }
     .navbar-nav {
         flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
     .navbarx:hover {
         width: 100%;
@@ -274,4 +275,80 @@ body::-webkit-scrollbar-thumb {
     overflow-x: auto;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+
+.active.modal-content {
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+}
+
+.active.modal-content Form {
+    list-style: none;
+}
+
+.active.modal-content Form li {
+    padding-top: 10px;
+}
+
+.active.modal-content-parking {
+    height: 70%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+}
+
+.active.modal-content-delete {
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+}
+
+.active.modal-content-delete .groupButton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.active.modal-content-delete .groupButton button {
+    margin: 5px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.5s;
+}
+
+.active.modal-content-delete .groupButton button:nth-child(1) {
+    background: rgb(241, 81, 81);
+    border: 1px solid rgb(241, 81, 81);
+}
+
+.active.modal-content-delete .groupButton button:nth-child(1):hover {
+    background: rgb(253, 0, 0);
+    border: 1px solid black;
+}
+
+.active.modal-content-delete .groupButton button:nth-child(2) {
+    background: rgb(81, 241, 116);
+    border: 1px solid rgb(81, 241, 116);
+}
+
+.active.modal-content-delete .groupButton button:nth-child(2):hover {
+    background: rgb(0, 255, 55);
+    border: 1px solid black;
 }

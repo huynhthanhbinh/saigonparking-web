@@ -1,5 +1,6 @@
 ul.pagination {
     margin-top: 1rem;
+    margin-bottom: 1rem;
     position: relative;
     display: flex;
     align-items: center;

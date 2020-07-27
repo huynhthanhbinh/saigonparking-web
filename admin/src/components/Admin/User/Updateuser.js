@@ -144,12 +144,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
             return (
                 <Modal
                     open={modalIsOpen}
-                    onRequestClose={() => {
+                    onClose={() => {
                         closeModal()
                     }}
-                    contentLabel="Example Modal"
                     className="modal-content"
-                    overlayClassName="modal-overlay"
                 >
                     <h2 >CUSTOMER</h2>
                     {(IsCustomer) ? <Formik
@@ -190,62 +188,62 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                         }}
                     >
                         <Form >
-                            <div style={{ margin: 10 }}>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="isActivated"
+                                    label="Activated"
                                     name="isActivated"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="lastSignIn"
+                                    label="Last sign in"
                                     name="lastSignIn"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Username"
                                     name="userName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Email "
                                     name="email"
                                     type="email"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="First Name"
                                     name="firstName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Last Name"
                                     name="lastName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Phone"
                                     name="phone"
                                     type="phone"
                                     disabled="disabled"
                                 />
-                            </div>
+                            </li>
                             {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
                             </div> */}
@@ -259,12 +257,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
             return (
                 <Modal
                     open={modalIsOpen}
-                    onRequestClose={() => {
+                    onClose={() => {
                         closeModal()
                     }}
-                    contentLabel="Example Modal"
                     className="modal-content"
-                    overlayClassName="modal-overlay"
                 >
                     <h2 >ADMIN</h2>
                     {(users) ? <Formik
@@ -296,46 +292,46 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                         }}
                     >
                         <Form >
-                            <div style={{ margin: 10 }}>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="isActivated"
+                                    label="Activated"
                                     name="isActivated"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="lastSignIn"
+                                    label="Last sign in"
                                     name="lastSignIn"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="role"
+                                    label="Role"
                                     name="role"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Username"
                                     name="userName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Email "
                                     name="email"
                                     type="email"
                                     disabled="disabled"
                                 />
-                            </div>
+                            </li>
                             {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
                             </div> */}
@@ -349,12 +345,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
             return (
                 <Modal
                     open={modalIsOpen}
-                    onRequestClose={() => {
+                    onClose={() => {
                         closeModal()
                     }}
-                    contentLabel="Example Modal"
                     className="modal-content"
-                    overlayClassName="modal-overlay"
                 >
                     <h2 >GOVERNMENT EMPLOYEE</h2>
                     {(users) ? <Formik
@@ -384,38 +378,38 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                         }}
                     >
                         <Form >
-                            <div style={{ margin: 10 }}>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="isActivated"
+                                    label="Activated"
                                     name="isActivated"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="lastSignIn"
+                                    label="Last sign in"
                                     name="lastSignIn"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Username"
                                     name="userName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Email "
                                     name="email"
                                     type="email"
                                     disabled="disabled"
                                 />
-                            </div>
+                            </li>
                             {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
                             </div> */}
@@ -429,12 +423,10 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
             return (
                 <Modal
                     open={modalIsOpen}
-                    onRequestClose={() => {
+                    onClose={() => {
                         closeModal()
                     }}
-                    contentLabel="Example Modal"
                     className="modal-content"
-                    overlayClassName="modal-overlay"
                 >
                     <h2 >ADMIN</h2>
                     {(users) ? <Formik
@@ -463,38 +455,38 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                         }}
                     >
                         <Form >
-                            <div style={{ margin: 10 }}>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="isActivated"
+                                    label="Activated"
                                     name="isActivated"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
-                                    label="lastSignIn"
+                                    label="Last sign in"
                                     name="lastSignIn"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Username"
                                     name="userName"
                                     type="text"
                                     disabled="disabled"
                                 />
-                            </div>
-                            <div style={{ margin: 10 }}>
+                            </li>
+                            <li style={{ margin: 10 }}>
                                 <MyTextInput
                                     label="Email "
                                     name="email"
                                     type="email"
                                     disabled="disabled"
                                 />
-                            </div>
+                            </li>
                             {/* <div style={{ margin: 10 }}>
                                 <button type="submit" >Update</button>
                             </div> */}

@@ -253,14 +253,14 @@ const Admingetallparkinglot = () => {
                                                 <td>
                                                     <Button.Group size='mini'>
                                                         {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
-                                                        <Button loading={loadingButton} disabled={loadingButton} primary onClick={() => {
+                                                        <Button disabled={loadingButton} primary onClick={() => {
                                                             setLoadingButton(true)
                                                             settmp(parkingLot)
                                                             openModal()
                                                         }
                                                         }>DETAIL</Button>
                                                         <Button.Or text='|' />
-                                                        <Button loading={loadingButton} disabled={loadingButton} negative onClick={() => {
+                                                        <Button disabled={loadingButton} negative onClick={() => {
                                                             setLoadingButton(true)
                                                             settmp(parkingLot)
                                                             openModalAdd()

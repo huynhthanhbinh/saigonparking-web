@@ -165,7 +165,7 @@ const Admingetalluser = () => {
             default:
                 break
         }
-        if(searchData.activated) request.setInactivatedonly(searchData.activated)
+        if (searchData.activated) request.setInactivatedonly(searchData.activated)
         UserService.countAllUser(request, metadata, (err, res) => {
             if (err && !isMounted) {
                 console.log(err)
@@ -215,7 +215,7 @@ const Admingetalluser = () => {
             default:
                 break
         }
-        if(searchData.activated) request.setInactivatedonly(searchData.activated)
+        if (searchData.activated) request.setInactivatedonly(searchData.activated)
         UserService.getAllUser(request, metadata, (err, res) => {
             if (err) {
                 if (err.message === "SPE#00001") {
@@ -244,31 +244,6 @@ const Admingetalluser = () => {
     const callActivated = (data) => {
         setSearchData(data)
     }
-
-    // const SearchCallBack = React.useCallback(() => {
-    //     const request = new ActorProto.CountAllUserRequest();
-    //     const token = "Bearer " + Cookies.get("token");
-    //     const metadata = { 'Authorization': token };
-    //     request.setKeyword(searchData.Textfield)
-    //     switch (searchData.Role) {
-    //         case 'ADM':
-    //             request.setUserrole(ActorProto.UserRole.ADMIN)
-    //             break
-    //         case 'CUS':
-    //             request.setUserrole(ActorProto.UserRole.CUSTOMER)
-    //             break
-    //         case 'GOV':
-    //             request.setUserrole(ActorProto.UserRole.GOVERNMENT_EMPLOYEE)
-    //             break
-    //         case 'PLE':
-    //             request.setUserrole(ActorProto.UserRole.PARKING_LOT_EMPLOYEE)
-    //             break
-    //         default:
-    //             break
-    //     }
-    //     request.setInactivatedonly(searchData.activated)
-    //     UserService.countAllUser
-    // }, [searchData])
 
     return (
         <div>
@@ -318,7 +293,6 @@ const Admingetalluser = () => {
                                                     <Button.Group size='mini'>
                                                         <Button
                                                             color={user.getIsactivated() === true ? 'green' : 'red'}
-                                                            loading={loadingButton}
                                                             disabled={user.getUsername() === 'admin' ? true : loadingButton}
                                                             className="buttonparkinglotuser"
                                                             onClick={() => {
@@ -338,7 +312,7 @@ const Admingetalluser = () => {
                                                         <Button.Or text='|' />
                                                         {/* <button id="btn-employee-delete" className="btn btn-sm btn-danger" > delete</button> */}
                                                         <Button
-                                                            loading={loadingButton} disabled={loadingButton}
+                                                            disabled={loadingButton}
                                                             primary
                                                             className="buttonparkinglotuser"
                                                             onClick={() => {
@@ -358,26 +332,28 @@ const Admingetalluser = () => {
                         </table>
                     </div>
                 </div>
-                {tmp ? (
-                    <UpdateModal
-                        modalIsOpen={modalIsOpen}
-                        closeModal={closeModal}
-                        user={tmp}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {tmp ? (
+                        <UpdateModal
+                            modalIsOpen={modalIsOpen}
+                            closeModal={closeModal}
+                            user={tmp}
+                        />
+                    ) : null}
+                    <AddModal
+                        modalAddIsOpen={modalAddIsOpen}
+                        closeModalAdd={closeModalAdd}
                     />
-                ) : null}
-                <AddModal
-                    modalAddIsOpen={modalAddIsOpen}
-                    closeModalAdd={closeModalAdd}
-                />
-                {totalUser ? (
-                    <Pagination
-                        pageRangeDisplayed={10}
-                        activePage={pagenumber}
-                        itemsCountPerPage={10}
-                        totalItemsCount={totalUser}
-                        onChange={handlechange}
-                    />
-                ) : null}
+                    {totalUser ? (
+                        <Pagination
+                            pageRangeDisplayed={10}
+                            activePage={pagenumber}
+                            itemsCountPerPage={10}
+                            totalItemsCount={totalUser}
+                            onChange={handlechange}
+                        />
+                    ) : null}
+                </div>
             </div>
         </div>
     );
