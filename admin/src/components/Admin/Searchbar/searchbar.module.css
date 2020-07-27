@@ -288,3 +288,24 @@
 
 
 /* -------------------------------------------------------------------- */
+
+@media (max-width: 991px) {
+    .header {
+        height: auto;
+    }
+    .container .input.focus~.search {
+        bottom: -250px;
+        left: 50px;
+    }
+    .container .input.focus {
+        bottom: -250px;
+        left: -200px;
+    }
+    .container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30%;
+        height: 100px;
+    }
+}

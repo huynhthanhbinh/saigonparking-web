@@ -1,23 +1,23 @@
 /* background Car running */
 
 .section {
-    margin: 0;
+    top: 0;
     height: 100%;
     width: 100%;
     background: url("../images/car1.jpg");
     overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
-    position: absolute;
+    position: fixed;
     left: 0;
 }
 
 .Surface {
     height: 140px;
-    width: 500%;
+    width: 1000%;
     background: url("../images/car2.png");
     display: block;
-    position: absolute;
+    position: fixed;
     bottom: 0%;
     left: 0;
     background-repeat: repeat-x;
@@ -28,7 +28,7 @@
     height: 70px;
     width: 270px;
     background: url("../images/car4.png");
-    position: absolute;
+    position: fixed;
     bottom: 5%;
     left: 24%;
     animation: suppension 0.3s linear infinite;
@@ -71,17 +71,17 @@
 /* background form login */
 
 .backgroundForm {
-    margin: 0;
+    background: rgb(0, 0, 0);
+    animation: fadeinBackGround 1s forwards;
+    opacity: 0;
+    top: 0;
     height: 100%;
     width: 100%;
-    background: rgb(0, 0, 0);
     overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
-    position: absolute;
+    position: fixed;
     left: 0;
-    animation: fadeinBackGround 1s forwards;
-    opacity: 0;
 }
 
 @keyframes fadeinBackGround {
@@ -139,7 +139,7 @@
 /*3 welcome box */
 
 .box .welcome {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
     width: 600px;
@@ -350,6 +350,37 @@ input:focus::-webkit-input-placeholder {
     color: transparent;
 }
 
+@media (max-width: 991px) {
+    .box .welcome {
+        width: 0;
+        left: 0;
+        top: 0;
+    }
+    .box .welcome img {
+        width: 0;
+        left: 0;
+        top: 0;
+    }
+    .box .welcome h1 {
+        width: 0 !important;
+        opacity: 0;
+        left: 0;
+        top: 0;
+    }
+    .box .welcome h4 {
+        width: 0 !important;
+        opacity: 0;
+        left: 0;
+        top: 0;
+    }
+    .box {
+        width: 95%;
+    }
+    .white {
+        width: 100%;
+    }
+}
+
 
 /*------------------------------------------------------------------------------------------------------------*/
 
@@ -357,7 +388,7 @@ input:focus::-webkit-input-placeholder {
 /* Wellcome to SGPARKING MAP */
 
 .welcomsection {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     top: 0;

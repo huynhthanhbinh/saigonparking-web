@@ -43,3 +43,12 @@ tbody tr:last-child td:first-child {
         background: rgb(219, 219, 219);
     }
 }
+
+@media (max-width: 991px) {
+    thead tr th {
+        padding: 10px;
+    }
+    tbody tr td {
+        padding: 10px;
+    }
+}

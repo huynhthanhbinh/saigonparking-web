@@ -4,6 +4,7 @@ ul.pagination {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 ul.pagination li {
@@ -62,5 +63,15 @@ ul.pagination li a:hover {
     }
     100% {
         background: #5a5a5a;
+    }
+}
+
+@media (max-width: 991px) {
+    ul.pagination li a {
+        margin: 0.5vw;
+        padding-top: 1vw;
+        padding-bottom: 1vw;
+        padding-left: 1vw;
+        padding-right: 1vw;
     }
 }
