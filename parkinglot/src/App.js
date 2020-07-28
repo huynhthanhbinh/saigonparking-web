@@ -46,6 +46,7 @@ function App() {
   const [information, setInformation] = useState(null)
   const [topComment, setTopComment] = useState(null)
   const [feed, setFeed] = useState(null)
+  const [loadingUpdateAvailbility, setLoadingUpdateAvailbility] = useState(true)
   const [optionsNofti, setOptionNofti] = useState({
     askAgain: true,
     ignore: true,
@@ -93,7 +94,7 @@ function App() {
     request.setValue(id)
     parkingLotService.getParkingLotById(request, metadata, (err, res) => {
       if (err) {
-
+        setLoadingUpdateAvailbility(prev => false)
       }
       else {
         let temp = {
@@ -118,7 +119,8 @@ function App() {
         temp.detail.ratingAverage = res.getInformation().getRatingaverage()
         temp.openHour = res.getOpeninghour()
         temp.closeHour = res.getClosinghour()
-        setInformation(temp)
+        setInformation(prev => temp)
+        setLoadingUpdateAvailbility(prev => false)
       }
     })
   }
@@ -512,12 +514,14 @@ function App() {
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
           {
+            handleDescrease()
             setLists(l => lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour()))
             notify(messageReceived)
             break
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
           {
+            handleInscrease()
             setLists(l => lists.concat(messageReceived.content.getReason()))
             notify(messageReceived)
             break
@@ -554,6 +558,7 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_FINISH)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
+    handleInscrease()
   }
 
   // ------------------------------------------------------------------------ //
@@ -600,11 +605,96 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_REJECT)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
+    handleInscrease()
     // ------------------------------------------------------------------------ //
   }
 
   // ------------------------------------------------------------------------ //
 
+  /**
+   * Update availbility Content
+   */
+
+  const updateAvailabilityContent = (id, value) => {
+    const content = new contactProto.AvailabilityUpdateContent()
+    content.setParkinglotid(id)
+    content.setNewavailability(value)
+
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setReceiverid(0)
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.AVAILABILITY_UPDATE)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    clients.send(messages.serializeBinary())
+  }
+
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * handle inscrease availbility
+   */
+
+  const handleInscrease = () => {
+    updateAvailabilityContent(localStorage.getItem('ID'), information.availableSlot + 1)
+    let temp = {
+      availableSlot: null,
+      totalSlot: null,
+      detail: {
+        address: null,
+        name: null,
+        phone: null,
+        numberRating: null,
+        ratingAverage: null
+      },
+      openHour: null,
+      closeHour: null
+    }
+    temp.availableSlot = information.availableSlot + 1
+    temp.totalSlot = information.totalSlot
+    temp.detail.address = information.detail.address
+    temp.detail.name = information.detail.name
+    temp.detail.phone = information.detail.phone
+    temp.detail.numberRating = information.detail.numberRating
+    temp.detail.ratingAverage = information.detail.ratingAverage
+    temp.openHour = information.openHour
+    temp.closeHour = information.closeHour
+    setInformation(prev => temp)
+  }
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * handle descrease availbility
+   */
+
+  const handleDescrease = () => {
+    updateAvailabilityContent(localStorage.getItem('ID'), information.availableSlot - 1)
+    let temp = {
+      availableSlot: null,
+      totalSlot: null,
+      detail: {
+        address: null,
+        name: null,
+        phone: null,
+        numberRating: null,
+        ratingAverage: null
+      },
+      openHour: null,
+      closeHour: null
+    }
+    temp.availableSlot = information.availableSlot - 1
+    temp.totalSlot = information.totalSlot
+    temp.detail.address = information.detail.address
+    temp.detail.name = information.detail.name
+    temp.detail.phone = information.detail.phone
+    temp.detail.numberRating = information.detail.numberRating
+    temp.detail.ratingAverage = information.detail.ratingAverage
+    temp.openHour = information.openHour
+    temp.closeHour = information.closeHour
+    setInformation(prev => temp)
+  }
+
+  // ------------------------------------------------------------------------ //
   const handleChangeUserName = (e) => {
     setUserName(e.target.value)
   }
@@ -663,7 +753,7 @@ function App() {
           </form>
         </>;
       case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-        return <>{message.content.getBookingid()} cancel booking with reason: {message.content.getReason()}</>;
+        return <>XXXXXXXX-XXXX-XXXX-XXXX-{message.content.getBookingid().substring(24)} cancel booking with reason: {message.content.getReason()}</>;
       case contactProto.SaigonParkingMessage.Type.IMAGE:
         return <></>
       default:
@@ -828,7 +918,7 @@ function App() {
                         return null
                       }
                       if (data.getLateststatus() === bookingProto.BookingStatus.ACCEPTED)
-                        return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: {data.getId()} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
+                        return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
                       else if (data.getLateststatus() === bookingProto.BookingStatus.CREATED)
                         return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
                           <Grid centered divided columns={2}>
@@ -849,14 +939,14 @@ function App() {
               <div className='box'>
                 <div className='boxContent'>
                   {information ? <>
-                    <p>Available Slot: {information.availableSlot} / Total Slot: {information.totalSlot}</p>
-                    <p>Address: {information.detail.address}</p>
-                    <p>Name: {information.detail.name}</p>
-                    <p>Phone: {information.detail.phone}</p>
-                    <p>Vote: {information.detail.numberRating}</p>
+                    <span style={{fontWeight:'bold'}}>Available Slot: </span>{information.availableSlot} / <span style={{fontWeight:'bold'}}>Total Slot: </span> {information.totalSlot} <br/>
+                    <span style={{fontWeight:'bold'}}>Address: </span>{information.detail.address}<br/>
+                    <span style={{fontWeight:'bold'}}>Name: </span>{information.detail.name}<br/>
+                    <span style={{fontWeight:'bold'}}>Phone: </span>{information.detail.phone}<br/>
+                    <span style={{fontWeight:'bold'}}>Vote: </span>{information.detail.numberRating}<br/>
                     <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false} />
-                    <p>Opening Hour: {information.openHour}</p>
-                    <p>Closing Hour: {information.closeHour}</p>
+                    <span style={{fontWeight:'bold'}}>Opening Hour: </span>Opening Hour: {information.openHour}<br/>
+                    <span style={{fontWeight:'bold'}}>Closing Hour: </span>Closing Hour: {information.closeHour}<br/>
                   </> : null}
                 </div>
               </div>
@@ -903,8 +993,10 @@ function App() {
               <div className='box'>
                 <div className='boxContent'>
                   {information ? <>
-                    <h2>Available Slot: </h2>
-                    {information.availableSlot}
+                    <h3>Available Slot: </h3>
+                    <h1 >{information.availableSlot}</h1>
+                    <Button onClick={handleDescrease} content='Descrease' disabled={information.availableSlot === 0} color='youtube' icon='down arrow' labelPosition='left' size='mini'/>
+                    <Button onClick={handleInscrease} content='Inscrease' disabled={(information.availableSlot === information.totalSlot || information.availableSlot + bookingPending.length === information.totalSlot)} color='facebook' icon='up arrow' labelPosition='right' size='mini'/>
                   </> : null}
                 </div>
               </div>
