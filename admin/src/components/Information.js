@@ -121,7 +121,7 @@ const Information = () => {
                                 label="Username"
                                 name="userName"
                                 type="text"
-                                disabled="disabled"
+                                disabled={true}
                             />
                         </div>
                         <div style={{ margin: 10, fontWeight: 'bold' }}>
@@ -129,7 +129,7 @@ const Information = () => {
                                 label="Email "
                                 name="email"
                                 type="email"
-                                disabled="disabled"
+                                disabled={true}
                             />
                         </div>
                         <div style={{ margin: 10, fontWeight: 'bold' }}>
@@ -137,13 +137,11 @@ const Information = () => {
                                 label="Last Sign In "
                                 name="lastSignIn"
                                 type="text"
-                                disabled="disabled"
+                                disabled={true}
                             />
                         </div>
                         <NavLink exact to='/profile/changepassword' style={{ margin: 10 }}>
-                            <h4 style={{
-                                color: 'black'
-                            }}>Change Password</h4>
+                            <h4>Change Password</h4>
                         </NavLink>
                     </Form>
                 </Formik> : <Loader active inline='centered' />}

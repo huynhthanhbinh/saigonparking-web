@@ -1,4 +1,3 @@
 import React from 'react';
-import { CommonLoading } from 'react-loadingg';
-const Container = () => <CommonLoading color={"black"}  />;
+const Container = () => <></>;
 export default Container;
