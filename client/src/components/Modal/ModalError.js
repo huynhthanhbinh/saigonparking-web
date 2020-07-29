@@ -1,21 +1,17 @@
 
 import React from 'react'
-import Modal from 'react-modal';
+import { Button, Modal, TransitionablePortal } from 'semantic-ui-react'
 import Landing from '../Landing'
-import '../../css/modal.css';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+
+
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage'
-import exceptionHandler from '../../ExceptionHandling'
 
-Modal.setAppElement(document.getElementById("root"));
+
+import styles from './Modal.module.css'
+import { ReactComponent as IconError } from '../Home/images/error.svg';
+
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     // const [loi,setloi]=React.useState(null)
     // React.useEffect(()=>{
@@ -43,213 +39,69 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         sessionstorage.clear();
     }
 
+    const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
+
+    const ButtonReLogin = () => {
+        return (
+            <Button negative onClick={() => {
+                closeModalError()
+                ClickLogOut()
+            }}>ĐĂNG NHẬP LẠI</Button>
+        )
+    }
+
+    const CodeError = (myError) => {
+        switch (myError) {
+            case "SPE#00005":
+                return 'KHÔNG CÓ TOKEN';
+            case "SPE#00001":
+                return null;
+            case "SPE#0000DB":
+                return 'REFRESHTOKEN HẾT HẠN';
+            case "SPE#00000":
+                return 'MÃ LỖI QUÁ MỚI';
+            case "SPE#00002":
+                return 'ĐỪNG SỬA TOKEN NỮA NHA';
+            case "SPE#00003":
+                return 'TOKEN SAI FORMAT';
+            case "SPE#00004":
+                return 'KHÔNG THỂ GIẢI MÃ TOKEN';
+            case "SPE#00006":
+                return 'LOẠI TOKEN SAI NHÉ';
+            case "SPE#00007":
+                return 'REFRESH TOKEN KHÔNG CÒN GIÁ TRỊ';
+            case "SPE#00008":
+                return 'KHÔNG TÌM THẤY ENTITY ĐÓ';
+
+            default:
+                return myError;
+        }
+    }
+
     if (myError != null) {
-
-        if (myError === "SPE#00005") { /** KHÔNG CÓ TOKEN */
-            return (
-
+        return (
+            <TransitionablePortal open={isOpen} transition={{ animation: 'scale', duration: 500 }}>
                 <Modal
-                    isOpen={modalErrorIsOpen}
-
-                    onRequestClose={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}
-
-                    contentLabel="Example Modal"
-                    className="modal-content"
-                    overlayClassName="modal-overlay"
+                    style={{ height: 'auto', position: 'relative' }}
+                    open={true}
+                    size={'small'}
                 >
-                    <h1>KHÔNG CÓ TOKEN</h1>
-
-                    <button onClick={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}>ĐĂNG NHẬP LẠI</button>
-
-
+                    <Modal.Header>Error</Modal.Header>
+                    <Modal.Content>
+                        <div className={styles.container}>
+                            <div className={`${styles.icon} ${styles.error}`}>
+                                <IconError />
+                            </div>
+                        </div>
+                        <h1 className={styles.h1Modal}>{CodeError(myError)}</h1>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <ButtonReLogin />
+                    </Modal.Actions>
                 </Modal>
+            </TransitionablePortal>
 
-            )
-        }
-        else if (myError === "SPE#00001") {
-
-            return null
-        }
-        else if (myError === "SPE#0000DB") {
-
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1> REFRESHTOKEN HẾT HẠN </h1>
-                <button onClick={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}>ĐĂNG NHẬP LẠI</button>
-            </Modal>)
-        }
-        else if (myError === "SPE#00000") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>MÃ LỖI QUÁ MỚI </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00002") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>ĐỪNG SỬA TOKEN NỮA NHA </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00003") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>TOKEN SAI FORMAT </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00004") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>KHÔNG THỂ GIẢI MÃ TOKEN </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00006") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>LOẠI TOKEN SAI NHÉ </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00007") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>REFRESH TOKEN KHÔNG CÒN GIÁ TRỊ </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00008") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>KHÔNG TÌM THẤY ENTITY ĐÓ </h1>
-            </Modal>)
-        }
-        else if (myError === "SPE#00014") {
-            return (<Modal
-                isOpen={modalErrorIsOpen}
-
-                onRequestClose={() => {
-                    closeModalError()
-
-                    ClickLogOut()
-
-                }}
-
-                contentLabel="Example Modal"
-                className="modal-content"
-                overlayClassName="modal-overlay"
-            >
-                <h1>NGHI NGỜ CÓ HACK</h1>
-            </Modal>)
-        }
-
+        )
     }
     else {
         return (<Landing></Landing>)

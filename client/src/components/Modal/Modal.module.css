@@ -1,0 +1,44 @@
+.container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .icon {
+    width: 100px;
+}
+
+.container .icon path {
+    fill: transparent;
+    stroke-width: 10;
+    stroke: #ff3131;
+}
+
+.container .icon.error path {
+    stroke-dasharray: 1685;
+    stroke-dashoffset: 1685;
+    animation: animate-error 2s linear forwards;
+}
+
+@keyframes animate-error {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    40% {
+        stroke-dashoffset: 1685;
+    }
+    80% {
+        stroke-dashoffset: 3370;
+        fill: transparent;
+    }
+    100% {
+        stroke-dashoffset: 3370;
+        fill: red;
+    }
+}
+
+.h1Modal {
+    text-align: center;
+}

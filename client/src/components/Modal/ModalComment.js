@@ -2,17 +2,11 @@ import React from 'react'
 import Modal from 'react-modal';
 import Landing from '../Landing'
 import '../../css/modal.css';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage'
-import exceptionHandler from '../../ExceptionHandling'
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import StarRatings from "react-star-ratings";

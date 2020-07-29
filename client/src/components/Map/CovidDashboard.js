@@ -230,7 +230,7 @@ const CovidDashboard = (props) => {
                 </Row>
                 <Row>
 
-                    {patients && <SideMenu overlayColor="#transparent" width={400} data={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />}
+                    {patients && <SideMenu overlayColor="#transparent" width={450} data={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />}
 
                     {/* <Col xs={9}>
                         <ListPatients patients={listPatientSelected ? listPatientSelected : patients} onClickItemPatient={clickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexPatientClicked} />

@@ -1,20 +1,15 @@
 
 import React from 'react'
-import Modal from 'react-modal';
+import { Button, Modal, TransitionablePortal } from 'semantic-ui-react'
 import Landing from '../Landing'
-import '../../css/modal.css';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage' 
 
-Modal.setAppElement(document.getElementById("root"));
+import styles from './Modal.module.css'
+import {ReactComponent as IconError} from '../Home/images/error.svg';
+
 const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
     // const [loi,setloi]=React.useState(null)
     // React.useEffect(()=>{
@@ -42,135 +37,56 @@ const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyErro
         sessionstorage.clear();
     }
 
+    const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
+
+    const ButtonReLogin = () => {
+        return (
+            <Button negative onClick={() => {
+                closeModalError()
+                ClickLogOut()
+            }}>ĐĂNG NHẬP LẠI</Button>
+        )
+    }
+
+    const CodeError = (myError) => {
+        switch (myError) {
+            case "SPE#00008":
+                return 'TÀI KHOẢN KHÔNG TỒN TẠI';
+            case "SPE#00011":
+                return 'TÀI KHOẢN CHƯA KÍCH HOẠT';
+            case "SPE#00012":
+                return 'BẠN KHÔNG CÓ QUYỀN ĐĂNG NHẬP TRANG NÀY';
+            case "SPE#00013":
+                return 'SAI MẬT KHẨU';
+            default:
+                return myError;
+        }
+    }
+
     if (myError != null) {
-
-        if (myError === "SPE#00008") { /** KHÔNG CÓ TOKEN */
-            return (
-
+        return (
+            <TransitionablePortal open={isOpen} transition={{ animation: 'scale', duration: 500 }}>
                 <Modal
-                    isOpen={modalErrorIsOpen}
-
-                    onRequestClose={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}
-
-                    contentLabel="Example Modal"
-                    className="modal-content"
-                    overlayClassName="modal-overlay"
+                    style={{ height: 'auto', position: 'relative' }}
+                    open={true}
+                    size={'small'}
                 >
-                    <h1>TÀI KHOẢN KHÔNG TỒN TẠI</h1>
-
-                    <button onClick={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}>ĐĂNG NHẬP LẠI</button>
-
-
+                    <Modal.Header>Error</Modal.Header>
+                    <Modal.Content>
+                        <div className={styles.container}>
+                            <div className={`${styles.icon} ${styles.error}`}>
+                                <IconError />
+                            </div>
+                        </div>
+                        <h1 className={styles.h1Modal}>{CodeError(myError)}</h1>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <ButtonReLogin />
+                    </Modal.Actions>
                 </Modal>
+            </TransitionablePortal>
 
-            )
-        }
-        if (myError === "SPE#00011") { /** KHÔNG CÓ TOKEN */
-            return (
-
-                <Modal
-                    isOpen={modalErrorIsOpen}
-
-                    onRequestClose={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}
-
-                    contentLabel="Example Modal"
-                    className="modal-content"
-                    overlayClassName="modal-overlay"
-                >
-                    <h1>TÀI KHOẢN CHƯA KÍCH HOẠT</h1>
-
-                    <button onClick={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}>ĐĂNG NHẬP LẠI</button>
-
-
-                </Modal>
-
-            )
-        }
-        if (myError === "SPE#00012") { /** KHÔNG CÓ TOKEN */
-            return (
-
-                <Modal
-                    isOpen={modalErrorIsOpen}
-
-                    onRequestClose={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}
-
-                    contentLabel="Example Modal"
-                    className="modal-content"
-                    overlayClassName="modal-overlay"
-                >
-                    <h1>BẠN KHÔNG CÓ QUYỀN ĐĂNG NHẬP TRANG NÀY</h1>
-
-                    <button onClick={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}>ĐĂNG NHẬP LẠI</button>
-
-
-                </Modal>
-
-            )
-        }
-        if (myError === "SPE#00013") { /** KHÔNG CÓ TOKEN */
-            return (
-
-                <Modal
-                    isOpen={modalErrorIsOpen}
-
-                    onRequestClose={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}
-
-                    contentLabel="Example Modal"
-                    className="modal-content"
-                    overlayClassName="modal-overlay"
-                >
-                    <h1>SAI MẬT KHẨU</h1>
-
-                    <button onClick={() => {
-                        closeModalError()
-
-                        ClickLogOut()
-
-                    }}>ĐĂNG NHẬP LẠI</button>
-
-
-                </Modal>
-
-            )
-        }
-       
-        
-
+        )
     }
     else {
         return (<Landing></Landing>)

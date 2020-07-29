@@ -49,9 +49,9 @@ const Body = () => {
 								<div className="photo">
 									<img src={search} alt="search" />
 								</div>
-								<h1></h1>
-								<h5 className="white-title">Tìm kiếm dễ dàng</h5>
-								<p className="white-text">
+								
+								<h5 style={{fontSize: "200%"}} className="white-title">Tìm kiếm dễ dàng</h5>
+								<p style={{fontSize: "140%"}} className="white-text">
 									SaiGon Parking cung cấp danh sách các điểm đỗ và số chỗ còn trống quanh khu vực bạn muốn
 									đỗ xe
 							</p>
@@ -60,9 +60,8 @@ const Body = () => {
 								<div className="photo">
 									<img src={direction} alt="direction" />
 								</div>
-								<h1></h1>
-								<h5 className="white-title">Dẫn đường chính xác</h5>
-								<p className="white-text">
+								<h5 style={{fontSize: "200%"}} className="white-title">Dẫn đường chính xác</h5>
+								<p style={{fontSize: "140%"}} className="white-text">
 									Sử dụng điều hướng của Google Map và thuật toán chỉ đường đi ngắn nhất giúp bạn có thể
 									đến bãi đỗ một cách an toàn và nhanh chóng
 							</p>
@@ -71,9 +70,8 @@ const Body = () => {
 								<div className="photo">
 									<img src={car2} alt="car2" />
 								</div>
-								<h1></h1>
-								<h5 className="white-title">Sử dụng hiệu quả các điểm đỗ xe</h5>
-								<p className="white-text">
+								<h5 style={{fontSize: "200%"}} className="white-title">Sử dụng hiệu quả các điểm đỗ xe</h5>
+								<p style={{fontSize: "140%"}} className="white-text">
 									SaiGon Parking giúp cho các đơn vị khai thác điểm đỗ xe nâng cao khả năng tiếp cận khách
 									hàng cũng như cung cấp những công cụ giám sát, quản lí chuyên nghiệp nhất
 							</p>
