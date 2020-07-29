@@ -89,7 +89,9 @@ const Resetpassword = ({ username }) => {
     }
 
     return (
-        <>
+        <div className="MainCard">
+            <div className='ContentMainCard' style={{padding:'10px', alignItems: 'center'}}>
+                <h1>Change Password:</h1>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
             <Formik
                 initialValues={{
@@ -131,27 +133,28 @@ const Resetpassword = ({ username }) => {
                 }}
             >
                 <Form >
+                    <h4>Password</h4>
                     <div style={{ margin: 10 }}>
                         <MyTextInput
-                            label="Password"
                             name="passWord"
                             type="passWord"
                         />
                     </div>
+                    <h4>Confirm Password</h4>
                     <div style={{ margin: 10 }}>
                         <MyTextInput
-                            label="Confirm Password"
                             name="confirmpassWord"
                             type="passWord"
                         />
                     </div>
-                    <button type="submit" >Update</button>
+                    <button type="submit" style={{border:'none', padding:'10px', fontWeight:'bold'}}>Update</button>
                     <div style={{ margin: 10 }}>
                     </div>
                 </Form>
             </Formik>
             <NotificationContainer />
-        </>
+        </div>
+        </div>
     )
 }
 

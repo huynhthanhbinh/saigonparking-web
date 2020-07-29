@@ -6,7 +6,7 @@
 /* Grid page with sidebar */
 
 body {
-    background: #dadada;
+    background: #ececec;
 }
 
 main {
@@ -272,9 +272,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 .ContentMainCard {
+    margin-top: 10px;
     overflow-x: auto;
+    display: flex;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    align-items: center;
+}
+
+.ContentMainCard h1 {
+    align-self: flex-start;
+    margin: 10px;
+    margin-right: 100px;
 }
 
 .active.modal-content {

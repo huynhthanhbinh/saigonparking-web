@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react'
-import AuthApi from "./Auth/AuthAPI";
+import React from 'react'
 import Cookies from 'js-cookie'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,7 +15,9 @@ import { API_URL } from '../saigonparking';
 //  modal Error
 import ModalError from './Modal/ModalError'
 import exceptionHandler from '../ExceptionHandling'
-import sessionstorage from 'sessionstorage'
+import { NavLink } from 'react-router-dom';
+
+import { Loader } from 'semantic-ui-react'
 const userService = new UserServiceClient(API_URL)
 
 
@@ -39,36 +40,34 @@ const Information = () => {
         setmodalErrorIsOpen(false);
     }
 
-    const Auth = React.useContext(AuthApi)
     let [customerObject, setCustomerObject] = React.useState()
-    const getInformationUser = useCallback(
-        async () => {
+
+    React.useEffect(() => {
+        let isCancelled = false;
+        if (!isCancelled) {
             const token = 'Bearer ' + Cookies.get("token");
             const metadata = { 'Authorization': token }
             const request = new StringValue()
             request.setValue(Cookies.get("checkUserName"))
-    
+
             userService.getUserByUsername(request, metadata, (err, res) => {
-                if (err) {
+                if (err && !isCancelled) {
                     if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
                         setmyError('SPE#0000DB')
                     }
-                    else {
+                    else if (!isCancelled) {
                         setmyError(err.message)
                     }
-    
                     openModalError()
-                } else {
+                } else if (!isCancelled) {
                     setCustomerObject(res)
                 }
             })
-        },
-        [],
-    ) 
-
-    React.useEffect(() => {
-        getInformationUser();
-    }, [getInformationUser,modalErrorIsOpen])
+        }
+        return () => {
+            isCancelled = true;
+        }
+    }, [modalErrorIsOpen])
 
     const MyTextInput = ({ label, ...props }) => {
         // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -90,73 +89,66 @@ const Information = () => {
         );
     };
 
-
-
-    const ClickLogOut = () => {
-        Auth.setAuth(false)
-        Auth.setcheckUserName(null)
-        Cookies.remove("checkUserName");
-        Cookies.remove("token");
-        Cookies.remove("refreshtoken");
-        sessionstorage.clear()
-    }
-    // console.log(customerObject)
     return (
-        <>
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+        <div className="MainCard">
+            <div className='ContentMainCard'>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
-            <h1>Your Information</h1>
-            {customerObject ? <Formik
-                initialValues={{
-                    userName: customerObject.getUsername(),
-                    email: customerObject.getEmail(),
-                    lastSignIn: customerObject.getLastsignin()
-                }}
-                validationSchema={Yup.object({
-                    userName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    email: Yup.string()
-                        .email('Invalid email address')
-                        .required('Required'),
-                    lastSignIn: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                }}
-            >
-                <Form >
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Username"
-                            name="userName"
-                            type="text"
-                            disabled="disabled"
-                        />
-                    </div>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="Email "
-                            name="email"
-                            type="email"
-                            disabled="disabled"
-                        />
-                    </div>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            label="lastSignIn "
-                            name="lastSignIn"
-                            type="text"
-                            disabled="disabled"
-                        />
-                    </div>
-                    <div style={{ margin: 10 }}>
-                        <button style={{ margin: 10 }} onClick={ClickLogOut}>Logout</button>
-                    </div>
-                </Form>
-            </Formik> : <button onClick={ClickLogOut}>Logout</button>}
-        </>
+                <h1>Your Information</h1>
+                {customerObject ? <Formik
+                    initialValues={{
+                        userName: customerObject.getUsername(),
+                        email: customerObject.getEmail(),
+                        lastSignIn: customerObject.getLastsignin()
+                    }}
+                    validationSchema={Yup.object({
+                        userName: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+                        email: Yup.string()
+                            .email('Invalid email address')
+                            .required('Required'),
+                        lastSignIn: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+                    })}
+                    onSubmit={(values, { setSubmitting }) => {
+                    }}
+                >
+                    <Form >
+                        <div style={{ margin: 10, fontWeight: 'bold' }}>
+                            <MyTextInput
+                                label="Username"
+                                name="userName"
+                                type="text"
+                                disabled="disabled"
+                            />
+                        </div>
+                        <div style={{ margin: 10, fontWeight: 'bold' }}>
+                            <MyTextInput
+                                label="Email "
+                                name="email"
+                                type="email"
+                                disabled="disabled"
+                            />
+                        </div>
+                        <div style={{ margin: 10, fontWeight: 'bold' }}>
+                            <MyTextInput
+                                label="Last Sign In "
+                                name="lastSignIn"
+                                type="text"
+                                disabled="disabled"
+                            />
+                        </div>
+                        <NavLink exact to='/profile/changepassword' style={{ margin: 10 }}>
+                            <h4 style={{
+                                color: 'black'
+                            }}>Change Password</h4>
+                        </NavLink>
+                    </Form>
+                </Formik> : <Loader active inline='centered' />}
+            </div>
+        </div>
     )
 
 }

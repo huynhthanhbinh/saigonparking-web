@@ -36,7 +36,6 @@ const Admingetallparkinglot = () => {
             const request = new Empty();
 
             authService.generateNewToken(request, metadata, (err, res) => {
-                console.log('here: ', err)
                 if (err) {
                     setmyError(err.message)
                     openModalError()
@@ -44,13 +43,11 @@ const Admingetallparkinglot = () => {
                     if (res.getRefreshtoken() === "") {
                         /* luu access token */
                         Cookies.set("token", res.getAccesstoken());
-                        console.log("accesstoken mới");
                         setFlat(flat => !flat);
                     } else {
                         /* luu new access token + new refresh token */
                         Cookies.set("token", res.getAccesstoken());
                         Cookies.set("refreshtoken", res.getRefreshtoken());
-                        console.log("refreshtoken + accesstoken mới");
                         setFlat(flat => !flat);
                     }
                 }

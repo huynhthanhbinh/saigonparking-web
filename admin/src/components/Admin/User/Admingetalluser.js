@@ -44,13 +44,11 @@ const Admingetalluser = () => {
                     if (res.getRefreshtoken() === "") {
                         /* luu access token */
                         Cookies.set("token", res.getAccesstoken());
-                        console.log("accesstoken mới");
                         setFlat(flat => !flat);
                     } else {
                         /* luu new access token + new refresh token */
                         Cookies.set("token", res.getAccesstoken());
                         Cookies.set("refreshtoken", res.getRefreshtoken());
-                        console.log("refreshtoken + accesstoken mới");
                         setFlat(flat => !flat);
                     }
                 }

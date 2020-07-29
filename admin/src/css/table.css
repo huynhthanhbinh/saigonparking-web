@@ -15,12 +15,22 @@ thead {
 thead tr th {
     text-align: center;
     padding: 20px;
+    border-right: 0.5px solid black;
+}
+
+thead tr th:last-child {
+    border-right: 0px;
 }
 
 tbody tr td {
     text-align: center;
     padding: 15px;
     cursor: pointer;
+    border-right: 0.5px solid black;
+}
+
+tbody tr td:last-child {
+    border-right: 0px;
 }
 
 tbody tr:hover {
