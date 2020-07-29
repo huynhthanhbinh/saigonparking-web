@@ -2,6 +2,8 @@
 protoc -I=. Actor.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. Auth.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 protoc -I=. ParkingLot.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
+protoc -I=. Contact.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
+protoc -I=. Booking.proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
 
 <<< BUILD WEB AS DEV MODE >>>
 remove build folder inside admin module and client module
