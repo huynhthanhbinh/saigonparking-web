@@ -55,7 +55,7 @@ export default function MiniDrawer({numberMessage}) {
             >
                 <Toolbar>
                     <Typography style={{margin:'10px', cursor:'pointer'}} variant="h5" className={classes.title}>
-                        <img style={{height:'40px'}} src={icon} ></img>
+                        <img alt="" style={{height:'40px'}} src={icon} ></img>
                         &copy; Saigon Parking 2020
                     </Typography>
                     <Typography style={{width:'50%' ,minHeight: '50px', overflow:'hidden', margin:'10px', cursor:'pointer', boxShadow:'inset -7px 0 9px -7px #000000, inset 7px 0 9px -7px #000000'}} variant="h5" className={classes.title}>

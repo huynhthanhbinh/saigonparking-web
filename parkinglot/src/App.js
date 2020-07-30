@@ -239,6 +239,7 @@ function App() {
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
           {
+            getOnGoingBooking(localStorage.getItem('ID'))
             return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
           }
         case contactProto.SaigonParkingMessage.Type.IMAGE:
@@ -319,57 +320,42 @@ function App() {
       }
       const token = Cookies.get("token")
       const metadata = { 'Authorization': token }
-      const request = new bookingProto.CountAllBookingOfParkingLotRequest
-      request.setParkinglotid(id)
-      //Create
-      request.setStatus(bookingProto.BookingStatus.CREATED)
-      bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
-        if (err) {
-          getInformationUser()
-        }
+      const request = new Int64Value()
+      request.setValue(id)
+      bookingService.countAllBookingOfParkingLotGroupByStatus(request, metadata, (err, res) => {
+        if (err) { getInformationUser() }
         else {
-          temp.CREATED.value = res.getValue()
-          //Accept
-          request.setStatus(bookingProto.BookingStatus.ACCEPTED)
-          bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
-            if (err) {
-              getInformationUser()
-            }
-            else {
-              temp.ACCEPTED.value = res.getValue()
-              //Reject
-              request.setStatus(bookingProto.BookingStatus.REJECTED)
-              bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
-                if (err) {
-                  getInformationUser()
+          let result = res.getStatuscountMap().toArray()
+          for (let i = 0; i < result.length; i++) {
+            switch (result[i][0]) {
+              case bookingProto.BookingStatus.CREATED:
+                {
+                  temp.CREATED.value = result[i][1]
+                  break
                 }
-                else {
-                  temp.REJECTED.value = res.getValue()
-                  //cancel
-                  request.setStatus(bookingProto.BookingStatus.CANCELLED)
-                  bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
-                    if (err) {
-                      getInformationUser()
-                    }
-                    else {
-                      temp.CANCELLED.value = res.getValue()
-                      //finish
-                      request.setStatus(bookingProto.BookingStatus.FINISHED)
-                      bookingService.countAllBookingOfParkingLot(request, metadata, (err, res) => {
-                        if (err) {
-                          getInformationUser()
-                        }
-                        else {
-                          temp.FINISHED.value = res.getValue()
-                          setCountAllbooking(temp)
-                        }
-                      })
-                    }
-                  })
+              case bookingProto.BookingStatus.ACCEPTED:
+                {
+                  temp.ACCEPTED.value = result[i][1]
+                  break
                 }
-              })
+              case bookingProto.BookingStatus.REJECTED:
+                {
+                  temp.REJECTED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.CANCELLED:
+                {
+                  temp.CANCELLED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.FINISHED:
+                {
+                  temp.FINISHED.value = result[i][1]
+                  break
+                }
             }
-          })
+          }
+          setCountAllbooking(temp)
         }
       })
     },
@@ -391,7 +377,7 @@ function App() {
     if (('Notification') in window) {
       window.Notification.requestPermission() // request permission Noti in browser
     }
-    
+
     const token = Cookies.get("token");
     const refreshtoken = Cookies.get("refreshtoken");
     const checkUserName = Cookies.get("checkUserName");
@@ -444,7 +430,7 @@ function App() {
 
       clients.onmessage = (data) => {
         // change received message to Unit8Array and convert to object and set to State MesssageReceived //
-        if(data.data.arrayBuffer) {
+        if (data.data.arrayBuffer) {
           data.data.arrayBuffer().then(function (v) {
             let buf = new Uint8Array(v)
             let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
@@ -459,7 +445,7 @@ function App() {
             setMesssageReceived(messageReceived => temp)
           })
         }
-        
+
         // ------------------------------------------------------------------------ //
       };
     }
@@ -908,45 +894,45 @@ function App() {
             </div>
           </div>
           <div className='contentContainer'>
-              <div className="listPending">
-                <ul>
-                  {bookingPending.length !== 0 ? <>
-                    <h2>Booking: </h2>
+            <div className="listPending">
+              <ul>
+                {bookingPending.length !== 0 ? <>
+                  <h2>Booking: </h2>
                   Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
-                    {bookingPending.sort((a, b) => a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED ? 1 : -1).map((data, index) => {
-                      if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
-                        return null
-                      }
-                      if (data.getLateststatus() === bookingProto.BookingStatus.ACCEPTED)
-                        return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
-                      else if (data.getLateststatus() === bookingProto.BookingStatus.CREATED)
-                        return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
-                          <Grid centered divided columns={2}>
-                            <Grid.Column textAlign='center'>
-                              <Button onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
-                            </Grid.Column>
-                            <Grid.Column textAlign='center'>
-                              <Button onClick={() => rejectRequestBookWithOutNoti(data)}>Reject</Button>
-                            </Grid.Column>
-                          </Grid>
-                        </Popup>
-                    })} </> : <h2>No Pending Booking...</h2>}
-                </ul>
-              </div>
+                  {bookingPending.sort((a, b) => a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED ? 1 : -1).map((data, index) => {
+                    if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
+                      return null
+                    }
+                    if (data.getLateststatus() === bookingProto.BookingStatus.ACCEPTED)
+                      return <Popup key={index} content='Click to Finish' trigger={<li onClick={() => finishedBook(data)} className='pendingLiAccepted' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Customer ongoing...</h4>License Plate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} position="left center" offset='-20px, 0' />
+                    else if (data.getLateststatus() === bookingProto.BookingStatus.CREATED)
+                      return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
+                        <Grid centered divided columns={2}>
+                          <Grid.Column textAlign='center'>
+                            <Button onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
+                          </Grid.Column>
+                          <Grid.Column textAlign='center'>
+                            <Button onClick={() => rejectRequestBookWithOutNoti(data)}>Reject</Button>
+                          </Grid.Column>
+                        </Grid>
+                      </Popup>
+                  })} </> : <h2>No Pending Booking...</h2>}
+              </ul>
             </div>
+          </div>
           <div className='container'>
             <div className='contentContainerMiddle'>
               <div className='box'>
                 <div className='boxContent'>
                   {information ? <>
-                    <span style={{fontWeight:'bold'}}>Available Slot: </span>{information.availableSlot} / <span style={{fontWeight:'bold'}}>Total Slot: </span> {information.totalSlot} <br/>
-                    <span style={{fontWeight:'bold'}}>Address: </span>{information.detail.address}<br/>
-                    <span style={{fontWeight:'bold'}}>Name: </span>{information.detail.name}<br/>
-                    <span style={{fontWeight:'bold'}}>Phone: </span>{information.detail.phone}<br/>
-                    <span style={{fontWeight:'bold'}}>Vote: </span>{information.detail.numberRating}<br/>
+                    <span style={{ fontWeight: 'bold' }}>Available Slot: </span>{information.availableSlot} / <span style={{ fontWeight: 'bold' }}>Total Slot: </span> {information.totalSlot} <br />
+                    <span style={{ fontWeight: 'bold' }}>Address: </span>{information.detail.address}<br />
+                    <span style={{ fontWeight: 'bold' }}>Name: </span>{information.detail.name}<br />
+                    <span style={{ fontWeight: 'bold' }}>Phone: </span>{information.detail.phone}<br />
+                    <span style={{ fontWeight: 'bold' }}>Vote: </span>{information.detail.numberRating}<br />
                     <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false} />
-                    <span style={{fontWeight:'bold'}}>Opening Hour: </span>Opening Hour: {information.openHour}<br/>
-                    <span style={{fontWeight:'bold'}}>Closing Hour: </span>Closing Hour: {information.closeHour}<br/>
+                    <span style={{ fontWeight: 'bold' }}>Opening Hour: </span>Opening Hour: {information.openHour}<br />
+                    <span style={{ fontWeight: 'bold' }}>Closing Hour: </span>Closing Hour: {information.closeHour}<br />
                   </> : null}
                 </div>
               </div>
@@ -995,8 +981,8 @@ function App() {
                   {information ? <>
                     <h3>Available Slot: </h3>
                     <h1 >{information.availableSlot}</h1>
-                    <Button onClick={handleDescrease} content='Descrease' disabled={information.availableSlot === 0} color='youtube' icon='down arrow' labelPosition='left' size='mini'/>
-                    <Button onClick={handleInscrease} content='Inscrease' disabled={(information.availableSlot === information.totalSlot || information.availableSlot + bookingPending.length === information.totalSlot)} color='facebook' icon='up arrow' labelPosition='right' size='mini'/>
+                    <Button onClick={handleDescrease} content='Descrease' disabled={information.availableSlot === 0} color='youtube' icon='down arrow' labelPosition='left' size='mini' />
+                    <Button onClick={handleInscrease} content='Inscrease' disabled={(information.availableSlot === information.totalSlot || information.availableSlot + bookingPending.length === information.totalSlot)} color='facebook' icon='up arrow' labelPosition='right' size='mini' />
                   </> : null}
                 </div>
               </div>
