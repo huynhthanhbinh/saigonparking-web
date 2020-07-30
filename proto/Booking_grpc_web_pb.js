@@ -322,6 +322,246 @@ proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototy
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ */
+const methodDescriptor_BookingService_countAllBookingGroupByStatus = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingGroupByStatus',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ */
+const methodInfo_BookingService_countAllBookingGroupByStatus = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServiceClient.prototype.countAllBookingGroupByStatus =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingGroupByStatus',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_countAllBookingGroupByStatus,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototype.countAllBookingGroupByStatus =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingGroupByStatus',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_countAllBookingGroupByStatus);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse>}
+ */
+const methodDescriptor_BookingService_generateBookingQrCode = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.booking.BookingService/generateBookingQrCode',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest,
+  proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse>}
+ */
+const methodInfo_BookingService_generateBookingQrCode = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServiceClient.prototype.generateBookingQrCode =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/generateBookingQrCode',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_generateBookingQrCode,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.booking.GenerateBookingQrCodeResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototype.generateBookingQrCode =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/generateBookingQrCode',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_generateBookingQrCode);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_BookingService_finishBooking = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.booking.BookingService/finishBooking',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodInfo_BookingService_finishBooking = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServiceClient.prototype.finishBooking =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/finishBooking',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_finishBooking,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.booking.FinishBookingRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototype.finishBooking =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/finishBooking',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_finishBooking);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.com.bht.saigonparking.api.grpc.booking.GetAllBookingRequest,
  *   !proto.com.bht.saigonparking.api.grpc.booking.BookingList>}
  */
@@ -1116,6 +1356,86 @@ proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototy
       request,
       metadata || {},
       methodDescriptor_BookingService_getBookingDetailByBookingId);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ */
+const methodDescriptor_BookingService_countAllBookingOfParkingLotGroupByStatus = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingOfParkingLotGroupByStatus',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ */
+const methodInfo_BookingService_countAllBookingOfParkingLotGroupByStatus = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServiceClient.prototype.countAllBookingOfParkingLotGroupByStatus =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingOfParkingLotGroupByStatus',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_countAllBookingOfParkingLotGroupByStatus,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.booking.CountAllBookingGroupByStatusResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.booking.BookingServicePromiseClient.prototype.countAllBookingOfParkingLotGroupByStatus =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.booking.BookingService/countAllBookingOfParkingLotGroupByStatus',
+      request,
+      metadata || {},
+      methodDescriptor_BookingService_countAllBookingOfParkingLotGroupByStatus);
 };
 
 
