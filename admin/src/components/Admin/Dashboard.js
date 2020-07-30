@@ -231,13 +231,13 @@ const Dashboard = () => {
                             case ActorProto.UserRole.PARKING_LOT_EMPLOYEE:
                                 {
                                     tempUser.series[1] = result[i][1]
-                                    tempUser.options.labels[1] = `PARKING LOT EMPLOYEE: ${result[i][1]}`
+                                    tempUser.options.labels[1] = `PARK EMPLOYEE: ${result[i][1]}`
                                     break
                                 }
                             case ActorProto.UserRole.GOVERNMENT_EMPLOYEE:
                                 {
                                     tempUser.series[2] = result[i][1]
-                                    tempUser.options.labels[2] = `GOVERNMENT EMPLOYEE: ${result[i][1]}`
+                                    tempUser.options.labels[2] = `GOV EMPLOYEE: ${result[i][1]}`
                                     break
                                 }
                             case ActorProto.UserRole.ADMIN:
@@ -259,21 +259,21 @@ const Dashboard = () => {
     }, [flat, ErrorSPE00001])
 
     return (
-        <div className="dashboardCard">
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <div className='contentCard'>
-                <h2>Parking Lot:</h2>
-                {optionParkingLot ? <Chart options={optionParkingLot.options} series={optionParkingLot.series} type="pie" width={380} /> : <h1>No Data Parking Lot at this time</h1>}
+            <div className="dashboardCard">
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                <div className='contentCard'>
+                    <h2>Parking Lot:</h2>
+                    {optionParkingLot ? <Chart options={optionParkingLot.options} series={optionParkingLot.series} type="pie" width={380} /> : <h1>No Data Parking Lot at this time</h1>}
+                </div>
+                <div className='contentCard'>
+                    <h2>User:</h2>
+                    {optionUser ? <Chart options={optionUser.options} series={optionUser.series} type="pie" width={380} /> : <h1>No Data User at this time</h1>}
+                </div>
+                <div className='contentCard'>
+                    <h2>Booking:</h2>
+                    {optionBooking ? <Chart options={optionBooking.options} series={optionBooking.series} type="pie" width={380} /> : <h1>No Data Booking at this time</h1>}
+                </div>
             </div>
-            <div className='contentCard'>
-            <h2>User:</h2>
-                {optionUser ? <Chart options={optionUser.options} series={optionUser.series} type="pie" width={380} /> : <h1>No Data User at this time</h1>}
-            </div>
-            <div className='contentCard'>
-            <h2>Booking:</h2>
-                {optionBooking ? <Chart options={optionBooking.options} series={optionBooking.series} type="pie" width={380} /> : <h1>No Data Booking at this time</h1>}
-            </div>
-        </div>
     )
 
 }

@@ -43,13 +43,12 @@ const Login = () => {
                 openModalError()
                 setIsLoading(false)
             } else {
-                Auth.setcheckUserName(username)
-                Auth.setAuth(true)
                 //set cookies when success
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", username)
-                window.location.href = '/'
+                Auth.setcheckUserName(username)
+                Auth.setAuth(true)
             }
         })
     }

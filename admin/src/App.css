@@ -12,7 +12,7 @@ body {
 main {
     z-index: 0;
     margin-left: 6rem;
-    transition: margin-left 0.2s;
+    transition: margin-left 0.5s;
     margin-right: 1rem;
 }
 
@@ -36,7 +36,7 @@ body::-webkit-scrollbar-thumb {
     height: 100%;
     position: fixed;
     background-color: #23232e;
-    transition: width 200ms ease;
+    transition: width 500ms ease;
     z-index: 1;
 }
 
@@ -115,7 +115,7 @@ body::-webkit-scrollbar-thumb {
 
 .nav-logo svg {
     transform: rotate(0edg);
-    transition: transform 0.3s;
+    transition: transform 1s;
 }
 
 .navbarx:hover .nav-logo svg {
@@ -252,7 +252,7 @@ body::-webkit-scrollbar-thumb {
 
 .MainCard {
     background: white;
-    border-radius: 20px;
+    border-radius: 5px;
     align-items: center;
     animation: animationfade 1s forwards;
     box-shadow: 0px 20px 50px;
@@ -273,8 +273,8 @@ body::-webkit-scrollbar-thumb {
     margin-top: 10px;
     overflow-x: auto;
     display: flex;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     align-items: center;
 }
 

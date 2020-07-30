@@ -166,7 +166,6 @@ const Admingetalluser = () => {
         if (searchData.activated) request.setInactivatedonly(searchData.activated)
         UserService.countAllUser(request, metadata, (err, res) => {
             if (err && !isMounted) {
-                console.log(err)
                 if (err.message === "SPE#00001") {
                     ErrorSPE00001();
                 } else {
