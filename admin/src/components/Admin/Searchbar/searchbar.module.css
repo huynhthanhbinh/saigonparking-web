@@ -66,6 +66,74 @@
     transition: all 0.5s;
 }
 
+
+/* Add Button */
+
+.container2 {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 300px;
+    height: 100px;
+}
+
+.container2 .search2 {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    width: 60px;
+    height: 60px;
+    background: #4ec057;
+    border-radius: 50%;
+    transition: all 1s;
+    z-index: 4;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+}
+
+.container2 .search2:hover {
+    cursor: pointer;
+    background: #90ff8d;
+}
+
+.container2 .search2:hover::before {
+    background: rgb(0, 0, 0) !important;
+}
+
+.container2 .search2:hover::after {
+    background: rgb(0, 0, 0) !important;
+}
+
+.container2 .search2::before {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    background: white;
+    transform: rotate(90deg);
+    transition: all 1s;
+}
+
+.container2 .search2::after {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    background: white;
+    transition: all 1s;
+}
+
 .container .input {
     font-family: "Inconsolata", monospace;
     position: absolute;
@@ -292,6 +360,9 @@
 @media (max-width: 991px) {
     .header {
         height: auto;
+    }
+    .container {
+        right: 50px !important;
     }
     .container .input.focus~.search {
         bottom: -250px;

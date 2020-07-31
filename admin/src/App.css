@@ -373,7 +373,7 @@ span.apexcharts-legend-text {
     height: auto;
     width: calc(100% - 7rem);
     position: absolute;
-    background: #ececec;
+    background: #ffffff;
     z-index: 0;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-auto-flow: dense;

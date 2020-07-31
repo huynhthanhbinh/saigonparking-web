@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Steps } from 'rsuite';
-import { Button, ButtonGroup, Icon, Input, InputGroup, List, Pagination, FlexboxGrid } from 'rsuite';
+import { Button, ButtonGroup, Icon, Input, InputGroup, List, Pagination, FlexboxGrid, Notification } from 'rsuite';
 import { API_URL } from '../../../saigonparking';
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
 import { AuthServiceClient } from "../../../api/Auth_grpc_web_pb";
@@ -205,7 +205,6 @@ const AddEmpolyee = () => {
             } else {
                 if (!isMounted) {
                     setUsers(res.getUserList());
-                    console.log(res.getUserList())
                 }
             }
         });
@@ -230,7 +229,7 @@ const AddEmpolyee = () => {
                     openModalError();
                 }
             } else {
-                if(res.getValue() === false) setValid(false) 
+                if (res.getValue() === false) setValid(false)
                 else setValid(true)
             }
         })
@@ -249,19 +248,19 @@ const AddEmpolyee = () => {
     const handleChoseParking = (data) => {
         let temp = resultChoosen
         temp.idParking = data
-        setResultChoosen (prev => temp)
+        setResultChoosen(prev => temp)
         onNext()
     }
 
     const handleChoseUser = (data) => {
         let temp = resultChoosen
         temp.idUser = data
-        setResultChoosen (prev => temp)
+        setResultChoosen(prev => temp)
         checkValidtoAdd(temp)
-        console.log(resultChoosen)
         onNext()
     }
 
+    //Submit Add
     const handleSubmit = () => {
         const request = new ParkinglotProto.AddEmployeeOfParkingLotRequest();
         const token = 'Bearer ' + Cookies.get("token");
@@ -278,152 +277,160 @@ const AddEmpolyee = () => {
                     openModalError();
                 }
             } else {
-                console.log('Submit: ', res)
+                Notification['success']({
+                    title: resultChoosen.idUser.getUsername(),
+                    description: <h4>Add Employee to {resultChoosen.idParking.getInformation().getName()} Success</h4>
+                });
+                setStep(0)
             }
         })
     }
 
     return (
         <>
-        <h3 style={{marginBottom: '10px'}}>Add Employee</h3>
-        <div className="MainCard" style={{ padding: '40px',marginTop:'10px' }}>
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <Steps current={step}>
-                <Steps.Item title="Choose Parking Lot" description="" />
-                <Steps.Item title="Choose Employee" description="" />
-                <Steps.Item title="Finish" description="" />
-            </Steps>
-            
-            <hr />
-            {step === 0 ? <>
-                <InputGroup style={stylesInput}>
-                    <Input defaultValue={searchValueParking} onChange={debounce((value) => { setSearchParking(value) }, 1000)} />
-                    <InputGroup.Button>
-                        <Icon icon="search" />
-                    </InputGroup.Button>
-                </InputGroup>
+            <h3 style={{ marginBottom: '10px' }}>Add Employee</h3>
+            <div className="MainCard" style={{ padding: '40px', marginTop: '10px' }}>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                <Steps current={step}>
+                    <Steps.Item title="Choose Parking Lot" description="" />
+                    <Steps.Item title="Choose Employee" description="" />
+                    <Steps.Item title="Finish" description="" />
+                </Steps>
 
-                {parkinglots ? <List hover>
-                    <FlexboxGrid>
-                        <FlexboxGrid.Item colspan={2}>
-                            <h6>ID</h6>
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={6}>
-                            <h6>NAME</h6>
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={6}>
-                            <h6>TYPE</h6>
-                        </FlexboxGrid.Item>
+                <hr />
+                {step === 0 ? <>
+                    <InputGroup style={stylesInput}>
+                        <Input defaultValue={searchValueParking} onChange={debounce((value) => { setSearchParking(value) }, 1000)} />
+                        <InputGroup.Button>
+                            <Icon icon="search" />
+                        </InputGroup.Button>
+                    </InputGroup>
+
+                    {parkinglots ? <List hover>
+                        <FlexboxGrid>
+                            <FlexboxGrid.Item colspan={2}>
+                                <h6>ID</h6>
+                            </FlexboxGrid.Item>
+                            <FlexboxGrid.Item colspan={6}>
+                                <h6>NAME</h6>
+                            </FlexboxGrid.Item>
+                            <FlexboxGrid.Item colspan={6}>
+                                <h6>TYPE</h6>
+                            </FlexboxGrid.Item>
                             <h6>CAPACITY</h6>
-                    </FlexboxGrid>
-                    {parkinglots.map((item, index) => (
-                        <List.Item onClick={() => handleChoseParking(item)} key={item.getId()} index={index}>
-                            <FlexboxGrid>
-                                <FlexboxGrid.Item colspan={2}>
-                                    <div>{item.getId()}</div>
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={6}>
-                                    <div>{item.getInformation().getName()}</div>
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={6}>
-                                    <div>{parkingLotMapper.toTypeString(item.getType())}</div>
-                                </FlexboxGrid.Item >
-                                <div>{item.getTotalslot()}</div>
-                            </FlexboxGrid>
-                        </List.Item>
-                    ))}
-                </List> : null}
+                        </FlexboxGrid>
+                        {parkinglots.map((item, index) => (
+                            <List.Item onClick={() => handleChoseParking(item)} key={item.getId()} index={index}>
+                                <FlexboxGrid>
+                                    <FlexboxGrid.Item colspan={2}>
+                                        <div>{item.getId()}</div>
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={6}>
+                                        <div>{item.getInformation().getName()}</div>
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={6}>
+                                        <div>{parkingLotMapper.toTypeString(item.getType())}</div>
+                                    </FlexboxGrid.Item >
+                                    <div>{item.getTotalslot()}</div>
+                                </FlexboxGrid>
+                            </List.Item>
+                        ))}
+                    </List> : null}
 
-                <Pagination
-                    prev
-                    last
-                    next
-                    first
-                    size="lg"
-                    maxButtons={5}
-                    ellipsis
-                    boundaryLinks
-                    activePage={pagenumber}
-                    onSelect={(value) => { setPagenumber(prev => value) }}
-                    pages={totalParkinglot % 10 === 0 ? totalParkinglot / 10 : Math.floor(totalParkinglot / 10) + 1}
-                />
-                <hr />
-            </> : step === 1 ? <>
-                <InputGroup style={stylesInput}>
-                    <Input defaultValue={searchValueUser} onChange={debounce((value) => { setSearchUser(value) }, 1000)} />
-                    <InputGroup.Button>
-                        <Icon icon="search" />
-                    </InputGroup.Button>
-                </InputGroup>
+                    <Pagination
+                        prev
+                        last
+                        next
+                        first
+                        size="lg"
+                        maxButtons={5}
+                        ellipsis
+                        boundaryLinks
+                        activePage={pagenumber}
+                        onSelect={(value) => { setPagenumber(prev => value) }}
+                        pages={totalParkinglot % 10 === 0 ? totalParkinglot / 10 : Math.floor(totalParkinglot / 10) + 1}
+                    />
+                    <hr />
+                </> : step === 1 ? <>
+                    <InputGroup style={stylesInput}>
+                        <Input defaultValue={searchValueUser} onChange={debounce((value) => { setSearchUser(value) }, 1000)} />
+                        <InputGroup.Button>
+                            <Icon icon="search" />
+                        </InputGroup.Button>
+                    </InputGroup>
 
-                {users ? <List hover>
-                    <FlexboxGrid>
-                        <FlexboxGrid.Item colspan={2}>
-                            <h6>ID</h6>
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={6}>
-                            <h6>ROLE</h6>
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={6}>
-                            <h6>USERNAME</h6>
-                        </FlexboxGrid.Item>
+                    {users ? <List hover>
+                        <FlexboxGrid>
+                            <FlexboxGrid.Item colspan={2}>
+                                <h6>ID</h6>
+                            </FlexboxGrid.Item>
+                            <FlexboxGrid.Item colspan={6}>
+                                <h6>USERNAME</h6>
+                            </FlexboxGrid.Item>
+                            <FlexboxGrid.Item colspan={6}>
+                                <h6>ROLE</h6>
+                            </FlexboxGrid.Item>
                             <h6>EMAIL</h6>
-                    </FlexboxGrid>
-                    {users.map((item, index) => (
-                        <List.Item onClick={() => handleChoseUser(item)} key={item.getId()} index={index}>
-                            <FlexboxGrid>
-                                <FlexboxGrid.Item colspan={2}>
-                                    <div>{item.getId()}</div>
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={6}>
-                                    <div>{userMapper.toRoleString(item.getRole())}</div>
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={6}>
-                                    <div>{item.getUsername()}</div>
-                                </FlexboxGrid.Item >
-                                <div>{item.getEmail()}</div>
-                            </FlexboxGrid>
-                        </List.Item>
-                    ))}
-                </List> : null}
+                        </FlexboxGrid>
+                        {users.map((item, index) => (
+                            <List.Item onClick={() => handleChoseUser(item)} key={item.getId()} index={index}>
+                                <FlexboxGrid>
+                                    <FlexboxGrid.Item colspan={2}>
+                                        <div>{item.getId()}</div>
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={6}>
+                                        <div>{item.getUsername()}</div>
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={6}>
+                                        <div>{userMapper.toRoleString(item.getRole())}</div>
+                                    </FlexboxGrid.Item >
+                                    <div>{item.getEmail()}</div>
+                                </FlexboxGrid>
+                            </List.Item>
+                        ))}
+                    </List> : null}
 
-                <Pagination
-                    prev
-                    last
-                    next
-                    first
-                    size="lg"
-                    maxButtons={5}
-                    ellipsis
-                    boundaryLinks
-                    activePage={pagenumberU}
-                    onSelect={(value) => { setPagenumberU(prev => value) }}
-                    pages={totalUser % 10 === 0 ? totalUser / 10 : Math.floor(totalUser / 10) + 1}
-                />
-                <hr />
-            </>: <>
-                {valid ?<>
-                    <h5>Employee: {resultChoosen.idUser.getUsername()} - ID: {resultChoosen.idUser.getId()}</h5>
-                    <br/>
-                    Can't add to <span style={{fontWeight:'bolder'}}>{resultChoosen.idParking.getInformation().getName()}</span> because User already have another parking lot
-                    <br/>
-                    <h4>Please choose again!</h4>
-                </>:<>
-                
-                </>}
-            
-                <hr />
-            </>}
+                    <Pagination
+                        prev
+                        last
+                        next
+                        first
+                        size="lg"
+                        maxButtons={5}
+                        ellipsis
+                        boundaryLinks
+                        activePage={pagenumberU}
+                        onSelect={(value) => { setPagenumberU(prev => value) }}
+                        pages={totalUser % 10 === 0 ? totalUser / 10 : Math.floor(totalUser / 10) + 1}
+                    />
+                    <hr />
+                </> : <>
+                            {valid ? <>
+                                <h5>Employee: {resultChoosen.idUser.getUsername()} - ID: {resultChoosen.idUser.getId()}</h5>
+                                <br />
+                                Can't add to <span style={{ fontWeight: 'bolder' }}>{resultChoosen.idParking.getInformation().getName()}</span> because User already have another parking lot
+                                <br />
+                                <h4>Please choose again!</h4>
+                            </> : <>
+                                    <h5>Employee: {resultChoosen.idUser.getUsername()} - ID: {resultChoosen.idUser.getId()}</h5>
+                                    <br />
+                                Do you want to add to <span style={{ fontWeight: 'bolder' }}>{resultChoosen.idParking.getInformation().getName()}</span> ?
+                                <br />
+                                    <h4>Please Confirm!</h4>
+                                </>}
 
-            <ButtonGroup>
-                <Button onClick={onPrevious} disabled={step === 0}>
-                    Back
+                            <hr />
+                        </>}
+
+                <ButtonGroup>
+                    <Button onClick={onPrevious} disabled={step === 0}>
+                        Back
                 </Button>
-                <Button onClick={handleSubmit} appearance="primary" disabled={valid !== null ? valid : true}>
-                    Confirm
+                    <Button onClick={handleSubmit} appearance="primary" disabled={valid !== null ? valid : true}>
+                        Confirm
                 </Button>
-            </ButtonGroup>
-        </div>
+                </ButtonGroup>
+            </div>
         </>
     );
 }
