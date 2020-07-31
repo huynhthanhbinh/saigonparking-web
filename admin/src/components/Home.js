@@ -12,6 +12,7 @@ import Resetpassword from './Resetpassword'
 import Dashboard from './Admin/Dashboard'
 import Admingetalluser from './Admin/User/Admingetalluser'
 import Admingetallparkinglot from './Admin/Parkinglot/Admingetallparkinglot'
+import AddEmpolyee from './Admin/Employee/AddEmployee'
 
 //Activate Account
 import ClickActivateAccount from './ActivateAccount/ClickActivateAccount'
@@ -147,8 +148,21 @@ const Routes = (location) => {
     // }
 
     const ProtectedProfile = ({ auth, checkUserName, component: Component, ...rest }) => {
-        document.title = 'YOUR INFORMATION'
         document.title = 'ADMIN PARKING LOT'
+        const token = Cookies.get("token");
+        const refreshtoken = Cookies.get("refreshtoken");
+        const Username = Cookies.get("checkUserName");
+        if (token && refreshtoken && Username) {
+            return (<Component />)
+        }
+        else {
+            RemoveCookie();
+            window.location.href = "/login"
+        }
+    }
+
+    const ProtectedEmployee = ({ auth, checkUserName, component: Component, ...rest }) => {
+        document.title = 'ADD EMP TO PARKING'
         const token = Cookies.get("token");
         const refreshtoken = Cookies.get("refreshtoken");
         const Username = Cookies.get("checkUserName");
@@ -269,6 +283,8 @@ const Routes = (location) => {
                         {/* <ProtectedMap path="/parkingmap" component={CovidDashboard} auth={Auth.auth}  ></ProtectedMap> */}
 
                         <ProtectedProfile exact path="/profile" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Information}></ProtectedProfile>
+
+                        <ProtectedEmployee exact path="/employee" auth={Auth.auth} checkUserName={Auth.checkUserName} component={AddEmpolyee}></ProtectedEmployee>
 
                         <ProtectedChangePassword exact path="/profile/changepassword" auth={Auth.auth} checkUserName={Auth.checkUserName} component={Resetpassword}></ProtectedChangePassword>
 

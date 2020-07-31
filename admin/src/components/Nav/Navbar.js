@@ -7,6 +7,7 @@ import { ReactComponent as PackingIcon } from '../Admin/svg/parking-icon.svg';
 import { ReactComponent as SingOutIcon } from '../Admin/svg/sign-out-icon.svg';
 import { ReactComponent as ProfileIcon } from '../Admin/svg/profile-icon.svg';
 import { ReactComponent as DashboardIcon } from '../Admin/svg/dashboard-icon.svg';
+import { ReactComponent as EmployeeIcon } from '../Admin/svg/employee-icon.svg';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage'
@@ -52,6 +53,12 @@ const Navbardefault = () => {
                             <NavLink exact activeClassName='is-active' to="/getallparkinglot" className="nav-link">
                                 <PackingIcon />
                                 <span className="link-text">Parking Manager</span>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink exact activeClassName='is-active' to="/employee" className="nav-link">
+                                <EmployeeIcon />
+                                <span className="link-text">Add employee</span>
                             </NavLink>
                         </li>
                         <li className="nav-item">

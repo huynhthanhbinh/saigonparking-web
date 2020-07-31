@@ -392,3 +392,7 @@ span.apexcharts-legend-text {
 .dashboardCard .contentCard h2 {
     padding-top: 10px;
 }
+
+.rs-list-hover .rs-list-item:hover {
+    cursor: pointer;
+}

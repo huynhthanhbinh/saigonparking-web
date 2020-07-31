@@ -40,7 +40,7 @@ const Searchbar = ({ activated }) => {
 
     return (
         <div className={styles.header}>
-            {window.location.pathname === '/getalluser' ? <h1>User Manager</h1> : <>{window.location.pathname === '/getallparkinglot' ? <h1>Parking Manager</h1> : null}</>}
+            {window.location.pathname === '/getalluser' ? <h3  style={{paddingBottom:'15px'}}>User Manager</h3> : <>{window.location.pathname === '/getallparkinglot' ? <h3 style={{paddingBottom:'15px'}}>Parking Manager</h3> : null}</>}
             <Radio className={`${styles.activated} ${styleFocus}`} slider onChange={() => {
                 let temp = Object.assign({}, dataCheckbox);
                 temp.activated = !temp.activated;
