@@ -72,7 +72,7 @@ const Searchbar = ({ activated }) => {
             <DrawerAddParking isOpen={isOpenParkingLot} setIsOpen={handleCloseDrawerParking} />
             <DrawerAddUser isOpen={isOpenUser} setIsOpen={handleCloseDrawerUser} />
             <div className={styles.header}>
-                {window.location.pathname === '/getalluser' ? <h3 style={{ paddingBottom: '15px' }}>User Manager</h3> : <>{window.location.pathname === '/getallparkinglot' ? <h3 style={{ paddingBottom: '15px' }}>Parking Manager</h3> : null}</>}
+                {window.location.pathname === '/getalluser' ? <h3 style={{ paddingBottom: '15px', color:'#df49a6' }}>User Manager</h3> : <>{window.location.pathname === '/getallparkinglot' ? <h3 style={{ paddingBottom: '15px', color:'#df49a6' }}>Parking Manager</h3> : null}</>}
                 <Radio className={`${styles.activated} ${styleFocus}`} slider onChange={() => {
                     let temp = Object.assign({}, dataCheckbox);
                     temp.activated = !temp.activated;

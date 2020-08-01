@@ -259,21 +259,21 @@ const Dashboard = () => {
     }, [flat, ErrorSPE00001])
 
     return (
-            <div className="dashboardCard">
-                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-                <div className='contentCard'>
-                    <h2>Parking Lot:</h2>
-                    {optionParkingLot ? <Chart options={optionParkingLot.options} series={optionParkingLot.series} type="pie" width={380} /> : <h1>No Data Parking Lot at this time</h1>}
-                </div>
-                <div className='contentCard'>
-                    <h2>User:</h2>
-                    {optionUser ? <Chart options={optionUser.options} series={optionUser.series} type="pie" width={380} /> : <h1>No Data User at this time</h1>}
-                </div>
-                <div className='contentCard'>
-                    <h2>Booking:</h2>
-                    {optionBooking ? <Chart options={optionBooking.options} series={optionBooking.series} type="pie" width={380} /> : <h1>No Data Booking at this time</h1>}
-                </div>
+        <div className="dashboardCard">
+            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+            <div className='contentCard'>
+                <h3 style={{ color: '#df49a6' }}>Parking Lot:</h3>
+                {optionParkingLot ? <Chart options={optionParkingLot.options} series={optionParkingLot.series} type="pie" width={380} /> : <h1>No Data Parking Lot at this time</h1>}
             </div>
+            <div className='contentCard'>
+                <h3 style={{ color: '#df49a6' }}>User:</h3>
+                {optionUser ? <Chart options={optionUser.options} series={optionUser.series} type="pie" width={380} /> : <h1>No Data User at this time</h1>}
+            </div>
+            <div className='contentCard'>
+                <h3 style={{ color: '#df49a6' }}>Booking:</h3>
+                {optionBooking ? <Chart options={optionBooking.options} series={optionBooking.series} type="pie" width={380} /> : <h1>No Data Booking at this time</h1>}
+            </div>
+        </div>
     )
 
 }

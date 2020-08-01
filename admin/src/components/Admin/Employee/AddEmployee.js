@@ -294,7 +294,7 @@ const AddEmpolyee = () => {
 
     return (
         <>
-            <h3 style={{ marginBottom: '10px' }}>Add Employee</h3>
+            <h3 style={{ marginBottom: '15px', color:'#df49a6' }}>Add Employee</h3>
             <div className="MainCard" style={{ padding: '40px', marginTop: '10px' }}>
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                 <Steps current={step}>

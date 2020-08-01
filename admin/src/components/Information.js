@@ -94,7 +94,7 @@ const Information = () => {
             <div className='ContentMainCard' style={{display:'flex', flexDirection:'column'}}>
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
-                <h3 style={{alignSelf:'flex-start', paddingLeft: '10px'}}>Your Information</h3>
+                <h3 style={{alignSelf:'flex-start', paddingLeft: '10px', color:'#df49a6'}}>Your Information</h3>
                 {customerObject ? <Formik
                     initialValues={{
                         userName: customerObject.getUsername(),
