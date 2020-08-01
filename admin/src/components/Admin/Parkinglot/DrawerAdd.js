@@ -96,9 +96,7 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
                         fullWidth
                         value={name}
                         onChange={(e) => {
-                            let value = e.target.value
-                            value = value.replace(/[^A-Za-z0-9]/gi, "")
-                            setName(prev => value)
+                            setName(prev => e.target.value)
                         }}
                     />
                     <TextValidator
