@@ -79,7 +79,6 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
 
     const handleChangeRole = (event) => {
         setRole(event.target.value)
-        console.log(role)
     }
 
     const handleSubmitCreate = () => {
@@ -197,7 +196,6 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
             <Drawer.Body>
                 <ValidatorForm
                     onSubmit={() => handleSubmitCreate()}
-                    onError={errors => console.log(errors)}
                 >
                     <FormControlLabel
                         control={

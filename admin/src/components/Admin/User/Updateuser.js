@@ -265,7 +265,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                     <h2 >ADMIN</h2>
                     {(users) ? <Formik
                         initialValues={{
-                            role: users.getRole(),
+                            role: 'ADMIN',
                             userName: users.getUsername(),
                             email: users.getEmail(),
                             isActivated: users.getIsactivated(),
@@ -354,7 +354,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                     {(users) ? <Formik
                         initialValues={{
                             id: users.getId(),
-                            role: users.getRole(),
+                            role: 'GOVERNMENT EMPLOYEE',
                             userName: users.getUsername(),
                             email: users.getEmail(),
                             isActivated: users.getIsactivated(),
@@ -428,7 +428,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                     }}
                     className="modal-content"
                 >
-                    <h2 >ADMIN</h2>
+                    <h2 >PARKING LOT EMPLOYEE</h2>
                     {(users) ? <Formik
                         initialValues={{
                             id: users.getId(),
