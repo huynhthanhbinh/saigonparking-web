@@ -16,6 +16,7 @@ import { API_URL } from '../../../saigonparking';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb';
 import { Notification } from 'rsuite'
+import _ from 'lodash'
 
 const UserService = new UserServiceClient(API_URL);
 const authService = new AuthServiceClient(API_URL)
@@ -103,10 +104,12 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                     if (err.message === "SPE#00001") {
                         ErrorSPE00001();
                     } else {
-                        setmyError(err.message);
-                        openModalError();
+                        Notification['error']({
+                            title: 'Error!',
+                            description: <h4>Problem when create User, 
+                            Please try again later</h4>
+                        });
                     }
-                    console.log(err)
                 } else {
                     Notification['success']({
                         title: 'Add successed',
@@ -138,8 +141,11 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                     if (err.message === "SPE#00001") {
                         ErrorSPE00001();
                     } else {
-                        setmyError(err.message);
-                        openModalError();
+                        Notification['error']({
+                            title: 'Error!',
+                            description: <h4>Problem when create User,
+                            Please try again later</h4>
+                        });
                     }
                 } else {
                     Notification['success']({
@@ -160,6 +166,28 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
 
         }
     }
+
+    const handleCheckAlready = React.useCallback(_.debounce((value) => {
+        const request = new StringValue();
+        // request.setKeyword()
+        request.setValue(value)
+        const token = "Bearer " + Cookies.get("token");
+        const metadata = { 'Authorization': token };
+
+        UserService.checkUsernameAlreadyExist(request, metadata, (err, res) => {
+            if (err) {
+                if (err.message === "SPE#00001") {
+                    ErrorSPE00001();
+                } else {
+                    setmyError(err.message);
+                    openModalError();
+                }
+            } else {
+                if (res.getValue() === true) setAlready(true)
+                else setAlready(false)
+            }
+        });
+    },1000),[])
 
     return (
         <Drawer backdrop="static" show={isOpen} size='xs' onHide={handleCancle}>
@@ -197,25 +225,7 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                             let value = e.target.value
                             value = value.replace(/[^A-Za-z0-9]/gi, "")
                             setUserName(prev => value)
-                            const request = new StringValue();
-                            // request.setKeyword()
-                            request.setValue(value)
-                            const token = "Bearer " + Cookies.get("token");
-                            const metadata = { 'Authorization': token };
-
-                            UserService.checkUsernameAlreadyExist(request, metadata, (err, res) => {
-                                if (err) {
-                                    if (err.message === "SPE#00001") {
-                                        ErrorSPE00001();
-                                    } else {
-                                        setmyError(err.message);
-                                        openModalError();
-                                    }
-                                } else {
-                                    if (res.getValue() === true) setAlready(true)
-                                    else setAlready(false)
-                                }
-                            });
+                            handleCheckAlready(value)
                         }}
                     />
                     <TextValidator

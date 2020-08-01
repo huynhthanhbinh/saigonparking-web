@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import parkingLotMapper from '../../../mapper/ParkingLotMapper';
 import userMapper from "../../../mapper/UserMapper";
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
-import { debounce } from 'lodash'
+import _ from 'lodash'
 import 'rsuite/dist/styles/rsuite-default.css';
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
 
@@ -34,11 +34,14 @@ const AddEmpolyee = () => {
     const [totalParkinglot, settotalParkinglot] = useState(0)
     const [parkinglots, setParkinglots] = useState(null)
     const [pagenumber, setPagenumber] = useState(1)
+    const [tempSearchParking, setTempSearchparking] = useState('')
+    
 
     //User type Employee
     const [totalUser, settotalUser] = useState(0)
     const [users, setUsers] = useState(null)
     const [pagenumberU, setPagenumberU] = useState(1)
+    const [tempSearchUser, setTempSearchuser] = useState('')
 
     //Check and set valid to add employee to parkinglot
     const [valid, setValid] = useState(null)
@@ -286,6 +289,9 @@ const AddEmpolyee = () => {
         })
     }
 
+    const handleChangeSearchPark = React.useCallback(_.debounce((value) => { setSearchParking(value)}, 1000),[])
+    const handleChangeSearchUser = React.useCallback(_.debounce((value) => { setSearchUser(value)}, 1000),[])
+
     return (
         <>
             <h3 style={{ marginBottom: '10px' }}>Add Employee</h3>
@@ -300,7 +306,12 @@ const AddEmpolyee = () => {
                 <hr />
                 {step === 0 ? <>
                     <InputGroup style={stylesInput}>
-                        <Input defaultValue={searchValueParking} onChange={debounce((value) => { setSearchParking(value) }, 1000)} />
+                        <Input value={tempSearchParking} onChange={
+                            (value) => {
+                                setTempSearchparking(prev => value)
+                                handleChangeSearchPark(value)
+                            }
+                    } />
                         <InputGroup.Button>
                             <Icon icon="search" />
                         </InputGroup.Button>
@@ -353,7 +364,11 @@ const AddEmpolyee = () => {
                     <hr />
                 </> : step === 1 ? <>
                     <InputGroup style={stylesInput}>
-                        <Input defaultValue={searchValueUser} onChange={debounce((value) => { setSearchUser(value) }, 1000)} />
+                        <Input value={tempSearchUser} onChange={
+                            (value) => {
+                                setTempSearchuser(prev => value)
+                                handleChangeSearchUser(value)
+                            }} />
                         <InputGroup.Button>
                             <Icon icon="search" />
                         </InputGroup.Button>
