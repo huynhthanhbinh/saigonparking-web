@@ -189,6 +189,16 @@ message AddEmployeeOfParkingLotRequest {
     int64 parkingLotId = 2;
 }
 
+message RemoveEmployeeOfParkingLotRequest {
+    int64 employeeId = 1;
+    int64 parkingLotId = 2;
+    bool deleteEmployee = 3; /* if admin want to remove employee from parking-lot, also delete this employee */
+}
+
+message GetEmployeeManageParkingLotIdListResponse {
+    repeated int64 employeeId = 1;
+}
+
 service ParkingLotService {
 
     /** PUBLIC - ADMIN ONLY
@@ -379,8 +389,21 @@ service ParkingLotService {
     rpc addEmployeeOfParkingLot (AddEmployeeOfParkingLotRequest) returns (google.protobuf.Empty);
 
     /** PUBLIC - admin only
-     * use-case: addEmployeeOfParkingLot
+     * use-case: removeEmployeeOfParkingLot
+     * note that: 1 parking lot can have more than 1 employee account
+     *  + request: RemoveEmployeeOfParkingLotRequest
+     *  + response: empty, if succeed, otherwise, throw exception */
+    rpc removeEmployeeOfParkingLot (RemoveEmployeeOfParkingLotRequest) returns (google.protobuf.Empty);
+
+    /** PUBLIC - admin only
+     * use-case: add/remove EmployeeOfParkingLot
      *  + request: employee's id
      *  + response: bool value if succeed, otherwise, throw exception */
     rpc checkEmployeeAlreadyManageParkingLot (google.protobuf.Int64Value) returns (google.protobuf.BoolValue);
+
+    /** PRIVATE - internal use only
+     * use-case: add/remove EmployeeOfParkingLot
+     *  + request: parking lot's id
+     *  + response: employee id list if succeed, otherwise, throw exception */
+    rpc getEmployeeManageParkingLotIdList (google.protobuf.Int64Value) returns (GetEmployeeManageParkingLotIdListResponse);
 }
