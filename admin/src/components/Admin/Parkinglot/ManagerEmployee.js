@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Button } from 'rsuite';
-import ParkingLotProto from '../../../api/ParkingLot_pb'
+import { Modal, Button, ButtonGroup, Notification } from 'rsuite';
+// import ParkingLotProto from '../../../api/ParkingLot_pb'
 import Cookies from 'js-cookie';
+import ParkingLotProto from '../../../api/ParkingLot_pb'
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb'
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb'
 import { Int64Value } from 'google-protobuf/google/protobuf/wrappers_pb';
@@ -12,35 +13,51 @@ const userService = new UserServiceClient(API_URL);
 
 const ManagerEmployee = ({ parkinglot, isOpen, isClose }) => {
 
-    const [listUser, setListUser] = useState([])
+    const [listUser, setListUser] = useState(null)
+    const [isDisable, setIsDisable] = useState(false)
 
     useEffect(() => {
+        setListUser(null)
         const token = "Bearer " + Cookies.get("token");
         const metadata = { 'Authorization': token }
         const request = new Int64Value()
         request.setValue(parkinglot.getId())
-        parkingLotService.getEmployeeManageParkingLotIdList(request, metadata, (err, res) => {
+        userService.getEmployeeManageParkingLotList(request, metadata, (err, res) => {
             if (err) {
                 console.log(err)
             }
             else {
-                let list = res.getEmployeeidList()
-                for (let i = 0; i < list.length; i++) {
-                    request.setValue(list[i])
-                    userService.getUserById(request, metadata, (err, res) => {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            let temp = listUser.slice()
-                            temp.push(res)
-                            setListUser(list => temp)
-                        }
-                    })
-                }
+                setListUser(res.getEmployeeList())
             }
         })
     }, [parkinglot])
+
+    const removeAwayParkingLot = (idUser, idParking, bool) => {
+        setIsDisable(true)
+        const token = "Bearer " + Cookies.get("token");
+        const metadata = { 'Authorization': token }
+        const request = new ParkingLotProto.RemoveEmployeeOfParkingLotRequest()
+        request.setEmployeeid(idUser)
+        request.setParkinglotid(idParking)
+        request.setDeleteemployee(bool)
+        parkingLotService.removeEmployeeOfParkingLot(request, metadata, (err, res) => {
+            if (err) {
+                Notification['error']({
+                    title: 'Error!',
+                    description: <h4>Problem when {bool ? 'delete' : 'remove'} Parking Lot,
+                    Please try again later</h4>
+                });
+            }
+            else {
+                Notification['success']({
+                    title: `${bool ? 'Delete' : 'Remove'} successed`,
+                    description: <h4>{bool ? 'Delete' : 'Remove'} Success!</h4>
+                });
+                setIsDisable(false)
+                setListUser(list => list.filter(data => data.getId() !== idUser))
+            }
+        })
+    }
 
     return (
         <>
@@ -49,7 +66,19 @@ const ManagerEmployee = ({ parkinglot, isOpen, isClose }) => {
                     <Modal.Title>Manager Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {parkinglot.getId()}
+                    {listUser ? <ul>
+                        {listUser.map((data, index) => {
+                            return (
+                                <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'5px' }}>
+                                    {data.getId()}: {data.getUsername()}
+                                    <ButtonGroup>
+                                        <Button color="orange" disabled={isDisable} onClick={() => removeAwayParkingLot(data.getId(), parkinglot.getId(), false)}>Remove</Button>
+                                        <Button color="red" disabled={isDisable} onClick={() => removeAwayParkingLot(data.getId(), parkinglot.getId(), true)}>Delete</Button>
+                                    </ButtonGroup>
+                                </li>
+                            )
+                        })}
+                    </ul> : <h4>No user management ... </h4>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={isClose} appearance="primary">
