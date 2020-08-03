@@ -802,6 +802,86 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.che
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.BoolValue>}
+ */
+const methodDescriptor_UserService_checkEmailAlreadyExist = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/checkEmailAlreadyExist',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.StringValue,
+  google_protobuf_wrappers_pb.BoolValue,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.BoolValue.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.StringValue,
+ *   !proto.google.protobuf.BoolValue>}
+ */
+const methodInfo_UserService_checkEmailAlreadyExist = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.BoolValue,
+  /**
+   * @param {!proto.google.protobuf.StringValue} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.BoolValue.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.BoolValue)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.BoolValue>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.checkEmailAlreadyExist =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/checkEmailAlreadyExist',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_checkEmailAlreadyExist,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.StringValue} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.BoolValue>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.checkEmailAlreadyExist =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/checkEmailAlreadyExist',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_checkEmailAlreadyExist);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.com.bht.saigonparking.api.grpc.user.User,
  *   !proto.google.protobuf.Int64Value>}
  */
@@ -1436,6 +1516,86 @@ proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.del
       request,
       metadata || {},
       methodDescriptor_UserService_deleteMultiUserById);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse>}
+ */
+const methodDescriptor_UserService_getEmployeeManageParkingLotList = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.user.UserService/getEmployeeManageParkingLotList',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_wrappers_pb.Int64Value,
+  proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Int64Value,
+ *   !proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse>}
+ */
+const methodInfo_UserService_getEmployeeManageParkingLotList = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse,
+  /**
+   * @param {!proto.google.protobuf.Int64Value} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServiceClient.prototype.getEmployeeManageParkingLotList =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/getEmployeeManageParkingLotList',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_getEmployeeManageParkingLotList,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Int64Value} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.user.GetEmployeeManageParkingLotListResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.user.UserServicePromiseClient.prototype.getEmployeeManageParkingLotList =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.user.UserService/getEmployeeManageParkingLotList',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_getEmployeeManageParkingLotList);
 };
 
 
