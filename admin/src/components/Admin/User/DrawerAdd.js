@@ -32,6 +32,7 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
     const [lastName, setLastName] = useState('')
     const [phone, setPhone] = useState('')
     const [already, setAlready] = useState(false)
+    const [alreadyEmail, setAlreadyEmail] = useState(false)
 
     //renew accessToken
     const ErrorSPE00001 = React.useCallback(
@@ -105,14 +106,14 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                     } else {
                         Notification['error']({
                             title: 'Error!',
-                            description: <h4>Problem when create User, 
+                            description: <h4>Problem when create User,
                             Please try again later</h4>
                         });
                     }
                 } else {
                     Notification['success']({
                         title: 'Add successed',
-                        description: <h4>Add Customer with ID: {res.getValue()} Success</h4>
+                        description: <h4>Add Customer with ID: {res.getValue()} Success - Please check your Email to activate Account!</h4>
                     });
                     setUserName('')
                     setEmail('')
@@ -166,6 +167,7 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
         }
     }
 
+    //Check userName Already
     const handleCheckAlready = React.useCallback(_.debounce((value) => {
         const request = new StringValue();
         // request.setKeyword()
@@ -186,7 +188,30 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                 else setAlready(false)
             }
         });
-    },1000),[])
+    }, 1000), [])
+
+    //Check email already use
+    const handleEmailCheckAlready = React.useCallback(_.debounce((value) => {
+        const request = new StringValue();
+        // request.setKeyword()
+        request.setValue(value)
+        const token = "Bearer " + Cookies.get("token");
+        const metadata = { 'Authorization': token };
+
+        UserService.checkEmailAlreadyExist(request, metadata, (err, res) => {
+            if (err) {
+                if (err.message === "SPE#00001") {
+                    ErrorSPE00001();
+                } else {
+                    setmyError(err.message);
+                    openModalError();
+                }
+            } else {
+                if (res.getValue() === true) setAlreadyEmail(true)
+                else setAlreadyEmail(false)
+            }
+        });
+    }, 1000), [])
 
     return (
         <Drawer backdrop="static" show={isOpen} size='xs' onHide={handleCancle}>
@@ -241,6 +266,8 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                         }}
                     />
                     <TextValidator
+                        error={alreadyEmail}
+                        helperText={alreadyEmail ? 'Email already exited! ' : ''}
                         margin="normal"
                         id="email"
                         label="Email"
@@ -248,7 +275,10 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                         required
                         fullWidth
                         value={email}
-                        onChange={(e) => { setEmail(e.target.value) }}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                            handleEmailCheckAlready(e.target.value)
+                        }}
                         validators={['required', 'isEmail']}
                         errorMessages={['This field is required', 'email is not valid']}
                     />
@@ -300,10 +330,10 @@ const DrawerAddUser = ({ isOpen, setIsOpen }) => {
                         />
                     </> : null}
                     <br />
-                    <Button style={{marginTop: '10px'}} disabled={already} type='submit' appearance="primary">
+                    <Button style={{ marginTop: '10px' }} disabled={(already === false && alreadyEmail === false) ? false : true} type='submit' appearance="primary">
                         Confirm
                     </Button>
-                    <Button style={{marginTop: '10px'}} onClick={handleCancle} appearance="subtle">
+                    <Button style={{ marginTop: '10px' }} onClick={handleCancle} appearance="subtle">
                         Cancel
                     </Button>
                 </ValidatorForm>

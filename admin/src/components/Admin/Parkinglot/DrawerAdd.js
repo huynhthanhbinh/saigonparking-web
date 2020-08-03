@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ParkingLotProto from '../../../api/ParkingLot_pb'
 import ModalError from '../../Modal/ModalError'
 import Cookies from 'js-cookie';
+import Control from 'react-leaflet-control';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb'
 import { AuthServiceClient } from "../../../api/Auth_grpc_web_pb";
@@ -24,7 +25,7 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [openingHour, setOpeningHour] = useState('')
-    const [totalSlot, setTotalSlot] = useState('')
+    const [totalSlot, setTotalSlot] = useState(0)
     const [closingHour, setClosingHour] = useState('')
     const [phone, setPhone] = useState('')
     const [position, setPosition] = useState([10.762273961494273, 466.6819882392884])
@@ -75,7 +76,50 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
     }
 
     const handleSubmitCreate = () => {
-
+        const token = "Bearer " + Cookies.get("token");
+        const metadata = { 'Authorization': token }
+        const information = new ParkingLotProto.ParkingLotInformation()
+        const request = new ParkingLotProto.ParkingLot()
+        information.setName(name)
+        information.setAddress(address)
+        information.setPhone(phone ? phone : '')
+        request.setType(type)
+        request.setLatitude(position[0])
+        request.setLongitude(position[1])
+        request.setAvailableslot(parseInt(totalSlot))
+        request.setTotalslot(parseInt(totalSlot))
+        request.setOpeninghour(openingHour)
+        request.setClosinghour(closingHour)
+        request.setInformation(information)
+        parkingLotService.createNewParkingLot(request, metadata, (err, res) => {
+            if (err) {
+                if (err.message === "SPE#00001") {
+                    ErrorSPE00001();
+                } else {
+                    Notification['error']({
+                        title: 'Error!',
+                        description: <h4>Problem when create Parking Lot,
+                        Please try again later</h4>
+                    });
+                    console.log(request)
+                }
+            } else {
+                Notification['success']({
+                    title: 'Add successed',
+                    description: <h4>Add Parking Lot with ID: {res.getValue()} Success!</h4>
+                });
+                setType(ParkingLotProto.ParkingLotType.BUILDING)
+                setName('')
+                setAddress('')
+                setOpeningHour('')
+                setTotalSlot('')
+                setClosingHour('')
+                setPhone('')
+                setPosition([10.762273961494273, 466.6819882392884])
+                setDefaultZoom(13)
+                handleCancle()
+            }
+        })
     }
 
     return (
@@ -95,9 +139,7 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
                         required
                         fullWidth
                         value={name}
-                        onChange={(e) => {
-                            setName(prev => e.target.value)
-                        }}
+                        onChange={(e) => { setName(e.target.value)}}
                     />
                     <TextValidator
                         margin="normal"
@@ -106,7 +148,7 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
                         required
                         fullWidth
                         value={address}
-                        onChange={(e) => { setAddress(prev => e.target.value) }}
+                        onChange={(e) => { setAddress(e.target.value) }}
                     />
                     <TextValidator
                         margin="normal"
@@ -165,7 +207,35 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
                         validators={['matchRegexp:^[0-9]{10}$']}
                         errorMessages={['Invalid Phone']}
                     />
-                    <Map onclick={(e) => {
+                    <TextValidator
+                        margin="normal"
+                        id="lat"
+                        label="Lat"
+                        type='number'
+                        fullWidth
+                        required
+                        value={position[0]}
+                        onChange={(e) => {
+                            let temp = position.slice()
+                            temp[0] = e.target.value
+                            setPosition(prev => temp)
+                        }}
+                    />
+                    <TextValidator
+                        margin="normal"
+                        id="lntg"
+                        label="Lng"
+                        type='number'
+                        fullWidth
+                        required
+                        value={position[1]}
+                        onChange={(e) => {
+                            let temp = position.slice()
+                            temp[1] = e.target.value
+                            setPosition(prev => temp)
+                        }}
+                    />
+                    <Map viewport={position} onclick={(e) => {
                         let temp = []
                         temp.push(e.latlng.lat)
                         temp.push(e.latlng.lng)
@@ -175,10 +245,18 @@ const DrawerAddParking = ({ isOpen, setIsOpen }) => {
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
                         />
+                        <Control position="bottomleft" >
+                            <button type='button' onClick={() => {
+                                setPosition([10.762273961494273, 466.6819882392884])
+                                setDefaultZoom(13)
+                            }}>
+                                Reset View
+                            </button>
+                        </Control>
                         <Marker position={position}>
                             <Popup>
-                                {position[0]} , {position[1]} 
-                        </Popup>
+                                {position[0]} , {position[1]}
+                            </Popup>
                         </Marker>
                     </Map>
                     <br />

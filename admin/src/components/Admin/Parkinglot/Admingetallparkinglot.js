@@ -4,6 +4,7 @@ import UpdateModal from './Updateparkinglot'
 import AddModal from './Addparkinglot'
 import Searchbar from "../Searchbar/Searchbar"
 import ModalError from '../../Modal/ModalError'
+import ManagerEmployee from './ManagerEmployee'
 import { Button } from 'semantic-ui-react'
 //cs
 import stylesLoading from '../Loading.module.css'
@@ -89,6 +90,12 @@ const Admingetallparkinglot = () => {
     }
     function closeModalAdd() {
         setIsAddOpen(false);
+        setLoadingButton(false)
+    }
+    //modal Manager Employee
+    const [isOpenME, setIsOpenME] = React.useState(false)
+    const closeME = () => {
+        setIsOpenME(false)
         setLoadingButton(false)
     }
     //config Error modal
@@ -249,7 +256,13 @@ const Admingetallparkinglot = () => {
                                                 <td>{parkingLot.getTotalslot()}</td>
                                                 <td>
                                                     <Button.Group size='mini'>
-                                                        {/* <a id="btn-employee-delete" className="btn btn-sm btn-danger" ><i className="fas fa-trash-alt"></i> delete</a> */}
+                                                    <Button disabled={loadingButton}  color='pink' onClick={() => {
+                                                            setLoadingButton(true)
+                                                            settmp(parkingLot)
+                                                            setIsOpenME(true)
+                                                        }
+                                                        }>M-E</Button>
+                                                        <Button.Or text='|' />
                                                         <Button disabled={loadingButton} primary onClick={() => {
                                                             setLoadingButton(true)
                                                             settmp(parkingLot)
@@ -274,6 +287,7 @@ const Admingetallparkinglot = () => {
                 </div>
                 {tmp ? <UpdateModal modalIsOpen={modalIsOpen} closeModal={closeModal} parkinglot={tmp} /> : null}
                 {tmp ? <AddModal modalAddIsOpen={modalAddIsOpen} closeModalAdd={closeModalAdd} parkinglot={tmp} /> : null}
+                {tmp ? <ManagerEmployee parkinglot={tmp} isOpen={isOpenME} isClose={closeME} /> : null}
                 {totalParkinglot ?
                     <Pagination
                         pageRangeDisplayed={10}
