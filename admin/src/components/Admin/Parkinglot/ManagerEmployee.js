@@ -71,7 +71,7 @@ const ManagerEmployee = ({ parkinglot, isOpen, isClose }) => {
                             return (
                                 <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'5px' }}>
                                     {data.getId()}: {data.getUsername()}
-                                    <ButtonGroup>
+                                    <ButtonGroup size="sm">
                                         <Button color="orange" disabled={isDisable} onClick={() => removeAwayParkingLot(data.getId(), parkinglot.getId(), false)}>Remove</Button>
                                         <Button color="red" disabled={isDisable} onClick={() => removeAwayParkingLot(data.getId(), parkinglot.getId(), true)}>Delete</Button>
                                     </ButtonGroup>
