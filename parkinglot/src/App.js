@@ -538,7 +538,7 @@ function App() {
 
     const messages = new contactProto.SaigonParkingMessage()
     messages.setSenderid(data.getParkinglotid())
-    messages.setReceiverid(data.getCustomerid())
+    messages.setReceiverid(0)
     messages.setContent(content.serializeBinary())
     messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_FINISH)
