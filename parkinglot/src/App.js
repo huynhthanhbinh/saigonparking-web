@@ -34,7 +34,6 @@ const parkingLotService = new ParkingLotServiceClient(API_URL)
 
 function App() {
   const [isOpen, setIsOpen] = useState(false)
-  const [lists, setLists] = useState([])
   const [flagIsLogin, setFlagIsLogin] = useState(false)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -46,7 +45,6 @@ function App() {
   const [information, setInformation] = useState(null)
   const [topComment, setTopComment] = useState(null)
   const [feed, setFeed] = useState(null)
-  const [loadingUpdateAvailbility, setLoadingUpdateAvailbility] = useState(true)
   const [optionsNofti, setOptionNofti] = useState({
     askAgain: true,
     ignore: true,
@@ -94,7 +92,7 @@ function App() {
     request.setValue(id)
     parkingLotService.getParkingLotById(request, metadata, (err, res) => {
       if (err) {
-        setLoadingUpdateAvailbility(prev => false)
+
       }
       else {
         let temp = {
@@ -120,7 +118,6 @@ function App() {
         temp.openHour = res.getOpeninghour()
         temp.closeHour = res.getClosinghour()
         setInformation(prev => temp)
-        setLoadingUpdateAvailbility(prev => false)
       }
     })
   }
@@ -272,9 +269,6 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
-    let temp = lists;
-    temp[temp.length] = Cookies.get("checkUserName") + ': ' + values
-    setLists(lists.concat(temp[temp.length]));
   }
   // ------------------------------------------------------------------------ //
 
@@ -353,6 +347,8 @@ function App() {
                   temp.FINISHED.value = result[i][1]
                   break
                 }
+              default:
+                break
             }
           }
           setCountAllbooking(temp)
@@ -461,7 +457,6 @@ function App() {
       switch (messageReceived.type) {
         case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
           {
-            setLists(l => lists.concat(messageReceived.content.getNotification()))
             notify(messageReceived)
             break
           }
@@ -494,31 +489,28 @@ function App() {
             }
             setChatMessage(a)
             localStorage.setItem('chatMessage', JSON.stringify(chatMessage))
-            setLists(l => lists.concat(messageReceived.content.getMessage()))
             notify(messageReceived)
             break
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
           {
             handleDescrease()
-            setLists(l => lists.concat(messageReceived.content.getCustomername() + messageReceived.content.getCustomerlicense() + messageReceived.content.getAmountofparkinghour()))
             notify(messageReceived)
             break
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
           {
             handleInscrease()
-            setLists(l => lists.concat(messageReceived.content.getReason()))
             notify(messageReceived)
             break
           }
         case contactProto.SaigonParkingMessage.Type.IMAGE:
           {
             //imgae
+            break
           }
         default:
           {
-            setLists(l => lists.concat(messageReceived.content));
             break
           }
       }
@@ -879,10 +871,10 @@ function App() {
     <>
       {flagIsLogin ?
         <>
-          <Navbar numberMessage={numberMessage} />
+          <Navbar numberMessage={numberMessage} flag={flat} />
           <div className='rightTab'>
             <div className='listItem'>
-              {feed ? feed.map((data, index) => <ul key={index}><li key={index} style={{ fontWeight: 'bold' }}><h4><a target="_blank" href={data.link}>{data.title}</a></h4><div target="_blank" className='contentRss' dangerouslySetInnerHTML={{ __html: data.content }} /></li></ul>) : null}
+              {feed ? feed.map((data, index) => <ul key={index}><li key={index} style={{ fontWeight: 'bold' }}><h4><a target="_blank" rel="noopener noreferrer" href={data.link}>{data.title}</a></h4><div target="_blank" className='contentRss' dangerouslySetInnerHTML={{ __html: data.content }} /></li></ul>) : null}
               {/* {chatMessage.map((data, index) => {
                 return (
                   <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
@@ -899,7 +891,7 @@ function App() {
                 {bookingPending.length !== 0 ? <>
                   <h2>Booking: </h2>
                   Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
-                  {bookingPending.sort((a, b) => a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED ? 1 : -1).map((data, index) => {
+                  {bookingPending.sort((a, b) => (a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED) ? 1 : -1).map((data, index) => {
                     if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
                       return null
                     }
