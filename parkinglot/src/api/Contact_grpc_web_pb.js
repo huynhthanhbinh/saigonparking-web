@@ -237,5 +237,85 @@ proto.com.bht.saigonparking.api.grpc.contact.ContactServicePromiseClient.prototy
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse>}
+ */
+const methodDescriptor_ContactService_generateSocketConnectQrCode = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.contact.ContactService/generateSocketConnectQrCode',
+  grpc.web.MethodType.UNARY,
+  proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest,
+  proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest,
+ *   !proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse>}
+ */
+const methodInfo_ContactService_generateSocketConnectQrCode = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse,
+  /**
+   * @param {!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.contact.ContactServiceClient.prototype.generateSocketConnectQrCode =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.contact.ContactService/generateSocketConnectQrCode',
+      request,
+      metadata || {},
+      methodDescriptor_ContactService_generateSocketConnectQrCode,
+      callback);
+};
+
+
+/**
+ * @param {!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.contact.GenerateSocketConnectQrCodeResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.contact.ContactServicePromiseClient.prototype.generateSocketConnectQrCode =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.contact.ContactService/generateSocketConnectQrCode',
+      request,
+      metadata || {},
+      methodDescriptor_ContactService_generateSocketConnectQrCode);
+};
+
+
 module.exports = proto.com.bht.saigonparking.api.grpc.contact;
 
