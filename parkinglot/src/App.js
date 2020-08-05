@@ -292,7 +292,7 @@ function App() {
         }
         else {
           localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
-          setBookingPending(res.getBookingList())
+          setBookingPending([].concat(res.getBookingList()))
         }
       })
       countAllBooking(id)
@@ -516,7 +516,7 @@ function App() {
           }
         case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
           {
-            handleDescrease()
+            handleInscrease()
             notify(messageReceived)
             break
           }
@@ -800,7 +800,7 @@ function App() {
         {
           let Nofti = optionsNofti
           Nofti.ignore = false
-          Nofti.tag = new Date()
+          Nofti.options.tag = new Date()
           Nofti.options.body = message.content.getNotification()
           setOptionNofti(Nofti)
           break
@@ -868,8 +868,8 @@ function App() {
           {
             let Nofti = optionsNofti
             Nofti.ignore = false
-            Nofti.tag = new Date()
-            Nofti.options.body = message.content.getBookingid() + ' FINISHED!'
+            Nofti.options.tag = new Date()
+            Nofti.options.body =message.content.getBookingid() + ' FINISHED!'
             setOptionNofti(Nofti)
             break
           }
