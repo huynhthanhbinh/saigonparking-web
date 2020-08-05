@@ -6,6 +6,7 @@ import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 //CSS
 import { UserServiceClient } from '../../../api/Actor_grpc_web_pb';
+import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb'
 import ActorProto from '../../../api/Actor_pb'
 import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';
@@ -20,6 +21,7 @@ import { AuthServiceClient } from '../../../api/Auth_grpc_web_pb';
 
 const authService = new AuthServiceClient(API_URL)
 const UserService = new UserServiceClient(API_URL)
+const parkinglotService = new ParkingLotServiceClient(API_URL)
 
 const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
     //config Modal Error
@@ -85,6 +87,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
     };
     const [IsCustomer, setIsCustomer] = React.useState(null)
     const [users, setUsers] = React.useState(null)
+    const [parkingManager, setParkingManager] = React.useState(null)
 
     useEffect(() => {
         if (modalIsOpen === true) {
@@ -124,7 +127,6 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                             openModalError()
                         }
                     } else {
-                        console.log(res)
                         setUsers(res)
                     }
                 })
@@ -134,6 +136,33 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
         return () => {
         }
     }, [modalIsOpen, user, modalErrorIsOpen, xulyerrorSPE00001, flat])
+
+    useEffect (()=> {
+        if(users){
+            const token = 'Bearer ' + Cookies.get("token");
+        const metadata = { 'Authorization': token }
+        const request = new Int64Value()
+        request.setValue(users.getId())
+        parkinglotService.getParkingLotManagedByEmployee(request, metadata, (err, res) => {
+            if (err)
+            {
+                if (err.message === 'SPE#00001') {
+                    xulyerrorSPE00001()
+                }
+                else if (err.message === 'SPE#00008'){
+                    setParkingManager([])
+                }
+                else {
+                    setmyError(err.message)
+                    openModalError()
+                }
+            } else {
+                setParkingManager(res)
+            }
+        })
+        }
+    },[user, users, xulyerrorSPE00001, flat])
+
     if (modalErrorIsOpen === true) {
         return (
             <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} />
@@ -429,13 +458,14 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                     className="modal-content"
                 >
                     <h2 >PARKING LOT EMPLOYEE</h2>
-                    {(users) ? <Formik
+                    {(users && parkingManager) ? <Formik
                         initialValues={{
                             id: users.getId(),
                             userName: users.getUsername(),
                             email: users.getEmail(),
                             isActivated: users.getIsactivated(),
                             lastSignIn: users.getLastsignin(),
+                            management: parkingManager[0] ? parkingManager.getId() + ': ' + parkingManager.getInformation().getName() : 'Not yet'
                         }}
                         validationSchema={Yup.object({
                             userName: Yup.string()
@@ -484,6 +514,14 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                                     label="Email "
                                     name="email"
                                     type="email"
+                                    disabled="disabled"
+                                />
+                            </li>
+                            <li style={{ margin: 10 }}>
+                                <MyTextInput
+                                    label="Management "
+                                    name="management"
+                                    type="text"
                                     disabled="disabled"
                                 />
                             </li>

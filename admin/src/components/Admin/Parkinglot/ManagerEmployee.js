@@ -66,7 +66,7 @@ const ManagerEmployee = ({ parkinglot, isOpen, isClose }) => {
                     <Modal.Title>Manager Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {listUser ? <ul>
+                    {(listUser && listUser[0]) ? <ul>
                         {listUser.map((data, index) => {
                             return (
                                 <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'5px' }}>
