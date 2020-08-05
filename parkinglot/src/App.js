@@ -246,6 +246,11 @@ function App() {
             getOnGoingBooking(localStorage.getItem('ID'))
             break;
           }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingFinishContent.deserializeBinary(dataU8)
+          }
         default:
           return 'Error not in type Received'
       }
@@ -507,6 +512,12 @@ function App() {
         case contactProto.SaigonParkingMessage.Type.IMAGE:
           {
             //imgae
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+          {
+            handleDescrease()
+            notify(messageReceived)
             break
           }
         default:
@@ -853,6 +864,15 @@ function App() {
             })
           break
         }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+          {
+            let Nofti = optionsNofti
+            Nofti.ignore = false
+            Nofti.tag = new Date()
+            Nofti.options.body = message.content.getBookingid() + ' FINISHED!'
+            setOptionNofti(Nofti)
+            break
+          }
       case contactProto.SaigonParkingMessage.Type.IMAGE:
         return <></>
       default:
