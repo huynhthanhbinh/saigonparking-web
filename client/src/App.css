@@ -78,7 +78,11 @@ html {
     width: 100%;
 }
 
-.buttonDrawer {}
+.title-function {
+    color: black;
+    font-size: 25px !important;
+    font-weight: bolder !important;
+}
 
 .info-card {
     max-height: 100%;

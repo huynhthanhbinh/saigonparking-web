@@ -10,6 +10,8 @@ import appstore from './images/appstore.png';
 import '../../css/video.css';
 import Navbardefault from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
+import TimelineFunc from './TimelineFunc'
+
 const Body = () => {
 	const Style = styled.div`
 	`;
@@ -88,7 +90,9 @@ const Body = () => {
 				</MDBContainer>
 
 				<div className='function'>
-					<span>Tính Năng</span>
+					<h2>Tính Năng</h2>
+					<TimelineFunc/>
+					<h2>...</h2>
 				</div>
 				<div className="footer-copyright text-center py-3" />
 				<div className="footer-copyright text-center py-3" />
