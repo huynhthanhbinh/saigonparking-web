@@ -45,6 +45,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transform: translate(100px, 0);
+    animation: fadeInImage 1s forwards linear;
 }
 
 .banner svg {
@@ -132,8 +135,27 @@
 }
 
 .phoneImg {
-    width: 40vh;
+    width: 60vh;
     margin: 0;
     padding: 0;
     z-index: 9993;
+    opacity: 0;
+    transform: translate(-100px, 0);
+    animation: fadeInImage 1s forwards linear;
+}
+
+@keyframes fadeInImage {
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .phoneImg {
+        width: 30vh;
+        margin: 0;
+        padding: 0;
+        z-index: 9993;
+    }
 }
