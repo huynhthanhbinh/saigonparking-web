@@ -37,7 +37,6 @@
 
 .banner .content {
     position: relative;
-    z-index: 9993;
     text-align: center;
 }
 
@@ -48,6 +47,7 @@
     opacity: 0;
     transform: translate(100px, 0);
     animation: fadeInImage 1s forwards linear;
+    z-index: 9994;
 }
 
 .banner svg {
