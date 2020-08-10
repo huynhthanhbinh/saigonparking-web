@@ -45,6 +45,7 @@ function App() {
   const [information, setInformation] = useState(null)
   const [topComment, setTopComment] = useState(null)
   const [feed, setFeed] = useState(null)
+  const [disableButtonAcRj, setDisableButtonAcRj] = useState(false)
   const [optionsNofti, setOptionNofti] = useState({
     askAgain: true,
     ignore: true,
@@ -308,6 +309,7 @@ function App() {
         else {
           localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
           setBookingPending([].concat(res.getBookingList()))
+          setDisableButtonAcRj(false)
         }
       })
       countAllBooking(id)
@@ -572,6 +574,7 @@ function App() {
    */
 
   const acceptRequestBookWithOutNoti = (data) => {
+    setDisableButtonAcRj(true)
     // sendMessage set filed and send //
     const content = new contactProto.BookingAcceptanceContent()
     content.setBookingid(data.getId())
@@ -595,6 +598,7 @@ function App() {
    */
 
   const rejectRequestBookWithOutNoti = (data) => {
+    setDisableButtonAcRj(true)
     // sendMessage set filed and send //
     const content = new contactProto.BookingRejectContent()
     content.setBookingid(data.getId())
@@ -935,10 +939,10 @@ function App() {
                       return <Popup key={index} trigger={<li className='pendingLiCreated' key={index}><span>ID: XXXXXXXX-XXXX-XXXX-XXXX-{data.getId().substring(24)} <br /> <h4>Wait for Approval!!!</h4>Licenseplate: {data.getLicenseplate()} | At: {data.getCreatedat()}</span></li>} flowing hoverable position='top right'>
                         <Grid centered divided columns={2}>
                           <Grid.Column textAlign='center'>
-                            <Button onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
+                            <Button disabled={disableButtonAcRj} onClick={() => acceptRequestBookWithOutNoti(data)}>Accept</Button>
                           </Grid.Column>
                           <Grid.Column textAlign='center'>
-                            <Button onClick={() => rejectRequestBookWithOutNoti(data)}>Reject</Button>
+                            <Button disabled={disableButtonAcRj} onClick={() => rejectRequestBookWithOutNoti(data)}>Reject</Button>
                           </Grid.Column>
                         </Grid>
                       </Popup>
