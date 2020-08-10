@@ -261,6 +261,11 @@ function App() {
             getOnGoingBooking(localStorage.getItem('ID'))
             break;
           }
+        case contactProto.SaigonParkingMessage.Type.AVAILABILITY_UPDATE:
+          {
+            getInformationParking(localStorage.getItem('ID'))
+            break;
+          }
         default:
           return 'Error not in type Received'
       }
@@ -306,7 +311,6 @@ function App() {
         }
       })
       countAllBooking(id)
-      getInformationParking(id)
       getCommentParkingLot(id)
     },
     [],
@@ -408,6 +412,7 @@ function App() {
           if (!isCancelled) {
             localStorage.setItem('ID', res.getValue())
             getOnGoingBooking(localStorage.getItem('ID'))
+            getInformationParking(localStorage.getItem('ID'))
           }
         }
       })
@@ -557,7 +562,6 @@ function App() {
     messages.setType(contactProto.SaigonParkingMessage.Type.BOOKING_FINISH)
     messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     clients.send(messages.serializeBinary())
-    handleInscrease()
   }
 
   // ------------------------------------------------------------------------ //
