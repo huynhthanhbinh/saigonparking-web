@@ -251,6 +251,16 @@ function App() {
             getOnGoingBooking(localStorage.getItem('ID'))
             return contactProto.BookingFinishContent.deserializeBinary(dataU8)
           }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REJECT:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
         default:
           return 'Error not in type Received'
       }
@@ -864,15 +874,15 @@ function App() {
             })
           break
         }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
-          {
-            let Nofti = optionsNofti
-            Nofti.ignore = false
-            Nofti.options.tag = new Date()
-            Nofti.options.body =message.content.getBookingid() + ' FINISHED!'
-            setOptionNofti(Nofti)
-            break
-          }
+      case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+        {
+          let Nofti = optionsNofti
+          Nofti.ignore = false
+          Nofti.options.tag = new Date()
+          Nofti.options.body = message.content.getBookingid() + ' FINISHED!'
+          setOptionNofti(Nofti)
+          break
+        }
       case contactProto.SaigonParkingMessage.Type.IMAGE:
         return <></>
       default:
