@@ -2,6 +2,11 @@ import React from 'react'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
+import find from './images/find.png'
+import booking from './images/booking.png'
+import directionmap from './images/directionmap.png'
+import confirm from './images/confirm.png'
+import functionimg from './images/function.png'
 
 const TimelineFunction = () => {
     return (
@@ -13,33 +18,9 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Tìm kiếm hiệu quả</h3>
-                <h4 className="vertical-timeline-element-subtitle">Miami, FL</h4>
+                <img style={{width:'100%', borderRadius:'10px', marginTop:'10px'}} src={find} alt="search" />
                 <p>
-                    Creative Direction, User Experience, Visual Design, Project Management, Team Leading
-                </p>
-            </VerticalTimelineElement>
-            <VerticalTimelineElement
-                className="vertical-timeline-element--work"
-                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-                date={ 'Dẫn đường' }
-                dateClassName={'title-function'}
-            >
-                <h3 className="vertical-timeline-element-title">Chỉ đường tiện lợi</h3>
-                <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
-                <p>
-                    Creative Direction, User Experience, Visual Design, SEO, Online Marketing
-                </p>
-            </VerticalTimelineElement>
-            <VerticalTimelineElement
-                className="vertical-timeline-element--work"
-                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-                date={ 'Thời gian thực' }
-                dateClassName={'title-function'}
-            >
-                <h3 className="vertical-timeline-element-title">Cập nhật số lượng chỗ theo thời gian thực</h3>
-                <h4 className="vertical-timeline-element-subtitle">Los Angeles, CA</h4>
-                <p>
-                    User Experience, Visual Design
+                    Tìm kiếm các bãi giữ xe xung quanh nhanh chóng và hiệu quả
                 </p>
             </VerticalTimelineElement>
             <VerticalTimelineElement
@@ -49,9 +30,33 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Đặt chỗ nhanh chóng</h3>
-                <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
+                <img style={{width:'100%', borderRadius:'10px', marginTop:'10px'}} src={booking} alt="search" />
                 <p>
-                    User Experience, Visual Design
+                    Đặt chỗ tiện lợi, nhanh chóng, dễ dàng
+                </p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+                className="vertical-timeline-element--work"
+                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                date={ 'Dẫn đường' }
+                dateClassName={'title-function'}
+            >
+                <h3 className="vertical-timeline-element-title">Chỉ đường tiện lợi</h3>
+                <img style={{width:'100%', borderRadius:'10px', marginTop:'10px'}} src={directionmap} alt="search" />
+                <p>
+                    Chỉ đường nhanh chóng dễ dàng sử dụng và theo dõi
+                </p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+                className="vertical-timeline-element--work"
+                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                date={ 'Tiện ích' }
+                dateClassName={'title-function'}
+            >
+                <h3 className="vertical-timeline-element-title">Tìm kiếm tiện ích nhanh chóng</h3>
+                <img style={{width:'100%', borderRadius:'10px', marginTop:'10px'}} src={functionimg} alt="search" />
+                <p>
+                    Dễ dàng tìm kiếm thêm những tiện ích khác ngoài bãi giữ xe: Nhà hàng, bệnh viện, ...
                 </p>
             </VerticalTimelineElement>
             <VerticalTimelineElement
@@ -61,9 +66,9 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Xác nhận đến nơi dễ dàng</h3>
-                <h4 className="vertical-timeline-element-subtitle">Online Course</h4>
+                <img style={{width:'100%', borderRadius:'10px', marginTop:'10px'}} src={confirm} alt="search" />
                 <p>
-                    Strategy, Social Media
+                    Xác thực đến nơi dễ dàng bằng cách cho phép nhân viên giữ xe quét mã QR Code
                 </p>
             </VerticalTimelineElement>
         </VerticalTimeline>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
@@ -6,11 +6,19 @@ import search from './images/search.png';
 import direction from './images/direction.png';
 import car2 from './images/car2.png';
 import phone from './images/phone.png';
-import appstore from './images/appstore.png';
+import appstore from './images/appstore.png'
+import bach from './images/bach.jpg';
+import binh from './images/binh.jpg';
+import dao from './images/dao.jpg';
+import tai from './images/tai.jpg';
+import hai from './images/hai.jpg';
 import '../../css/video.css';
-import Navbardefault from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import TimelineFunc from './TimelineFunc'
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Body = () => {
 	const Style = styled.div`
@@ -88,13 +96,98 @@ const Body = () => {
 						</MDBCol>
 					</MDBRow>
 				</MDBContainer>
-
 				<div className='function'>
 					<h2>Tính Năng</h2>
-					<TimelineFunc/>
+					<TimelineFunc />
 					<h2>...</h2>
 				</div>
-				<div className="footer-copyright text-center py-3" />
+				
+				<h1>Contact Us</h1>
+				<div className='contactUs'>
+					<div className="contact-info">
+						<div className="card">
+							<i className="card-icon"><FontAwesomeIcon icon={faEnvelope} /></i>
+							<p>saigonparking@gmail.com</p>
+						</div>
+
+						<div className="card">
+							<i className="card-icon"><FontAwesomeIcon icon={faPhone} /></i>
+							<p>+84968 036 784</p>
+						</div>
+
+						<div className="card">
+							<i className="card-icon"><FontAwesomeIcon icon={faMapMarkedAlt} /></i>
+							<p>HCM, Việt Nam</p>
+						</div>
+					</div>
+				</div>
+				<h1>Team Developer</h1>
+				<div className='profileMember'>
+					<div className='cardBody'>
+						<div className='layerBody'></div>
+						<div className='contentCardBody'>
+							<p>Xử lý và hoàn thành tính năng cho ứng dụng và website</p>
+							<div className='imageCardBody'>
+								<img src={bach} alt="" />
+							</div>
+							<div className='detailsBody'>
+								<h2 style={{ color: 'black' }}>Vũ Tường Bách<br /><span>Website, Android Developer</span></h2>
+							</div>
+						</div>
+					</div>
+
+					<div className='cardBody'>
+						<div className='layerBody'></div>
+						<div className='contentCardBody'>
+							<p>Xử lý dữ liệu và thực thi tính năng ở Backend</p>
+							<div className='imageCardBody'>
+								<img src={binh} alt="" />
+							</div>
+							<div className='detailsBody'>
+								<h2 style={{ color: 'black' }}>Huỳnh Thanh Bình<br /><span>Backend Developer</span></h2>
+							</div>
+						</div>
+					</div>
+
+					<div className='cardBody'>
+						<div className='layerBody'></div>
+						<div className='contentCardBody'>
+							<p>Phân tích nghiệp vụ, kiểm thử và đánh giá</p>
+							<div className='imageCardBody'>
+								<img src={dao} alt="" />
+							</div>
+							<div className='detailsBody'>
+								<h2 style={{ color: 'black' }}>Phạm Viết Minh Đạo<br /><span>Tester, BA</span></h2>
+							</div>
+						</div>
+					</div>
+
+					<div className='cardBody'>
+						<div className='layerBody'></div>
+						<div className='contentCardBody'>
+							<p>Xử lý và hoàn thành tính năng cho ứng dụng và website</p>
+							<div className='imageCardBody'>
+								<img src={tai} alt="" />
+							</div>
+							<div className='detailsBody'>
+								<h2 style={{ color: 'black' }}>Đặng Đức Tài<br /><span>Website, Android Developer</span></h2>
+							</div>
+						</div>
+					</div>
+
+					<div className='cardBody'>
+						<div className='layerBody'></div>
+						<div className='contentCardBody'>
+							<p>Thiết kế giao diện website dành cho khách hàng, nhân viên quản lý bãi xe, và ứng dụng android</p>
+							<div className='imageCardBody'>
+								<img src={hai} alt="" />
+							</div>
+							<div className='detailsBody'>
+								<h2 style={{ color: 'black' }}>Vũ Hải<br /><span>Website, Android Desinger</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div className="footer-copyright text-center py-3" />
 			</Style>
 			<Footer />

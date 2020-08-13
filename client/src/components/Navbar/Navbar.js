@@ -240,7 +240,7 @@ const Navbardefault = () => {
 								</Col>
 							</Row>
 						</div> */}
-						<Nav navbar>
+						<Nav style={{display:'flex', flexDirection:'row'}} navbar>
 							<UncontrolledDropdown nav>
 								<DropdownToggle
 									color="default"
@@ -305,7 +305,7 @@ const Navbardefault = () => {
 							</Col>
 						</Row>
 					</div> */}
-						<Nav navbar>
+						<Nav style={{display:'flex', flexDirection:'row'}} navbar>
 							<UncontrolledDropdown nav>
 								<DropdownToggle
 									color="default"
