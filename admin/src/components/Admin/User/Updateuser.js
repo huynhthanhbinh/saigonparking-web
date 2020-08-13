@@ -465,7 +465,7 @@ const UpdateModal = ({ modalIsOpen, closeModal, user }) => {
                             email: users.getEmail(),
                             isActivated: users.getIsactivated(),
                             lastSignIn: users.getLastsignin(),
-                            management: parkingManager[0] ? parkingManager.getId() + ': ' + parkingManager.getInformation().getName() : 'Not yet'
+                            management: parkingManager[0] ? 'Not yet' : parkingManager.getId() + ': ' + parkingManager.getInformation().getName()
                         }}
                         validationSchema={Yup.object({
                             userName: Yup.string()
