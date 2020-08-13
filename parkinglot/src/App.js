@@ -1053,9 +1053,11 @@ function App() {
         closeOnDimmerClick={true}
       >
         <Modal.Header><p>Please Login to continue!</p></Modal.Header>
-        <Modal.Content>
-          <input type='text' label='UserName' value={userName} onChange={handleChangeUserName} />
-          <input type='password' label='Password' value={password} onChange={handleChangePassword} />
+        <Modal.Content style={{display:'flex', flexDirection:'column'}}>
+          <span>User Name</span>
+          <input style={{width:'50%', margin:'10px 0'}} type='text' value={userName} onChange={handleChangeUserName} />
+          <span>Password</span>
+          <input style={{width:'50%', margin:'10px 0'}} type='password' value={password} onChange={handleChangePassword} />
         </Modal.Content>
         <Modal.Actions>
           <Button
