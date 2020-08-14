@@ -105,17 +105,17 @@ const Body = () => {
 				<h1>Contact Us</h1>
 				<div className='contactUs'>
 					<div className="contact-info">
-						<div className="card">
+						<div className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faEnvelope} /></i>
-							<p>saigonparking@gmail.com</p>
+							<p>saigonparkingmap@gmail.com</p>
 						</div>
 
-						<div className="card">
+						<div className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faPhone} /></i>
 							<p>+84968 036 784</p>
 						</div>
 
-						<div className="card">
+						<div className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faMapMarkedAlt} /></i>
 							<p>HCM, Việt Nam</p>
 						</div>

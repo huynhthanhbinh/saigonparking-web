@@ -251,7 +251,7 @@
     padding: 0 20px;
 }
 
-.card {
+.cardB {
     background: #2f3542;
     padding: 0 20px;
     margin: 0 10px;
@@ -276,13 +276,13 @@
     transition: 0.3s linear;
 }
 
-.card:hover .card-icon {
+.cardB:hover .card-icon {
     background: none;
     color: #35b64f;
     transform: scale(1.6);
 }
 
-.card p {
+.cardB p {
     margin-top: 20px;
     font-weight: 300;
     letter-spacing: 2px;
@@ -291,7 +291,7 @@
     transition: 0.3s linear;
 }
 
-.card:hover p {
+.cardB:hover p {
     max-height: 40px;
     opacity: 1;
 }
@@ -300,7 +300,7 @@
     .contact-info {
         flex-direction: column;
     }
-    .card {
+    .cardB {
         width: 100%;
         max-width: 300px;
         margin: 10px 0;
