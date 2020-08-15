@@ -42,8 +42,8 @@ const center = {
 var myVar;
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
 	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
-		libraries
+		googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
+		libraries,
 	});
 	// const [markers, setMarkers] = React.useState([]);
 
@@ -83,6 +83,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	return (
 		<div>
+			<Search panTo={panTo} />
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -95,7 +96,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
 				
-					<Search panTo={panTo} />
+					
 						{patients &&
 							patients.map((patient, index) => {
 								if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
@@ -222,17 +223,18 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 		return (
 			<div>
-				<Combobox onSelect={handleSelect}>
+				<Combobox style={{
+							zIndex: "9998",
+							position: "fixed",
+							marginLeft: "80%",
+							marginTop: "10%"
+						}} onSelect={handleSelect}>
 					<ComboboxInput
 						value={value}
 						onChange={handleInput}
 						disabled={!ready}
 						placeholder="Search your location"
-						style={{
-							zIndex: "9998",
-							position: "fixed",
-							marginLeft: "80%"
-						}}
+						
 					/>
 					<ComboboxPopover>
 						<ComboboxList>

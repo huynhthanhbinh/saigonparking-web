@@ -63,7 +63,7 @@ export const SideMenu = ({
     onClickItemPatient, refs, indexClickedMaker, currentPatient, fgetClicklocation
 }) => {
     const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
+		googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
 		libraries
 	});
     const node = useRef(null);
