@@ -62,10 +62,7 @@ export const SideMenu = ({
     data,
     onClickItemPatient, refs, indexClickedMaker, currentPatient, fgetClicklocation
 }) => {
-    const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
-		libraries
-	});
+
     const node = useRef(null);
 
     const handleClick = event => {
@@ -86,12 +83,7 @@ export const SideMenu = ({
 
 
 
-    const mapRef = React.useRef();
-    const panTo = React.useCallback(({ lat, lng }) => {
-		mapRef.current.panTo({ lat, lng });
 
-		mapRef.current.setZoom(14);
-	}, []);
 
 
     useEffect(() => {
@@ -114,7 +106,7 @@ export const SideMenu = ({
         native: true,
         to: {
             x: active ? 120 : 120,
-            color: active ? "palevioletred" : "white"
+            color: active ? "green" : "green"
         }
     });
 
@@ -129,10 +121,9 @@ export const SideMenu = ({
             }
         }
     });
-    if (loadError) return 'Error';
-    if (!isLoaded) return 'Loading...';
-    
-    
+
+
+
     if (abc.switchLP.LiPa === false && abc.switchLP.BinhLuan === false) {
         return (
             <SidekickWrapper>
@@ -166,9 +157,9 @@ export const SideMenu = ({
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
                     {data.length !== 0 ?
-                        
-                    /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
-                     <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
+
+                        /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
+                        <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
                         : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
 
                 </StyledSideMenu>
@@ -207,9 +198,9 @@ export const SideMenu = ({
                     >
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
-                   
+
                     {
-                    currentPatient &&
+                        currentPatient &&
                         <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                     }
                 </StyledSideMenu>
@@ -260,53 +251,7 @@ export const SideMenu = ({
         );
     }
 
-    function Search({ panTo }) {
-        const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
-            requestOptions: {
-                location: { lat: () => 10.762887, lng: () => 106.6800684 },
-                radius: 100 * 1000
-            }
-        });
 
-        // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
-
-        const handleInput = (e) => {
-            setValue(e.target.value);
-        };
-
-        const handleSelect = async (address) => {
-            setValue(address, false);
-            clearSuggestions();
-
-            try {
-                const results = await getGeocode({ address });
-                const { lat, lng } = await getLatLng(results[0]);
-                panTo({ lat, lng });
-                fgetClicklocation({ lat: lat, lng: lng });
-            } catch (error) {
-                // console.log(" Error: ", error);
-            }
-        };
-
-        return (
-            <div className="search">
-                <Combobox onSelect={handleSelect}>
-                    <ComboboxInput
-                        value={value}
-                        onChange={handleInput}
-                        disabled={!ready}
-                        placeholder="Search your location"
-                    />
-                    <ComboboxPopover>
-                        <ComboboxList>
-                            {status === 'OK' &&
-                                data.map(({ id, description }) => <ComboboxOption key={id} value={description} />)}
-                        </ComboboxList>
-                    </ComboboxPopover>
-                </Combobox>
-            </div>
-        );
-    }
 };
 
 const StyledList = styled.div`

@@ -10,6 +10,7 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 
+import '../../css/Searchmap.css'
 import '@reach/combobox/styles.css';
 import mapStyles from './mapStyles';
 import Navbardefault from '../Navbar/Navbar';
@@ -42,7 +43,7 @@ const center = {
 var myVar;
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
 	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
+		googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
 		libraries
 	});
 	// const [markers, setMarkers] = React.useState([]);
@@ -83,6 +84,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	return (
 		<div>
+			<Search panTo={panTo} />
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -94,107 +96,107 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onLoad={onMapLoad}
 			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
-				
-					<Search panTo={panTo} />
-						{patients &&
-							patients.map((patient, index) => {
-								if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
-									return (
-										<Marker
-											key={index}
-											position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-											onClick={() => {
-												onPatientMarkerClicked(patient, index);
-												abc.setswitchLP({ LiPa: true, BinhLuan: false });
-												//
-												panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-											}}
-											icon={{
-												url: markerbuilding,
-												origin: new window.google.maps.Point(0, 0),
-												anchor: new window.google.maps.Point(15, 15),
-												scaledSize: new window.google.maps.Size(30, 30)
-											}}
-											animation={
-												currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-													patient.getLongitude() === currentPatient.getLongitude() ? (
-														'1'
-													) : (
-														'0'
-													) : (
-														'0'
-													)
-											}
-										/>
-									);
-								} else if (patient.getType() === parkinglotProto.ParkingLotType.PRIVATE) {
-									return (
-										<Marker
-											key={`${patient.getLatitude()}-${patient.getLongitude()}`}
-											position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-											onClick={() => {
-												onPatientMarkerClicked(patient, index);
-												abc.setswitchLP({ LiPa: true, BinhLuan: false });
-												//
-												panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-											}}
-											icon={{
-												url: markerprivate,
-												origin: new window.google.maps.Point(0, 0),
-												anchor: new window.google.maps.Point(15, 15),
-												scaledSize: new window.google.maps.Size(30, 30)
-											}}
-											animation={
-												currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-													patient.getLongitude() === currentPatient.getLongitude() ? (
-														'1'
-													) : (
-														'0'
-													) : (
-														'0'
-													)
-											}
-										/>
-									);
-								} else if (patient.getType() === parkinglotProto.ParkingLotType.STREET) {
-									return (
-										<Marker
-											key={`${patient.getLatitude()}-${patient.getLongitude()}`}
-											position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-											onClick={() => {
-												onPatientMarkerClicked(patient, index);
-												abc.setswitchLP({ LiPa: true, BinhLuan: false });
-												//
-												panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-											}}
-											icon={{
-												url: markerstreet,
-												origin: new window.google.maps.Point(0, 0),
-												anchor: new window.google.maps.Point(15, 15),
-												scaledSize: new window.google.maps.Size(30, 30)
-											}}
-											animation={
-												currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-													patient.getLongitude() === currentPatient.getLongitude() ? (
-														'1'
-													) : (
-														'0'
-													) : (
-														'0'
-													)
-											}
-										/>
-									);
-								}
-							})}
-				</GoogleMap>
+
+
+				{patients &&
+					patients.map((patient, index) => {
+						if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
+							return (
+								<Marker
+									key={index}
+									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
+									onClick={() => {
+										onPatientMarkerClicked(patient, index);
+										abc.setswitchLP({ LiPa: true, BinhLuan: false });
+										//
+										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
+									}}
+									icon={{
+										url: markerbuilding,
+										origin: new window.google.maps.Point(0, 0),
+										anchor: new window.google.maps.Point(15, 15),
+										scaledSize: new window.google.maps.Size(30, 30)
+									}}
+									animation={
+										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
+									}
+								/>
+							);
+						} else if (patient.getType() === parkinglotProto.ParkingLotType.PRIVATE) {
+							return (
+								<Marker
+									key={`${patient.getLatitude()}-${patient.getLongitude()}`}
+									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
+									onClick={() => {
+										onPatientMarkerClicked(patient, index);
+										abc.setswitchLP({ LiPa: true, BinhLuan: false });
+										//
+										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
+									}}
+									icon={{
+										url: markerprivate,
+										origin: new window.google.maps.Point(0, 0),
+										anchor: new window.google.maps.Point(15, 15),
+										scaledSize: new window.google.maps.Size(30, 30)
+									}}
+									animation={
+										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
+									}
+								/>
+							);
+						} else if (patient.getType() === parkinglotProto.ParkingLotType.STREET) {
+							return (
+								<Marker
+									key={`${patient.getLatitude()}-${patient.getLongitude()}`}
+									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
+									onClick={() => {
+										onPatientMarkerClicked(patient, index);
+										abc.setswitchLP({ LiPa: true, BinhLuan: false });
+										//
+										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
+									}}
+									icon={{
+										url: markerstreet,
+										origin: new window.google.maps.Point(0, 0),
+										anchor: new window.google.maps.Point(15, 15),
+										scaledSize: new window.google.maps.Size(30, 30)
+									}}
+									animation={
+										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
+											patient.getLongitude() === currentPatient.getLongitude() ? (
+												'1'
+											) : (
+												'0'
+											) : (
+												'0'
+											)
+									}
+								/>
+							);
+						}
+					})}
+			</GoogleMap>
 		</div>
 
 	);
 
-	function Search({ panTo}) {
-		const { ready, value, suggestions: { status, data}, setValue, clearSuggestions } = usePlacesAutocomplete({
-				requestOptions: {
+	function Search({ panTo }) {
+		const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
+			requestOptions: {
 				location: { lat: () => 10.762887, lng: () => 106.6800684 },
 				radius: 100 * 1000
 			}
@@ -203,17 +205,17 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 		// https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
 
 		const handleInput = (e) => {
-				setValue(e.target.value);
+			setValue(e.target.value);
 		};
 
 		const handleSelect = async (address) => {
-				setValue(address, false);
+			setValue(address, false);
 			clearSuggestions();
 
 			try {
-				const results = await getGeocode({ address});
-				const { lat, lng} = await getLatLng(results[0]);
-				panTo({ lat, lng});
+				const results = await getGeocode({ address });
+				const { lat, lng } = await getLatLng(results[0]);
+				panTo({ lat, lng });
 				fgetClicklocation({ lat: lat, lng: lng });
 			} catch (error) {
 				// console.log(" Error: ", error);
@@ -221,21 +223,17 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 		};
 
 		return (
-			<div>
+			<div className="search">
 				<Combobox onSelect={handleSelect}>
 					<ComboboxInput
 						value={value}
 						onChange={handleInput}
 						disabled={!ready}
 						placeholder="Search your location"
-						style={{
-							zIndex: "9998",
-							position: "fixed",
-							marginLeft: "80%"
-						}}
+
 					/>
-					<ComboboxPopover>
-						<ComboboxList>
+					<ComboboxPopover className="listSearch">
+						<ComboboxList >
 							{status === 'OK' &&
 								data.map(({ id, description }) => <ComboboxOption key={id} value={description} />)}
 						</ComboboxList>
