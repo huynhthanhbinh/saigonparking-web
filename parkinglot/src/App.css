@@ -25,13 +25,14 @@
 }
 
 .rightTab .listItem ul:hover {
-    background: rgb(216, 216, 216);
+    background: rgb(228, 228, 228);
+    transform: translateY(-5px);
 }
 
 .rightTab .listItem ul {
+    padding: 10px;
     list-style: none;
-    padding-left: 5px;
-    border-bottom: 1px solid rgb(194, 194, 194);
+    transition: all 0.5s;
 }
 
 .rightTab .listItem ul .contentRss {
