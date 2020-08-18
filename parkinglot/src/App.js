@@ -68,484 +68,7 @@ function App() {
     FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
   })
 
-
-
-  /**
-   * Check RenewToken every 10 minute
-   */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getInformationUser();
-    }, 600000);
-    return () => clearInterval(interval);
-  }, []);
-
-  //--------------------------------------------------------------------------------------//
-
-  /**
-   * get Information ParkingLot
-   */
-
-  const getInformationParking = (id) => {
-    const token = 'Bearer ' + Cookies.get("token");
-    const metadata = { 'Authorization': token }
-    const request = new Int64Value()
-    request.setValue(id)
-    parkingLotService.getParkingLotById(request, metadata, (err, res) => {
-      if (err) {
-
-      }
-      else {
-        let temp = {
-          availableSlot: null,
-          totalSlot: null,
-          detail: {
-            address: null,
-            name: null,
-            phone: null,
-            numberRating: null,
-            ratingAverage: null
-          },
-          openHour: null,
-          closeHour: null
-        }
-        temp.availableSlot = res.getAvailableslot()
-        temp.totalSlot = res.getTotalslot()
-        temp.detail.address = res.getInformation().getAddress()
-        temp.detail.name = res.getInformation().getName()
-        temp.detail.phone = res.getInformation().getPhone()
-        temp.detail.numberRating = res.getInformation().getNumberofrating()
-        temp.detail.ratingAverage = res.getInformation().getRatingaverage()
-        temp.openHour = res.getOpeninghour()
-        temp.closeHour = res.getClosinghour()
-        setInformation(prev => temp)
-      }
-    })
-  }
-
-  //--------------------------------------------------------------------------------------//
-
-  /**
-   *  get last 10 comment
-   */
-
-  const getCommentParkingLot = (id) => {
-    const token = 'Bearer ' + Cookies.get("token");
-    const metadata = { 'Authorization': token }
-    const request = new parkingLotProto.GetAllRatingsOfParkingLotRequest()
-    request.setParkinglotid(id)
-    request.setNrow(10)
-    request.setPagenumber(1)
-    parkingLotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
-      if (err) {
-
-      }
-      else {
-        let temp = []
-        for (let i = 0; i < res.getRatingList().length; i++) {
-          temp.push({
-            comment: res.getRatingList()[i].getComment(),
-            userName: res.getRatingList()[i].getUsername(),
-            rating: res.getRatingList()[i].getRating()
-          })
-        }
-        setTopComment(temp)
-      }
-    })
-  }
-
-  //--------------------------------------------------------------------------------------//
-
-  // renew accessToken //
-  const [flat, setFlat] = React.useState(false);
-  const getInformationUser = React.useCallback(() => {
-    const token = 'Bearer ' + Cookies.get("token");
-    let metadata = { 'Authorization': token }
-    let request = new StringValue()
-    request.setValue(Cookies.get("checkUserName"))
-    userService.getUserByUsername(request, metadata, (err, res) => {
-      if (err) {
-        if (err.message === "SPE#00001") {
-          const refreshtoken = "Bearer " + Cookies.get("refreshtoken");
-          metadata = { 'Authorization': refreshtoken };
-          request = new Empty();
-
-          authService.generateNewToken(request, metadata, (err, res) => {
-            if (err) {
-              Cookies.remove("token")
-              Cookies.remove("refreshtoken")
-              Cookies.remove("checkUserName")
-              localStorage.removeItem('chatMessage')
-              window.location.href = '/'
-            } else {
-              if (res.getRefreshtoken() === "") {
-                /* luu access token */
-                Cookies.set("token", res.getAccesstoken());
-                setFlat(flat => !flat);
-              } else {
-                /* luu new access token + new refresh token */
-                Cookies.set("token", res.getAccesstoken());
-                Cookies.set("refreshtoken", res.getRefreshtoken());
-                console.log("refreshtoken + accesstoken mới");
-                setFlat(flat => !flat);
-              }
-            }
-          });
-        }
-        else {
-          Cookies.remove("token")
-          Cookies.remove("refreshtoken")
-          Cookies.remove("checkUserName")
-          localStorage.removeItem('chatMessage')
-          window.location.href = '/'
-        }
-      }
-      else {
-      }
-    })
-  },
-    [],
-  )
-  //--------------------------------------------------------------------------------------//
-
-  // initalize message received on Websocket
-  const [messageReceived, setMesssageReceived] = useState({
-    classification: null,
-    type: null,
-    content: null,
-    senderId: null,
-    receiverId: null,
-    timestamp: null,
-  })
-  // ------------------------------------------------------------------------ //
-
-  /**
-   * 
-   * deserialize content on Received message
-   */
-  const deserializeBinary = (dataU8, type) => {
-    if (dataU8) {
-      switch (type) {
-        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-          return contactProto.NotificationContent.deserializeBinary(dataU8)
-        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-          return contactProto.TextMessageContent.deserializeBinary(dataU8)
-        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            return contactProto.BookingRequestContent.deserializeBinary(dataU8)
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
-          }
-        case contactProto.SaigonParkingMessage.Type.IMAGE:
-          return dataU8
-        case contactProto.SaigonParkingMessage.Type.HISTORY_CHANGE:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            break;
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            return contactProto.BookingFinishContent.deserializeBinary(dataU8)
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            break;
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_REJECT:
-          {
-            getOnGoingBooking(localStorage.getItem('ID'))
-            break;
-          }
-        case contactProto.SaigonParkingMessage.Type.AVAILABILITY_UPDATE:
-          {
-            getInformationParking(localStorage.getItem('ID'))
-            break;
-          }
-        default:
-          return 'Error not in type Received'
-      }
-    }
-    else return 'Error message null'
-  }
-  // ------------------------------------------------------------------------ //
-
-  /**
-   * sendMessage set filed and send
-   */
-  const send = (message, values) => {
-    const content = new contactProto.TextMessageContent()
-    content.setMessage(values)
-    content.setSender(Cookies.get("checkUserName"))
-    const messages = new contactProto.SaigonParkingMessage()
-    messages.setSenderid(message.receiverId)
-    messages.setReceiverid(message.senderId)
-    messages.setContent(content.serializeBinary())
-    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
-    messages.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
-    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
-    clients.send(messages.serializeBinary())
-  }
-  // ------------------------------------------------------------------------ //
-
-  /**
-   * Function get Ongoing booking
-   */
-  const getOnGoingBooking = React.useCallback(
-    (id) => {
-      const token = Cookies.get("token")
-      const metadata = { 'Authorization': token }
-      const request = new Int64Value()
-      request.setValue(id)
-      bookingService.getAllOnGoingBookingOfParkingLot(request, metadata, (err, res) => {
-        if (err) {
-          getInformationUser()
-        }
-        else {
-          localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
-          setBookingPending([].concat(res.getBookingList()))
-          setDisableButtonAcRj(false)
-        }
-      })
-      countAllBooking(id)
-      getCommentParkingLot(id)
-    },
-    [],
-  )
-
-  // ------------------------------------------------------------------------ //
-
-  /**
-   * Count all booking by status
-   */
-
-  const countAllBooking = React.useCallback(
-    (id) => {
-      let temp = {
-        CREATED: { title: 'Created', value: 0, color: '#FFFF00' },
-        ACCEPTED: { title: 'Accepted', value: 0, color: '#24ff0b' },
-        REJECTED: { title: 'Rejected', value: 0, color: '#B22222' },
-        CANCELLED: { title: 'Cancelled', value: 0, color: '#A9A9A9' },
-        FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
-      }
-      const token = Cookies.get("token")
-      const metadata = { 'Authorization': token }
-      const request = new Int64Value()
-      request.setValue(id)
-      bookingService.countAllBookingOfParkingLotGroupByStatus(request, metadata, (err, res) => {
-        if (err) { getInformationUser() }
-        else {
-          let result = res.getStatuscountMap().toArray()
-          for (let i = 0; i < result.length; i++) {
-            switch (result[i][0]) {
-              case bookingProto.BookingStatus.CREATED:
-                {
-                  temp.CREATED.value = result[i][1]
-                  break
-                }
-              case bookingProto.BookingStatus.ACCEPTED:
-                {
-                  temp.ACCEPTED.value = result[i][1]
-                  break
-                }
-              case bookingProto.BookingStatus.REJECTED:
-                {
-                  temp.REJECTED.value = result[i][1]
-                  break
-                }
-              case bookingProto.BookingStatus.CANCELLED:
-                {
-                  temp.CANCELLED.value = result[i][1]
-                  break
-                }
-              case bookingProto.BookingStatus.FINISHED:
-                {
-                  temp.FINISHED.value = result[i][1]
-                  break
-                }
-              default:
-                break
-            }
-          }
-          setCountAllbooking(temp)
-        }
-      })
-    },
-    [],
-  )
-
-  // ------------------------------------------------------------------------ //
-
-  //Open connected Websocket //
-  useEffect(() => {
-    let isCancelled = false;
-    // get News from VNExpress.net
-    let Parser = require('rss-parser');
-    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
-    let parser = new Parser();
-    parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/tin-moi-nhat.rss', function (err, feed) {
-      if (err) { console.log('Error get Feed!') } else setFeed(feed.items)
-    })
-    if (('Notification') in window) {
-      window.Notification.requestPermission() // request permission Noti in browser
-    }
-
-    const token = Cookies.get("token");
-    const refreshtoken = Cookies.get("refreshtoken");
-    const checkUserName = Cookies.get("checkUserName");
-    const metadata = { 'Authorization': token }
-    if (token && checkUserName && refreshtoken && !isCancelled) {
-      setFlagIsLogin(true)
-      if (clients === null) {
-        setClients(new W3CWebSocket(`${WEBSOCKET_URL}/contact/web?token=${token}`))
-      }
-      const request = new Empty();
-      parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
-        if (err && !isCancelled) {
-          console.log(err)
-          getInformationUser()
-        }
-        else {
-          if (!isCancelled) {
-            localStorage.setItem('ID', res.getValue())
-            getOnGoingBooking(localStorage.getItem('ID'))
-            getInformationParking(localStorage.getItem('ID'))
-          }
-        }
-      })
-    }
-    else {
-      if (!isCancelled) {
-        setIsOpen(true)
-      }
-    }
-    return () => {
-      isCancelled = true;
-    };
-  }, [flat])
-  // ------------------------------------------------------------------------ //
-
-  //useEffect onState connect websocket
-  useEffect(() => {
-    if (clients !== null) {
-      clients.onerror = function (error) {
-        console.log(error);
-      }
-
-      clients.onclose = (event) => {
-        console.log(event)
-        getInformationUser()
-      }
-
-      clients.onopen = () => {
-        console.log('Connected')
-      };
-
-      clients.onmessage = (data) => {
-        // change received message to Unit8Array and convert to object and set to State MesssageReceived //
-        if (data.data.arrayBuffer) {
-          data.data.arrayBuffer().then(function (v) {
-            let buf = new Uint8Array(v)
-            let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
-            const temp = {
-              classification: data.getClassification(),
-              type: data.getType(),
-              content: deserializeBinary(data.getContent_asU8(), data.getType()),
-              senderId: data.getSenderid(),
-              receiverId: data.getReceiverid(),
-              timestamp: data.getTimestamp(),
-            }
-            setMesssageReceived(messageReceived => temp)
-          })
-        }
-
-        // ------------------------------------------------------------------------ //
-      };
-    }
-  }, [clients])
-
-  // ------------------------------------------------------------------------ //
-
-  //useEffect handle onmessage by type
-  useEffect(() => {
-    if (messageReceived.type !== null) {
-      localStorage.getItem('chatMessage') ? setChatMessage(JSON.parse(localStorage.getItem('chatMessage'))) : console.log('Available')
-      //trigger onmessage ở đây
-      switch (messageReceived.type) {
-        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
-          {
-            notify(messageReceived)
-            break
-          }
-        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
-          {
-            //handle textChat to List object
-            let a = chatMessage
-            if (a.length === 0) {
-              a = [{
-                'content': ['kh:' + messageReceived.content.getMessage()],
-                'id': messageReceived.senderId + messageReceived.receiverId,
-                'customer': messageReceived.content.getSender()
-              }]
-            }
-            else {
-              let temp = 0
-              for (let i = 0; i < a.length; i++) {
-                if (a[i].id === messageReceived.senderId + messageReceived.receiverId) {
-                  a[i].content.push('kh:' + messageReceived.content.getMessage())
-                  temp = 1
-                }
-              }
-              if (temp === 0) {
-                a.push({
-                  'content': ['kh:' + messageReceived.content.getMessage()],
-                  'id': messageReceived.senderId + messageReceived.receiverId,
-                  'customer': messageReceived.content.getSender()
-                })
-              }
-            }
-            setChatMessage(a)
-            localStorage.setItem('chatMessage', JSON.stringify(chatMessage))
-            notify(messageReceived)
-            break
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
-          {
-            handleDescrease()
-            notify(messageReceived)
-            break
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
-          {
-            handleInscrease()
-            notify(messageReceived)
-            break
-          }
-        case contactProto.SaigonParkingMessage.Type.IMAGE:
-          {
-            //imgae
-            break
-          }
-        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
-          {
-            handleInscrease()
-            notify(messageReceived)
-            break
-          }
-        default:
-          {
-            break
-          }
-      }
-    }
-  }, [messageReceived])
-
-  // ------------------------------------------------------------------------ //
+// ------------------------------------------------------------------------ //
 
   /**
    * Finish OnGoing Booking
@@ -899,11 +422,492 @@ function App() {
   }
   //--------------------------------------------------------------------------//
 
+  /**
+   * get Information ParkingLot
+   */
+
+  const getInformationParking = (id) => {
+    const token = 'Bearer ' + Cookies.get("token");
+    const metadata = { 'Authorization': token }
+    const request = new Int64Value()
+    request.setValue(id)
+    parkingLotService.getParkingLotById(request, metadata, (err, res) => {
+      if (err) {
+
+      }
+      else {
+        let temp = {
+          availableSlot: null,
+          totalSlot: null,
+          detail: {
+            address: null,
+            name: null,
+            phone: null,
+            numberRating: null,
+            ratingAverage: null
+          },
+          openHour: null,
+          closeHour: null
+        }
+        temp.availableSlot = res.getAvailableslot()
+        temp.totalSlot = res.getTotalslot()
+        temp.detail.address = res.getInformation().getAddress()
+        temp.detail.name = res.getInformation().getName()
+        temp.detail.phone = res.getInformation().getPhone()
+        temp.detail.numberRating = res.getInformation().getNumberofrating()
+        temp.detail.ratingAverage = res.getInformation().getRatingaverage()
+        temp.openHour = res.getOpeninghour()
+        temp.closeHour = res.getClosinghour()
+        setInformation(prev => temp)
+      }
+    })
+  }
+
+  //--------------------------------------------------------------------------------------//
+
+  // renew accessToken //
+  const [flat, setFlat] = React.useState(false);
+  const getInformationUser = React.useCallback(() => {
+    const token = 'Bearer ' + Cookies.get("token");
+    let metadata = { 'Authorization': token }
+    let request = new StringValue()
+    request.setValue(Cookies.get("checkUserName"))
+    userService.getUserByUsername(request, metadata, (err, res) => {
+      if (err) {
+        if (err.message === "SPE#00001") {
+          const refreshtoken = "Bearer " + Cookies.get("refreshtoken");
+          metadata = { 'Authorization': refreshtoken };
+          request = new Empty();
+
+          authService.generateNewToken(request, metadata, (err, res) => {
+            if (err) {
+              Cookies.remove("token")
+              Cookies.remove("refreshtoken")
+              Cookies.remove("checkUserName")
+              localStorage.removeItem('chatMessage')
+              window.location.href = '/'
+            } else {
+              if (res.getRefreshtoken() === "") {
+                /* luu access token */
+                Cookies.set("token", res.getAccesstoken());
+                setFlat(flat => !flat);
+              } else {
+                /* luu new access token + new refresh token */
+                Cookies.set("token", res.getAccesstoken());
+                Cookies.set("refreshtoken", res.getRefreshtoken());
+                setFlat(flat => !flat);
+              }
+            }
+          });
+        }
+        else {
+          Cookies.remove("token")
+          Cookies.remove("refreshtoken")
+          Cookies.remove("checkUserName")
+          localStorage.removeItem('chatMessage')
+          window.location.href = '/'
+        }
+      }
+      else {
+      }
+    })
+  },
+    [],
+  )
+  //--------------------------------------------------------------------------------------//
+
   const handleNotSupported = () => {
     console.log('Web Notification not Supported');
   }
 
+  /**
+   * Check RenewToken every 10 minute
+   */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getInformationUser();
+    }, 600000);
+    return () => clearInterval(interval);
+  }, [getInformationUser]);
 
+  //--------------------------------------------------------------------------------------//
+
+  /**
+   *  get last 10 comment
+   */
+
+  const getCommentParkingLot = (id) => {
+    const token = 'Bearer ' + Cookies.get("token");
+    const metadata = { 'Authorization': token }
+    const request = new parkingLotProto.GetAllRatingsOfParkingLotRequest()
+    request.setParkinglotid(id)
+    request.setNrow(10)
+    request.setPagenumber(1)
+    parkingLotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
+      if (err) {
+
+      }
+      else {
+        let temp = []
+        for (let i = 0; i < res.getRatingList().length; i++) {
+          temp.push({
+            comment: res.getRatingList()[i].getComment(),
+            userName: res.getRatingList()[i].getUsername(),
+            rating: res.getRatingList()[i].getRating()
+          })
+        }
+        setTopComment(temp)
+      }
+    })
+  }
+
+  //--------------------------------------------------------------------------------------//
+
+  // initalize message received on Websocket
+  const [messageReceived, setMesssageReceived] = useState({
+    classification: null,
+    type: null,
+    content: null,
+    senderId: null,
+    receiverId: null,
+    timestamp: null,
+  })
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * 
+   * deserialize content on Received message
+   */
+  const deserializeBinary = (dataU8, type) => {
+    if (dataU8) {
+      switch (type) {
+        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+          return contactProto.NotificationContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+          return contactProto.TextMessageContent.deserializeBinary(dataU8)
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingRequestContent.deserializeBinary(dataU8)
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingCancellationContent.deserializeBinary(dataU8)
+          }
+        case contactProto.SaigonParkingMessage.Type.IMAGE:
+          return dataU8
+        case contactProto.SaigonParkingMessage.Type.HISTORY_CHANGE:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            return contactProto.BookingFinishContent.deserializeBinary(dataU8)
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_ACCEPTANCE:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REJECT:
+          {
+            getOnGoingBooking(localStorage.getItem('ID'))
+            break;
+          }
+        case contactProto.SaigonParkingMessage.Type.AVAILABILITY_UPDATE:
+          {
+            getInformationParking(localStorage.getItem('ID'))
+            break;
+          }
+        default:
+          return 'Error not in type Received'
+      }
+    }
+    else return 'Error message null'
+  }
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * sendMessage set filed and send
+   */
+  const send = (message, values) => {
+    const content = new contactProto.TextMessageContent()
+    content.setMessage(values)
+    content.setSender(Cookies.get("checkUserName"))
+    const messages = new contactProto.SaigonParkingMessage()
+    messages.setSenderid(message.receiverId)
+    messages.setReceiverid(message.senderId)
+    messages.setContent(content.serializeBinary())
+    messages.setClassification(contactProto.SaigonParkingMessage.Classification.PARKING_LOT_MESSAGE)
+    messages.setType(contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE)
+    messages.setTimestamp(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    clients.send(messages.serializeBinary())
+  }
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * Function get Ongoing booking
+   */
+  const getOnGoingBooking = React.useCallback(
+    (id) => {
+      const token = Cookies.get("token")
+      const metadata = { 'Authorization': token }
+      const request = new Int64Value()
+      request.setValue(id)
+      bookingService.getAllOnGoingBookingOfParkingLot(request, metadata, (err, res) => {
+        if (err) {
+          getInformationUser()
+        }
+        else {
+          localStorage.setItem('listPending', JSON.stringify(res.getBookingList()))
+          setBookingPending([].concat(res.getBookingList()))
+          setDisableButtonAcRj(false)
+        }
+      })
+      countAllBooking(id)
+      getCommentParkingLot(id)
+    },
+    // eslint-disable-next-line
+    [],
+  )
+
+  // ------------------------------------------------------------------------ //
+
+  /**
+   * Count all booking by status
+   */
+
+  const countAllBooking = React.useCallback(
+    (id) => {
+      let temp = {
+        CREATED: { title: 'Created', value: 0, color: '#FFFF00' },
+        ACCEPTED: { title: 'Accepted', value: 0, color: '#24ff0b' },
+        REJECTED: { title: 'Rejected', value: 0, color: '#B22222' },
+        CANCELLED: { title: 'Cancelled', value: 0, color: '#A9A9A9' },
+        FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
+      }
+      const token = Cookies.get("token")
+      const metadata = { 'Authorization': token }
+      const request = new Int64Value()
+      request.setValue(id)
+      bookingService.countAllBookingOfParkingLotGroupByStatus(request, metadata, (err, res) => {
+        if (err) { getInformationUser() }
+        else {
+          let result = res.getStatuscountMap().toArray()
+          for (let i = 0; i < result.length; i++) {
+            switch (result[i][0]) {
+              case bookingProto.BookingStatus.CREATED:
+                {
+                  temp.CREATED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.ACCEPTED:
+                {
+                  temp.ACCEPTED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.REJECTED:
+                {
+                  temp.REJECTED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.CANCELLED:
+                {
+                  temp.CANCELLED.value = result[i][1]
+                  break
+                }
+              case bookingProto.BookingStatus.FINISHED:
+                {
+                  temp.FINISHED.value = result[i][1]
+                  break
+                }
+              default:
+                break
+            }
+          }
+          setCountAllbooking(temp)
+        }
+      })
+    },
+    /**
+     * |
+     * v
+     * ignore warning add dependency when use Effect or use CallBack: eslint-disable-next-line
+     */
+    // eslint-disable-next-line
+    [],
+  )
+
+  // ------------------------------------------------------------------------ //
+
+  //Open connected Websocket //
+  useEffect(() => {
+    let isCancelled = false;
+    // get News from VNExpress.net
+    let Parser = require('rss-parser');
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
+    let parser = new Parser();
+    parser.parseURL(CORS_PROXY + 'https://vnexpress.net/rss/tin-moi-nhat.rss', function (err, feed) {
+      if (err) { console.log('Error get Feed!') } else setFeed(feed.items)
+    })
+    if (('Notification') in window) {
+      window.Notification.requestPermission() // request permission Noti in browser
+    }
+
+    const token = Cookies.get("token");
+    const refreshtoken = Cookies.get("refreshtoken");
+    const checkUserName = Cookies.get("checkUserName");
+    const metadata = { 'Authorization': token }
+    if (token && checkUserName && refreshtoken && !isCancelled) {
+      setFlagIsLogin(true)
+      if (clients === null) {
+        setClients(new W3CWebSocket(`${WEBSOCKET_URL}/contact/web?token=${token}`))
+      }
+      const request = new Empty();
+      parkingLotService.getParkingLotIdByAuthorizationHeader(request, metadata, (err, res) => {
+        if (err && !isCancelled) {
+          getInformationUser()
+        }
+        else {
+          if (!isCancelled) {
+            localStorage.setItem('ID', res.getValue())
+            getOnGoingBooking(localStorage.getItem('ID'))
+            getInformationParking(localStorage.getItem('ID'))
+          }
+        }
+      })
+    }
+    else {
+      if (!isCancelled) {
+        setIsOpen(true)
+      }
+    }
+    return () => {
+      isCancelled = true;
+    };
+    // eslint-disable-next-line
+  }, [flat])
+  // ------------------------------------------------------------------------ //
+
+  //useEffect onState connect websocket
+  useEffect(() => {
+    if (clients !== null) {
+      clients.onerror = function (error) {
+        console.log(error);
+      }
+
+      clients.onclose = (event) => {
+        console.log(event)
+        getInformationUser()
+      }
+
+      clients.onopen = () => {
+        console.log('Connected')
+      };
+
+      clients.onmessage = (data) => {
+        // change received message to Unit8Array and convert to object and set to State MesssageReceived //
+        if (data.data.arrayBuffer) {
+          data.data.arrayBuffer().then(function (v) {
+            let buf = new Uint8Array(v)
+            let data = contactProto.SaigonParkingMessage.deserializeBinary(buf)
+            const temp = {
+              classification: data.getClassification(),
+              type: data.getType(),
+              content: deserializeBinary(data.getContent_asU8(), data.getType()),
+              senderId: data.getSenderid(),
+              receiverId: data.getReceiverid(),
+              timestamp: data.getTimestamp(),
+            }
+            setMesssageReceived(messageReceived => temp)
+          })
+        }
+
+        // ------------------------------------------------------------------------ //
+      };
+    }
+    // eslint-disable-next-line
+  }, [clients])
+
+  // ------------------------------------------------------------------------ //
+
+  //useEffect handle onmessage by type
+  useEffect(() => {
+    if (messageReceived.type !== null) {
+      localStorage.getItem('chatMessage') ? setChatMessage(JSON.parse(localStorage.getItem('chatMessage'))) : console.log('Non history Chat')
+      //trigger onmessage ở đây
+      switch (messageReceived.type) {
+        case contactProto.SaigonParkingMessage.Type.NOTIFICATION:
+          {
+            notify(messageReceived)
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.TEXT_MESSAGE:
+          {
+            //handle textChat to List object
+            let a = chatMessage
+            if (a.length === 0) {
+              a = [{
+                'content': ['kh:' + messageReceived.content.getMessage()],
+                'id': messageReceived.senderId + messageReceived.receiverId,
+                'customer': messageReceived.content.getSender()
+              }]
+            }
+            else {
+              let temp = 0
+              for (let i = 0; i < a.length; i++) {
+                if (a[i].id === messageReceived.senderId + messageReceived.receiverId) {
+                  a[i].content.push('kh:' + messageReceived.content.getMessage())
+                  temp = 1
+                }
+              }
+              if (temp === 0) {
+                a.push({
+                  'content': ['kh:' + messageReceived.content.getMessage()],
+                  'id': messageReceived.senderId + messageReceived.receiverId,
+                  'customer': messageReceived.content.getSender()
+                })
+              }
+            }
+            setChatMessage(a)
+            localStorage.setItem('chatMessage', JSON.stringify(chatMessage))
+            notify(messageReceived)
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_REQUEST:
+          {
+            handleDescrease()
+            notify(messageReceived)
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_CANCELLATION:
+          {
+            handleInscrease()
+            notify(messageReceived)
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.IMAGE:
+          {
+            //imgae
+            break
+          }
+        case contactProto.SaigonParkingMessage.Type.BOOKING_FINISH:
+          {
+            handleInscrease()
+            notify(messageReceived)
+            break
+          }
+        default:
+          {
+            break
+          }
+      }
+    }
+    // eslint-disable-next-line
+  }, [messageReceived])
 
   return (
     <>
@@ -913,14 +917,6 @@ function App() {
           <div className='rightTab'>
             <div className='listItem'>
               {feed ? feed.map((data, index) => <ul key={index}><li key={index} style={{ fontWeight: 'bold' }}><h4><a target="_blank" rel="noopener noreferrer" href={data.link}>{data.title}</a></h4><div target="_blank" className='contentRss' dangerouslySetInnerHTML={{ __html: data.content }} /></li></ul>) : null}
-              {/* {chatMessage.map((data, index) => {
-                return (
-                  <ul onClick={() => console.log('open chatbox')} key={index} style={{ border: '1px solid black', width: '100%', listStyleType: 'none', paddingInlineStart: '0' }}>
-                    <h5 style={{ margin: '0' }}>{data.customer}:</h5>
-                    <li key={index}>{data.content[data.content.length - 1].substring(0, 3) === 'kh:' ? data.content[data.content.length - 1].substring(3) : 'You:' + data.content[data.content.length - 1].substring(3)}</li>
-                  </ul>
-                )
-              })} */}
             </div>
           </div>
           <div className='contentContainer'>
@@ -929,7 +925,8 @@ function App() {
                 {bookingPending.length !== 0 ? <>
                   <h2>Booking: </h2>
                   Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
-                  {bookingPending.sort((a, b) => (a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED) ? 1 : -1).map((data, index) => {
+                  {bookingPending.sort((a, b) => (a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED) ? 1 : -1).map((data, index) => 
+                  {
                     if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
                       return null
                     }
@@ -946,6 +943,7 @@ function App() {
                           </Grid.Column>
                         </Grid>
                       </Popup>
+                      else return null
                   })} </> : <h2>No Pending Booking...</h2>}
               </ul>
             </div>
