@@ -76,6 +76,7 @@
 
 .contentContainerMiddle .box:hover {
     box-shadow: 5px 5px 10px #a3a3a3;
+    transform: translateY(-5px);
 }
 
 .contentContainerMiddle .box:nth-child(1) {
