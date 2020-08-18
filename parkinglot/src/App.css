@@ -1,3 +1,9 @@
+::-webkit-scrollbar {
+    border-radius: 0px !important;
+    width: 2px !important;
+    background: #ffffff;
+}
+
 .rightTab {
     height: calc(100% - 70px);
     width: 20%;
