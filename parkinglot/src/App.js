@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './component/navbar'
 import Cookies from 'js-cookie'
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Modal, Popup, Grid } from 'semantic-ui-react'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
@@ -20,7 +20,6 @@ import parkingLotProto from './api/ParkingLot_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
-import { Popup, Grid } from 'semantic-ui-react'
 import Notification from 'react-web-notification'
 import icon from './images/parking.png'
 import { PieChart } from 'react-minimal-pie-chart';
@@ -1018,7 +1017,7 @@ function App() {
                 <div className='boxContent'>
                   <h3>Comment: </h3>
                   {topComment ? <ul>{topComment.map((data, index) => <li key={index}>
-                    <h4>{data.userName}<ReactStars size={10} value={data.rating ? data.rating : null} edit={false} /></h4> {data.comment}
+                    <h4 className="commentH4">{data.userName}<ReactStars size={10} value={data.rating ? data.rating : null} edit={false} /></h4> {data.comment}
                   </li>)}</ul> : <></>}
                 </div>
               </div>

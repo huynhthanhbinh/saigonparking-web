@@ -96,6 +96,7 @@
     grid-row: span 1;
     display: flex;
     align-items: center;
+    height: 300px;
     justify-content: center;
 }
 
@@ -105,14 +106,21 @@
     text-align: unset;
 }
 
+.commentH4 {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
 .contentContainerMiddle .box:nth-child(4) ul {
     list-style: none;
     padding-left: 10px;
 }
 
 .contentContainerMiddle .box:nth-child(4) ul li {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(235, 235, 235);
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .contentContainerMiddle .box .boxContent {
