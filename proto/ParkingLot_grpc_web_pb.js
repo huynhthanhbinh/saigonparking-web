@@ -83,6 +83,86 @@ proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse>}
+ */
+const methodDescriptor_ParkingLotService_countAllParkingLotGroupByType = new grpc.web.MethodDescriptor(
+  '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAllParkingLotGroupByType',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse>}
+ */
+const methodInfo_ParkingLotService_countAllParkingLotGroupByType = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServiceClient.prototype.countAllParkingLotGroupByType =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAllParkingLotGroupByType',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_countAllParkingLotGroupByType,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.com.bht.saigonparking.api.grpc.parkinglot.CountAllParkingLotGroupByTypeResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.com.bht.saigonparking.api.grpc.parkinglot.ParkingLotServicePromiseClient.prototype.countAllParkingLotGroupByType =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/com.bht.saigonparking.api.grpc.parkinglot.ParkingLotService/countAllParkingLotGroupByType',
+      request,
+      metadata || {},
+      methodDescriptor_ParkingLotService_countAllParkingLotGroupByType);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
  *   !proto.google.protobuf.Int64Value>}
  */
 const methodDescriptor_ParkingLotService_getParkingLotIdByAuthorizationHeader = new grpc.web.MethodDescriptor(
