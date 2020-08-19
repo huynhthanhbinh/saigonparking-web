@@ -1,0 +1,312 @@
+::-webkit-scrollbar {
+    border-radius: 0px !important;
+    width: 3px !important;
+    background: #ffffff;
+}
+
+.rightTab {
+    height: calc(100% - 70px);
+    width: 20%;
+    background: white;
+    overflow: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -5px 1px 8px #acacac;
+}
+
+.rightTab .listItem {
+    margin: 0;
+    width: 100%;
+}
+
+.rightTab .listItem ul:hover {
+    background: rgb(228, 228, 228);
+    transform: translateY(-5px);
+}
+
+.rightTab .listItem ul {
+    padding: 10px;
+    list-style: none;
+    transition: all 0.5s;
+}
+
+.rightTab .listItem ul .contentRss {
+    display: inline;
+}
+
+.container {
+    margin: 0;
+    height: calc(100% - 70px);
+    width: 56%;
+    background: rgb(241, 241, 241);
+    overflow: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 24%;
+}
+
+.contentContainerMiddle {
+    display: grid;
+    padding: 10px;
+    height: auto;
+    width: 100%;
+    position: absolute;
+    background: rgb(241, 241, 241);
+    z-index: 0;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-auto-flow: dense;
+    grid-gap: 10px;
+    overflow-wrap: break-word;
+}
+
+.contentContainerMiddle .box {
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid rgb(243, 243, 243);
+    padding: 20px;
+    overflow: auto;
+    transition: 0.5s;
+    text-align: center;
+}
+
+.contentContainerMiddle .box:hover {
+    box-shadow: 5px 5px 10px #a3a3a3;
+    transform: translateY(-5px);
+}
+
+.contentContainerMiddle .box:nth-child(1) {
+    text-align: unset;
+    grid-column: span 2;
+}
+
+.contentContainerMiddle .box:nth-child(2) {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentContainerMiddle .box:nth-child(3) {
+    grid-row: span 1;
+    display: flex;
+    align-items: center;
+    height: 300px;
+    justify-content: center;
+}
+
+.contentContainerMiddle .box:nth-child(4) {
+    grid-row: span 1;
+    height: 300px;
+    text-align: unset;
+}
+
+.commentH4 {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.contentContainerMiddle .box:nth-child(4) ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.contentContainerMiddle .box:nth-child(4) ul li {
+    border-bottom: 1px solid rgb(235, 235, 235);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contentContainerMiddle .box .boxContent {
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 991px) {
+    .rightTab {
+        width: 0;
+    }
+    .container {
+        width: 50%;
+        left: 50%;
+    }
+    .contentContainer {
+        width: 50% !important;
+    }
+    .Toastify__toast-container--bottom-left {
+        margin-left: 51% !important;
+        width: 47% !important;
+    }
+    .Toastify__toast-container--bottom-left div {
+        overflow: auto !important;
+    }
+    .contentContainerMiddle {
+        grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+    }
+    .contentContainerMiddle .box {
+        grid-row: unset !important;
+        grid-column: unset !important;
+    }
+}
+
+.contentContainer {
+    display: flex;
+    height: calc(100% - 70px);
+    width: 24%;
+    box-shadow: 5px 10px 8px #acacac;
+    z-index: 1;
+    background: white;
+    overflow: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+}
+
+.contentContainer .listPending ul {
+    position: relative;
+    width: 100%;
+    margin-top: 20%;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted {
+    position: relative;
+    left: 0;
+    color: #999;
+    list-style: none;
+    margin: 4px 0;
+    border-left: 2px solid #24ff0b;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #24ff0b;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover::before {
+    transform: scaleX(1);
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover {
+    left: 10px;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted span {
+    position: relative;
+    padding: 8px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiAccepted:hover span {
+    color: #111;
+    font-weight: bold;
+}
+
+.contentContainer .listPending ul .pendingLiCreated {
+    position: relative;
+    left: 0;
+    color: #999;
+    list-style: none;
+    margin: 4px 0;
+    border-left: 2px solid yellow;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.contentContainer .listPending ul .pendingLiCreated::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: yellow;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover::before {
+    transform: scaleX(1);
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover {
+    left: 10px;
+}
+
+.contentContainer .listPending ul .pendingLiCreated span {
+    position: relative;
+    padding: 8px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.contentContainer .listPending ul .pendingLiCreated:hover span {
+    color: #111;
+    font-weight: bold;
+}
+
+.Toastify__toast-container--bottom-left {
+    margin-left: 25%;
+    width: 25%;
+}
+
+.Toastify__toast-container--bottom-right {
+    margin-right: 20%;
+    z-index: 2;
+}
+
+.Toastify__toast.Toastify__toast--info {
+    border-radius: 10px;
+}
+
+.Toastify__toast.Toastify__toast--error {
+    border-radius: 10px;
+}
+
+.Toastify__toast.Toastify__toast--warning {
+    border-radius: 10px;
+}
+
+.scroll {
+    display: flex;
+}
+
+.scroll div {
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    white-space: nowrap;
+    font-weight: 900;
+    text-transform: uppercase;
+    height: 100%;
+    margin: 10px;
+    animation: animate 20s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateX(70%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+img {
+    height: 60px;
+    padding-right: 3px;
+}
