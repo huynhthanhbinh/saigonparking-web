@@ -10,6 +10,7 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 
+import '../../css/Searchmap.css'
 import '@reach/combobox/styles.css';
 import mapStyles from './mapStyles';
 import Navbardefault from '../Navbar/Navbar';
@@ -19,8 +20,8 @@ const parkinglotProto = require('../../api/ParkingLot_pb');
 const libraries = ['places'];
 const mapContainerStyle = {
 	margin: "0",
-	marginTop: "66px",
-	height: "calc(100% - 66px)",
+	marginTop: "63px",
+	height: "calc(100% - 63px)",
 	width: "100%",
 	size: "cover",
 	overflow: "hidden",
@@ -29,6 +30,7 @@ const mapContainerStyle = {
 	zIndex: "3",
 	left: "0"
 };
+
 const options = {
 	styles: mapStyles,
 	disableDefaultUI: true,
@@ -41,7 +43,7 @@ const center = {
 var myVar;
 const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fgetClicklocation }) => {
 	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: 'AIzaSyCfrgza6UF7_rK2NsnuUQBytLTSbKYuAlA',
+		googleMapsApiKey: 'AIzaSyAzMtM_tq9piTrRzZ5J0e4fEdsnx5ZSOJ8',
 		libraries
 	});
 	// const [markers, setMarkers] = React.useState([]);
@@ -82,7 +84,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	return (
 		<div>
-			{/* <Search style={{position:"absolute", zIndex:"6", Top:"50%", Left:"50%", transform: "translate(-50%, -50%)" }} panTo={panTo} /> */}
+			<Search panTo={panTo} />
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -94,6 +96,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onLoad={onMapLoad}
 			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
+
 
 				{patients &&
 					patients.map((patient, index) => {
@@ -188,6 +191,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 					})}
 			</GoogleMap>
 		</div>
+
 	);
 
 	function Search({ panTo }) {
@@ -227,8 +231,8 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 						disabled={!ready}
 						placeholder="Search your location"
 					/>
-					<ComboboxPopover>
-						<ComboboxList>
+					<ComboboxPopover className="listSearch">
+						<ComboboxList >
 							{status === 'OK' &&
 								data.map(({ id, description }) => <ComboboxOption key={id} value={description} />)}
 						</ComboboxList>

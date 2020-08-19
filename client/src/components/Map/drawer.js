@@ -11,6 +11,13 @@ import ListPatients from "./ListPatients";
 import CommentRating from "./CommentRating"
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
+
+//Import Search
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+
+const libraries = ['places'];
 const Close = props => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,11 +54,13 @@ const Open = props => (
     </svg>
 );
 
+
+
 export const SideMenu = ({
     overlayColor = "transparent",
     width = 200,
     data,
-    onClickItemPatient, refs, indexClickedMaker, currentPatient
+    onClickItemPatient, refs, indexClickedMaker, currentPatient, fgetClicklocation
 }) => {
     const node = useRef(null);
 
@@ -70,6 +79,11 @@ export const SideMenu = ({
 
     // use react-with-gestures hook
     const [handler, { xDelta, down }] = useGesture();
+
+
+
+
+
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClick);
@@ -91,7 +105,7 @@ export const SideMenu = ({
         native: true,
         to: {
             x: active ? 120 : 120,
-            color: active ? "palevioletred" : "white"
+            color: active ? "green" : "green"
         }
     });
 
@@ -106,6 +120,9 @@ export const SideMenu = ({
             }
         }
     });
+
+
+
     if (abc.switchLP.LiPa === false && abc.switchLP.BinhLuan === false) {
         return (
             <SidekickWrapper>
@@ -138,7 +155,10 @@ export const SideMenu = ({
                     >
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
-                    {data.length !== 0 ? <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
+                    {data.length !== 0 ?
+
+                        /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
+                        <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
                         : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
 
                 </StyledSideMenu>
@@ -178,7 +198,8 @@ export const SideMenu = ({
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
 
-                    {currentPatient &&
+                    {
+                        currentPatient &&
                         <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                     }
                 </StyledSideMenu>
@@ -229,6 +250,7 @@ export const SideMenu = ({
         );
     }
 
+
 };
 
 const StyledList = styled.div`
@@ -251,7 +273,7 @@ const SidekickWrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  margin-top: 66px;
+  margin-top: 63px;
   left: 0;
   pointer-events: none;
   z-index: ${9998};
@@ -272,7 +294,7 @@ const SidekickOverlay = styled.div`
 
 const StyledSideMenu = styled(animated.div)`
   position: relative;
-  z-index: ${1};
+  z-index: ${2};
   pointer-events: all;
   background-color: ${"#fff"};
   height: 100%;
@@ -299,4 +321,4 @@ const MenuHandler = styled(animated.button)`
 
 
 
-export default SideMenu
+export default SideMenu;

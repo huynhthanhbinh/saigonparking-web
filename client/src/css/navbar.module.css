@@ -1,46 +1,57 @@
 .fixedtop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9999;
+    transition: all 0.5s;
+    height: 70px;
+}
+
+.fixedtop span {
+    font-size: x-large;
+    transition: all 0.5s;
+}
+
+.bginfo span {
+    font-size: unset;
 }
 
 .bginfo {
-  background-color: rgb(52, 116, 116) !important;
-
-  /* animation: changecolorNav linear 0.5s forwards; */
+    background-color: rgb(52, 116, 116) !important;
+    height: 72px !important;
 }
 
 span {
-  color: white;
+    color: white;
 }
 
 .photo {
-  display: inline-block;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  vertical-align: middle;
-  overflow: hidden;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    vertical-align: middle;
+    overflow: hidden;
 }
+
 .photo img {
-  width: 100%;
+    width: 100%;
 }
 
 .DropdownItem {
-  color: white;
+    color: white;
 }
 
 .DropdownMenu {
-  background-color: black;
+    background-color: black;
 }
 
 @keyframes changecolorNav {
-  0% {
-    background-color: rgb(52, 116, 116);
-  }
-  100% {
-    background-color: red;
-  }
+    0% {
+        background-color: rgb(52, 116, 116);
+    }
+    100% {
+        background-color: red;
+    }
 }

@@ -152,7 +152,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
             numberOfStars={5}
             name="rating"
           />
-          <Card.Text>
+          <Card.Text style={{color:'Black'}}>
 
             <li>NAME: {parkinglot.getInformation().getName()}</li>
             <li>ADDRESS: {parkinglot.getInformation().getAddress()}</li>
