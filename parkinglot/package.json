@@ -8,6 +8,9 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.5.0",
         "@testing-library/user-event": "^7.2.1",
+        "dotenv": "^8.2.0",
+        "dotenv-cli": "^3.2.0",
+        "env-cmd": "^10.1.0",
         "google-protobuf": "^3.12.2",
         "grpc-web": "^1.2.0",
         "js-cookie": "^2.2.1",
@@ -16,7 +19,7 @@
         "react-dom": "^16.13.1",
         "react-minimal-pie-chart": "^8.0.1",
         "react-rating-stars-component": "^2.2.0",
-        "react-scripts": "3.4.1",
+        "react-scripts": "^3.4.3",
         "react-toastify": "^6.0.8",
         "react-web-notification": "^0.8.0",
         "react-websocket": "^2.1.0",
@@ -30,6 +33,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "build-dev": "dotenv -e .env.development react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
