@@ -9,6 +9,7 @@ protoc -I=. Booking.proto --js_out=import_style=commonjs:. --grpc-web_out=import
 remove build folder inside admin module and client module
 cd into, change API URL in src/saigonparking.js and build admin module as dev mode: npm run build-dev
 cd into, change API URL in src/saigonparking.js and build client module as dev mode: npm run build-dev
+cd into, change API URL in src/saigonparking.js and build parkinglot module as dev mode: npm run build-dev
 cd into root folder
 docker build --rm -f web_dev.Dockerfile -t saigonparkingmap/webserver:dev .
 docker push saigonparkingmap/webserver:dev
@@ -17,6 +18,7 @@ docker push saigonparkingmap/webserver:dev
 remove build folder inside admin module and client module
 cd into, change API URL in src/saigonparking.js and build admin module as produciton mode: npm run build
 cd into, change API URL in src/saigonparking.js and build client module as production mode: npm run build
+cd into, change API URL in src/saigonparking.js and build parkinglot module as production mode: npm run build
 cd into root folder
-docker build --rm -f web_prod.Dockerfile -t saigonparkingmap/webserver:v1.0.3 .
-docker push saigonparkingmap/webserver:v1.0.3
+docker build --rm -f web_prod.Dockerfile -t saigonparkingmap/webserver:prod .
+docker push saigonparkingmap/webserver:prod
