@@ -67,7 +67,7 @@ function App() {
     FINISHED: { title: 'Finished', value: 0, color: '#00FFFF' },
   })
 
-// ------------------------------------------------------------------------ //
+  // ------------------------------------------------------------------------ //
 
   /**
    * Finish OnGoing Booking
@@ -924,8 +924,7 @@ function App() {
                 {bookingPending.length !== 0 ? <>
                   <h2>Booking: </h2>
                   Search: <input style={{ width: '80%' }} onChange={(e) => setSerchBook(e.target.value)} value={searchBook} placeholder='Id booking or license...' />
-                  {bookingPending.sort((a, b) => (a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED) ? 1 : -1).map((data, index) => 
-                  {
+                  {bookingPending.sort((a, b) => (a.getLateststatus() === bookingProto.BookingStatus.ACCEPTED && b.getLateststatus() === bookingProto.BookingStatus.CREATED) ? 1 : -1).map((data, index) => {
                     if (searchBook !== '' && data.getId().toString().indexOf(searchBook) === -1 && data.getLicenseplate().toString().indexOf(searchBook) === -1) {
                       return null
                     }
@@ -942,7 +941,7 @@ function App() {
                           </Grid.Column>
                         </Grid>
                       </Popup>
-                      else return null
+                    else return null
                   })} </> : <h2>No Pending Booking...</h2>}
               </ul>
             </div>
@@ -1050,11 +1049,11 @@ function App() {
         closeOnDimmerClick={true}
       >
         <Modal.Header><p>Please Login to continue!</p></Modal.Header>
-        <Modal.Content style={{display:'flex', flexDirection:'column'}}>
+        <Modal.Content style={{ display: 'flex', flexDirection: 'column' }}>
           <span>User Name</span>
-          <input style={{width:'50%', margin:'10px 0'}} type='text' value={userName} onChange={handleChangeUserName} />
+          <input style={{ width: '50%', margin: '10px 0' }} type='text' value={userName} onChange={handleChangeUserName} />
           <span>Password</span>
-          <input style={{width:'50%', margin:'10px 0'}} type='password' value={password} onChange={handleChangePassword} />
+          <input style={{ width: '50%', margin: '10px 0' }} type='password' value={password} onChange={handleChangePassword} />
         </Modal.Content>
         <Modal.Actions>
           <Button
