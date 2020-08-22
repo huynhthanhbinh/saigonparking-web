@@ -6,23 +6,10 @@ import '../../css/modal.css';
 
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import sessionstorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage'
 
 Modal.setAppElement(document.getElementById("root"));
 const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
-    // const [loi,setloi]=React.useState(null)
-    // React.useEffect(()=>{
-    //     if(modalErrorIsOpen===true)
-    //     {
-    //         setloi(myError)
-    //     }
-    //     return()=>{
-
-    //         setmyError(null)
-    //         setloi(null)
-    //     }
-    // },[modalErrorIsOpen,myError])
-    // /** Mã lỗi khoong co token */
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -30,26 +17,17 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-      
         Cookies.remove("refreshtoken");
-
         sessionstorage.clear();
     }
-
     if (myError != null) {
-
-
         if (myError === "SPE#00008") {
             return (<Modal
                 isOpen={modalErrorIsOpen}
-
                 onRequestClose={() => {
                     closeModalError()
-
                     ClickLogOut()
-
                 }}
-
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
@@ -60,14 +38,10 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
         else if (myError === "SPE#00010") {
             return (<Modal
                 isOpen={modalErrorIsOpen}
-
                 onRequestClose={() => {
                     closeModalError()
-
                     ClickLogOut()
-
                 }}
-
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
@@ -78,14 +52,10 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
         else if (myError === "SPE#00011") {
             return (<Modal
                 isOpen={modalErrorIsOpen}
-
                 onRequestClose={() => {
                     closeModalError()
-
                     ClickLogOut()
-
                 }}
-
                 contentLabel="Example Modal"
                 className="modal-content"
                 overlayClassName="modal-overlay"
@@ -93,14 +63,22 @@ const ModalActivateAccountError = ({ modalErrorIsOpen, closeModalError, myError,
                 <h1>TÀI KHOẢN CHƯA ĐƯỢC KÍCH HOẠT </h1>
             </Modal>)
         }
-
+        else return <Modal
+            isOpen={modalErrorIsOpen}
+            onRequestClose={() => {
+                closeModalError()
+                ClickLogOut()
+            }}
+            contentLabel="Example Modal"
+            className="modal-content"
+            overlayClassName="modal-overlay"
+        >
+            <h1>KHÔNG THỂ KẾT NỐI ĐẾN MÁY CHỦ</h1>
+        </Modal>
     }
     else {
         return (<Landing></Landing>)
     }
-
-
-
 }
 export default ModalActivateAccountError;
 

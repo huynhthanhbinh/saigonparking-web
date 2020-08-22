@@ -13,19 +13,7 @@ import styles from './Modal.module.css'
 import { ReactComponent as IconError } from '../Home/images/error.svg';
 
 const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
-    // const [loi,setloi]=React.useState(null)
-    // React.useEffect(()=>{
-    //     if(modalErrorIsOpen===true)
-    //     {
-    //         setloi(myError)
-    //     }
-    //     return()=>{
 
-    //         setmyError(null)
-    //         setloi(null)
-    //     }
-    // },[modalErrorIsOpen,myError])
-    // /** Mã lỗi khoong co token */
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -35,11 +23,10 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
         Cookies.remove("token");
         Cookies.remove("isAdmin");
         Cookies.remove("refreshtoken");
-
         sessionstorage.clear();
     }
 
-    const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
+    const [isOpen] = React.useState(modalErrorIsOpen)
 
     const ButtonReLogin = () => {
         return (
@@ -72,7 +59,6 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                 return 'REFRESH TOKEN KHÔNG CÒN GIÁ TRỊ';
             case "SPE#00008":
                 return 'KHÔNG TÌM THẤY ENTITY ĐÓ';
-
             default:
                 return myError;
         }
@@ -100,15 +86,11 @@ const ModalError = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) 
                     </Modal.Actions>
                 </Modal>
             </TransitionablePortal>
-
         )
     }
     else {
         return (<Landing></Landing>)
     }
-
-
-
 }
 export default ModalError;
 

@@ -24,18 +24,15 @@ const PreActivateAccount = () => {
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
 
-
     const callactivateNewAccount = () => {
         const token = 'Bearer ' + tmptoken;
         const metadata = { 'Authorization': token }
         const request = new Empty()
         authService.activateNewAccount(request, metadata, (err, res) => {
             if (err) {
-
                 alert("Link khong con kha dung")
                 setstatus(false)
             } else {
-
                 setstatusmail(false)
                 Auth.setcheckUserName(res.getUsername())
                 Auth.setAuth(true)
@@ -43,10 +40,8 @@ const PreActivateAccount = () => {
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", res.getUsername())
             }
-
         })
     }
-
 
     React.useEffect(() => {
         let unmount = false;
@@ -61,12 +56,11 @@ const PreActivateAccount = () => {
         return () => {
             unmount = true
         }
-
+        // eslint-disable-next-line
     }, [])
 
 
     return (
-
         <>
             {
                 (status === true) ?
@@ -74,13 +68,10 @@ const PreActivateAccount = () => {
                         (statusmail === true) ?
                             <Container ></Container>
                             : (<ActivateAccount />)
-
                     )
                     :
                     (<h1>CÓ LỖI XẢY RA , CẦN GỬI LẠI MAIL MỚI </h1>)
             }
-
-
         </>
     );
 };
