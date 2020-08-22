@@ -5,25 +5,13 @@ import Landing from '../Landing'
 
 import AuthApi from "../Auth/AuthAPI";
 import Cookies from 'js-cookie'
-import sessionstorage from 'sessionstorage' 
+import sessionstorage from 'sessionstorage'
 
 import styles from './Modal.module.css'
-import {ReactComponent as IconError} from '../Home/images/error.svg';
+import { ReactComponent as IconError } from '../Home/images/error.svg';
 
 const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyError }) => {
-    // const [loi,setloi]=React.useState(null)
-    // React.useEffect(()=>{
-    //     if(modalErrorIsOpen===true)
-    //     {
-    //         setloi(myError)
-    //     }
-    //     return()=>{
 
-    //         setmyError(null)
-    //         setloi(null)
-    //     }
-    // },[modalErrorIsOpen,myError])
-    // /** Mã lỗi khoong co token */
     const Auth = React.useContext(AuthApi)
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -31,13 +19,11 @@ const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyErro
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-      
         Cookies.remove("refreshtoken");
-        
         sessionstorage.clear();
     }
 
-    const [isOpen, setIsOpen] = React.useState(modalErrorIsOpen)
+    const [isOpen] = React.useState(modalErrorIsOpen)
 
     const ButtonReLogin = () => {
         return (
@@ -85,7 +71,6 @@ const ModalErrorLogin = ({ modalErrorIsOpen, closeModalError, myError, setmyErro
                     </Modal.Actions>
                 </Modal>
             </TransitionablePortal>
-
         )
     }
     else {
