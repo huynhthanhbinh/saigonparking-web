@@ -225,7 +225,7 @@ export const SideMenu = ({
 
 const SidekickWrapper = styled.div`
   position: fixed;
-  width: 100%;
+  width: 90%;
   height: 100%;
   margin-top: 70px;
   pointer-events: none;
@@ -259,7 +259,7 @@ const MenuHandler = styled(animated.button)`
   background: transparent;
   border-radius: 0;
   position: absolute;
-  width: 10%;
+  width: 50px;
   right: 5px;
   outline: none;
   z-index: ${100};
