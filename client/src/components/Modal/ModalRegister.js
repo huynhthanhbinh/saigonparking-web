@@ -1,13 +1,11 @@
 
 import React from 'react'
-import { Button, Modal, TransitionablePortal, ModalActions, ModalContent } from 'semantic-ui-react'
+import { Modal, TransitionablePortal, ModalActions, ModalContent } from 'semantic-ui-react'
 import styles from './Modal.module.css'
-import {ReactComponent as IconError} from '../Home/images/error.svg';
 
 
 const RegisterModal = ({ modalRegisterIsOpen, closeModalRegister }) => {
-    const [isOpen, setIsOpen] = React.useState(modalRegisterIsOpen)
-
+    const [isOpen] = React.useState(modalRegisterIsOpen)
 
     return (
         <TransitionablePortal open={isOpen} transition={{ animation: 'scale', duration: 500 }}>
@@ -28,11 +26,9 @@ const RegisterModal = ({ modalRegisterIsOpen, closeModalRegister }) => {
                 <ModalActions>
                     <button onClick={closeModalRegister}>Đóng</button>
                 </ModalActions>
-
             </Modal>
         </TransitionablePortal>
     )
-
 }
 export default RegisterModal;
 

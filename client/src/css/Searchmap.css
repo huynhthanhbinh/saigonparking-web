@@ -1,21 +1,22 @@
 .search {
-    position: absolute;
-
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 400px;
+    position: fixed;
+    right: 20px;
+    width: auto;
+    height: auto;
     z-index: 9998;
+    top: 70px;
 }
 
 .search input {
     background-color: rgb(52, 116, 116);
-    margin-top: 18%;
-    margin-left: 18%;
     padding: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 2vh;
     width: 100%;
     z-index: 9998;
+}
+
+.search input::placeholder {
+    color: rgb(202, 202, 202);
 }
 
 .listSearch {
@@ -25,4 +26,3 @@
 .listSearch li span {
     color: black;
 }
-/* style={{ zIndex: "9998", position: "fixed", marginLeft: "80%" }} */

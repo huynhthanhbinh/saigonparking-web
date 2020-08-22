@@ -1,11 +1,9 @@
 import React from 'react';
-
 import markerbuilding from './icon/markerbuilding.png';
 import markerprivate from './icon/markerprivate.png';
 import markerstreet from './icon/markerstreet.png';
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick';
-
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
@@ -13,7 +11,6 @@ import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption 
 import '../../css/Searchmap.css'
 import '@reach/combobox/styles.css';
 import mapStyles from './mapStyles';
-import Navbardefault from '../Navbar/Navbar';
 // enum type parking lot
 const parkinglotProto = require('../../api/ParkingLot_pb');
 //
@@ -56,6 +53,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 			// console.log(e.latLng.lat())
 			fgetClicklocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
 		}, 2000);
+		// eslint-disable-next-line
 	}, []);
 	/**
    * onMouseUp kết hợp onMouseDown Xử lý kéo thả map load data ( tránh bị load data nhiều  lần)
@@ -73,7 +71,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	const panTo = React.useCallback(({ lat, lng }) => {
 		mapRef.current.panTo({ lat, lng });
-
 		mapRef.current.setZoom(14);
 	}, []);
 	// check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
@@ -96,8 +93,6 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onLoad={onMapLoad}
 			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
-
-
 				{patients &&
 					patients.map((patient, index) => {
 						if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
@@ -188,10 +183,10 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 								/>
 							);
 						}
+						else return <></>
 					})}
 			</GoogleMap>
 		</div>
-
 	);
 
 	function Search({ panTo }) {
@@ -201,17 +196,13 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				radius: 100 * 1000
 			}
 		});
-
 		// https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
-
 		const handleInput = (e) => {
 			setValue(e.target.value);
 		};
-
 		const handleSelect = async (address) => {
 			setValue(address, false);
 			clearSuggestions();
-
 			try {
 				const results = await getGeocode({ address });
 				const { lat, lng } = await getLatLng(results[0]);

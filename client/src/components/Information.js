@@ -1,13 +1,10 @@
 import React from 'react'
 import AuthApi from "./Auth/AuthAPI";
 import Cookies from 'js-cookie'
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-
 import { UserServiceClient } from '../api/Actor_grpc_web_pb';
-
 import { StringValue } from 'google-protobuf/google/protobuf/wrappers_pb'
 import userMapper from '../mapper/UserMapper'
 import { Formik, Form, useField } from 'formik';
@@ -15,29 +12,16 @@ import * as Yup from 'yup';
 import { API_URL } from '../saigonparking';
 import sessionstorage from 'sessionstorage'
 import {
-
     Link,
-
 } from "react-router-dom";
 //  modal Error
 import ModalError from './Modal/ModalError'
-import exceptionHandler from '../ExceptionHandling'
 //Kiem tra va xuly loi Error00001
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
 
-// //import css
-// import '../css/Information.css';
-
 const authService = new AuthServiceClient(API_URL)
-
 const userService = new UserServiceClient(API_URL)
-
-
-// const customer = new UserProto.Customer();
-// const user = new UserProto.User();
-
-// let customerObject;
 
 const Information = () => {
     //config Modal Error
@@ -45,15 +29,12 @@ const Information = () => {
     const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
     const [myError, setmyError] = React.useState(null)
     function openModalError() {
-
         setmodalErrorIsOpen(true);
     }
-
     function closeModalError() {
         setmodalErrorIsOpen(false);
     }
 
-    //
     //xử lý lỗi error0001 cấp accestoken mới
     const [flat, setflat] = React.useState(false)
     const xulyerrorSPE00001 = () => {
@@ -61,21 +42,16 @@ const Information = () => {
         const token = 'Bearer ' + refreshtoken;
         const metadata = { 'Authorization': token }
         const request = new Empty()
-
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
                 setmyError(err.message)
                 openModalError()
-
-
             } else {
-
                 if (res.getRefreshtoken() === '') {
                     /** luu access token */
                     Cookies.set("token", res.getAccesstoken())
                     console.log("accesstoken mới")
                     setflat(!flat)
-
                 } else {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
@@ -83,17 +59,10 @@ const Information = () => {
                     console.log("refreshtoken + accesstoken mới")
                     setflat(!flat)
                 }
-
-
             }
         })
-
     }
-
-    //
-
     const Auth = React.useContext(AuthApi)
-
 
     let [customerObject, setCustomerObject] = React.useState()
     const getInformationUser = async () => {
@@ -101,7 +70,6 @@ const Information = () => {
         const metadata = { 'Authorization': token }
         const request = new StringValue()
         request.setValue(Cookies.get("checkUserName"))
-
         userService.getCustomerByUsername(request, metadata, (err, res) => {
             if (err) {
                 if (err.message === 'SPE#00001') {
@@ -112,14 +80,9 @@ const Information = () => {
                     openModalError()
                 }
             } else {
-
                 setCustomerObject(userMapper.toCustomerObject(res))
-
             }
-
         })
-
-
     }
 
     React.useEffect(() => {
@@ -127,10 +90,10 @@ const Information = () => {
         if (unmount === false) {
             getInformationUser();
         }
-
         return () => {
             unmount = true
         }
+        // eslint-disable-next-line
     }, [flat])
 
     const MyTextInput = ({ label, ...props }) => {
@@ -149,14 +112,9 @@ const Information = () => {
                         ) : null}</Col>
                     </Row>
                 </Container>
-
-
-
             </>
         );
     };
-
-
 
     const ClickLogOut = () => {
         Auth.setAuth(false)
@@ -164,9 +122,7 @@ const Information = () => {
         Auth.setcheckUserName(null)
         Cookies.remove("checkUserName");
         Cookies.remove("token");
-
         Cookies.remove("refreshtoken");
-
         sessionstorage.clear();
     }
 
@@ -174,28 +130,21 @@ const Information = () => {
     return (
         <div className='backgroundinfo'>
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-
             {customerObject ? <Formik
                 initialValues={{
                     userName: customerObject.username,
-
                     email: customerObject.email,
                     firstName: customerObject.firstName,
                     lastName: customerObject.lastName,
                     phone: customerObject.phone
-
-
                 }}
                 validationSchema={Yup.object({
                     userName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-
-
                     email: Yup.string()
                         .email('Invalid email address')
                         .required('Required'),
-
                     firstName: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
@@ -205,18 +154,13 @@ const Information = () => {
                     phone: Yup.string()
                         .max(15, 'Must be 15 characters or less')
                         .required('Required'),
-
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-
-
                 }}
             >
                 <Form className='forminfo' >
                     <div></div>
                     <h1>Thông tin cá nhân</h1>
-
-
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Tài khoản"
@@ -225,65 +169,53 @@ const Information = () => {
                             disabled="disabled"
                         />
                     </div>
-
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Email "
                             name="email"
                             type="email"
                             disabled="disabled"
-
                         />
                     </div>
-
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Tên"
                             name="firstName"
                             type="text"
                             disabled="disabled"
-
                         />
                     </div>
-
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Họ"
                             name="lastName"
                             type="text"
                             disabled="disabled"
-
                         />
                     </div>
-
                     <div className="fontcolorinfo">
                         <MyTextInput
                             label="Số điện thoại"
                             name="phone"
                             type="phone"
                             disabled="disabled"
-
                         />
                     </div>
-
                     <div className="footer-copyright text-center py-5">
-
                         <div>
                             <Row>
                                 <Col xd="6">
-                                <Link to="/profile/update">
-                                <button style={{}} type="button">
-                                    Chỉnh sửa
+                                    <Link to="/profile/update">
+                                        <button style={{}} type="button">
+                                            Chỉnh sửa
                         </button>
-                            </Link>
-                                    </Col>
-                                    <Col xd="6">
+                                    </Link>
+                                </Col>
+                                <Col xd="6">
                                     <button style={{}} onClick={ClickLogOut}>Đăng xuất</button>
-                                    </Col>
-                           
+                                </Col>
                             </Row>
                         </div>
-
                     </div>
                 </Form>
             </Formik> : <button onClick={ClickLogOut}>Đăng xuất</button>}

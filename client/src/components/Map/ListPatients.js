@@ -10,9 +10,8 @@ import stylescrollview from '../../css/scrollpath.module.css'
 import markerbuilding from "./icon/markerbuilding.png"
 import markerprivate from "./icon/markerprivate.png"
 import markerstreet from "./icon/markerstreet.png"
-//
 const parkinglotProto = require('../../api/ParkingLot_pb')
-//
+
 function loadIcon(typeIcon) {
     if (typeIcon === parkinglotProto.ParkingLotType.BUILDING) {
         return markerbuilding
@@ -28,8 +27,6 @@ function loadIcon(typeIcon) {
 const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker, currentPatient }) => {
     // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
     const abc = React.useContext(SetClick)
-    //
-    //
     if (patients.length === 0) {
         return (<div style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
     }
@@ -42,21 +39,19 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker, c
                         abc.setswitchLP({ LiPa: true, BinhLuan: false })
                     }} active={((index === algorithm.customizedIndexOf(currentPatient, patients)) && (algorithm.customizedIndexOf(currentPatient, patients) !== -1)) ? true : false}>
                         <div className={`${stylescrollview.ListViewColumnRightleft} ${stylescrollview.ListViewColumn}`}>
-                            <img src={loadIcon(patient.getType())}></img>
+                            <img alt='' src={loadIcon(patient.getType())}></img>
                         </div>
                         <div className={`${stylescrollview.ListViewColumnRight} ${stylescrollview.ListViewColumn}`}>
                             <div><strong>TÊN:</strong>  {patient.getName()}</div>
                             <div><strong>CHỖ TRỐNG:</strong>   {patient.getAvailableslot()}</div>
                             <div><strong>TỔNG SỐ CHỖ:</strong>   {patient.getTotalslot()}</div>
                         </div>
-
                     </ListGroup.Item>
                 )
             })
             }
         </ListGroup >
     }
-
 }
 
 export default ListPatients; 

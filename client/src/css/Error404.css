@@ -5,11 +5,12 @@
 
 .cont_principal {
     text-align: center;
-    margin-left: -15px;
     position: absolute;
     width: calc(100%);
-    height: calc(100% - 56px);
+    height: calc(100%);
     overflow: hidden;
+    background: rgb(238, 238, 238);
+    z-index: 9999;
 }
 
 .cont_error {
@@ -27,7 +28,7 @@ h2 {
     color: #ffffff;
 }
 
-.cont_error > h1 {
+.cont_error>h1 {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
     font-size: 150px;
@@ -37,7 +38,7 @@ h2 {
     transition: all 0.5s;
 }
 
-.cont_error > p {
+.cont_error>p {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     font-size: 24px;
@@ -76,15 +77,15 @@ h2 {
     -webkit-transition: all 0.5s;
 }
 
-.cont_error_active > .cont_error > h1 {
+.cont_error_active>.cont_error>h1 {
     left: 0;
 }
 
-.cont_error_active > .cont_error > p {
+.cont_error_active>.cont_error>p {
     left: 0;
 }
 
-.cont_error_active > .cont_aura_2 {
+.cont_error_active>.cont_aura_2 {
     animation-name: animation_error_2;
     animation-duration: 4s;
     animation-timing-function: linear;
@@ -93,7 +94,7 @@ h2 {
     transform: rotate(-20deg);
 }
 
-.cont_error_active > .cont_aura_1 {
+.cont_error_active>.cont_aura_1 {
     transform: rotate(20deg);
     right: -170px;
     animation-name: animation_error_1;
@@ -123,7 +124,6 @@ h2 {
         -webkit-transform: rotate(25deg);
         transform: rotate(25deg);
     }
-
 }
 
 @-moz-keyframes animation_error_1 {
@@ -135,7 +135,6 @@ h2 {
         -webkit-transform: rotate(25deg);
         transform: rotate(25deg);
     }
-
 }
 
 @keyframes animation_error_1 {

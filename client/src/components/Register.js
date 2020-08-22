@@ -38,12 +38,13 @@ const Register = () => {
 					});
 				}
 				break;
+			default:
+				break;
 		}
 	};
 
 	//config Register
-	const [ modalRegisterIsOpen, setmodalRegisterIsOpen ] = React.useState(false);
-	const [ myError, setmyError ] = React.useState(null);
+	const [modalRegisterIsOpen, setmodalRegisterIsOpen] = React.useState(false);
 	function openModalRegister() {
 		setmodalRegisterIsOpen(true);
 	}
@@ -53,7 +54,6 @@ const Register = () => {
 	}
 
 	const Auth = React.useContext(AuthApi);
-	const [ nextpage, setnextpage ] = React.useState(false);
 	const callUserRegisterService = (registerUser, Auth) => {
 		const metadata = { Authorization: 'Bon Map' };
 		const request = new authProto.RegisterRequest();
@@ -74,7 +74,6 @@ const Register = () => {
 				// console.log('dang ky thanh cong');
 				createNotification('success', res.getValue());
 				openModalRegister();
-				setnextpage(true);
 			}
 		});
 	};
@@ -99,7 +98,7 @@ const Register = () => {
 			confirmpassWord: Yup.string()
 				.max(15, 'Must be 15 characters or less')
 				.required('Required')
-				.oneOf([ Yup.ref('passWord'), null ], 'Passwords must match')
+				.oneOf([Yup.ref('passWord'), null], 'Passwords must match')
 		}),
 		onSubmit: (values) => {
 			callUserRegisterService(values, Auth);
@@ -111,7 +110,6 @@ const Register = () => {
 			{modalRegisterIsOpen ? (
 				<ModalRegister modalRegisterIsOpen={modalRegisterIsOpen} closeModalRegister={closeModalRegister} />
 			) : null}
-
 			<form onSubmit={formik.handleSubmit}>
 				<Container className="fontcolor">
 					<h1>Đăng ký</h1>
@@ -132,11 +130,10 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.lastName && formik.errors.lastName ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.lastName}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.lastName}</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="firstName">Tên</label>
@@ -153,11 +150,10 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.firstName && formik.errors.firstName ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.firstName}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.firstName}</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="userName">Tên tài khoản</label>
@@ -174,11 +170,10 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.userName && formik.errors.userName ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.userName}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.userName}</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="passWord">Mật khẩu</label>
@@ -195,11 +190,10 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.passWord && formik.errors.passWord ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.passWord}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.passWord}</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="confirmpassWord">Xác nhận mật khẩu</label>
@@ -216,13 +210,12 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.confirmpassWord && formik.errors.confirmpassWord ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>
 										{formik.errors.confirmpassWord}
 									</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="email">Email</label>
@@ -239,11 +232,10 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.email && formik.errors.email ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.email}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.email}</div>
 								) : null}
 							</Col>
 						</Row>
-
 						<Row>
 							<Col xd="7">
 								<label htmlFor="phone">Số điện thoại</label>
@@ -260,13 +252,13 @@ const Register = () => {
 							</Col>
 							<Col xd="2">
 								{formik.touched.phone && formik.errors.phone ? (
-									<div style={{ marginTop: '30%', color: '#ef4300',fontSize:"80%" }}>{formik.errors.phone}</div>
+									<div style={{ marginTop: '30%', color: '#ef4300', fontSize: "80%" }}>{formik.errors.phone}</div>
 								) : null}
 							</Col>
 						</Row>
 						<Row>
 							<Col xd="6">
-								<button style = {{marginLeft:"4%"}} type="submit">
+								<button style={{ marginLeft: "4%" }} type="submit">
 									Đăng ký
 								</button>
 							</Col>
