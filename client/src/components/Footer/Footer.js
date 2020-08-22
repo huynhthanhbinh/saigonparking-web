@@ -35,26 +35,26 @@ const Footer = () => {
             </MDBCol>
             <MDBCol style={{ marginTop: '20px' }} md="4">
               <ul>
-                <li className="list-unstyled">
+                <li>
                   <NavLink to="/" tag={Link}>Trang chủ</NavLink>
                 </li>
-                <li className="list-unstyled">
+                <li>
                   <NavLink to="/register" tag={Link}>Đăng ký</NavLink>
                 </li>
-                <li className="list-unstyled">
+                <li>
                   <NavLink to="/profile" tag={Link}>Hồ sơ cá nhân</NavLink>
                 </li>
               </ul>
             </MDBCol>
             <MDBCol style={{ marginTop: '20px' }} md="4">
               <ul>
-                <li className="list-unstyled">
+                <li>
                   <NavLink to="/" tag={Link}>Liên hệ</NavLink>
                 </li>
-                <li className="list-unstyled">
+                <li >
                   <NavLink to="/" tag={Link}>Đội ngũ</NavLink>
                 </li>
-                <li className="list-unstyled">
+                <li>
                   <NavLink to="/" tag={Link}>Điều kiện & Điều khoản</NavLink>
                 </li>
               </ul>
