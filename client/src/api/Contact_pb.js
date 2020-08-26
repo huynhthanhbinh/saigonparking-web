@@ -496,9 +496,8 @@ proto.com.bht.saigonparking.api.grpc.contact.SaigonParkingMessage.Type = {
   BOOKING_REJECT: 6,
   BOOKING_FINISH: 7,
   AVAILABILITY_UPDATE: 8,
-  HISTORY_CHANGE: 9,
-  IMAGE: 10,
-  ERROR: 11
+  IMAGE: 9,
+  ERROR: 10
 };
 
 /**
