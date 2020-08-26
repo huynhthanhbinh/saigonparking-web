@@ -22,8 +22,8 @@ import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { AuthServiceClient } from '../../api/Auth_grpc_web_pb';
 /// load comment
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ParkingLotServiceClient } from '../../api/ParkingLot_grpc_web_pb';
-import ParkinglotProto from '../../api/ParkingLot_pb';
+import { BookingServiceClient } from '../../api/Booking_grpc_web_pb';
+import BookingProto from '../../api/Booking_pb';
 import backbutton from './icon/leftarrow.png';
 //animation loading screen
 import { BoxLoading } from 'react-loadingg';
@@ -33,7 +33,7 @@ import stylescrollview from '../../css/scrollpath.module.css';
 
 const authService = new AuthServiceClient(API_URL);
 
-const ParkinglotService = new ParkingLotServiceClient(API_URL);
+const BookingService = new BookingServiceClient(API_URL);
 
 const CommentRating = ({ id }) => {
     // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
@@ -57,9 +57,6 @@ const CommentRating = ({ id }) => {
     //config Modal Comment
     const [modalCommentIsOpen, setmodalCommentIsOpen] = React.useState(false);
     // const [myError, setmyError] = React.useState(null)
-    function openModalComment() {
-        setmodalCommentIsOpen(true);
-    }
 
     function closeModalComment() {
         setmodalCommentIsOpen(false);
@@ -99,11 +96,11 @@ const CommentRating = ({ id }) => {
             //countAll
             let unmount = false;
             if (unmount === false) {
-                const request = new ParkinglotProto.CountAllRatingsOfParkingLotRequest();
+                const request = new BookingProto.CountAllRatingsOfParkingLotRequest();
                 const token = 'Bearer ' + Cookies.get('token');
                 const metadata = { Authorization: token };
                 request.setParkinglotid(id);
-                ParkinglotService.countAllRatingsOfParkingLot(request, metadata, (err, res) => {
+                BookingService.countAllRatingsOfParkingLot(request, metadata, (err, res) => {
                     if (err) {
                         if (err.message === 'SPE#00001') {
                             xulyerrorSPE00001();
@@ -134,7 +131,7 @@ const CommentRating = ({ id }) => {
                 const token = 'Bearer ' + Cookies.get('token');
                 const metadata = { Authorization: token };
                 request.setValue(id);
-                ParkinglotService.getParkingLotRatingCountGroupByRating(request, metadata, (err, res) => {
+                BookingService.getParkingLotRatingCountGroupByRating(request, metadata, (err, res) => {
                     if (err) {
                         if (err.message === 'SPE#00001') {
                             xulyerrorSPE00001();
@@ -159,13 +156,13 @@ const CommentRating = ({ id }) => {
         () => {
             let unmount = false;
             if (unmount === false) {
-                const request = new ParkinglotProto.GetAllRatingsOfParkingLotRequest();
+                const request = new BookingProto.GetAllRatingsOfParkingLotRequest();
                 const token = 'Bearer ' + Cookies.get('token');
                 const metadata = { Authorization: token };
                 request.setParkinglotid(id);
                 request.setNrow(10);
                 request.setPagenumber(total.pagenumber);
-                ParkinglotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
+                BookingService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
                     if (err) {
                         if (err.message === 'SPE#00001') {
                             xulyerrorSPE00001();
@@ -244,12 +241,6 @@ const CommentRating = ({ id }) => {
                     <h4 style={{ margin: '5%' }}>
                         {total.items.length}/{countall}
                     </h4>
-                    <button
-                        className={`${stylescrollview.button} `}
-                        onClick={openModalComment}
-                    >
-                        NHẬN XÉT
-					</button>
                 </div>
                 <div>
                     {ratingcountmap &&

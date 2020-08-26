@@ -28,7 +28,7 @@ const ListPatients = ({ patients, onClickItemPatient, refs, indexClickedMaker, c
     // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
     const abc = React.useContext(SetClick)
     if (patients.length === 0) {
-        return (<div style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
+        return (<div style={{ color: "black" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</div>)
     }
     else {
         return <ListGroup className={`${stylescrollview.scrollpage} list-group`} as="ul">

@@ -6,6 +6,7 @@ import { Modal } from 'semantic-ui-react'
 // import { useField } from 'formik';
 
 import { ParkingLotServiceClient } from '../../../api/ParkingLot_grpc_web_pb';
+import { BookingServiceClient } from '../../../api/Booking_grpc_web_pb';
 import { API_URL } from '../../../saigonparking';
 import Cookies from 'js-cookie';
 
@@ -23,6 +24,7 @@ import defaultimageparkinglot from './images/plot.jpg'
 //
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
+const BookingwebService = new BookingServiceClient(API_URL)
 
 const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     //config Modal Error
@@ -39,8 +41,9 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
     }
 
     const [IsParking, setIsParking] = React.useState(null)
+    const [rating, setRating] = React.useState(null)
     useEffect(() => {
-        
+
         if (modalIsOpen === true) {
             //getParking
             const request = new Int64Value();
@@ -60,6 +63,15 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     openModalError()
                 } else {
                     setIsParking(res)
+                }
+            })
+
+            BookingwebService.getParkingLotBookingAndRatingStatistic(request, metadata, (err, res) => {
+                if (err) {
+
+                }
+                else {
+                    setRating(parseInt(res.getRatingaverage()))
                 }
             })
         }
@@ -88,9 +100,9 @@ const UpdateModal = ({ modalIsOpen, closeModal, parkinglot }) => {
                     <Card.Body>
                         <Card.Title>ID: {IsParking.getId()}</Card.Title>
                         <Card.Text>
-                            <img style={{ width: '100%' }} src={(IsParking.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${IsParking.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} alt=''/>
+                            <img style={{ width: '100%' }} src={(IsParking.getInformation().getImagedata_asB64()) ? (`data:image/jpeg;base64,${IsParking.getInformation().getImagedata_asB64()}`) : defaultimageparkinglot} alt='' />
                             <li><StarRatings
-                                rating={IsParking.getInformation().getRatingaverage()}
+                                rating={rating ? rating : 0}
                                 starRatedColor="rgb(56,112,112)"
                                 starDimension="20px"
                                 starSpacing="2px"

@@ -139,7 +139,7 @@ export const SideMenu = ({
                     {data.length !== 0 ?
                         /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
                         <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
-                        : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
+                        : <h1 style={{ color: "black" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
                 </StyledSideMenu>
             </SidekickWrapper>
         );

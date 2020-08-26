@@ -16,7 +16,6 @@ import { BookingServiceClient } from './api/Booking_grpc_web_pb';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import contactProto from './api/Contact_pb'
 import bookingProto from './api/Booking_pb'
-import parkingLotProto from './api/ParkingLot_pb'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
@@ -448,13 +447,20 @@ function App() {
           openHour: null,
           closeHour: null
         }
+        bookingService.getParkingLotBookingAndRatingStatistic(request, metadata, (err, res) => {
+          if (err) {
+
+          }
+          else {
+            temp.detail.numberRating = res.getNrating()
+            temp.detail.ratingAverage = res.getRatingaverage()
+          }
+        })
         temp.availableSlot = res.getAvailableslot()
         temp.totalSlot = res.getTotalslot()
         temp.detail.address = res.getInformation().getAddress()
         temp.detail.name = res.getInformation().getName()
         temp.detail.phone = res.getInformation().getPhone()
-        temp.detail.numberRating = res.getInformation().getNumberofrating()
-        temp.detail.ratingAverage = res.getInformation().getRatingaverage()
         temp.openHour = res.getOpeninghour()
         temp.closeHour = res.getClosinghour()
         setInformation(prev => temp)
@@ -538,11 +544,11 @@ function App() {
   const getCommentParkingLot = (id) => {
     const token = 'Bearer ' + Cookies.get("token");
     const metadata = { 'Authorization': token }
-    const request = new parkingLotProto.GetAllRatingsOfParkingLotRequest()
+    const request = new bookingProto.GetAllRatingsOfParkingLotRequest()
     request.setParkinglotid(id)
     request.setNrow(10)
     request.setPagenumber(1)
-    parkingLotService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
+    bookingService.getAllRatingsOfParkingLot(request, metadata, (err, res) => {
       if (err) {
 
       }
@@ -956,7 +962,7 @@ function App() {
                     <span style={{ fontWeight: 'bold' }}>Name: </span>{information.detail.name}<br />
                     <span style={{ fontWeight: 'bold' }}>Phone: </span>{information.detail.phone}<br />
                     <span style={{ fontWeight: 'bold' }}>Vote: </span>{information.detail.numberRating}<br />
-                    <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : null} edit={false} />
+                    <ReactStars size={20} value={information.detail.ratingAverage ? parseInt(information.detail.ratingAverage, 10) : null} edit={false} />
                     <span style={{ fontWeight: 'bold' }}>Opening Hour: </span>Opening Hour: {information.openHour}<br />
                     <span style={{ fontWeight: 'bold' }}>Closing Hour: </span>Closing Hour: {information.closeHour}<br />
                   </> : null}

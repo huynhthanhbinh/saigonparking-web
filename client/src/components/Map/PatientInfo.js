@@ -21,14 +21,17 @@ import { WindMillLoading } from 'react-loadingg';
 //import button back
 import backbutton from "./icon/leftarrow.png"
 import stylescrollview from '../../css/scrollpath.module.css'
+import { BookingServiceClient } from '../../api/Booking_grpc_web_pb';
 const authService = new AuthServiceClient(API_URL)
 
 const ParkinglotwebService = new ParkingLotServiceClient(API_URL)
+const BookingService = new BookingServiceClient(API_URL)
 
 const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
   // check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
   const abc = React.useContext(SetClick)
   const [parkinglot, setparkinglot] = React.useState(null)
+  const [rating, setRating] = React.useState(null)
   //config Modal Error
   const [modalErrorIsOpen, setmodalErrorIsOpen] = React.useState(false);
   const [myError, setmyError] = React.useState(null)
@@ -81,6 +84,9 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
           openModalError()
         }
       } else {
+        BookingService.getParkingLotBookingAndRatingStatistic(request, metadata, (err, res2) => {
+          setRating(res2)
+        })
         setparkinglot(res)
       }
     })
@@ -115,7 +121,7 @@ const PatientInfo = ({ id, name, availableSlot, totalSlot }) => {
             <button className={`${stylescrollview.button} `} onClick={() => { abc.setswitchLP({ LiPa: true, BinhLuan: true }) }}>xem bình luận</button>
           </Card.Title>
           <StarRatings
-            rating={parkinglot.getInformation().getRatingaverage()}
+            rating={rating ? parseInt(rating.getRatingaverage(), 10) : 0}
             starRatedColor="rgb(56,112,112)"
             starDimension="20px"
             starSpacing="2px"
