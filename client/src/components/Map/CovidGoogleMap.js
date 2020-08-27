@@ -4,7 +4,7 @@ import markerprivate from './icon/markerprivate.png';
 import markerstreet from './icon/markerstreet.png';
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker, MarkerClusterer } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 
@@ -14,6 +14,10 @@ import mapStyles from './mapStyles';
 // enum type parking lot
 const parkinglotProto = require('../../api/ParkingLot_pb');
 //
+const clusteroption = {
+	imagePath:
+		'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
+}
 const libraries = ['places'];
 const mapContainerStyle = {
 	margin: "0",
@@ -71,7 +75,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 
 	const panTo = React.useCallback(({ lat, lng }) => {
 		mapRef.current.panTo({ lat, lng });
-		mapRef.current.setZoom(14);
+
 	}, []);
 	// check Switch ListPa and PatientInfo FALSE LIST  | TRUE LA PATIENTINFOR
 	const abc = React.useContext(SetClick);
@@ -82,6 +86,7 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 	return (
 		<div>
 			<Search panTo={panTo} />
+
 			<GoogleMap
 				id="map"
 				mapContainerStyle={mapContainerStyle}
@@ -93,99 +98,51 @@ const CovidGoogleMap = ({ onPatientMarkerClicked, patients, currentPatient, fget
 				onLoad={onMapLoad}
 			// panTo={(currentPatient && myVar === undefined) || (currentPatient && myVar < 1) ? panTo({ lat: currentPatient.getLatitude(), lng: currentPatient.getLongitude() }) : null}
 			>
-				{patients &&
-					patients.map((patient, index) => {
-						if (patient.getType() === parkinglotProto.ParkingLotType.BUILDING) {
-							return (
-								<Marker
-									key={index}
-									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-									onClick={() => {
-										onPatientMarkerClicked(patient, index);
-										abc.setswitchLP({ LiPa: true, BinhLuan: false });
-										//
-										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-									}}
-									icon={{
-										url: markerbuilding,
-										origin: new window.google.maps.Point(0, 0),
-										anchor: new window.google.maps.Point(15, 15),
-										scaledSize: new window.google.maps.Size(30, 30)
-									}}
-									animation={
-										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-											patient.getLongitude() === currentPatient.getLongitude() ? (
-												'1'
-											) : (
-												'0'
-											) : (
-												'0'
-											)
-									}
-								/>
-							);
-						} else if (patient.getType() === parkinglotProto.ParkingLotType.PRIVATE) {
-							return (
-								<Marker
-									key={`${patient.getLatitude()}-${patient.getLongitude()}`}
-									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-									onClick={() => {
-										onPatientMarkerClicked(patient, index);
-										abc.setswitchLP({ LiPa: true, BinhLuan: false });
-										//
-										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-									}}
-									icon={{
-										url: markerprivate,
-										origin: new window.google.maps.Point(0, 0),
-										anchor: new window.google.maps.Point(15, 15),
-										scaledSize: new window.google.maps.Size(30, 30)
-									}}
-									animation={
-										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-											patient.getLongitude() === currentPatient.getLongitude() ? (
-												'1'
-											) : (
-												'0'
-											) : (
-												'0'
-											)
-									}
-								/>
-							);
-						} else if (patient.getType() === parkinglotProto.ParkingLotType.STREET) {
-							return (
-								<Marker
-									key={`${patient.getLatitude()}-${patient.getLongitude()}`}
-									position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
-									onClick={() => {
-										onPatientMarkerClicked(patient, index);
-										abc.setswitchLP({ LiPa: true, BinhLuan: false });
-										//
-										panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
-									}}
-									icon={{
-										url: markerstreet,
-										origin: new window.google.maps.Point(0, 0),
-										anchor: new window.google.maps.Point(15, 15),
-										scaledSize: new window.google.maps.Size(30, 30)
-									}}
-									animation={
-										currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
-											patient.getLongitude() === currentPatient.getLongitude() ? (
-												'1'
-											) : (
-												'0'
-											) : (
-												'0'
-											)
-									}
-								/>
-							);
-						}
-						else return <></>
-					})}
+				<MarkerClusterer options={clusteroption}>
+					{(clusterer) =>
+						patients.map((patient, index) => (
+							<Marker
+								clusterer={clusterer}
+								key={index}
+								position={{ lat: patient.getLatitude(), lng: patient.getLongitude() }}
+								onClick={() => {
+									onPatientMarkerClicked(patient, index);
+									abc.setswitchLP({ LiPa: true, BinhLuan: false });
+									//
+									panTo({ lat: patient.getLatitude(), lng: patient.getLongitude() });
+								}}
+								icon={(patient.getType() === parkinglotProto.ParkingLotType.BUILDING) ? {
+									url: markerbuilding,
+									origin: new window.google.maps.Point(0, 0),
+									anchor: new window.google.maps.Point(15, 15),
+									scaledSize: new window.google.maps.Size(30, 30)
+								} : (patient.getType() === parkinglotProto.ParkingLotType.PRIVATE) ? {
+									url: markerprivate,
+									origin: new window.google.maps.Point(0, 0),
+									anchor: new window.google.maps.Point(15, 15),
+									scaledSize: new window.google.maps.Size(30, 30)
+								} : {
+											url: markerstreet,
+											origin: new window.google.maps.Point(0, 0),
+											anchor: new window.google.maps.Point(15, 15),
+											scaledSize: new window.google.maps.Size(30, 30)
+										}}
+								animation={
+									currentPatient ? patient.getLatitude() === currentPatient.getLatitude() &&
+										patient.getLongitude() === currentPatient.getLongitude() ? (
+											'1'
+										) : (
+											'0'
+										) : (
+											'0'
+										)
+								}
+							/>
+						))
+					}
+				</MarkerClusterer>
 			</GoogleMap>
+
 		</div>
 	);
 
