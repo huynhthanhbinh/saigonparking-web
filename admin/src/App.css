@@ -35,7 +35,7 @@ body::-webkit-scrollbar-thumb {
     width: 5rem;
     height: 100%;
     position: fixed;
-    background-color: #ffffff;
+    background-color: #23232e;
     transition: width 500ms ease;
     z-index: 1;
     box-shadow: 0 2.4px 13.8px rgba(0, 0, 0, 0.088), 0 5.7px 33.3px rgba(0, 0, 0, 0.128), 0 10.8px 62.6px rgba(0, 0, 0, 0.157), 0 19.2px 111.7px rgba(0, 0, 0, 0.182), 0 35.9px 208.9px rgba(0, 0, 0, 0.206), 0 86px 500px rgba(0, 0, 0, 0.23);
@@ -63,7 +63,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     height: 5rem;
-    color: #000000;
+    color: #b6b6b6;
     text-decoration: none;
     filter: grayscale(100%) opacity(0.7);
     transition: 0.5s;
@@ -71,8 +71,8 @@ body::-webkit-scrollbar-thumb {
 
 .nav-link:hover {
     filter: grayscale(0%) opacity(1);
-    background: #c5c5c5;
-    color: #000000;
+    background: #141418;
+    color: #ececec;
 }
 
 .link-text {
@@ -100,7 +100,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-link svg path {
-    color: #000000;
+    color: #df49a6;
 }
 
 .nav-logo {
@@ -108,8 +108,8 @@ body::-webkit-scrollbar-thumb {
     text-transform: uppercase;
     margin-bottom: 1rem;
     text-align: center;
-    color: #ffffff;
-    background: #dadada;
+    color: #ececec;
+    background: #141418;
     font-size: 1rem;
     letter-spacing: 0.3ch;
     width: 100%;
@@ -191,12 +191,14 @@ body::-webkit-scrollbar-thumb {
 
 .navbarx .navbar-nav .nav-item .is-active {
     filter: grayscale(0%) opacity(1);
-    background: #525252;
+    background: #141418;
     color: #ececec;
 }
 
 .navbarx .navbar-nav .nav-item .nav-link path {
-    stroke-width: 2;
+    fill: transparent;
+    stroke-width: 20;
+    stroke: #df49a6;
 }
 
 .navbarx .navbar-nav .nav-item .nav-link.is-active path {

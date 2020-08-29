@@ -1,6 +1,5 @@
 import React from 'react'
 import AuthApi from "../Auth/AuthAPI";
-import { ReactComponent as IconSetting } from '../Admin/svg/setting-icon.svg';
 import { ReactComponent as UserListSetting } from '../Admin/svg/users-cog-icon.svg';
 import { ReactComponent as ArrowRight } from '../Admin/svg/arrow-right.svg';
 import { ReactComponent as PackingIcon } from '../Admin/svg/parking-icon.svg';
@@ -68,9 +67,9 @@ const Navbardefault = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink exact activeClassName='is-active' to="/404" className="nav-link">
-                                <IconSetting />
-                                <span className="link-text">Setting</span>
+                            <NavLink to='/login' onClick={ClickLogOut} className="nav-link">
+                                <SingOutIcon />
+                                <span className="link-text">Sign Out</span>
                             </NavLink>
                         </li>
                     </ul>
