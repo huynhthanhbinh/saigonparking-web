@@ -404,3 +404,24 @@ span.apexcharts-legend-text {
     width: 100%;
     cursor: pointer;
 }
+
+.buttonUpdate {
+    transition: all 0.5s;
+    border-radius: 5px;
+}
+
+.buttonUpdate:hover {
+    background: rgb(185, 185, 185);
+}
+
+.changePassWord {
+    transition: all 0.5s;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    color: black;
+}
+
+.changePassWord:hover {
+    background: rgb(185, 185, 185);
+}

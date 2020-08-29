@@ -57,7 +57,7 @@ const Resetpassword = ({ username }) => {
     }
 
     const [nextpage /*, setnextpage*/] = React.useState(false)
-    
+
     // const Auth = React.useContext(AuthApi)
     // const ClickLogOut = () => {
     //     Auth.setAuth(false)
@@ -90,70 +90,70 @@ const Resetpassword = ({ username }) => {
 
     return (
         <div className="MainCard">
-            <div className='ContentMainCard' style={{display:'flex', flexDirection:'column'}}>
-                <h3 style={{alignSelf:'flex-start', paddingLeft: '10px',  color:'#df49a6'}}>Change Password:</h3>
-            {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
-            <Formik
-                initialValues={{
-                    passWord: '',
-                    confirmpassWord: '',
-                }}
-                validationSchema={Yup.object({
-                    passWord: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    confirmpassWord: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required')
-                        .oneOf([Yup.ref('passWord'), null], 'Passwords must match'),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                    // console.log(values.passWord)
-                    const token = 'Bearer ' + Cookies.get("token");
-                    const metadata = { 'Authorization': token }
-                    const request = new UserProto.UpdatePasswordRequest()
-                    request.setUsername(Cookies.get("checkUserName"))
-                    request.setNewpassword(values.passWord)
-                    userService.updatePassword(request, metadata, (err, res) => {
-                        if (err) {
-                            if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
-                                setmyError('SPE#0000DB')
+            <div className='ContentMainCard' style={{ display: 'flex', flexDirection: 'column' }}>
+                <h3 style={{ alignSelf: 'flex-start', paddingLeft: '10px', color: '#df49a6' }}>Change Password:</h3>
+                {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
+                <Formik
+                    initialValues={{
+                        passWord: '',
+                        confirmpassWord: '',
+                    }}
+                    validationSchema={Yup.object({
+                        passWord: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
+                        confirmpassWord: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required')
+                            .oneOf([Yup.ref('passWord'), null], 'Passwords must match'),
+                    })}
+                    onSubmit={(values, { setSubmitting }) => {
+                        // console.log(values.passWord)
+                        const token = 'Bearer ' + Cookies.get("token");
+                        const metadata = { 'Authorization': token }
+                        const request = new UserProto.UpdatePasswordRequest()
+                        request.setUsername(Cookies.get("checkUserName"))
+                        request.setNewpassword(values.passWord)
+                        userService.updatePassword(request, metadata, (err, res) => {
+                            if (err) {
+                                if (exceptionHandler.handleAccessTokenExpired(err.message) === false) {
+                                    setmyError('SPE#0000DB')
+                                }
+                                else {
+                                    setmyError(err.message)
+                                }
+                                openModalError()
+                            } else {
+                                // console.log("Reset Password thanh cong")
+                                // console.log(res)
+                                createNotification('success', Cookies.get("checkUserName"))
+                                setSubmitting(false);
                             }
-                            else {
-                                setmyError(err.message)
-                            }
-                            openModalError()
-                        } else {
-                            // console.log("Reset Password thanh cong")
-                            // console.log(res)
-                            createNotification('success', Cookies.get("checkUserName"))
-                            setSubmitting(false);
-                        }
-                    })
-                }}
-            >
-                <Form >
-                    <h4>Password</h4>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            name="passWord"
-                            type="passWord"
-                        />
-                    </div>
-                    <h4>Confirm Password</h4>
-                    <div style={{ margin: 10 }}>
-                        <MyTextInput
-                            name="confirmpassWord"
-                            type="passWord"
-                        />
-                    </div>
-                    <button type="submit" style={{border:'none', padding:'10px', fontWeight:'bold'}}>Update</button>
-                    <div style={{ margin: 10 }}>
-                    </div>
-                </Form>
-            </Formik>
-            <NotificationContainer />
-        </div>
+                        })
+                    }}
+                >
+                    <Form >
+                        <h4>Password</h4>
+                        <div style={{ margin: 10 }}>
+                            <MyTextInput
+                                name="passWord"
+                                type="passWord"
+                            />
+                        </div>
+                        <h4>Confirm Password</h4>
+                        <div style={{ margin: 10 }}>
+                            <MyTextInput
+                                name="confirmpassWord"
+                                type="passWord"
+                            />
+                        </div>
+                        <button className="buttonUpdate" type="submit" style={{ border: 'none', padding: '10px', fontWeight: 'bold' }}>Update</button>
+                        <div style={{ margin: 10 }}>
+                        </div>
+                    </Form>
+                </Formik>
+                <NotificationContainer />
+            </div>
         </div>
     )
 }

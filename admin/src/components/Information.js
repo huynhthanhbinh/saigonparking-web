@@ -91,10 +91,10 @@ const Information = () => {
 
     return (
         <div className="MainCard">
-            <div className='ContentMainCard' style={{display:'flex', flexDirection:'column'}}>
+            <div className='ContentMainCard' style={{ display: 'flex', flexDirection: 'column' }}>
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
 
-                <h3 style={{alignSelf:'flex-start', paddingLeft: '10px', color:'#df49a6'}}>Your Information</h3>
+                <h3 style={{ alignSelf: 'flex-start', paddingLeft: '10px', color: '#df49a6' }}>Your Information</h3>
                 {customerObject ? <Formik
                     initialValues={{
                         userName: customerObject.getUsername(),
@@ -141,7 +141,7 @@ const Information = () => {
                             />
                         </div>
                         <NavLink exact to='/profile/changepassword' style={{ margin: 10 }}>
-                            <h5>Change Password</h5>
+                            <button className="changePassWord">Change Password</button>
                         </NavLink>
                     </Form>
                 </Formik> : <Loader active inline='centered' />}
