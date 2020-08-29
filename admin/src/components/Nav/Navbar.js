@@ -11,11 +11,11 @@ import { ReactComponent as EmployeeIcon } from '../Admin/svg/employee-icon.svg';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import sessionstorage from 'sessionstorage'
-import { NavLink  } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Navbardefault = () => {
     let Auth = React.useContext(AuthApi)
-    
+
     const ClickLogOut = () => {
         Auth.setAuth(false)
         Auth.setcheckUserName(null)
@@ -25,7 +25,7 @@ const Navbardefault = () => {
         sessionstorage.clear();
         Redirect('/login')
     }
-    
+
     return (
         <>
             {Auth.auth ?
@@ -62,7 +62,7 @@ const Navbardefault = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink exact activeClassName='is-active' to="/profile"className="nav-link">
+                            <NavLink exact activeClassName='is-active' to="/profile" className="nav-link">
                                 <ProfileIcon />
                                 <span className="link-text">Profile</span>
                             </NavLink>
@@ -71,12 +71,6 @@ const Navbardefault = () => {
                             <NavLink exact activeClassName='is-active' to="/404" className="nav-link">
                                 <IconSetting />
                                 <span className="link-text">Setting</span>
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to='/login' onClick={ClickLogOut} className="nav-link">
-                                <SingOutIcon />
-                                <span className="link-text">Sign Out</span>
                             </NavLink>
                         </li>
                     </ul>
