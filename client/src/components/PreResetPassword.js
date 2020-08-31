@@ -1,19 +1,13 @@
 import React from 'react';
 import Resetpassword from "./Resetpassword"
 import AuthApi from "./Auth/AuthAPI";
-import Cookies, { set } from 'js-cookie';
+import Cookies from 'js-cookie';
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
-
 import { AuthServiceClient } from '../api/Auth_grpc_web_pb';
-
 import Container from './Landing'
-
 import { API_URL } from '../saigonparking';
 
-
 const authService = new AuthServiceClient(API_URL)
-
-
 
 const PreResetPassword = () => {
     const Auth = React.useContext(AuthApi)
@@ -23,7 +17,6 @@ const PreResetPassword = () => {
     var url_string = window.location.href
     var url = new URL(url_string);
     var tmptoken = url.searchParams.get("token");
-
 
     const callgenerateNewToken = () => {
         const token = 'Bearer ' + tmptoken;
@@ -37,15 +30,12 @@ const PreResetPassword = () => {
                 Auth.setforgetpass(true)
                 settmp(res.getUsername())
                 setstatusmail(false)
-
                 Cookies.set("token", res.getAccesstoken())
                 Cookies.set("refreshtoken", res.getRefreshtoken())
                 Cookies.set("checkUserName", res.getUsername())
             }
-
         })
     }
-
 
     React.useEffect(() => {
         let unmount = false;
@@ -60,12 +50,11 @@ const PreResetPassword = () => {
         return () => {
             unmount = true
         }
-
+        // eslint-disable-next-line
     }, [])
 
 
     return (
-
         <>
             {
                 (status === true) ?
@@ -73,13 +62,10 @@ const PreResetPassword = () => {
                         (statusmail === true) ?
                             <Container ></Container>
                             : (<Resetpassword username={tmp} />)
-
                     )
                     :
                     (<h1>CÓ LỖI XẢY RA , CẦN GỬI LẠI MAIL MỚI </h1>)
             }
-
-
         </>
     );
 };

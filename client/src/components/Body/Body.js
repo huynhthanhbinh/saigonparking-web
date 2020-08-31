@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
+import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import search from './images/search.png';
 import direction from './images/direction.png';
 import car2 from './images/car2.png';
@@ -24,15 +23,7 @@ const Body = () => {
 	const Style = styled.div`
 	`;
 	var style = {
-		backgroundColor: 'white',
-		// borderTop: "1px solid #E7E7E7",
-		// textAlign: "center",
-		// padding: "20px",
-		// position: "fixed",
-		// left: "0",
-		// bottom: "0",
-		// height: "70px",
-		// width: "100%",
+		backgroundColor: 'white'
 	};
 
 	return (
@@ -52,13 +43,13 @@ const Body = () => {
 							<h6>Saigon Parking</h6>
 							<p>Ứng dụng tìm kiếm bãi xe và điều hướng qua điện thoại</p>
 							<p>tại thành phố Hồ Chí Minh</p>
-							<a href='# ' target="_blank" rel="noopener noreferrer"><img src="https://www.niftybuttons.com/googleplay/googleplay-button1.png" /></a>
-							<a href='# ' rel="noopener noreferrer"><img style={{ width: '155px', paddingLeft: '5px', opacity: '0.5', cursor: 'default' }} src={appstore} /></a>
+							<a href='https://drive.google.com/drive/folders/1KHYxfPII_WMl0ICFaQ71pgjVAD6TG3q8?usp=sharing' target="_blank" rel="noopener noreferrer"><img alt='' src="https://www.niftybuttons.com/googleplay/googleplay-button1.png" /></a>
+							<a href='# ' rel="noopener noreferrer"><img alt='' style={{ width: '155px', paddingLeft: '5px', opacity: '0.5', cursor: 'default' }} src={appstore} /></a>
 						</div>
 					</MDBCol>
 				</MDBRow>
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-					<path fill="#fff" fill-opacity="1" d="M0,192L48,165.3C96,139,192,85,288,64C384,43,480,53,576,80C672,107,768,149,864,176C960,203,1056,213,1152,218.7C1248,224,1344,224,1392,224L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+					<path fill="#fff" d="M0,192L48,165.3C96,139,192,85,288,64C384,43,480,53,576,80C672,107,768,149,864,176C960,203,1056,213,1152,218.7C1248,224,1344,224,1392,224L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
 				</svg>
 			</div>
 			<Style style={style}>
@@ -101,21 +92,19 @@ const Body = () => {
 					<TimelineFunc />
 					<h2>...</h2>
 				</div>
-				
+
 				<h1>Contact Us</h1>
 				<div className='contactUs'>
 					<div className="contact-info">
-						<div className="cardB">
+						<div onClick={() => { window.location.href = 'mailto:saigonparkingmap@gmail.com' }} className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faEnvelope} /></i>
 							<p>saigonparkingmap@gmail.com</p>
 						</div>
-
-						<div className="cardB">
+						<div onClick={() => { window.location.href = 'tel:+84968036784' }} className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faPhone} /></i>
 							<p>+84968 036 784</p>
 						</div>
-
-						<div className="cardB">
+						<div onClick={() => { window.location.href = 'https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+Khoa+h%E1%BB%8Dc+T%E1%BB%B1+nhi%C3%AAn+-+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+Qu%E1%BB%91c+Gia+TP.HCM/@10.7626554,106.6802732,17z/data=!4m8!1m2!3m1!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6puIC0gxJDhuqFpIGjhu41jIFF14buRYyBHaWEgVFAuSENN!3m4!1s0x31752f1c06f4e1dd:0x43900f1d4539a3d!8m2!3d10.762913!4d106.682172' }} className="cardB">
 							<i className="card-icon"><FontAwesomeIcon icon={faMapMarkedAlt} /></i>
 							<p>HCM, Việt Nam</p>
 						</div>
@@ -135,7 +124,6 @@ const Body = () => {
 							</div>
 						</div>
 					</div>
-
 					<div className='cardBody'>
 						<div className='layerBody'></div>
 						<div className='contentCardBody'>
@@ -148,7 +136,6 @@ const Body = () => {
 							</div>
 						</div>
 					</div>
-
 					<div className='cardBody'>
 						<div className='layerBody'></div>
 						<div className='contentCardBody'>
@@ -161,7 +148,6 @@ const Body = () => {
 							</div>
 						</div>
 					</div>
-
 					<div className='cardBody'>
 						<div className='layerBody'></div>
 						<div className='contentCardBody'>
@@ -174,7 +160,6 @@ const Body = () => {
 							</div>
 						</div>
 					</div>
-
 					<div className='cardBody'>
 						<div className='layerBody'></div>
 						<div className='contentCardBody'>

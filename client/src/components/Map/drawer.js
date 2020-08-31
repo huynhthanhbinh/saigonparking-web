@@ -3,21 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useSpring, animated, interpolate } from "react-spring";
 import { useGesture } from "react-with-gesture";
-import { ListGroup } from 'react-bootstrap';
-import stylescrollview from '../../css/scrollpath.module.css'
 //IMPORT COMPONENT
 import PatientInfo from "./PatientInfo";
 import ListPatients from "./ListPatients";
 import CommentRating from "./CommentRating"
 //React Context ConTextMap SetClick
 import SetClick from './ConTextMap/SetClick'
-
-//Import Search
-import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
-import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-
-const libraries = ['places'];
 const Close = props => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -54,8 +45,6 @@ const Open = props => (
     </svg>
 );
 
-
-
 export const SideMenu = ({
     overlayColor = "transparent",
     width = 200,
@@ -79,11 +68,6 @@ export const SideMenu = ({
 
     // use react-with-gestures hook
     const [handler, { xDelta, down }] = useGesture();
-
-
-
-
-
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClick);
@@ -119,15 +103,13 @@ export const SideMenu = ({
                 setActive(true);
             }
         }
-    });
-
-
+        // eslint-disable-next-line
+    }, []);
 
     if (abc.switchLP.LiPa === false && abc.switchLP.BinhLuan === false) {
         return (
             <SidekickWrapper>
                 <SidekickOverlay overlayColor={overlayColor} />
-
                 <StyledSideMenu
                     ref={node}
                     {...handler}
@@ -145,7 +127,6 @@ export const SideMenu = ({
                                 // prevent click if dragging
                                 return;
                             }
-
                             setActive(!active);
                         }}
                         style={{
@@ -156,11 +137,9 @@ export const SideMenu = ({
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
                     {data.length !== 0 ?
-
                         /* <Search style={{paddingtop:"100%"}} panTo={panTo} /> */
                         <ListPatients patients={data} onClickItemPatient={onClickItemPatient} refs={refs} currentPatient={currentPatient} indexClickedMaker={indexClickedMaker} />
-                        : <h1 style={{ color: "yellow" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
-
+                        : <h1 style={{ color: "black" }}>HIỆN CHƯA CÓ BÃI XE TẠI ĐÂY</h1>}
                 </StyledSideMenu>
             </SidekickWrapper>
         );
@@ -169,7 +148,6 @@ export const SideMenu = ({
         return (
             <SidekickWrapper>
                 <SidekickOverlay overlayColor={overlayColor} />
-
                 <StyledSideMenu
                     ref={node}
                     {...handler}
@@ -187,7 +165,6 @@ export const SideMenu = ({
                                 // prevent click if dragging
                                 return;
                             }
-
                             setActive(!active);
                         }}
                         style={{
@@ -197,7 +174,6 @@ export const SideMenu = ({
                     >
                         {active ? <Open /> : <Close />}
                     </MenuHandler>
-
                     {
                         currentPatient &&
                         <PatientInfo id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
@@ -210,7 +186,6 @@ export const SideMenu = ({
         return (
             <SidekickWrapper>
                 <SidekickOverlay overlayColor={overlayColor} />
-
                 <StyledSideMenu
                     ref={node}
                     {...handler}
@@ -228,7 +203,6 @@ export const SideMenu = ({
                                 // prevent click if dragging
                                 return;
                             }
-
                             setActive(!active);
                         }}
                         style={{
@@ -240,41 +214,20 @@ export const SideMenu = ({
                     </MenuHandler>
                     {currentPatient &&
                         <div>
-
                             <CommentRating id={currentPatient.getId()} name={currentPatient.getName()} availableSlot={currentPatient.getAvailableslot()} totalSlot={currentPatient.getTotalslot()} />
                         </div>
-
                     }
                 </StyledSideMenu>
             </SidekickWrapper>
         );
     }
-
-
 };
-
-const StyledList = styled.div`
-  position: absolute;
-  top: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: stretch;
-  width: 100%;
-`;
-
-const StyledListItem = styled.div`
-  margin: 5px;
-  flex: 0 1 auto;
-  color: palevioletred;
-`;
 
 const SidekickWrapper = styled.div`
   position: fixed;
-  width: 100%;
+  width: 90%;
   height: 100%;
-  margin-top: 63px;
-  left: 0;
+  margin-top: 70px;
   pointer-events: none;
   z-index: ${9998};
  
@@ -299,10 +252,6 @@ const StyledSideMenu = styled(animated.div)`
   background-color: ${"#fff"};
   height: 100%;
   max-width: ${({ width }) => width}px;
-  
-
-
-  
 `;
 
 const MenuHandler = styled(animated.button)`
@@ -310,15 +259,10 @@ const MenuHandler = styled(animated.button)`
   background: transparent;
   border-radius: 0;
   position: absolute;
-  margin-top: 66px;
-  width: 10%;
+  width: 50px;
   right: 5px;
   outline: none;
-    z-index: ${100};
+  z-index: ${100};
 `;
-
-
-
-
 
 export default SideMenu;

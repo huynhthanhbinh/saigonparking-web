@@ -1,11 +1,8 @@
 import { AuthServiceClient } from './api/Auth_grpc_web_pb';
-import AuthProto from './api/Auth_pb';
-import Landing from './components/Landing'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 
 import { API_URL } from './saigonparking';
 import Cookies from 'js-cookie'
-import Modal from 'react-modal';
 const authService = new AuthServiceClient(API_URL)
 
 let exceptionHandler = {}
@@ -29,27 +26,20 @@ exceptionHandler.handleAccessTokenExpired = (errCode) => { /** != Auth Service *
         authService.generateNewToken(request, metadata, (err, res) => {
             if (err) {
                 exceptionHandler.handleRefreshTokenExpired(err.message)
-
-
             } else {
-
                 if (res.getRefreshtoken() === '') {
                     /** luu access token */
                     Cookies.set("token", res.getAccesstoken())
                     console.log("accesstoken mới")
-
                 } else {
                     /** luu new access token + new refresh token */
                     Cookies.set("token", res.getAccesstoken())
                     Cookies.set("refreshtoken", res.getRefreshtoken())
                 }
-
-
             }
         })
     }
     return false
-
 }
 
 exceptionHandler.handleRefreshTokenExpired = (errCode) => {
@@ -71,7 +61,6 @@ exceptionHandler.handleActivateAccountTokenExpired = (errCode) => {
      * Luu y voi user: mail chi co gia tri su dung trong vong 5 phut !
     */
     if (errCode === 'SPE#00001') {
-
     }
 }
 
@@ -81,7 +70,6 @@ exceptionHandler.handleResetPasswordTokenExpired = (errCode) => {
      * Luu y voi user: mail chi co gia tri su dung trong vong 5 phut !
     */
     if (errCode === 'SPE#00001') {
-
     }
 }
 

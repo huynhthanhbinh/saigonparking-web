@@ -24,6 +24,7 @@ message Booking {
     string createdAt = 6;
     BookingStatus latestStatus = 7;
     bool isFinished = 8;
+    bool isRated = 9;
 }
 
 message BookingHistory {
@@ -96,6 +97,12 @@ message FinishBookingRequest {
     string bookingId = 1; /* will be an Universal Unique Identifier - UUID */
 }
 
+message FinishBookingResponse {
+    string bookingId = 1; /* will be an Universal Unique Identifier - UUID */
+    int64 customerId = 2;
+    int64 parkingLotId = 3;
+}
+
 message GenerateBookingQrCodeRequest {
     string bookingId = 1; /* will be an Universal Unique Identifier - UUID */
 }
@@ -104,27 +111,263 @@ message GenerateBookingQrCodeResponse {
     bytes qrCode = 1; /* representation of booking UUID as image */
 }
 
+message BookingRating {
+    string bookingId = 1; /* will be an UUID string */
+    string username = 2;
+    int32 rating = 3;
+    string comment = 4;
+    string lastUpdated = 5;
+}
+
+message CreateBookingRatingRequest {
+    string bookingId = 1; /* will be an UUID string */
+    int32 rating = 2; /* min = 1, max = 5 */
+    string comment = 3; /* can be empty or not */
+    /* customerId will be get from JWT (Authorization Header) */
+}
+
+message GetBookingRatingRequest {
+    string bookingId = 1; /* will be an UUID string */
+}
+
+message UpdateBookingRatingRequest {
+    string bookingId = 1; /* will be an UUID string */
+    int32 rating = 2; /* min = 1, max = 5 */
+    string comment = 3; /* can be empty or not */
+    /* customerId will be get from JWT (Authorization Header) */
+}
+
+message DeleteBookingRatingRequest {
+    string bookingId = 1; /* will be an UUID string */
+    /* customerId will be get from JWT (Authorization Header) */
+}
+
+message CountAllRatingsOfParkingLotRequest {
+    int64 parkingLotId = 1; /* compulsory field, you need to provide an exact parking-lot id */
+    int32 rating = 2; /* optional, ignore this field if you want to get all ratings of parking lot only */
+}
+
+message GetAllRatingsOfParkingLotRequest {
+    int64 parkingLotId = 1; /* compulsory field, you need to provide an exact parking-lot id */
+    int32 rating = 2; /* optional, ignore this field if you want to get all ratings of parking lot only */
+    bool sortLastUpdatedAsc = 3; /* if true, ratings will be sorted ascending by their timestamp, otherwise: descending */
+    int32 nRow = 4; /* number of rows you want to get per page */
+    int32 pageNumber = 5; /* page number you want to get */
+}
+
+message GetAllRatingsOfParkingLotResponse {
+    repeated BookingRating rating = 1; /* is a parking-lot's booking-rating list */
+}
+
+message ParkingLotRatingCountGroupByRating {
+    map<int32, int64> ratingCount = 1; /* is a map of <rating, count> with rating is key & count is value */
+}
+
+message ParkingLotBookingAndRatingStatistic {
+    int64 parkingLotId = 1; /* id of parking-lot */
+    int64 nBooking = 2; /* number of booking */
+    int64 nRating = 3; /* number of rating */
+    double ratingAverage = 4; /* rating average */
+}
+
+enum BookingStatisticRequestType {
+    CREATE = 0; /* create new Booking Statistic */
+    DELETE = 1; /* delete existed Booking Statistic */
+}
+
+/* will be used as message format to exchange in Booking Queue */
+message BookingStatisticRequest {
+    BookingStatisticRequestType type = 1; /* CREATE by default */
+    repeated int64 parkingLotId = 2; /* list id of parking lot */
+}
+
 service BookingService {
-    /* PRIVATE: ADMIN & INTERNAL service use-only */
+
+    /** PRIVATE - internal service use-only
+     * use-case: Contact Service call Booking Service to create new booking
+     *  + request: CreateBookingRequest
+     *  + response: CreateBookingResponse if succeed, otherwise, throw exception */
     rpc createBooking (CreateBookingRequest) returns (CreateBookingResponse);
+
+    /** PRIVATE - internal service use-only
+     * use-case: Contact Service call Booking Service to update booking status
+     *  + request: UpdateBookingStatusRequest
+     *  + response: Empty if succeed, otherwise, throw exception */
     rpc updateBookingStatus (UpdateBookingStatusRequest) returns (google.protobuf.Empty);
+
+    /** PUBLIC - for admin only
+     * use-case: delete details about a specific booking
+     *  + request: booking's uuid
+     *  + response: Empty if succeed, otherwise, throw exception */
     rpc deleteBookingById (google.protobuf.StringValue) returns (google.protobuf.Empty);
+
+    /** PUBLIC - for admin only
+     * use-case: booking statistic
+     *  + request: Empty
+     *  + response: CountAllBookingGroupByStatusResponse if succeed, otherwise, throw exception */
     rpc countAllBookingGroupByStatus (google.protobuf.Empty) returns (CountAllBookingGroupByStatusResponse);
 
-    /* PUBLIC: EXTERNAL client can call (remember to provide token for auth purposes) */
+    /** PUBLIC - for customer only
+     * use-case: get customer ongoing booking for eg. onStartApp from another device...
+     *  + request: Empty (customer's user ID will be parsed from JWT)
+     *  + response: Booking if succeed, otherwise, throw exception */
     rpc getCustomerOnGoingBooking (google.protobuf.Empty) returns (Booking);
+
+    /** PUBLIC - for customer only
+     * use-case: check if customer has ongoing booking or not for eg. onStartApp from another device...
+     *  + request: Empty (customer's user ID will be parsed from JWT)
+     *  + response: BoolValue if succeed, otherwise, throw exception */
     rpc checkCustomerHasOnGoingBooking (google.protobuf.Empty) returns (google.protobuf.BoolValue);
+
+    /** PUBLIC - for customer only
+     * use-case: generate QR code from booking's uuid for eg. onStartApp from another device...
+     *  + request: GenerateBookingQrCodeRequest (customer's user ID will be parsed from JWT)
+     *  + response: GenerateBookingQrCodeResponse if succeed, otherwise, throw exception */
     rpc generateBookingQrCode (GenerateBookingQrCodeRequest) returns (GenerateBookingQrCodeResponse);
-    rpc finishBooking (FinishBookingRequest) returns (google.protobuf.Empty); /* send notification to parking-lot and customer */
+
+    /** PUBLIC - for parking-lot and internal service only
+     * use-case: finish an on-going booking, for eg. when customer reach parking-lot
+     *  + request: FinishBookingRequest (user role will be parsed from JWT)
+     *  + response: FinishBookingResponse if succeed, otherwise, throw exception
+     * as soon as the response send back, the system also push notification to parking-lot and customer */
+    rpc finishBooking (FinishBookingRequest) returns (FinishBookingResponse);
+
+    /** PUBLIC - for admin only
+     * use-case: booking statistic
+     *  + request: GetAllBookingRequest
+     *  + response: BookingList if succeed, otherwise, throw exception */
     rpc getAllBooking (GetAllBookingRequest) returns (BookingList);
+
+    /** PUBLIC - for admin only
+     * use-case: booking statistic
+     *  + request: CountAllBookingRequest
+     *  + response: number of booking satisfied the condition if succeed, otherwise, throw exception */
     rpc countAllBooking (CountAllBookingRequest) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC - for customer and admin only
+     * use-case: customer booking history
+     *  + request: GetAllBookingOfCustomerRequest (if customer call this service, customer ID will be auto-get from JWT)
+     *  + response: BookingList if succeed, otherwise, throw exception */
     rpc getAllBookingOfCustomer (GetAllBookingOfCustomerRequest) returns (BookingList);
+
+    /** PUBLIC - for admin only
+     * use-case: customer booking history statistic
+     *  + request: customer's user ID
+     *  + response: number of booking if succeed, otherwise, throw exception */
     rpc countAllBookingOfCustomerByCustomerId (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
-    rpc countAllBookingOfCustomerByAuthorizationHeader (google.protobuf.Empty) returns (google.protobuf.Int64Value); /* get customerId from JWT */
+
+    /** PUBLIC - for customer only
+     * use-case: customer booking history statistic
+     *  + request: Empty (customer's user ID will be parsed from JWT)
+     *  + response: number of booking if succeed, otherwise, throw exception */
+    rpc countAllBookingOfCustomerByAuthorizationHeader (google.protobuf.Empty) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC - for parking-lot and admin only
+     * use-case: booking statistic
+     *  + request: GetAllBookingOfParkingLotRequest
+     *  + response: BookingList if succeed, otherwise, throw exception */
     rpc getAllBookingOfParkingLot (GetAllBookingOfParkingLotRequest) returns (BookingList);
+
+    /** PUBLIC - for parking-lot and admin only
+     * use-case: booking statistic
+     *  + request: CountAllBookingOfParkingLotRequest
+     *  + response: number of booking satisfied the condition if succeed, otherwise, throw exception */
     rpc countAllBookingOfParkingLot (CountAllBookingOfParkingLotRequest) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC - for parking-lot and admin only
+     * use-case: booking statistic
+     *  + request: parking-lot id
+     *  + response: BookingList if succeed, otherwise, throw exception */
     rpc getAllOnGoingBookingOfParkingLot (google.protobuf.Int64Value) returns (BookingList);
+
+    /** PUBLIC - for parking-lot and admin only
+     * use-case: booking statistic
+     *  + request: parking-lot id
+     *  + response: number of booking if succeed, otherwise, throw exception */
     rpc countAllOnGoingBookingOfParkingLot (google.protobuf.Int64Value) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC
+     * use-case: booking statistic
+     *  + request: booking's uuid
+     *  + response: BookingDetail if succeed, otherwise, throw exception */
     rpc getBookingDetailByBookingId (google.protobuf.StringValue) returns (BookingDetail);
+
+    /** PUBLIC - for parking-lot and admin only
+     * use-case: booking statistic
+     *  + request: parking-lot id
+     *  + response: CountAllBookingGroupByStatusResponse if succeed, otherwise, throw exception */
     rpc countAllBookingOfParkingLotGroupByStatus (google.protobuf.Int64Value) returns (CountAllBookingGroupByStatusResponse);
+
+    /** PUBLIC - for customer only
+     * use-case: customer add new rating of a finished booking to parking lot
+     *  + request: CreateBookingRatingRequest, you need to provide 3 arguments:
+     *      ++ bookingId: uuid of booking
+     *      ++ rating: rating star (min = 1, max = 5)
+     *      ++ comment: can be an empty string or a comment string
+     *  + response: Empty value if succeed, otherwise, throw exception */
+    rpc createBookingRating (CreateBookingRatingRequest) returns (google.protobuf.Empty);
+
+    /** PUBLIC - for customer only
+     * use-case: customer get existed rating of a finished booking to parking lot
+     *  + request: GetBookingRatingRequest, you need to provide 1 arguments: bookingId (uuid of booking)
+     *  + response: BookingRating value if succeed, otherwise, throw exception.
+     *  Response will be a combination of 5 fields:
+     *      ++ bookingId: uuid of booking
+     *      ++ rating: rating star (min = 1, max = 5)
+     *      ++ comment: can be an empty string or a comment string
+     *      ++ username: username of customer
+     *      ++ lastUpdated: timestamp when the rating is lastUpdated */
+    rpc getBookingRating (GetBookingRatingRequest) returns (BookingRating);
+
+    /** PUBLIC - for customer only
+     * use-case: customer update existed rating of a finished booking to parking lot
+     *  + request: UpdateBookingRatingRequest, you need to provide 3 arguments:
+     *      ++ bookingId: uuid of booking
+     *      ++ rating: rating star (min = 1, max = 5)
+     *      ++ comment: can be an empty string or a comment string
+     *  + response: Empty value if succeed, otherwise, throw exception */
+    rpc updateBookingRating (UpdateBookingRatingRequest) returns (google.protobuf.Empty);
+
+    /** PUBLIC - for customer only
+     * use-case: customer delete existed rating of a finished booking to parking lot
+     *  + request: DeleteBookingRatingRequest, you need to provide 1 arguments:
+     *      ++ bookingId: uuid of booking
+     *  + response: Empty value if succeed, otherwise, throw exception */
+    rpc deleteBookingRating (DeleteBookingRatingRequest) returns (google.protobuf.Empty);
+
+    /** PUBLIC
+     * use-case: get all ratings of a specific parking-lot
+     *  + request: CountAllParkingLotRequest, you need to provide 3 params
+     *      ++ parkingLotId: compulsory field, you need to provide an exact parking-lot id
+     *      ++ rating: target rating, optional, ignore this field if you want to get all ratings of parking lot only
+     *  + response: number of ratings belongs to this parking-lot currently in the DBs, satisfied the conditions */
+    rpc countAllRatingsOfParkingLot (CountAllRatingsOfParkingLotRequest) returns (google.protobuf.Int64Value);
+
+    /** PUBLIC
+     * use-case: get all ratings of a specific parking-lot
+     *  + request: GetAllParkingLotRequest: you need to provide 5 params:
+     *      ++ parkingLotId: compulsory field, you need to provide an exact parking-lot id
+     *      ++ rating: target rating, optional, ignore this field if you want to get all ratings of parking lot only
+     *      ++ sortLastUpdatedAsc: if true, ratings will be sorted ascending by their timestamp, otherwise: descending
+     *      ++ nRow: number of rows you want to show per page (max: 20)
+     *      ++ pageNumber: page you want to get
+     *  + response: GetAllRatingsOfParkingLotResponse: it will be a list of ratings, satisfied the conditions (with nRow result max) */
+    rpc getAllRatingsOfParkingLot (GetAllRatingsOfParkingLotRequest) returns (GetAllRatingsOfParkingLotResponse);
+
+    /** PUBLIC
+     * use-case: show parking lot rating count group by rating.
+     * For example: a map such as { 2=9, 3=12, 4=27 } will be shown as:
+     *      9  * *
+     *      12 * * *
+     *      27 * * * *
+     *      Total: 48 ratings, rating-average = 3.375
+     *  + request:  parking lot ID
+     *  + response: a map (or a dictionary) of <rating, count> with rating is key & count is value */
+    rpc getParkingLotRatingCountGroupByRating (google.protobuf.Int64Value) returns (ParkingLotRatingCountGroupByRating);
+
+    /** PUBLIC
+     * use-case: get all ratings of a specific parking-lot
+     *  + request: parking lot ID
+     *  + response: ParkingLotBookingAndRatingStatistic */
+    rpc getParkingLotBookingAndRatingStatistic (google.protobuf.Int64Value) returns (ParkingLotBookingAndRatingStatistic);
 }
