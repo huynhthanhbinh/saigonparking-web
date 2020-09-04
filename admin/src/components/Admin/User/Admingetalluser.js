@@ -240,6 +240,7 @@ const Admingetalluser = () => {
 
     const callActivated = (data) => {
         setSearchData(data)
+        setpagenumber(1)
     }
 
     return (

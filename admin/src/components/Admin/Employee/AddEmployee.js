@@ -35,7 +35,7 @@ const AddEmpolyee = () => {
     const [parkinglots, setParkinglots] = useState(null)
     const [pagenumber, setPagenumber] = useState(1)
     const [tempSearchParking, setTempSearchparking] = useState('')
-    
+
 
     //User type Employee
     const [totalUser, settotalUser] = useState(0)
@@ -289,12 +289,18 @@ const AddEmpolyee = () => {
         })
     }
 
-    const handleChangeSearchPark = React.useCallback(_.debounce((value) => { setSearchParking(value)}, 1000),[])
-    const handleChangeSearchUser = React.useCallback(_.debounce((value) => { setSearchUser(value)}, 1000),[])
+    const handleChangeSearchPark = React.useCallback(_.debounce((value) => {
+        setPagenumber(1)
+        setSearchParking(value)
+    }, 1000), [])
+    const handleChangeSearchUser = React.useCallback(_.debounce((value) => {
+        setPagenumberU(1)
+        setSearchUser(value)
+    }, 1000), [])
 
     return (
         <>
-            <h3 style={{ marginBottom: '15px', color:'#df49a6' }}>Add Employee</h3>
+            <h3 style={{ marginBottom: '15px', color: '#df49a6' }}>Add Employee</h3>
             <div className="MainCard" style={{ padding: '40px', marginTop: '10px' }}>
                 {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
                 <Steps current={step}>
@@ -311,7 +317,7 @@ const AddEmpolyee = () => {
                                 setTempSearchparking(prev => value)
                                 handleChangeSearchPark(value)
                             }
-                    } />
+                        } />
                         <InputGroup.Button>
                             <Icon icon="search" />
                         </InputGroup.Button>

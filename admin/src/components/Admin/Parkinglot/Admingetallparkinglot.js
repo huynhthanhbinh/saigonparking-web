@@ -131,7 +131,7 @@ const Admingetallparkinglot = () => {
             default:
                 break
         }
-        if(searchData.activated) request.setAvailableonly(searchData.activated)
+        if (searchData.activated) request.setAvailableonly(searchData.activated)
         ParkinglotwebService.countAllParkingLot(request, metadata, (err, res) => {
             if (err && !isCancelled) {
                 if (err.message === "SPE#00001") {
@@ -175,7 +175,7 @@ const Admingetallparkinglot = () => {
             default:
                 break
         }
-        if(searchData.activated) request.setAvailableonly(searchData.activated)
+        if (searchData.activated) request.setAvailableonly(searchData.activated)
         request.setNrow(10);
         request.setPagenumber(pagenumber);
         ParkinglotwebService.getAllParkingLot(request, metadata, (err, res) => {
@@ -205,12 +205,13 @@ const Admingetallparkinglot = () => {
     }
 
     const callActivated = (data) => {
+        setpagenumber(1)
         setSearchData(data)
     }
 
     return (
         <div>
-            <Searchbar activated={callActivated}/>
+            <Searchbar activated={callActivated} />
             {modalErrorIsOpen ? <ModalError modalErrorIsOpen={modalErrorIsOpen} closeModalError={closeModalError} myError={myError} setmyError={setmyError} /> : null}
             <div>
                 <div className="MainCard">
@@ -256,7 +257,7 @@ const Admingetallparkinglot = () => {
                                                 <td>{parkingLot.getTotalslot()}</td>
                                                 <td>
                                                     <Button.Group size='mini'>
-                                                    <Button disabled={loadingButton}  color='pink' onClick={() => {
+                                                        <Button disabled={loadingButton} color='pink' onClick={() => {
                                                             setLoadingButton(true)
                                                             settmp(parkingLot)
                                                             setIsOpenME(true)
