@@ -18,10 +18,7 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Tìm kiếm hiệu quả</h3>
-                <img style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} src={find} alt="search" />
-                <p>
-                    Tìm kiếm các bãi giữ xe xung quanh nhanh chóng và hiệu quả
-                </p>
+                <p>Tìm kiếm các bãi giữ xe xung quanh nhanh chóng và hiệu quả</p>
             </VerticalTimelineElement>
             <VerticalTimelineElement
                 className="vertical-timeline-element--work"
@@ -30,10 +27,7 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Đặt chỗ nhanh chóng</h3>
-                <img style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} src={booking} alt="search" />
-                <p>
-                    Đặt chỗ tiện lợi, nhanh chóng, dễ dàng
-                </p>
+                <p>Đặt chỗ tiện lợi, nhanh chóng, dễ dàng</p>
             </VerticalTimelineElement>
             <VerticalTimelineElement
                 className="vertical-timeline-element--work"
@@ -42,10 +36,7 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Chỉ đường tiện lợi</h3>
-                <img style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} src={directionmap} alt="search" />
-                <p>
-                    Chỉ đường nhanh chóng dễ dàng sử dụng và theo dõi
-                </p>
+                <p>Chỉ đường nhanh chóng dễ dàng sử dụng và theo dõi</p>
             </VerticalTimelineElement>
             <VerticalTimelineElement
                 className="vertical-timeline-element--work"
@@ -54,7 +45,6 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Tìm kiếm tiện ích nhanh chóng</h3>
-                <img style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} src={functionimg} alt="search" />
                 <p>
                     Dễ dàng tìm kiếm thêm những tiện ích khác ngoài bãi giữ xe: Nhà hàng, bệnh viện, ...
                 </p>
@@ -66,7 +56,7 @@ const TimelineFunction = () => {
                 dateClassName={'title-function'}
             >
                 <h3 className="vertical-timeline-element-title">Xác nhận đến nơi dễ dàng</h3>
-                <img style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} src={confirm} alt="search" />
+
                 <p>
                     Xác thực đến nơi dễ dàng bằng cách cho phép nhân viên giữ xe quét mã QR Code
                 </p>

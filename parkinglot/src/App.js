@@ -971,8 +971,8 @@ function App() {
                     <span style={{ fontWeight: 'bold' }}>Phone: </span>{information.detail.phone}<br />
                     <span style={{ fontWeight: 'bold' }}>Vote: </span>{information.detail.numberRating}<br />
                     <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : 0} edit={false} />
-                    <span style={{ fontWeight: 'bold' }}>Opening Hour: </span>Opening Hour: {information.openHour}<br />
-                    <span style={{ fontWeight: 'bold' }}>Closing Hour: </span>Closing Hour: {information.closeHour}<br />
+                    <span style={{ fontWeight: 'bold' }}>Opening Hour: </span>{information.openHour}<br />
+                    <span style={{ fontWeight: 'bold' }}>Closing Hour: </span>{information.closeHour}<br />
                   </> : null}
                 </div>
               </div>

@@ -122,6 +122,8 @@
 
 .function {
     background: rgb(224, 224, 224);
+    width: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,6 +139,266 @@
     border-radius: 10px;
     text-transform: uppercase;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+/** 1*/
+
+.function .fuctionComponent1 {
+    width: 100%;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.function .fuctionComponent1 .boxFuctionLeft {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent1 .boxFuctionRight {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent1 .boxFunctionLeftContainer1 {
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background: #fff;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    left: 0;
+    box-shadow: 0 10.9px 16.1px -23px rgba(0, 0, 0, 0.028), 0 27.8px 27.5px -23px rgba(0, 0, 0, 0.042), 0 100px 62px -23px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent1 img {
+    width: 70%;
+    border-radius: 50px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent1 h1 {
+    font-size: 5vh;
+}
+
+
+/** 2*/
+
+.function .fuctionComponent2 {
+    width: 100%;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.function .fuctionComponent2 .boxFuctionLeft {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent2 .boxFuctionRight {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent2 .boxFunctionLeftContainer2 {
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background: #fff;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    right: 0;
+    box-shadow: 0 10.9px 16.1px -23px rgba(0, 0, 0, 0.028), 0 27.8px 27.5px -23px rgba(0, 0, 0, 0.042), 0 100px 62px -23px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent2 img {
+    width: 70%;
+    border-radius: 50px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent2 h1 {
+    font-size: 5vh;
+}
+
+
+/** 3*/
+
+.function .fuctionComponent3 {
+    width: 100%;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.function .fuctionComponent3 .boxFuctionLeft {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent3 .boxFuctionRight {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent3 .boxFunctionLeftContainer3 {
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background: #fff;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    left: 0;
+    box-shadow: 0 10.9px 16.1px -23px rgba(0, 0, 0, 0.028), 0 27.8px 27.5px -23px rgba(0, 0, 0, 0.042), 0 100px 62px -23px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent3 img {
+    width: 70%;
+    border-radius: 50px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent3 h1 {
+    font-size: 5vh;
+}
+
+
+/** 4*/
+
+.function .fuctionComponent4 {
+    width: 100%;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.function .fuctionComponent4 .boxFuctionLeft {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent4 .boxFuctionRight {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent4 .boxFunctionLeftContainer4 {
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background: #fff;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    right: 0;
+    box-shadow: 0 10.9px 16.1px -23px rgba(0, 0, 0, 0.028), 0 27.8px 27.5px -23px rgba(0, 0, 0, 0.042), 0 100px 62px -23px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent4 img {
+    width: 70%;
+    border-radius: 50px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent4 h1 {
+    font-size: 5vh;
+}
+
+
+/** 5*/
+
+.function .fuctionComponent5 {
+    width: 100%;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.function .fuctionComponent5 .boxFuctionLeft {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent5 .boxFuctionRight {
+    width: 50%;
+    height: 100%;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.function .fuctionComponent5 .boxFunctionLeftContainer5 {
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background: #fff;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    left: 0;
+    box-shadow: 0 10.9px 16.1px -23px rgba(0, 0, 0, 0.028), 0 27.8px 27.5px -23px rgba(0, 0, 0, 0.042), 0 100px 62px -23px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent5 img {
+    width: 70%;
+    border-radius: 50px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.function .fuctionComponent5 h1 {
+    font-size: 5vh;
 }
 
 .colImagePhone {
@@ -169,6 +431,66 @@
         margin: 0;
         padding: 0;
         z-index: 9993;
+    }
+    .function .fuctionComponent1 {
+        flex-direction: column;
+    }
+    .function .fuctionComponent1 .boxFuctionLeft {
+        width: 100%;
+    }
+    .function .fuctionComponent1 .boxFuctionLeft .boxFunctionLeftContainer1 {
+        width: 150%;
+    }
+    .function .fuctionComponent1 .boxFuctionRight {
+        width: 100%;
+    }
+    .function .fuctionComponent2 {
+        flex-direction: column-reverse;
+    }
+    .function .fuctionComponent2 .boxFuctionLeft {
+        width: 100%;
+    }
+    .function .fuctionComponent2 .boxFuctionRight .boxFunctionLeftContainer2 {
+        width: 150%;
+    }
+    .function .fuctionComponent2 .boxFuctionRight {
+        width: 100%;
+    }
+    .function .fuctionComponent3 {
+        flex-direction: column;
+    }
+    .function .fuctionComponent3 .boxFuctionLeft {
+        width: 100%;
+    }
+    .function .fuctionComponent3 .boxFuctionLeft .boxFunctionLeftContainer3 {
+        width: 150%;
+    }
+    .function .fuctionComponent3 .boxFuctionRight {
+        width: 100%;
+    }
+    .function .fuctionComponent4 {
+        flex-direction: column-reverse;
+    }
+    .function .fuctionComponent4 .boxFuctionLeft {
+        width: 100%;
+    }
+    .function .fuctionComponent4 .boxFuctionRight .boxFunctionLeftContainer4 {
+        width: 150%;
+    }
+    .function .fuctionComponent4 .boxFuctionRight {
+        width: 100%;
+    }
+    .function .fuctionComponent5 {
+        flex-direction: column;
+    }
+    .function .fuctionComponent5 .boxFuctionLeft {
+        width: 100%;
+    }
+    .function .fuctionComponent5 .boxFuctionLeft .boxFunctionLeftContainer5 {
+        width: 150%;
+    }
+    .function .fuctionComponent5 .boxFuctionRight {
+        width: 100%;
     }
 }
 

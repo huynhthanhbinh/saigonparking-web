@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import search from './images/search.png';
@@ -11,15 +11,55 @@ import binh from './images/binh.jpg';
 import dao from './images/dao.jpg';
 import tai from './images/tai.jpg';
 import hai from './images/hai.jpg';
+import find from './images/find.png'
+import booking from './images/booking.png'
+import directionmap from './images/directionmap.png'
+import confirm from './images/confirm.png'
+import functionimg from './images/function.png'
 import '../../css/video.css';
 import Footer from '../Footer/Footer'
-import TimelineFunc from './TimelineFunc'
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+gsap.registerPlugin(ScrollTrigger)
 
 const Body = () => {
+
+	useEffect(() => {
+		let tl1 = gsap.timeline({ scrollTrigger: { trigger: '.fuctionComponent1', start: "top 95%", end: "bottom 15%", toggleActions: 'play reset play reset' } })
+		tl1.from('.fuctionComponent1 .boxFuctionRight', { duration: .8, y: '100', opacity: 0, ease: 'ease-in' })
+			.from('.fuctionComponent1 .boxFuctionLeft h1', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent1 .boxFuctionLeft p', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent1 .boxFuctionLeft .boxFunctionLeftContainer1', { duration: .8, x: '-1000', opacity: 0, ease: 'ease-in' }, '-=.5')
+
+		let tl2 = gsap.timeline({ scrollTrigger: { trigger: '.fuctionComponent2', start: "top 95%", end: "bottom 15%", toggleActions: 'play reset play reset' } })
+		tl2.from('.fuctionComponent2 .boxFuctionLeft', { duration: .8, y: '100', opacity: 0, ease: 'ease-in' })
+			.from('.fuctionComponent2 .boxFuctionRight h1', { duration: .8, x: '50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent2 .boxFuctionRight p', { duration: .8, x: '50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent2 .boxFuctionRight .boxFunctionLeftContainer2', { duration: .8, x: '1000', opacity: 0, ease: 'ease-in' }, '-=.5')
+
+		let tl3 = gsap.timeline({ scrollTrigger: { trigger: '.fuctionComponent3', start: "top 95%", end: "bottom 15%", toggleActions: 'play reset play reset' } })
+		tl3.from('.fuctionComponent3 .boxFuctionRight', { duration: .8, y: '100', opacity: 0, ease: 'ease-in' })
+			.from('.fuctionComponent3 .boxFuctionLeft h1', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent3 .boxFuctionLeft p', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent3 .boxFuctionLeft .boxFunctionLeftContainer3', { duration: .8, x: '-1000', opacity: 0, ease: 'ease-in' }, '-=.5')
+
+		let tl4 = gsap.timeline({ scrollTrigger: { trigger: '.fuctionComponent4', start: "top 95%", end: "bottom 15%", toggleActions: 'play reset play reset' } })
+		tl4.from('.fuctionComponent4 .boxFuctionLeft', { duration: .8, y: '100', opacity: 0, ease: 'ease-in' })
+			.from('.fuctionComponent4 .boxFuctionRight h1', { duration: .8, x: '50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent4 .boxFuctionRight p', { duration: .8, x: '50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent4 .boxFuctionRight .boxFunctionLeftContainer4', { duration: .8, x: '1000', opacity: 0, ease: 'ease-in' }, '-=.5')
+
+		let tl5 = gsap.timeline({ scrollTrigger: { trigger: '.fuctionComponent5', start: "top 95%", end: "bottom 15%", toggleActions: 'play reset play reset' } })
+		tl5.from('.fuctionComponent5 .boxFuctionRight', { duration: .8, y: '100', opacity: 0, ease: 'ease-in' })
+			.from('.fuctionComponent5 .boxFuctionLeft h1', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent5 .boxFuctionLeft p', { duration: .8, x: '-50', opacity: 0, ease: 'ease-in' }, '-=.8')
+			.from('.fuctionComponent5 .boxFuctionLeft .boxFunctionLeftContainer5', { duration: .8, x: '-1000', opacity: 0, ease: 'ease-in' }, '-=.5')
+	})
+
 	const Style = styled.div`
 	`;
 	var style = {
@@ -89,8 +129,56 @@ const Body = () => {
 				</MDBContainer>
 				<div className='function'>
 					<h2>Tính Năng</h2>
-					<TimelineFunc />
-					<h2>...</h2>
+					<div className='fuctionComponent1'>
+						<div className="boxFuctionLeft">
+							<div className="boxFunctionLeftContainer1"></div>
+							<h1>Tìm kiếm hiệu quả</h1>
+							<p>Tìm kiếm các bãi giữ xe xung quanh nhanh chóng và hiệu quả</p>
+						</div>
+						<div className="boxFuctionRight">
+							<img src={find} alt="search" />
+						</div>
+					</div>
+					<div className='fuctionComponent2'>
+						<div className="boxFuctionLeft">
+							<img src={booking} alt="search" />
+						</div>
+						<div className="boxFuctionRight">
+							<div className="boxFunctionLeftContainer2"></div>
+							<h1>Đặt chỗ nhanh chóng</h1>
+							<p>Đặt chỗ tiện lợi, nhanh chóng, dễ dàng</p>
+						</div>
+					</div>
+					<div className='fuctionComponent3'>
+						<div className="boxFuctionLeft">
+							<div className="boxFunctionLeftContainer3"></div>
+							<h1>Chỉ đường tiện lợi</h1>
+							<p>Chỉ đường nhanh chóng dễ dàng sử dụng và theo dõi</p>
+						</div>
+						<div className="boxFuctionRight">
+							<img src={directionmap} alt="search" />
+						</div>
+					</div>
+					<div className='fuctionComponent4'>
+						<div className="boxFuctionLeft">
+							<img src={functionimg} alt="search" />
+						</div>
+						<div className="boxFuctionRight">
+							<div className="boxFunctionLeftContainer4"></div>
+							<h1>Tìm kiếm tiện ích nhanh chóng</h1>
+							<p>Dễ dàng tìm kiếm thêm những tiện ích khác ngoài bãi giữ xe: Nhà hàng, bệnh viện, ...</p>
+						</div>
+					</div>
+					<div className='fuctionComponent5'>
+						<div className="boxFuctionLeft">
+							<div className="boxFunctionLeftContainer5"></div>
+							<h1>Xác nhận đến nơi dễ dàng</h1>
+							<p>Xác thực đến nơi dễ dàng bằng cách cho phép nhân viên giữ xe quét mã QR Code</p>
+						</div>
+						<div className="boxFuctionRight">
+							<img src={confirm} alt="search" />
+						</div>
+					</div>
 				</div>
 
 				<h1>Contact Us</h1>
