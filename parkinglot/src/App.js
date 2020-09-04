@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './component/navbar'
 import Cookies from 'js-cookie'
-import { Button, Modal, Popup, Grid } from 'semantic-ui-react'
+import { Button, Modal, Popup, Grid, Input } from 'semantic-ui-react'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import 'semantic-ui-css/semantic.min.css'
 import authProto from './api/Auth_pb'
@@ -31,6 +31,7 @@ const userService = new UserServiceClient(API_URL)
 const parkingLotService = new ParkingLotServiceClient(API_URL)
 
 function App() {
+
   const [isOpen, setIsOpen] = useState(false)
   const [flagIsLogin, setFlagIsLogin] = useState(false)
   const [userName, setUserName] = useState('')
@@ -44,6 +45,7 @@ function App() {
   const [topComment, setTopComment] = useState(null)
   const [feed, setFeed] = useState(null)
   const [disableButtonAcRj, setDisableButtonAcRj] = useState(false)
+  const [stateButtonLogin, setStateButtonLogin] = useState(false)
   const [optionsNofti, setOptionNofti] = useState({
     askAgain: true,
     ignore: true,
@@ -233,24 +235,29 @@ function App() {
 
   // handle submit Login //
   const handleSubmit = () => {
-    const request = new authProto.ValidateRequest();
-    request.setUsername(userName);
-    request.setPassword(password);
-    request.setRole(userProto.UserRole.PARKING_LOT_EMPLOYEE)
+    if (userName !== "" && password !== "") {
+      setStateButtonLogin(true)
+      const request = new authProto.ValidateRequest();
+      request.setUsername(userName);
+      request.setPassword(password);
+      request.setRole(userProto.UserRole.PARKING_LOT_EMPLOYEE)
 
-    authService.validateUser(request, {}, (err, res) => {
-      if (err) {
-        window.alert('Username or Password was wrong!')
-      } else {
-        //set cookies when success
-        Cookies.set("token", res.getAccesstoken())
-        Cookies.set("refreshtoken", res.getRefreshtoken())
-        Cookies.set("checkUserName", userName)
-        setIsOpen(false)
-        setFlagIsLogin(true)
-        window.location.href = '/'
-      }
-    })
+      authService.validateUser(request, {}, (err, res) => {
+        if (err) {
+          window.alert('Username or Password was wrong!')
+          setStateButtonLogin(false)
+        } else {
+          //set cookies when success
+          Cookies.set("token", res.getAccesstoken())
+          Cookies.set("refreshtoken", res.getRefreshtoken())
+          Cookies.set("checkUserName", userName)
+          setIsOpen(false)
+          setFlagIsLogin(true)
+          window.location.href = '/'
+          setStateButtonLogin(false)
+        }
+      })
+    }
   }
   // ------------------------------------------------------------------------ //
 
@@ -429,33 +436,24 @@ function App() {
     const metadata = { 'Authorization': token }
     const request = new Int64Value()
     request.setValue(id)
+    let temp = {
+      availableSlot: null,
+      totalSlot: null,
+      detail: {
+        address: null,
+        name: null,
+        phone: null,
+        numberRating: null,
+        ratingAverage: null
+      },
+      openHour: null,
+      closeHour: null
+    }
     parkingLotService.getParkingLotById(request, metadata, (err, res) => {
       if (err) {
 
       }
       else {
-        let temp = {
-          availableSlot: null,
-          totalSlot: null,
-          detail: {
-            address: null,
-            name: null,
-            phone: null,
-            numberRating: null,
-            ratingAverage: null
-          },
-          openHour: null,
-          closeHour: null
-        }
-        bookingService.getParkingLotBookingAndRatingStatistic(request, metadata, (err, res) => {
-          if (err) {
-
-          }
-          else {
-            temp.detail.numberRating = res.getNrating()
-            temp.detail.ratingAverage = res.getRatingaverage()
-          }
-        })
         temp.availableSlot = res.getAvailableslot()
         temp.totalSlot = res.getTotalslot()
         temp.detail.address = res.getInformation().getAddress()
@@ -463,6 +461,16 @@ function App() {
         temp.detail.phone = res.getInformation().getPhone()
         temp.openHour = res.getOpeninghour()
         temp.closeHour = res.getClosinghour()
+        setInformation(prev => temp)
+      }
+    })
+    bookingService.getParkingLotBookingAndRatingStatistic(request, metadata, (err, res) => {
+      if (err) {
+
+      }
+      else {
+        temp.detail.numberRating = parseInt(res.getNrating())
+        temp.detail.ratingAverage = parseInt(res.getRatingaverage())
         setInformation(prev => temp)
       }
     })
@@ -962,7 +970,7 @@ function App() {
                     <span style={{ fontWeight: 'bold' }}>Name: </span>{information.detail.name}<br />
                     <span style={{ fontWeight: 'bold' }}>Phone: </span>{information.detail.phone}<br />
                     <span style={{ fontWeight: 'bold' }}>Vote: </span>{information.detail.numberRating}<br />
-                    <ReactStars size={20} value={information.detail.ratingAverage ? parseInt(information.detail.ratingAverage, 10) : null} edit={false} />
+                    <ReactStars size={20} value={information.detail.ratingAverage ? information.detail.ratingAverage : 0} edit={false} />
                     <span style={{ fontWeight: 'bold' }}>Opening Hour: </span>Opening Hour: {information.openHour}<br />
                     <span style={{ fontWeight: 'bold' }}>Closing Hour: </span>Closing Hour: {information.closeHour}<br />
                   </> : null}
@@ -1032,16 +1040,7 @@ function App() {
           <Notification
             ignore={optionsNofti.ignore}
             notSupported={() => handleNotSupported()}
-            // onPermissionGranted={this.handlePermissionGranted.bind(this)}
             onPermissionDenied={() => window.alert('Please enable Notification on this page!!!')}
-            // onShow={this.handleNotificationOnShow.bind(this)}
-            // onClick={this.handleNotificationOnClick.bind(this)}
-            // onClose={() => {
-            //   let temp = optionsNofti
-            //   temp.ignore = true
-            //   setOptionNofti(temp)
-            // }}
-            // onError={this.handleNotificationOnError.bind(this)}
             timeout={5000}
             title={optionsNofti.title}
             options={optionsNofti.options}
@@ -1054,20 +1053,24 @@ function App() {
         open={isOpen}
         closeOnDimmerClick={true}
       >
-        <Modal.Header><p>Please Login to continue!</p></Modal.Header>
-        <Modal.Content style={{ display: 'flex', flexDirection: 'column' }}>
-          <span>User Name</span>
-          <input style={{ width: '50%', margin: '10px 0' }} type='text' value={userName} onChange={handleChangeUserName} />
-          <span>Password</span>
-          <input style={{ width: '50%', margin: '10px 0' }} type='password' value={password} onChange={handleChangePassword} />
+        <Modal.Header><h3>Please Login to continue!</h3></Modal.Header>
+        <Modal.Content style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', margin: '10px 0px', alignItems: 'center' }}>
+            <Input labelPosition="left" disabled={stateButtonLogin} label='Username' type='text' value={userName} onChange={handleChangeUserName} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', margin: '10px 0px', alignItems: 'center' }}>
+            <Input labelPosition="left" disabled={stateButtonLogin} label='Password' type='password' value={password} onChange={handleChangePassword} />
+          </div>
         </Modal.Content>
         <Modal.Actions>
           <Button
             onClick={handleSubmit}
+            disabled={stateButtonLogin}
+            loading={stateButtonLogin}
             positive
             labelPosition='right'
             icon='checkmark'
-            content='Submit'
+            content='Login'
           />
         </Modal.Actions>
       </Modal>

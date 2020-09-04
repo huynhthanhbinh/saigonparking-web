@@ -19,6 +19,22 @@
     box-shadow: -5px 1px 8px #acacac;
 }
 
+.rightTab::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgb(241, 241, 241);
+    animation: animate4 1s linear forwards;
+}
+
+@keyframes animate4 {
+    100% {
+        width: 0;
+    }
+}
+
 .rightTab .listItem {
     margin: 0;
     width: 100%;
@@ -166,6 +182,24 @@
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
+    overflow: hidden;
+}
+
+.contentContainer::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgb(241, 241, 241);
+    animation: animate3 1s linear forwards;
+    z-index: 1;
+}
+
+@keyframes animate3 {
+    0% {}
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .contentContainer .listPending ul {
@@ -186,7 +220,7 @@
 }
 
 .contentContainer .listPending ul .pendingLiAccepted::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -229,7 +263,7 @@
 }
 
 .contentContainer .listPending ul .pendingLiCreated::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
