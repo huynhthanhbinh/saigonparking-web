@@ -73,7 +73,7 @@ const Navbardefault = () => {
 						</span>
 					</NavbarBrand>
 					<Nav navbar>
-						<UncontrolledDropdown nav>
+						<UncontrolledDropdown direction="left" nav>
 							<DropdownToggle
 								color="default"
 								data-toggle="dropdown"
@@ -113,7 +113,7 @@ const Navbardefault = () => {
 						<span>SaiGon Parking</span>
 					</NavbarBrand>
 					<Nav navbar>
-						<UncontrolledDropdown nav>
+						<UncontrolledDropdown direction="left" nav>
 							<DropdownToggle
 								color="default"
 								data-toggle="dropdown"
